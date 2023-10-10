@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+
+.status {
+  margin-bottom: 16px;
+}
+
+/* Style for status text */
+.statusText {
+  font-size: 18px;
+  /* 글자 크기를 원하는 크기로 조정하세요. */
+  font-weight: bold;
+  /* 볼드체 스타일 적용 */
+  margin-bottom: 8px;
+  /* 아래 여백 추가 */
+}
+
+
+/* Style for paragraphs and images */
+
+.imageContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.image {
+  max-width: calc(33.33% - 8px);
+  /* 33.33% 너비로 나눠서 표시하며 간격은 8px로 조정합니다. */
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
