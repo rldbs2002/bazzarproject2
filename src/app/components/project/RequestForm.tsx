@@ -185,7 +185,7 @@ const RequestForm: FC = () => {
       });
 
       if (response.status === 201) {
-        router.push("/");
+        router.push("/order-confirmation");
       }
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -299,7 +299,7 @@ const RequestForm: FC = () => {
                           priceKRW: "", // Price (KRW) 추가
                           priceUSD: 0, // Price (USD) 추가
                           quantity: 0,
-                          totalValueUSD: "",
+                          totalValueUSD: 0,
                           url: "",
                         })
                       }
@@ -435,14 +435,6 @@ const RequestForm: FC = () => {
                                 setFieldValue(
                                   `product_list[${index}].priceKRW`,
                                   priceKRW
-                                );
-                                // priceUSD 값이 변경될 때 totalValueUSD를 업데이트
-                                const totalValueUSD = (
-                                  priceUSD * values.product_list[index].quantity
-                                ).toFixed(2);
-                                setFieldValue(
-                                  `product_list[${index}].totalValueUSD`,
-                                  totalValueUSD
                                 );
                               }}
                               margin="normal"

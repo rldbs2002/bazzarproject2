@@ -40,7 +40,6 @@ const NewRequestPage: NextPage = () => {
           </Grid>
         </Grid>
       </Container>
-      <Footer3 />
     </ShopLayout2>
   );
 };

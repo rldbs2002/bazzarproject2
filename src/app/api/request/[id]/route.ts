@@ -30,6 +30,14 @@ export const PUT = async (request: any, { params }: any) => {
       });
     }
 
+    if (requestData.add_to_cart) {
+      userRequest.add_to_cart.options = requestData.add_to_cart.options;
+      userRequest.add_to_cart.total_price = requestData.add_to_cart.total_price;
+
+      // 상태를 2로 업데이트합니다 ("add_to_cart")
+      userRequest.status = 2;
+    }
+
     // 요청된 데이터에서 price_calculate 상태를 업데이트합니다.
     if (requestData.price_calculate) {
       // Ensure that the userRequest.status object is initialized
@@ -41,8 +49,8 @@ export const PUT = async (request: any, { params }: any) => {
         purchase_agent_price: requestData.price_calculate.purchase_agent_price,
       };
 
-      // Update the status to 2 ("price_calculate")
-      userRequest.status = 2;
+      // Update the status to 3 ("price_calculate")
+      userRequest.status = 3;
     }
 
     // 요청된 데이터에서 user_confirm 상태를 업데이트합니다.

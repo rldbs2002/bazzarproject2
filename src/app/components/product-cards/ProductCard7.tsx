@@ -1,12 +1,14 @@
+"use client";
+
 import { FC } from "react";
 import Link from "next/link";
 import { Add, Close, Remove } from "@mui/icons-material";
 import { Button, Card, IconButton, styled } from "@mui/material";
-import Image from "components/BazaarImage";
-import { Span } from "components/Typography";
-import { FlexBox } from "components/flex-box";
-import { useAppContext } from "contexts/AppContext";
-import { currency } from "lib";
+import Image from "../BazaarImage";
+import { Span } from "../Typography";
+import { FlexBox } from "../flex-box";
+import { useAppContext } from "@/app/contexts/AppContext";
+import { currency } from "@/lib";
 
 // styled components
 const Wrapper = styled(Card)(({ theme }) => ({

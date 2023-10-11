@@ -60,7 +60,7 @@ const ShopLayout1: FC<ShopLayout1Props> = ({
       <MobileNavigationBar />
 
       {/* FOOTER */}
-      <Footer1 />
+      {/* <Footer1 /> */}
     </Fragment>
   );
 };

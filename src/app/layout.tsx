@@ -11,7 +11,7 @@ export const metadata = {
   description: "One Delivery by kiyoonj",
 };
 import MuiTheme from "./theme/MuiTheme";
-import Header from "./landing/Header";
+import { Footer3 } from "./components/footer";
 
 export default function RootLayout({
   children,
@@ -24,6 +24,7 @@ export default function RootLayout({
         <AuthProvider>
           <MuiTheme>
             <main>{children}</main>
+            <Footer3 />
           </MuiTheme>
         </AuthProvider>
       </body>

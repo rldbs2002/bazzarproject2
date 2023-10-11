@@ -33,16 +33,14 @@ const productListSchema = new Schema({
 });
 
 const requestSchema = new Schema({
-  user_id: String,
-
   request_id: String,
 
   status: Number,
   // 0: 임시저장
   // 1: request submit
-  // 2: price check
-  // 3: user confirm
-  // 4: confirm reject
+  // 2: Add to Cart
+  // 3: price calculate
+  // 4: check out
   // 5: arrived
   // 6. repacking
   // 7: shipping
@@ -83,6 +81,17 @@ const requestSchema = new Schema({
   },
 
   request_submitted_at: Date, // "request_submit"의 제출 시간
+
+  add_to_cart: {
+    options: {
+      type: String,
+      required: true,
+    },
+    total_price: {
+      type: Number,
+      required: true,
+    },
+  },
 
   price_calculate: {
     submitted_at: Date, // 가격 확인이 제출된 시간
