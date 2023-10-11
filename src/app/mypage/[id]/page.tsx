@@ -1,24 +1,11 @@
-"use client";
-
 import React from "react";
 import { notFound } from "next/navigation";
 import Form from "@/app/components/project/Form";
-import styles from "./page.module.css";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import { Alert } from "@mui/material";
-import { Stepper, Step, StepLabel } from "@mui/material";
-import RequestTable from "@/app/components/project/RequestTable";
+
 import { Container, Grid } from "@mui/material";
 import ShopLayout2 from "@/app/components/layouts/ShopLayout2";
 import SEO from "@/app/components/SEO";
 import { NextPage } from "next";
-
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
-import { Footer3 } from "@/app/components/footer";
-import Navigations from "@/app/components/layouts/customer-dashboard/Navigations";
 
 async function getData(id: any) {
   const res = await fetch(`http://localhost:3000/api/request/${id}`, {
@@ -46,20 +33,19 @@ const UserPage: NextPage = async ({ params }: any) => {
       <SEO title="Checkout alternative" />
       <Container sx={{ my: "1.5rem" }}>
         <Grid container spacing={3}>
-          <Grid
+          {/* <Grid
             item
             lg={3}
             xs={12}
             sx={{ display: { xs: "none", sm: "none", md: "block" } }}
           >
             <Navigations />
-          </Grid>
+          </Grid> */}
           <Grid item lg={9} xs={12}>
-            <RequestTable data={data} isServerTable={false} />
+            <Form data={data} />
           </Grid>
         </Grid>
       </Container>
-      <Footer3 />
     </ShopLayout2>
   );
 };

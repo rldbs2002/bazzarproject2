@@ -18,6 +18,43 @@ export default function Form({ data }: any) {
         <h1>Request List</h1>
       </div>
       <form>
+        {/* "tracking_info " 섹션 */}
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography>Tracking Info</Typography>
+          </AccordionSummary>
+          {/* 컨테이너 추가 */}
+          <Box p={2}>
+            <TextField
+              label="tracking_number"
+              name="tracking_number"
+              variant="outlined"
+              style={textFieldStyle}
+              value={data.request_info.tracking_info.tracking_number}
+            />
+            <TextField
+              label="tracking_carrier"
+              name="tracking_carrie"
+              variant="outlined"
+              style={textFieldStyle}
+              value={data.request_info.tracking_info.tracking_carrier}
+            />
+            <TextField
+              label="order_number"
+              name="order_number"
+              variant="outlined"
+              style={textFieldStyle}
+              value={data.request_info.tracking_info.order_number}
+            />
+            <TextField
+              label="store"
+              name="store"
+              variant="outlined"
+              style={textFieldStyle}
+              value={data.request_info.tracking_info.store}
+            />
+          </Box>
+        </Accordion>
         {data.request_info.product_list.map((product: any, index: number) => (
           <Accordion key={index}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -32,25 +69,25 @@ export default function Form({ data }: any) {
                 value={product.name}
               />
               <TextField
-                label={`Product URL ${index + 1}`}
-                name={`url_${index}`}
+                label={`Product Type ${index + 1}`}
+                name={`type_${index}`}
                 variant="outlined"
                 style={textFieldStyle}
-                value={product.url}
+                value={product.type}
               />
               <TextField
                 label={`Product Price ${index + 1}`}
                 name={`price_${index}`}
                 variant="outlined"
                 style={textFieldStyle}
-                value={product.price}
+                value={product.totalValueUSD}
               />
               <TextField
-                label={`Product Shipping Fee ${index + 1}`}
-                name={`shipping_fee_${index}`}
+                label={`Product URL ${index + 1}`}
+                name={`url_${index}`}
                 variant="outlined"
-                value={product.shipping_fee}
                 style={textFieldStyle}
+                value={product.url}
               />
             </Box>
           </Accordion>
@@ -81,11 +118,7 @@ export default function Form({ data }: any) {
               name="country"
               variant="outlined"
               style={textFieldStyle}
-              value={
-                data.request_info.arrived_info.country.name +
-                " " +
-                data.request_info.arrived_info.country.code
-              }
+              value={data.request_info.arrived_info.country.label}
             />
             <TextField
               label="Address"

@@ -49,7 +49,20 @@ const OrderConfirmation: NextPage = () => {
             variant="contained"
             className="button-link"
             LinkComponent={Link}
+            href="/newrequest"
+            style={{ marginRight: "2.5rem" }}
+          >
+            New Request
+          </StyledButton>
+
+          <StyledButton
+            color="primary"
+            disableElevation
+            variant="contained"
+            className="button-link"
+            LinkComponent={Link}
             href="/mypage"
+            style={{ marginLeft: "2.5rem" }}
           >
             My Page
           </StyledButton>

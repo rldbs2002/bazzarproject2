@@ -221,6 +221,7 @@ export default function RequestTable({ data, isServerTable }: any) {
               variant="outlined"
               color="primary"
               onClick={() => handleOptionClick("ConsoliDate")}
+              disabled={selectedItems.length === 0}
             >
               ConsoliDate
             </Button>
@@ -230,6 +231,7 @@ export default function RequestTable({ data, isServerTable }: any) {
               variant="outlined"
               color="secondary"
               onClick={() => handleOptionClick("Repacking")}
+              disabled={selectedItems.length === 0}
             >
               Repacking
             </Button>
@@ -260,6 +262,11 @@ export default function RequestTable({ data, isServerTable }: any) {
               variant="outlined"
               color="primary"
               onClick={handleAddToCart}
+              disabled={
+                selectedItems.length === 0 ||
+                (selectedOption !== "ConsoliDate" &&
+                  selectedOption !== "Repacking")
+              }
             >
               Add To Cart
             </Button>

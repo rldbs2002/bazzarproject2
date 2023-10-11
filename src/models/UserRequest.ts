@@ -71,8 +71,7 @@ const requestSchema = new Schema({
       firstname: String,
       lastname: String,
       country: {},
-      address_line1: String,
-      address_line2: String,
+      address: String,
       city: String,
       state: String,
       postal_code: String,
@@ -85,11 +84,9 @@ const requestSchema = new Schema({
   add_to_cart: {
     options: {
       type: String,
-      required: true,
     },
     total_price: {
       type: Number,
-      required: true,
     },
   },
 

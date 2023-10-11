@@ -142,10 +142,10 @@ const RequestForm: FC = () => {
           .typeError("Quantity must be a number")
           .required("Product Quantity is required")
           .min(0, "Quantity must be at least 0"),
-        // totalValueUSD: yup
-        //   .number()
-        //   .typeError("Price must be a number")
-        //   .required("USD is required"),
+        totalValueUSD: yup
+          .number()
+          .typeError("Price must be a number")
+          .required("USD is required"),
         url: yup.string().required("Product url is required"),
       })
     ),
@@ -296,7 +296,7 @@ const RequestForm: FC = () => {
                         arrayHelpers.push({
                           name: "",
                           type: "",
-                          priceKRW: "", // Price (KRW) 추가
+                          priceKRW: 0, // Price (KRW) 추가
                           priceUSD: 0, // Price (USD) 추가
                           quantity: 0,
                           totalValueUSD: 0,
@@ -504,16 +504,28 @@ const RequestForm: FC = () => {
                                 Number(product.priceUSD) *
                                 Number(product.quantity)
                               ).toFixed(2)}
-                              onBlur={handleBlur} // onBlur 추가
+                              onBlur={handleBlur}
                               error={
-                                touched.product_list?.[index]?.totalValueUSD && // error 추가
+                                touched.product_list?.[index]?.totalValueUSD &&
                                 !!errors.product_list?.[index]?.totalValueUSD
                               }
                               helperText={
-                                touched.product_list?.[index]?.totalValueUSD && // helperText 추가
+                                touched.product_list?.[index]?.totalValueUSD &&
                                 errors.product_list?.[index]?.totalValueUSD
                               }
                               margin="normal"
+                              onChange={(e) => {
+                                // Total Value (USD) 자동 계산
+                                const priceUSD = Number(product.priceUSD);
+                                const quantity = Number(e.target.value);
+                                const totalValueUSD = (
+                                  priceUSD * quantity
+                                ).toFixed(2);
+                                setFieldValue(
+                                  `product_list[${index}].totalValueUSD`,
+                                  totalValueUSD
+                                );
+                              }}
                             />
                           </Grid>
                         </Grid>

@@ -28,7 +28,6 @@ const MyPage: NextPage = async () => {
   // if (!session?.user) return null;
 
   const data = await getData();
-  console.log(data);
 
   return (
     <ShopLayout2>
