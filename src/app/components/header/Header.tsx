@@ -21,6 +21,7 @@ import MobileMenu from "../navbar/MobileMenu";
 import { FlexBetween, FlexBox } from "../flex-box";
 import CategoryMenu from "../categories/CategoryMenu";
 import ShoppingBagOutlined from "../icons/ShoppingBagOutlined";
+import Typography from "@mui/material/Typography";
 
 // styled component
 export const HeaderWrapper = styled(Box)(({ theme }) => ({
@@ -101,18 +102,60 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
             </Box>
 
             {/* MIDDLE CONTENT - LOGO */}
-            <Link href="/">
+            {/* <Link href="/">
               <Image
                 height={44}
                 src="/assets/images/bazaar-black-sm.svg"
                 alt="logo"
               />
-            </Link>
+            </Link> */}
 
             {/* RIGHT CONTENT - LOGIN, CART, SEARCH BUTTON */}
             <FlexBox justifyContent="end" flex={1}>
-              <Box component={IconButton} onClick={toggleSearchBar}>
-                <Icon.Search sx={ICON_STYLE} />
+              <Box component={IconButton}>
+                <Link href="/">
+                  <Image
+                    height={44}
+                    src="/assets/images/bazaar-black-sm.svg"
+                    alt="logo"
+                  />
+                </Link>
+              </Box>
+
+              <Box component={IconButton}>
+                <Link href="/notice">
+                  <Typography
+                    className="link"
+                    color="grey.600"
+                    p="0.25rem 1.25rem"
+                  >
+                    Notice
+                  </Typography>
+                </Link>
+              </Box>
+
+              <Box component={IconButton}>
+                <Link href="/newrequest">
+                  <Typography
+                    className="link"
+                    color="grey.600"
+                    p="0.25rem 1.25rem"
+                  >
+                    New Request
+                  </Typography>
+                </Link>
+              </Box>
+
+              <Box component={IconButton}>
+                <Link href="/mypage">
+                  <Typography
+                    className="link"
+                    color="grey.600"
+                    p="0.25rem 1.25rem"
+                  >
+                    My Page
+                  </Typography>
+                </Link>
               </Box>
 
               <Box component={IconButton} onClick={toggleDialog}>
@@ -128,7 +171,7 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
           </FlexBetween>
 
           {/* SEARCH FORM DRAWER */}
-          <Drawer
+          {/*           <Drawer
             open={searchBarOpen}
             anchor="top"
             onClose={toggleSearchBar}
@@ -141,12 +184,12 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
                 <IconButton onClick={toggleSearchBar}>
                   <Clear />
                 </IconButton>
-              </FlexBetween>
+              </FlexBetween> */}
 
-              {/* CATEGORY BASED SEARCH FORM */}
-              {searchInput}
+          {/* CATEGORY BASED SEARCH FORM */}
+          {/* {searchInput}
             </Box>
-          </Drawer>
+          </Drawer> */}
 
           {/* LOGIN FORM DIALOG AND CART SIDE BAR  */}
           {DIALOG_DRAWER}
@@ -159,7 +202,7 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
     <HeaderWrapper className={clsx(className)}>
       <StyledContainer>
         {/* LEFT CONTENT - LOGO AND CATEGORY */}
-        <FlexBox mr={2} minWidth="170px" alignItems="center">
+        <FlexBox mr={2} minWidth="170px" alignItems="left">
           <Link href="/">
             <Image height={44} src="/assets/images/logo2.svg" alt="logo" />
           </Link>
@@ -178,9 +221,9 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
         </FlexBox>
 
         {/* SEARCH FORM */}
-        <FlexBox justifyContent="center" flex="1 1 0">
+        {/* <FlexBox justifyContent="center" flex="1 1 0">
           {searchInput}
-        </FlexBox>
+        </FlexBox> */}
 
         {/* LOGIN AND CART BUTTON */}
         <FlexBox gap={1.5} alignItems="center">

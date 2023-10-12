@@ -1,3 +1,5 @@
+"use client";
+
 import { Pagination, PaginationProps, styled } from "@mui/material";
 
 const StyledPagination = styled(Pagination)(({ theme }) => ({

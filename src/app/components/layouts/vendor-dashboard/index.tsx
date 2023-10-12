@@ -1,3 +1,5 @@
+"use client";
+
 import { FC, ReactNode } from "react";
 import { Box, styled } from "@mui/material";
 import { Fragment, useState } from "react";

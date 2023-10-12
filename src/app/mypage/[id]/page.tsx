@@ -41,7 +41,7 @@ const UserPage: NextPage = async ({ params }: any) => {
           >
             <Navigations />
           </Grid> */}
-          <Grid item lg={9} xs={12}>
+          <Grid item xs={12}>
             <Form data={data} />
           </Grid>
         </Grid>

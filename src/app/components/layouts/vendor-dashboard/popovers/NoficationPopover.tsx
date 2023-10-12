@@ -14,11 +14,11 @@ import {
 import IconButton from "@mui/material/IconButton";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import { formatDistance } from "date-fns";
-import { FlexBox } from "components/flex-box";
-import CartX from "components/icons/CartX";
-import CartCheck from "components/icons/CartCheck";
-import TruckFast from "components/icons/TruckFast";
-import { H6, Paragraph } from "components/Typography";
+import { FlexBox } from "../../../flex-box";
+import CartX from "../../../icons/CartX";
+import CartCheck from "../../../icons/CartCheck";
+import TruckFast from "../../../icons/TruckFast";
+import { H6, Paragraph } from "../../../Typography";
 
 // dummy  data
 const orders = [

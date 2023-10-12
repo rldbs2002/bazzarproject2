@@ -3,8 +3,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Avatar, Box, Theme, useMediaQuery } from "@mui/material";
 import LayoutDrawer from "../LayoutDrawer";
-import Scrollbar from "components/Scrollbar";
-import { FlexBetween } from "components/flex-box";
+import Scrollbar from "../../Scrollbar";
+import { FlexBetween } from "../../flex-box";
 import { navigations } from "./NavigationList";
 import SidebarAccordion from "./SidebarAccordion";
 import {

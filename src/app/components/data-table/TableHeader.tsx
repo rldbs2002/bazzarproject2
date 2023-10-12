@@ -1,3 +1,5 @@
+"use client";
+
 import { ChangeEvent, FC } from "react";
 import {
   Checkbox,
@@ -7,7 +9,7 @@ import {
   TableRow,
   TableSortLabel,
 } from "@mui/material";
-import UpDown from "components/icons/UpDown";
+import UpDown from "../icons/UpDown";
 
 // styled components
 const StyledTableCell = styled(TableCell)(({ theme }) => ({

@@ -24,6 +24,8 @@ import MegaMenu from "./MegaMenu";
 import MegaMenu2 from "./MegaMenu2";
 import useSettings from "@/app/hooks/useSettings";
 import navbarNavigations from "@/app/data/navbarNavigations";
+import Link from "next/link";
+import Typography from "@mui/material/Typography";
 
 // NavList props interface
 type Navs = {
@@ -218,38 +220,31 @@ const Navbar: FC<NavbarProps> = ({
 
   return (
     <NavBarWrapper hoverEffect={false} elevation={elevation} border={border}>
-      {!hideCategories ? (
-        <InnerContainer>
-          {/* Category megamenu */}
-          <CategoryMenu open={navListOpen}>
-            <CategoryMenuButton variant="text">
-              <Category fontSize="small" />
-              <Paragraph
-                fontWeight="600"
-                textAlign="left"
-                flex="1 1 0"
-                ml={1.25}
-                color="grey.600"
-              >
-                Categories
-              </Paragraph>
+      <FlexBox className="right-links" alignItems="center">
+        <Link href="/">
+          <Typography className="link" color="grey.600" p="0.25rem 1.25rem">
+            Home
+          </Typography>
+        </Link>
 
-              {settings.direction === "ltr" ? (
-                <ChevronRight className="dropdown-icon" fontSize="small" />
-              ) : (
-                <ChevronLeft className="dropdown-icon" fontSize="small" />
-              )}
-            </CategoryMenuButton>
-          </CategoryMenu>
+        <Link href="/notice">
+          <Typography className="link" color="grey.600" p="0.25rem 1.25rem">
+            Notice
+          </Typography>
+        </Link>
 
-          {/* Horizontal menu */}
-          <FlexBox gap={4}>{renderNestedNav(navbarNavigations, true)}</FlexBox>
-        </InnerContainer>
-      ) : (
-        <InnerContainer sx={{ justifyContent: "center" }}>
-          <FlexBox gap={4}>{renderNestedNav(navbarNavigations, true)}</FlexBox>
-        </InnerContainer>
-      )}
+        <Link href="/newrequest">
+          <Typography className="link" color="grey.600" p="0.25rem 1.25rem">
+            New Request
+          </Typography>
+        </Link>
+
+        <Link href="/mypage">
+          <Typography className="link" color="grey.600" p="0.25rem 1.25rem">
+            My Page
+          </Typography>
+        </Link>
+      </FlexBox>
     </NavBarWrapper>
   );
 };

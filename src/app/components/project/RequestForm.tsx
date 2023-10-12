@@ -103,7 +103,7 @@ const RequestForm: FC = () => {
         name: "",
         type: "",
         priceKRW: "",
-        priceUSD: 0,
+        priceUSD: "",
         quantity: 0,
         totalValueUSD: 0,
         url: "",
@@ -210,6 +210,12 @@ const RequestForm: FC = () => {
         }) => (
           <form onSubmit={handleSubmit}>
             <Card1 sx={{ mb: 4 }}>
+              <Typography
+                fontSize="40px"
+                style={{ textAlign: "left", marginBottom: "1.5rem" }}
+              >
+                New Request
+              </Typography>
               <Heading number={1} title="Request Form" />
               <Grid container spacing={2}>
                 <Grid item sm={6} xs={12}>
@@ -290,7 +296,7 @@ const RequestForm: FC = () => {
                   <>
                     <Heading number={2} title="Product List" />
                     <Button
-                      variant="contained"
+                      variant="outlined"
                       color="primary"
                       onClick={() =>
                         arrayHelpers.push({
@@ -427,14 +433,26 @@ const RequestForm: FC = () => {
                               value={product.priceUSD}
                               onChange={(e) => {
                                 const priceUSD = Number(e.target.value) || 0;
-                                const priceKRW = usdToKrw(priceUSD).toFixed(2);
                                 setFieldValue(
                                   `product_list[${index}].priceUSD`,
                                   priceUSD
                                 );
+
+                                // Price (USD)가 업데이트되었으므로 Price (KRW)를 다시 계산
+                                const priceKRW = usdToKrw(priceUSD).toFixed(2);
                                 setFieldValue(
                                   `product_list[${index}].priceKRW`,
                                   priceKRW
+                                );
+
+                                // Price (USD) 및 quantity가 업데이트되었으므로 Total Value (USD)를 다시 계산
+                                const quantity = Number(product.quantity);
+                                const totalValueUSD = (
+                                  priceUSD * quantity
+                                ).toFixed(2);
+                                setFieldValue(
+                                  `product_list[${index}].totalValueUSD`,
+                                  totalValueUSD
                                 );
                               }}
                               margin="normal"
@@ -480,7 +498,23 @@ const RequestForm: FC = () => {
                               variant="outlined"
                               fullWidth
                               value={product.quantity}
-                              onChange={handleChange}
+                              onChange={(e) => {
+                                const quantity = Number(e.target.value) || 0;
+                                setFieldValue(
+                                  `product_list[${index}].quantity`,
+                                  quantity
+                                );
+
+                                // quantity가 업데이트되었으므로 totalValueUSD를 다시 계산
+                                const priceUSD = Number(product.priceUSD);
+                                const totalValueUSD = (
+                                  priceUSD * quantity
+                                ).toFixed(2);
+                                setFieldValue(
+                                  `product_list[${index}].totalValueUSD`,
+                                  totalValueUSD
+                                );
+                              }}
                               onBlur={handleBlur}
                               placeholder="Type Number"
                               error={
@@ -683,7 +717,7 @@ const RequestForm: FC = () => {
             <Grid container spacing={6}>
               <Grid item sm={12} xs={12}>
                 <Button
-                  variant="contained"
+                  variant="outlined"
                   color="primary"
                   type="submit"
                   fullWidth

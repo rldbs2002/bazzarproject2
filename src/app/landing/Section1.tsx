@@ -17,7 +17,7 @@ const Section1 = () => {
           <H1 fontSize="40px" mb={3}>
             <Span>send your k-culture product</Span>
             <Box color="primary.main" lineHeight={1.2}>
-              quckly and safely
+              quickly and safely
             </Box>
           </H1>
 

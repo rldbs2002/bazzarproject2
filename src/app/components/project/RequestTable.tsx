@@ -114,10 +114,10 @@ export default function RequestTable({ data, isServerTable }: any) {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Typography
-            fontSize="60px"
+            fontSize="50px"
             style={{ textAlign: "center", marginBottom: "1.5rem" }}
           >
-            My Packages
+            My Page
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -138,10 +138,7 @@ export default function RequestTable({ data, isServerTable }: any) {
                 <TableRow>
                   <TableCell>Request ID</TableCell>
                   <TableCell>Product Name</TableCell>
-                  <TableCell align="right">URL Address</TableCell>
-                  <TableCell align="right">Price</TableCell>
-                  <TableCell align="right"></TableCell>
-                  <TableCell align="right"></TableCell>
+                  <TableCell>Price</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -156,7 +153,7 @@ export default function RequestTable({ data, isServerTable }: any) {
                             sx={{
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}
-                            // onClick={() => handleCellClick(item._id)}
+                            onClick={() => handleCellClick(item._id)}
                             style={{ cursor: "pointer" }}
                           >
                             {index === 0 && (
@@ -176,16 +173,7 @@ export default function RequestTable({ data, isServerTable }: any) {
                             <TableCell component="th" scope="row">
                               {product.name}
                             </TableCell>
-                            <TableCell align="right">
-                              <a
-                                href={product.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {product.url}
-                              </a>
-                            </TableCell>
-                            <TableCell align="right">{product.price}</TableCell>
+                            <TableCell>$ {product.totalValueUSD}</TableCell>
                           </TableRow>
                         )
                       )
@@ -226,7 +214,7 @@ export default function RequestTable({ data, isServerTable }: any) {
               ConsoliDate
             </Button>
           </div>
-          <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
+          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
             <Button
               variant="outlined"
               color="secondary"
@@ -235,6 +223,13 @@ export default function RequestTable({ data, isServerTable }: any) {
             >
               Repacking
             </Button>
+            <Typography
+              fontSize="13px"
+              style={{ textAlign: "center", marginTop: "2.5rem" }}
+            >
+              *if you do not need Optional Services, add your package directly
+              to the cart
+            </Typography>
           </div>
         </Grid>
         <Grid item lg={3} sm={6} xs={12}>
@@ -262,11 +257,7 @@ export default function RequestTable({ data, isServerTable }: any) {
               variant="outlined"
               color="primary"
               onClick={handleAddToCart}
-              disabled={
-                selectedItems.length === 0 ||
-                (selectedOption !== "ConsoliDate" &&
-                  selectedOption !== "Repacking")
-              }
+              disabled={selectedItems.length === 0}
             >
               Add To Cart
             </Button>
