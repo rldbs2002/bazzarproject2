@@ -21,25 +21,41 @@ export const POST = async (request: any) => {
     const getCurrentYearAndDate = () => {
       const now = new Date();
       const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, "0"); // 월을 두 자리 숫자로 포맷
-      const day = String(now.getDate()).padStart(2, "0"); // 일을 두 자리 숫자로 포맷
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
       return `${year}${month}${day}-`;
     };
 
-    // 가장 큰 request_id 값을 찾습니다.
     const lastUserRequest = await UserRequest.findOne(
       {},
       {},
       { sort: { request_id: -1 } }
     );
 
-    // 새로운 request_id를 생성합니다.
-    let newRequestId = "0001"; // 초기값을 "0001"로 설정
+    let newRequestId = "0001";
+
     if (lastUserRequest) {
       const lastRequestId = lastUserRequest.request_id;
-      const lastNumber = parseInt(lastRequestId.substr(12), 10); // 년월일 부분을 추출한 후 숫자로 변환
-      newRequestId = String(lastNumber + 1).padStart(4, "0"); // 다음 숫자로 증가
+      const lastDatePart = lastRequestId.substr(0, 8); // 날짜 부분 추출 (예: "20230918")
+      const currentDatePart = getCurrentYearAndDate();
+
+      if (lastDatePart === currentDatePart) {
+        // 날짜가 같으면 번호를 증가시킵니다.
+        const lastNumber = parseInt(lastRequestId.substr(8), 10);
+        if (lastNumber < 9999) {
+          newRequestId = String(lastNumber + 1).padStart(4, "0");
+        } else {
+          // 만약 9999에 도달하면 초기화하지 않고 유지합니다.
+          newRequestId = "9999";
+        }
+      } else {
+        // 날짜가 변경되면 "0001"로 초기화합니다.
+        newRequestId = "0001";
+      }
     }
+
+    const finalRequestId = `${getCurrentYearAndDate()}${newRequestId}`;
+    // 코드에서 finalRequestId를 사용합니다.
 
     // 서버 스키마에 맞게 데이터를 구성합니다.
     const newUser = new UserRequest({

@@ -61,22 +61,21 @@ type RefundRequestProps = { requests: any[] };
 // =============================================================================
 
 export default function RefundRequest({ requests, data }: RefundRequestProps) {
-  const {
-    order,
-    orderBy,
-    selected,
-    rowsPerPage,
-    filteredList,
-    handleChangePage,
-    handleRequestSort,
-  } = useMuiTable({ listData: requests });
+  const { order, orderBy, selected, handleRequestSort } = useMuiTable({
+    listData: requests,
+  });
 
   const router = useRouter();
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedOption, setSelectedOption] = useState(""); // 선택한 옵션 추가
 
-  const handleCellClick = (itemId: string) => {
-    router.push(`/mypage/${itemId}`);
+  // 현재 페이지 번호와 페이지당 항목 수를 관리
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10); // 페이지당 최대 항목 수
+
+  // 페이지 번호를 변경하는 핸들러
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage); // 페이지 번호 업데이트
   };
 
   const handleCheckboxChange = (itemId: string) => {
@@ -89,6 +88,25 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
 
   const handleOptionClick = (option: string) => {
     setSelectedOption(option);
+  };
+
+  const handleItemDelete = (itemId: string) => {
+    // 아이템 삭제 요청을 보내고 요청이 성공하면 아이템을 selectedItems 배열에서 제거
+    fetch(`/api/request/${itemId}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (response.ok) {
+          // 삭제 성공 시 해당 아이템을 selectedItems 배열에서 제거
+          setSelectedItems(selectedItems.filter((id) => id !== itemId));
+        } else {
+          // 삭제 실패
+          console.error("요청 삭제에 실패했습니다.");
+        }
+      })
+      .catch((error) => {
+        console.error("요청 삭제 중 오류 발생: ", error);
+      });
   };
 
   const getPricePerItem = () => {
@@ -150,43 +168,45 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Heading number={1} title="Order List" />
-            <Scrollbar>
-              <TableContainer sx={{ minWidth: 900 }}>
-                <Table>
-                  <TableHeader
-                    order={order}
-                    hideSelectBtn
-                    orderBy={orderBy}
-                    heading={tableHeading}
-                    rowCount={data.length}
-                    numSelected={selected.length}
-                    onRequestSort={handleRequestSort}
-                  />
+            <TableContainer sx={{ minWidth: 900 }}>
+              <Table>
+                <TableHeader
+                  order={order}
+                  hideSelectBtn
+                  orderBy={orderBy}
+                  heading={tableHeading}
+                  rowCount={data.length}
+                  numSelected={selected.length}
+                  onRequestSort={handleRequestSort}
+                />
 
-                  <TableBody>
-                    {data.map((request: any, index: any) => (
-                      <RefundRequestRow
-                        request={request}
-                        key={index}
-                        handleCheckboxChange={handleCheckboxChange}
-                        isSelected={selectedItems.includes(request.request_id)}
-                      />
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Scrollbar>
+                <TableBody>
+                  {data.map((request: any, index: any) => (
+                    <RefundRequestRow
+                      request={request}
+                      key={index}
+                      handleCheckboxChange={handleCheckboxChange}
+                      isSelected={selectedItems.includes(request.request_id)}
+                      onDelete={handleItemDelete}
+                    />
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
 
-            <Stack alignItems="center" my={4}>
+            <Stack alignItems="center" my={3}>
               <TablePagination
                 onChange={handleChangePage}
                 count={Math.ceil(data.length / rowsPerPage)}
+                page={page} // 현재 페이지 번호
+                rowsPerPage={rowsPerPage} // 페이지당 항목 수
+                rowsPerPageOptions={[10]} // 페이지당 항목 수 옵션
               />
             </Stack>
           </Grid>
         </Grid>
 
-        <Grid container spacing={3}>
+        <Grid container spacing={1}>
           <Grid item sm={6} xs={12}>
             <Heading number={2} title="Optional Service" />
             <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>

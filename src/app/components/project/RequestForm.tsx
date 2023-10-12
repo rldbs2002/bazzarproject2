@@ -85,6 +85,9 @@ const RequestForm: FC = () => {
     return usdValue / Number(currentExchangeRate);
   };
 
+  // Add a state variable to track whether the form is being submitted
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const initialValues = {
     tracking_number: "",
     tracking_carrier: "",
@@ -152,6 +155,12 @@ const RequestForm: FC = () => {
   });
 
   const handleFormSubmit = async (values: any) => {
+    if (isSubmitting) {
+      return; // If the form is already being submitted, exit early
+    }
+
+    setIsSubmitting(true); // Set isSubmitting to true when form submission starts
+
     const requestData = {
       request_info: {
         product_list: values.product_list,
@@ -189,6 +198,8 @@ const RequestForm: FC = () => {
       }
     } catch (error) {
       console.error("Error submitting data:", error);
+    } finally {
+      setIsSubmitting(false); // Set isSubmitting to false after form submission completes
     }
   };
 
@@ -721,8 +732,9 @@ const RequestForm: FC = () => {
                   color="primary"
                   type="submit"
                   fullWidth
+                  disabled={isSubmitting} // Disable the button when the form is being submitted
                 >
-                  Submit
+                  {isSubmitting ? "Submitting..." : "Submit"}
                 </Button>
               </Grid>
             </Grid>
