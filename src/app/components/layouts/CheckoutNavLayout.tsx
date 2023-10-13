@@ -62,7 +62,7 @@ const CheckoutNavLayout: FC<CheckoutNavLayoutProps> = ({ children }) => {
     <ShopLayout1>
       <Container sx={{ my: 4 }}>
         <Box mb={3} display={{ sm: "block", xs: "none" }}>
-          <Grid container spacing={3}>
+          {/* <Grid container spacing={3}>
             <Grid item xs={12}>
               <Stepper
                 stepperList={stepperList}
@@ -70,7 +70,7 @@ const CheckoutNavLayout: FC<CheckoutNavLayoutProps> = ({ children }) => {
                 onChange={handleStepChange}
               />
             </Grid>
-          </Grid>
+          </Grid> */}
         </Box>
 
         {children}

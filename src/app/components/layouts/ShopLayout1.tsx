@@ -5,7 +5,7 @@ import Sticky from "../Sticky";
 import Topbar from "../Topbar";
 import { Footer1 } from "../footer";
 import Header from "../header/Header";
-import Navbar from "../navbar/Navbar";
+// import Navbar from "../navbar/Navbar";
 import { MobileNavigationBar } from "../mobile-navigation";
 import SearchInputWithCategory from "../search-box/SearchInputWithCategory";
 
@@ -50,7 +50,7 @@ const ShopLayout1: FC<ShopLayout1Props> = ({
 
       <div className="section-after-sticky">
         {/* NAVIGATION BAR */}
-        {showNavbar && <Navbar elevation={0} border={1} />}
+        {/* {showNavbar && <Navbar elevation={0} border={1} />} */}
 
         {/* BODY CONTENT */}
         {children}

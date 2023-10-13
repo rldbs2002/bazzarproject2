@@ -90,25 +90,6 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
     setSelectedOption(option);
   };
 
-  const handleItemDelete = (itemId: string) => {
-    // 아이템 삭제 요청을 보내고 요청이 성공하면 아이템을 selectedItems 배열에서 제거
-    fetch(`/api/request/${itemId}`, {
-      method: "DELETE",
-    })
-      .then((response) => {
-        if (response.ok) {
-          // 삭제 성공 시 해당 아이템을 selectedItems 배열에서 제거
-          setSelectedItems(selectedItems.filter((id) => id !== itemId));
-        } else {
-          // 삭제 실패
-          console.error("요청 삭제에 실패했습니다.");
-        }
-      })
-      .catch((error) => {
-        console.error("요청 삭제 중 오류 발생: ", error);
-      });
-  };
-
   const getPricePerItem = () => {
     // 선택한 옵션에 따라 가격 계산 로직 구현
     if (selectedOption === "ConsoliDate") {
@@ -162,9 +143,13 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
 
   return (
     <Box py={4}>
-      <H3 mb={2}>My Page</H3>
-
       <Card>
+        <Typography
+          fontSize="40px"
+          style={{ textAlign: "left", marginBottom: "1.5rem", margin: "1rem" }}
+        >
+          My Page
+        </Typography>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Heading number={1} title="Order List" />
@@ -187,7 +172,6 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
                       key={index}
                       handleCheckboxChange={handleCheckboxChange}
                       isSelected={selectedItems.includes(request.request_id)}
-                      onDelete={handleItemDelete}
                     />
                   ))}
                 </TableBody>

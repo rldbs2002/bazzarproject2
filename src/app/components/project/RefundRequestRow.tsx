@@ -96,7 +96,7 @@ const RefundRequestRow: FC<RefundRequestRowProps> = ({
       </StyledTableCell>
 
       <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
-        {product_name}
+        {product_name || "No Data"}
       </StyledTableCell>
 
       <StyledTableCell align="left" sx={{ fontWeight: 400 }}>

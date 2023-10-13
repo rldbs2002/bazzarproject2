@@ -17,13 +17,7 @@ import {
 import { NavLink } from "../nav-link";
 import { FlexBox } from "../flex-box";
 import BazaarCard from "../BazaarCard";
-import Category from "../icons/Category";
-import { Paragraph } from "../Typography";
-import CategoryMenu from "../categories/CategoryMenu";
-import MegaMenu from "./MegaMenu";
-import MegaMenu2 from "./MegaMenu2";
 import useSettings from "@/app/hooks/useSettings";
-import navbarNavigations from "@/app/data/navbarNavigations";
 import Link from "next/link";
 import Typography from "@mui/material/Typography";
 
@@ -75,7 +69,7 @@ const ParentNavItem = styled(Box)(({ theme }) => ({
 
 const NavBarWrapper = styled(BazaarCard)<{ border: number }>(
   ({ theme, border }) => ({
-    height: "60px",
+    height: "0px",
     display: "block",
     borderRadius: "0px",
     position: "relative",
@@ -83,19 +77,6 @@ const NavBarWrapper = styled(BazaarCard)<{ border: number }>(
     [theme.breakpoints.down(1150)]: { display: "none" },
   })
 );
-
-const InnerContainer = styled(Container)({
-  height: "100%",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-});
-
-const CategoryMenuButton = styled(Button)(({ theme }) => ({
-  width: "278px",
-  height: "40px",
-  backgroundColor: theme.palette.grey[100],
-}));
 
 const ChildNavsWrapper = styled(Box)({
   zIndex: 5,
@@ -219,33 +200,11 @@ const Navbar: FC<NavbarProps> = ({
   };
 
   return (
-    <NavBarWrapper hoverEffect={false} elevation={elevation} border={border}>
-      <FlexBox className="right-links" alignItems="center">
-        <Link href="/">
-          <Typography className="link" color="grey.600" p="0.25rem 1.25rem">
-            Home
-          </Typography>
-        </Link>
-
-        <Link href="/notice">
-          <Typography className="link" color="grey.600" p="0.25rem 1.25rem">
-            Notice
-          </Typography>
-        </Link>
-
-        <Link href="/newrequest">
-          <Typography className="link" color="grey.600" p="0.25rem 1.25rem">
-            New Request
-          </Typography>
-        </Link>
-
-        <Link href="/mypage">
-          <Typography className="link" color="grey.600" p="0.25rem 1.25rem">
-            My Page
-          </Typography>
-        </Link>
-      </FlexBox>
-    </NavBarWrapper>
+    <NavBarWrapper
+      hoverEffect={false}
+      elevation={elevation}
+      border={border}
+    ></NavBarWrapper>
   );
 };
 

@@ -112,7 +112,7 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
 
             {/* RIGHT CONTENT - LOGIN, CART, SEARCH BUTTON */}
             <FlexBox justifyContent="end" flex={1}>
-              <Box component={IconButton}>
+              {/* <Box component={IconButton}>
                 <Link href="/">
                   <Image
                     height={44}
@@ -120,16 +120,16 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
                     alt="logo"
                   />
                 </Link>
-              </Box>
+              </Box> */}
 
               <Box component={IconButton}>
-                <Link href="/notice">
+                <Link href="/">
                   <Typography
                     className="link"
                     color="grey.600"
                     p="0.25rem 1.25rem"
                   >
-                    Notice
+                    Home
                   </Typography>
                 </Link>
               </Box>
@@ -227,6 +227,29 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
 
         {/* LOGIN AND CART BUTTON */}
         <FlexBox gap={1.5} alignItems="center">
+          <Box component={IconButton}>
+            <Link href="/notice">
+              <Typography className="link" color="grey.600" p="0.25rem 1.25rem">
+                Notice
+              </Typography>
+            </Link>
+          </Box>
+
+          <Box component={IconButton}>
+            <Link href="/newrequest">
+              <Typography className="link" color="grey.600" p="0.25rem 1.25rem">
+                New Request
+              </Typography>
+            </Link>
+          </Box>
+
+          <Box component={IconButton}>
+            <Link href="/mypage">
+              <Typography className="link" color="grey.600" p="0.25rem 1.25rem">
+                My Page
+              </Typography>
+            </Link>
+          </Box>
           <Box
             component={IconButton}
             p={1.25}

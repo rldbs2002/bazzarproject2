@@ -15,8 +15,8 @@ export const GET = async (request: any, { params }: any) => {
 
 export const PUT = async (request: any, { params }: any) => {
   const { id } = params;
+
   const requestData = await request.json();
-  console.log(requestData);
 
   try {
     // 사용자 요청을 찾습니다.
@@ -36,6 +36,73 @@ export const PUT = async (request: any, { params }: any) => {
 
       // 상태를 2로 업데이트합니다 ("add_to_cart")
       userRequest.status = 2;
+    }
+
+    // 클라이언트에서 보낸 `updatedData` 객체에는 변경된 필드와 그에 해당하는 값을 포함하고 있어야 합니다.
+
+    // tracking_number 필드 업데이트
+    if (requestData.tracking_number) {
+      userRequest.request_info.tracking_info.tracking_number =
+        requestData.tracking_number;
+    }
+
+    // tracking_carrier 필드 업데이트
+    if (requestData.tracking_carrier) {
+      userRequest.request_info.tracking_info.tracking_carrier =
+        requestData.tracking_carrier;
+    }
+
+    // order_number 필드 업데이트
+    if (requestData.order_number) {
+      userRequest.request_info.tracking_info.order_number =
+        requestData.order_number;
+    }
+
+    // store 필드 업데이트
+    if (requestData.store) {
+      userRequest.request_info.tracking_info.store = requestData.store;
+    }
+
+    // firstname 필드 업데이트
+    if (requestData.firstname) {
+      userRequest.request_info.arrived_info.firstname = requestData.firstname;
+    }
+
+    // lastname 필드 업데이트
+    if (requestData.lastname) {
+      userRequest.request_info.arrived_info.lastname = requestData.lastname;
+    }
+
+    // address 필드 업데이트
+    if (requestData.address) {
+      userRequest.request_info.arrived_info.address = requestData.address;
+    }
+
+    // country 필드 업데이트
+    if (requestData.country) {
+      userRequest.request_info.arrived_info.country.label =
+        requestData.country.label;
+    }
+
+    // city 필드 업데이트
+    if (requestData.city) {
+      userRequest.request_info.arrived_info.city = requestData.city;
+    }
+
+    // state 필드 업데이트
+    if (requestData.state) {
+      userRequest.request_info.arrived_info.state = requestData.state;
+    }
+
+    // postal_code 필드 업데이트
+    if (requestData.postal_code) {
+      userRequest.request_info.arrived_info.postal_code =
+        requestData.postal_code;
+    }
+
+    // phone 필드 업데이트
+    if (requestData.phone) {
+      userRequest.request_info.arrived_info.phone = requestData.phone;
     }
 
     // 요청된 데이터에서 price_calculate 상태를 업데이트합니다.

@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 import Sticky from "../Sticky";
 import Topbar from "../Topbar";
 import Header from "../header/Header";
-import Navbar from "../navbar/Navbar";
+// import Navbar from "../navbar/Navbar";
 import SearchInput from "../search-box/SearchInput";
 
 /**
@@ -42,7 +42,7 @@ const ShopLayout2: FC<ShopLayout2Props> = ({
 
       <Box zIndex={4} position="relative" className="section-after-sticky">
         {/* NAVIGATION BAR */}
-        {showNavbar && <Navbar elevation={0} />}
+        {/* {showNavbar && <Navbar elevation={0} />} */}
 
         {/* BODY CONTENT */}
         {children}

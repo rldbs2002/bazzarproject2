@@ -6,6 +6,7 @@ import { Container, Grid } from "@mui/material";
 import ShopLayout2 from "@/app/components/layouts/ShopLayout2";
 import SEO from "@/app/components/SEO";
 import { NextPage } from "next";
+import RequestForm2 from "@/app/components/project/RequestForm";
 
 async function getData(id: any) {
   const res = await fetch(`http://localhost:3000/api/request/${id}`, {

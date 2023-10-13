@@ -38,81 +38,39 @@ type ProductCardProps = {
 };
 // =========================================================
 
-const ProductCard7: FC<ProductCardProps> = ({
-  id,
-  name,
-  qty,
-  price,
-  imgUrl,
-  slug,
-}) => {
-  const { dispatch } = useAppContext();
-  // handle change cart
-  const handleCartAmountChange = (amount: number) => () => {
-    dispatch({
-      type: "CHANGE_CART_AMOUNT",
-      payload: { id, name, price, imgUrl, qty: amount, slug },
-    });
-  };
-
+const ProductCard7 = ({
+  request_id,
+  status,
+  _id,
+  request_info,
+  add_to_cart,
+}: any) => {
+  const product_list = request_info.product_list[0];
+  console.log(request_info);
   return (
     <Wrapper>
-      <Image
-        alt={name}
-        width={140}
-        height={140}
-        display="block"
-        src={imgUrl || "/assets/images/products/iphone-xi.png"}
-      />
-
-      <IconButton
-        size="small"
-        onClick={handleCartAmountChange(0)}
-        sx={{ position: "absolute", right: 15, top: 15 }}
+      <FlexBox
+        p={2}
+        columnGap={10}
+        width="100%"
+        flexDirection="row"
+        alignItems="center"
       >
-        <Close fontSize="small" />
-      </IconButton>
+        <Span ellipsis fontWeight="600" fontSize={18}>
+          {request_id}
+        </Span>
 
-      <FlexBox p={2} rowGap={2} width="100%" flexDirection="column">
-        <Link href={`/product/${slug}`}>
-          <Span ellipsis fontWeight="600" fontSize={18}>
-            {name}
-          </Span>
-        </Link>
+        <Span ellipsis fontWeight="600" fontSize={15}>
+          {product_list.name}
+        </Span>
 
-        <FlexBox gap={1} flexWrap="wrap" alignItems="center">
-          <Span color="grey.600">
-            {currency(price)} x {qty}
-          </Span>
+        <Span fontWeight={600} color="primary.main">
+          $ {product_list.totalValueUSD}
+        </Span>
 
-          <Span fontWeight={600} color="primary.main">
-            {currency(price * qty)}
-          </Span>
-        </FlexBox>
-
-        <FlexBox alignItems="center">
-          <Button
-            color="primary"
-            sx={{ p: "5px" }}
-            variant="outlined"
-            disabled={qty === 1}
-            onClick={handleCartAmountChange(qty - 1)}
-          >
-            <Remove fontSize="small" />
-          </Button>
-
-          <Span mx={1} fontWeight={600} fontSize={15}>
-            {qty}
-          </Span>
-          <Button
-            color="primary"
-            sx={{ p: "5px" }}
-            variant="outlined"
-            onClick={handleCartAmountChange(qty + 1)}
-          >
-            <Add fontSize="small" />
-          </Button>
-        </FlexBox>
+        <Span mx={1} fontWeight={600} fontSize={15}>
+          Status: {status}
+        </Span>
       </FlexBox>
     </Wrapper>
   );
