@@ -22,12 +22,12 @@ type RefundRequestRowProps = {
 // ========================================================================
 
 const RefundRequestRow: FC<RefundRequestRowProps> = ({
-  request,
+  data,
   handleCheckboxChange,
   isSelected,
 }) => {
-  const { request_id, status, _id } = request;
-  const product_list = request.request_info.product_list;
+  const { _id, status, request_id } = data;
+  const product_list = data.request_info.product_list;
   const maxCharacters = 20;
   let product_name = "";
 
@@ -43,7 +43,7 @@ const RefundRequestRow: FC<RefundRequestRowProps> = ({
     }
   }
 
-  const product_price = request.request_info.product_list.reduce(
+  const product_price = data.request_info.product_list.reduce(
     (total, product): any => total + product.totalValueUSD,
     0
   );
@@ -83,7 +83,7 @@ const RefundRequestRow: FC<RefundRequestRowProps> = ({
       <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
         <Checkbox
           checked={isSelected}
-          onChange={() => handleCheckboxChange(request_id)}
+          onChange={() => handleCheckboxChange(_id)}
         />
       </StyledTableCell>
 

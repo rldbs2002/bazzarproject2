@@ -23,11 +23,13 @@ export const POST = async (request: any) => {
       const year = now.getFullYear();
       const month = String(now.getMonth() + 1).padStart(2, "0");
       const day = String(now.getDate()).padStart(2, "0");
-      return `${year}${month}${day}-`;
+      return `${year}${month}${day}`;
     };
 
+    const currentDatePart = getCurrentYearAndDate();
+
     const lastUserRequest = await UserRequest.findOne(
-      {},
+      { request_id: { $regex: `^${currentDatePart}-` } },
       {},
       { sort: { request_id: -1 } }
     );
@@ -36,25 +38,17 @@ export const POST = async (request: any) => {
 
     if (lastUserRequest) {
       const lastRequestId = lastUserRequest.request_id;
-      const lastDatePart = lastRequestId.substr(0, 8); // 날짜 부분 추출 (예: "20230918")
-      const currentDatePart = getCurrentYearAndDate();
+      const lastNumber = parseInt(lastRequestId.substr(9), 10); // 9 이후의 숫자 부분 추출
 
-      if (lastDatePart === currentDatePart) {
-        // 날짜가 같으면 번호를 증가시킵니다.
-        const lastNumber = parseInt(lastRequestId.substr(8), 10);
-        if (lastNumber < 9999) {
-          newRequestId = String(lastNumber + 1).padStart(4, "0");
-        } else {
-          // 만약 9999에 도달하면 초기화하지 않고 유지합니다.
-          newRequestId = "9999";
-        }
+      if (lastNumber < 9999) {
+        newRequestId = String(lastNumber + 1).padStart(4, "0");
       } else {
-        // 날짜가 변경되면 "0001"로 초기화합니다.
-        newRequestId = "0001";
+        // 만약 9999에 도달하면 초기화하지 않고 유지합니다.
+        newRequestId = "9999";
       }
     }
 
-    const finalRequestId = `${getCurrentYearAndDate()}${newRequestId}`;
+    const finalRequestId = `${currentDatePart}-${newRequestId}`;
     // 코드에서 finalRequestId를 사용합니다.
 
     // 서버 스키마에 맞게 데이터를 구성합니다.
@@ -80,7 +74,7 @@ export const POST = async (request: any) => {
           store: requestData.request_info.tracking_info.store,
         },
       },
-      request_id: `${getCurrentYearAndDate()}${newRequestId}`, // 새로운 request_id 설정
+      request_id: finalRequestId, // 새로운 request_id 설정
       status: 1, // 1은 "request_submit" 상태를 나타내는 숫자입니다.
       request_submitted_at: new Date().toISOString(), // "request_submit" 상태의 제출 시간 업데이트
       // 다른 상태 필드도 필요에 따라 추가합니다.

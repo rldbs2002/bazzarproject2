@@ -151,6 +151,8 @@ export const PUT = async (request: any, { params }: any) => {
       if (arrived.arrived_at) {
         userRequest.arrived.arrived_at = new Date(arrived.arrived_at);
       }
+      // Update status to 5
+      userRequest.status = 5;
     }
 
     // Extract and update repacking images
@@ -199,13 +201,20 @@ export const PUT = async (request: any, { params }: any) => {
       }
     }
 
-    // Check if the checkbox for completed is checked and update the corresponding completed status
-    if (requestData.arrived && requestData.arrived.arrived_completed) {
+    // Check if the checkbox for arrived_completed is checked and update the corresponding arrived_completed status
+    if (
+      requestData.arrived &&
+      requestData.arrived.arrived_completed !== undefined
+    ) {
       userRequest.arrived.arrived_completed =
         requestData.arrived.arrived_completed;
-      // Update the status based on completed status
+
+      // Update the status based on arrived_completed status
       if (userRequest.arrived.arrived_completed) {
-        userRequest.status = 5;
+        userRequest.status = 5; // Set the appropriate status value
+      } else {
+        // If arrived_completed is false, you can set a different status if needed
+        // userRequest.status = ...;
       }
     }
 

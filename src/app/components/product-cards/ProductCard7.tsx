@@ -2,13 +2,12 @@
 
 import { FC } from "react";
 import Link from "next/link";
-import { Add, Close, Remove } from "@mui/icons-material";
+import { Add, CheckBox, Close, Remove } from "@mui/icons-material";
 import { Button, Card, IconButton, styled } from "@mui/material";
 import Image from "../BazaarImage";
 import { Span } from "../Typography";
 import { FlexBox } from "../flex-box";
-import { useAppContext } from "@/app/contexts/AppContext";
-import { currency } from "@/lib";
+import Checkbox from "@mui/material/Checkbox";
 
 // styled components
 const Wrapper = styled(Card)(({ theme }) => ({
@@ -44,9 +43,17 @@ const ProductCard7 = ({
   _id,
   request_info,
   add_to_cart,
+
+  isChecked,
+  onToggleCheckbox,
 }: any) => {
-  const product_list = request_info.product_list[0];
-  console.log(request_info);
+  const product_list = request_info.product_list; // Get the entire product list array
+
+  // Calculate the total value for all items in the product_list
+  const totalValue = product_list.reduce((accumulator, product) => {
+    return accumulator + product.totalValueUSD;
+  }, 0);
+
   return (
     <Wrapper>
       <FlexBox
@@ -56,16 +63,17 @@ const ProductCard7 = ({
         flexDirection="row"
         alignItems="center"
       >
+        <Checkbox checked={isChecked} onChange={onToggleCheckbox} />
         <Span ellipsis fontWeight="600" fontSize={18}>
           {request_id}
         </Span>
 
         <Span ellipsis fontWeight="600" fontSize={15}>
-          {product_list.name}
+          {product_list.map((product) => product.name).join(", ")}
         </Span>
 
         <Span fontWeight={600} color="primary.main">
-          $ {product_list.totalValueUSD}
+          $ {totalValue}
         </Span>
 
         <Span mx={1} fontWeight={600} fontSize={15}>

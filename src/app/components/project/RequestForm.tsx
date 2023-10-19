@@ -396,13 +396,6 @@ const RequestForm: FC = () => {
                               variant="outlined"
                               fullWidth
                               value={product.priceKRW}
-                              inputProps={{
-                                endAdornment: (
-                                  <InputAdornment position="end">
-                                    KRW
-                                  </InputAdornment>
-                                ),
-                              }}
                               onChange={(e) => {
                                 const priceKRW = Number(e.target.value) || 0;
                                 const priceUSD = krwToUsd(priceKRW).toFixed(2);
@@ -434,13 +427,6 @@ const RequestForm: FC = () => {
                               name={`product_list[${index}].priceUSD`}
                               variant="outlined"
                               fullWidth
-                              inputProps={{
-                                endAdornment: (
-                                  <InputAdornment position="end">
-                                    USD
-                                  </InputAdornment>
-                                ),
-                              }}
                               value={product.priceUSD}
                               onChange={(e) => {
                                 const priceUSD = Number(e.target.value) || 0;

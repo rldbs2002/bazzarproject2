@@ -94,7 +94,6 @@ const requestSchema = new Schema({
     submitted_at: Date, // 가격 확인이 제출된 시간
     repacking_price: Number,
     abroad_shipping_fee: Number,
-    purchase_agent_price: Number, //구매대행비용
     total_price: Number, //
   },
 

@@ -56,7 +56,7 @@ RefundRequest.getLayout = function getLayout(page: ReactElement) {
 };
 // =============================================================================
 
-type RefundRequestProps = { requests: any[] };
+type RefundRequestProps = { requests: any[]; data: any };
 
 // =============================================================================
 
@@ -78,11 +78,11 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
     setPage(newPage); // 페이지 번호 업데이트
   };
 
-  const handleCheckboxChange = (itemId: string) => {
-    if (selectedItems.includes(itemId)) {
-      setSelectedItems(selectedItems.filter((id) => id !== itemId));
+  const handleCheckboxChange = (_id: string) => {
+    if (selectedItems.includes(_id)) {
+      setSelectedItems(selectedItems.filter((id) => id !== _id));
     } else {
-      setSelectedItems([...selectedItems, itemId]);
+      setSelectedItems([...selectedItems, _id]);
     }
   };
 
@@ -107,7 +107,7 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
     return selectedItems.length * pricePerItem;
   };
 
-  const handleAddToCart = async (values: any) => {
+  const handleAddToCart = async () => {
     const requestData = {
       add_to_cart: {
         options: selectedOption,
@@ -120,6 +120,7 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
       // 선택한 옵션을 각 선택된 항목에 대해 PUT 요청으로 전송
       for (const itemId of selectedItems) {
         const response = await fetch(`/api/request/${itemId}`, {
+          // data._id를 사용하도록 수정
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -127,15 +128,13 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
           body: JSON.stringify(requestData),
         });
 
-        if (response.status === 201) {
+        if (response.status === 200) {
           // PUT 요청이 성공하면 추가 작업을 수행하거나 필요하다면 여기에 다른 작업을 추가합니다.
+          router.push("/cart");
         } else {
           console.error("Error submitting data:", response.status);
         }
       }
-
-      // 모든 선택한 항목을 처리한 후에 페이지로 이동합니다.
-      router.push("/cart");
     } catch (error) {
       console.error("Error submitting data:", error);
     }
@@ -164,14 +163,13 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                 />
-
                 <TableBody>
                   {data.map((request: any, index: any) => (
                     <RefundRequestRow
-                      request={request}
+                      data={request}
                       key={index}
                       handleCheckboxChange={handleCheckboxChange}
-                      isSelected={selectedItems.includes(request.request_id)}
+                      isSelected={selectedItems.includes(request._id)} // request._id를 사용하도록 수정
                     />
                   ))}
                 </TableBody>
@@ -260,8 +258,3 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
     </Box>
   );
 }
-
-export const getStaticProps: GetStaticProps = async () => {
-  const requests = await api.refundRequests();
-  return { props: { requests } };
-};
