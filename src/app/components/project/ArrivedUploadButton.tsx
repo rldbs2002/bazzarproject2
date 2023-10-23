@@ -8,9 +8,8 @@ import { OurFileRouter } from "../../api/uploadthing/core";
 import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 
-export default function ArrivedUploadButton({ data, selectedRequest }: any) {
+export default function ArrivedUploadButton({ data }: any) {
   const [submitCompleted, setsubmitCompleted] = useState(false); // State for the completion flag
-  console.log("Selected Request:", selectedRequest);
   const router = useRouter();
 
   const [images, setImages] = useState<
@@ -73,7 +72,7 @@ export default function ArrivedUploadButton({ data, selectedRequest }: any) {
     try {
       const imageFileUrls = images.map((image: any) => image.fileUrl);
 
-      const response = await fetch(`/api/request/${selectedRequest._id}`, {
+      const response = await fetch(`/api/request/${data._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -136,7 +135,7 @@ export default function ArrivedUploadButton({ data, selectedRequest }: any) {
           Completed
         </label>
         <Button
-          variant="contained"
+          variant="outlined"
           color="primary"
           onClick={handleSubmit}
           type="submit"

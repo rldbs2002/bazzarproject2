@@ -3,7 +3,6 @@
 import { FC, Fragment, ReactNode, useCallback, useState } from "react";
 import { Box } from "@mui/material";
 import Sticky from "../Sticky";
-import Topbar from "../Topbar";
 import Header from "../header/Header";
 // import Navbar from "../navbar/Navbar";
 import SearchInput from "../search-box/SearchInput";
@@ -33,7 +32,7 @@ const ShopLayout2: FC<ShopLayout2Props> = ({
   return (
     <Fragment>
       {/* TOPBAR */}
-      {showTopbar && <Topbar />}
+      {/* {showTopbar && <Topbar />} */}
 
       {/* HEADER */}
       <Sticky fixedOn={0} onSticky={toggleIsFixed} scrollDistance={70}>

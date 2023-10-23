@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { NextPage } from "next";
 import { Button, Card, Divider, Grid, TextField } from "@mui/material";
 import SEO from "../SEO";
@@ -24,7 +23,7 @@ const Cart: NextPage = ({ data }: any) => {
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
-      redirect("/api/auth/signin?callbackUrl=/client");
+      redirect("/api/auth/signin?callbackUrl=/");
     },
   });
 
@@ -34,29 +33,25 @@ const Cart: NextPage = ({ data }: any) => {
 
   const [selectedRequest, setSelectedRequest] = useState<any | null>(null);
 
+  // 체크박스를 토글하는 함수
   const toggleCheckbox = (requestId: string) => {
     setIsCheckedMap((prevIsCheckedMap) => {
       const updatedIsCheckedMap = { ...prevIsCheckedMap };
 
-      if (updatedIsCheckedMap[requestId]) {
-        // 이미 선택된 checkbox를 클릭한 경우, 이를 해제합니다.
-        updatedIsCheckedMap[requestId] = false;
-        setSelectedRequest(null);
-      } else {
-        // 새로운 checkbox를 선택한 경우, 모든 checkbox를 초기화하고 현재 checkbox만 선택합니다.
-        Object.keys(updatedIsCheckedMap).forEach((key) => {
-          updatedIsCheckedMap[key] = false;
-        });
-        updatedIsCheckedMap[requestId] = true;
+      // 클릭된 체크박스 상태를 변경합니다.
+      updatedIsCheckedMap[requestId] = !updatedIsCheckedMap[requestId];
 
-        // 선택한 요청 데이터를 찾아서 selectedRequest 상태 변수에 저장합니다.
+      // 선택한 요청 데이터를 찾아서 selectedRequest 상태 변수에 저장합니다.
+      if (updatedIsCheckedMap[requestId]) {
         const selectedRequestData = data.find(
           (item) => item.request_id === requestId
         );
         setSelectedRequest(selectedRequestData);
+      } else {
+        setSelectedRequest(null);
       }
 
-      return updatedIsCheckedMap; // 업데이트된 isCheckedMap 반환
+      return updatedIsCheckedMap;
     });
   };
 
@@ -107,7 +102,7 @@ const Cart: NextPage = ({ data }: any) => {
               .filter((item) => item.status >= 2)
               .map((item) => (
                 <ProductCard7
-                  key={item.id}
+                  key={item.request_id}
                   {...item}
                   isChecked={isCheckedMap[item.request_id]}
                   onToggleCheckbox={() => toggleCheckbox(item.request_id)}

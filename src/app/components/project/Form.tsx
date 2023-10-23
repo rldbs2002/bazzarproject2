@@ -12,12 +12,12 @@ import {
   Typography,
   MenuItem,
 } from "@mui/material";
-import countryList from "@/app/data/countryList";
-import * as yup from "yup";
-import { Formik, FieldArray } from "formik";
-import Autocomplete from "@mui/material/Autocomplete";
-import { FlexBox } from "../flex-box";
+import { FlexBox, FlexBetween } from "../flex-box";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
+import Card from "@mui/material/Card";
+import { Span } from "../Typography";
+import { useSession } from "next-auth/react";
+import ArrivedUploadButton from "./ArrivedUploadButton";
 
 type HeadingProps = { number: number; title: string };
 
@@ -59,6 +59,13 @@ export default function Form({ data }: any) {
   const [currentExchangeRate, setCurrentExchangeRate] = useState(""); // 환율 정보를 저장할 상태 변수
   const [currentDate, setCurrentDate] = useState(""); // 오늘 날짜를 저장할 상태 변수
 
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect("/api/auth/signin?callbackUrl=/");
+    },
+  });
+
   useEffect(() => {
     // 컴포넌트가 마운트될 때 환율 정보와 오늘 날짜를 가져옴
     const fetchData = async () => {
@@ -99,7 +106,7 @@ export default function Form({ data }: any) {
       spacing={3}
       style={{ position: "relative", overflowY: "auto" }}
     >
-      <Grid item sm={8} xs={12}>
+      <Grid item xs={12}>
         <Container maxWidth="md">
           <form>
             <Card1 sx={{ mb: 4 }}>
@@ -124,9 +131,9 @@ export default function Form({ data }: any) {
                     margin="normal"
                     disabled={status === 1} // Fields are disabled when status is 1
                     inputProps={{
-                      onChange: (e) => {
+                      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
                         if (status === 2) {
-                          setFormData((prevData) => ({
+                          setFormData((prevData: any) => ({
                             ...prevData,
                             request_info: {
                               ...prevData.request_info,
@@ -152,9 +159,9 @@ export default function Form({ data }: any) {
                     }
                     margin="normal"
                     inputProps={{
-                      onChange: (e) => {
+                      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
                         if (status === 2) {
-                          setFormData((prevData) => ({
+                          setFormData((prevData: any) => ({
                             ...prevData,
                             request_info: {
                               ...prevData.request_info,
@@ -182,9 +189,9 @@ export default function Form({ data }: any) {
                     }
                     margin="normal"
                     inputProps={{
-                      onChange: (e) => {
+                      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
                         if (status === 2) {
-                          setFormData((prevData) => ({
+                          setFormData((prevData: any) => ({
                             ...prevData,
                             request_info: {
                               ...prevData.request_info,
@@ -210,9 +217,9 @@ export default function Form({ data }: any) {
                     }
                     margin="normal"
                     inputProps={{
-                      onChange: (e) => {
+                      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
                         if (status === 2) {
-                          setFormData((prevData) => ({
+                          setFormData((prevData: any) => ({
                             ...prevData,
                             request_info: {
                               ...prevData.request_info,
@@ -233,293 +240,312 @@ export default function Form({ data }: any) {
 
             <Card1 sx={{ mb: 4 }}>
               <Heading number={2} title="Product List" />
-              {data.request_info.product_list.map((product, index) => (
-                <div key={index}>
-                  <Typography variant="h6">ITEM #{index + 1}</Typography>
-                  {index > 0 && (
-                    <div>
-                      <HighlightOffOutlinedIcon
-                        color="primary"
-                        sx={{ cursor: "pointer", marginBottom: "2px" }}
-                      />
-                    </div>
-                  )}
-                  <Grid container spacing={2}>
-                    <Grid item sm={6} xs={12}>
-                      <TextField
-                        label="Product Name"
-                        variant="outlined"
-                        fullWidth
-                        disabled={status === 1}
-                        value={
-                          status === 2
-                            ? formData.request_info.product_list[index].name
-                            : product.name
-                        }
-                        margin="normal"
-                        InputProps={{
-                          readOnly: status === 1, // 읽기 전용 모드에서는 readOnly 속성 사용
-                        }}
-                        inputProps={{
-                          onChange: (e) => {
-                            if (status === 2) {
-                              const updatedData = [
-                                ...formData.request_info.product_list,
-                              ];
-                              updatedData[index] = {
-                                ...updatedData[index],
-                                name: e.target.value,
-                              };
-                              setFormData((prevData) => ({
-                                ...prevData,
-                                request_info: {
-                                  ...prevData.request_info,
-                                  product_list: updatedData,
-                                },
-                              }));
-                            }
-                          },
-                        }}
-                      />
+              {data.request_info.product_list.map(
+                (product: any, index: number) => (
+                  <div key={index}>
+                    <Typography variant="h6">ITEM #{index + 1}</Typography>
+                    {index > 0 && (
+                      <div>
+                        <HighlightOffOutlinedIcon
+                          color="primary"
+                          sx={{ cursor: "pointer", marginBottom: "2px" }}
+                        />
+                      </div>
+                    )}
+                    <Grid container spacing={2}>
+                      <Grid item sm={6} xs={12}>
+                        <TextField
+                          label="Product Name"
+                          variant="outlined"
+                          fullWidth
+                          disabled={status === 1}
+                          value={
+                            status === 2
+                              ? formData.request_info.product_list[index].name
+                              : product.name
+                          }
+                          margin="normal"
+                          InputProps={{
+                            readOnly: status === 1, // 읽기 전용 모드에서는 readOnly 속성 사용
+                          }}
+                          inputProps={{
+                            onChange: (
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              if (status === 2) {
+                                const updatedData = [
+                                  ...formData.request_info.product_list,
+                                ];
+                                updatedData[index] = {
+                                  ...updatedData[index],
+                                  name: e.target.value,
+                                };
+                                setFormData((prevData: any) => ({
+                                  ...prevData,
+                                  request_info: {
+                                    ...prevData.request_info,
+                                    product_list: updatedData,
+                                  },
+                                }));
+                              }
+                            },
+                          }}
+                        />
+                      </Grid>
+                      <Grid item sm={6} xs={12}>
+                        <TextField
+                          label="Product Type"
+                          variant="outlined"
+                          fullWidth
+                          disabled={status === 1}
+                          value={
+                            status === 2
+                              ? formData.request_info.product_list[index].type
+                              : product.type
+                          }
+                          margin="normal"
+                          InputProps={{
+                            readOnly: status === 1, // 읽기 전용 모드에서는 readOnly 속성 사용
+                          }}
+                          inputProps={{
+                            onChange: (
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              if (status === 2) {
+                                const updatedData = [
+                                  ...formData.request_info.product_list,
+                                ];
+                                updatedData[index] = {
+                                  ...updatedData[index],
+                                  type: e.target.value,
+                                };
+                                setFormData((prevData: any) => ({
+                                  ...prevData,
+                                  request_info: {
+                                    ...prevData.request_info,
+                                    product_list: updatedData,
+                                  },
+                                }));
+                              }
+                            },
+                          }}
+                        />
+                      </Grid>
                     </Grid>
-                    <Grid item sm={6} xs={12}>
-                      <TextField
-                        label="Product Type"
-                        variant="outlined"
-                        fullWidth
-                        disabled={status === 1}
-                        value={
-                          status === 2
-                            ? formData.request_info.product_list[index].type
-                            : product.type
-                        }
-                        margin="normal"
-                        InputProps={{
-                          readOnly: status === 1, // 읽기 전용 모드에서는 readOnly 속성 사용
-                        }}
-                        inputProps={{
-                          onChange: (e) => {
-                            if (status === 2) {
-                              const updatedData = [
-                                ...formData.request_info.product_list,
-                              ];
-                              updatedData[index] = {
-                                ...updatedData[index],
-                                type: e.target.value,
-                              };
-                              setFormData((prevData) => ({
-                                ...prevData,
-                                request_info: {
-                                  ...prevData.request_info,
-                                  product_list: updatedData,
-                                },
-                              }));
-                            }
-                          },
-                        }}
-                      />
+                    <Typography variant="subtitle2">PRICE / UNIT</Typography>
+                    <Grid container spacing={2}>
+                      <Grid item sm={6} xs={12}>
+                        <TextField
+                          label="Price (KRW)"
+                          variant="outlined"
+                          fullWidth
+                          disabled={status === 1}
+                          value={
+                            status === 2
+                              ? formData.request_info.product_list[index]
+                                  .priceKRW
+                              : product.priceKRW
+                          }
+                          InputProps={{
+                            readOnly: status === 1, // 읽기 전용 모드에서는 readOnly 속성 사용
+                          }}
+                          inputProps={{
+                            onChange: (
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              if (status === 2) {
+                                const updatedData = [
+                                  ...formData.request_info.product_list,
+                                ];
+                                updatedData[index] = {
+                                  ...updatedData[index],
+                                  priceKRW: e.target.value,
+                                };
+                                setFormData((prevData: any) => ({
+                                  ...prevData,
+                                  request_info: {
+                                    ...prevData.request_info,
+                                    product_list: updatedData,
+                                  },
+                                }));
+                              }
+                            },
+                          }}
+                          margin="normal"
+                        />
+                      </Grid>
+                      <Grid item sm={6} xs={12}>
+                        <TextField
+                          label="Price (USD)"
+                          variant="outlined"
+                          disabled={status === 1}
+                          fullWidth
+                          value={
+                            status === 2
+                              ? formData.request_info.product_list[index]
+                                  .priceUSD
+                              : product.priceUSD
+                          }
+                          InputProps={{
+                            readOnly: status === 1, // 읽기 전용 모드에서는 readOnly 속성 사용
+                          }}
+                          inputProps={{
+                            onChange: (
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              if (status === 2) {
+                                const updatedData = [
+                                  ...formData.request_info.product_list,
+                                ];
+                                updatedData[index] = {
+                                  ...updatedData[index],
+                                  priceUSD: e.target.value,
+                                };
+                                setFormData((prevData: any) => ({
+                                  ...prevData,
+                                  request_info: {
+                                    ...prevData.request_info,
+                                    product_list: updatedData,
+                                  },
+                                }));
+                              }
+                            },
+                          }}
+                          margin="normal"
+                        />
+                      </Grid>
                     </Grid>
-                  </Grid>
-                  <Typography variant="subtitle2">PRICE / UNIT</Typography>
-                  <Grid container spacing={2}>
-                    <Grid item sm={6} xs={12}>
-                      <TextField
-                        label="Price (KRW)"
-                        variant="outlined"
-                        fullWidth
-                        disabled={status === 1}
-                        value={
-                          status === 2
-                            ? formData.request_info.product_list[index].priceKRW
-                            : product.priceKRW
-                        }
-                        InputProps={{
-                          readOnly: status === 1, // 읽기 전용 모드에서는 readOnly 속성 사용
-                        }}
-                        inputProps={{
-                          onChange: (e) => {
-                            if (status === 2) {
-                              const updatedData = [
-                                ...formData.request_info.product_list,
-                              ];
-                              updatedData[index] = {
-                                ...updatedData[index],
-                                priceKRW: e.target.value,
-                              };
-                              setFormData((prevData) => ({
-                                ...prevData,
-                                request_info: {
-                                  ...prevData.request_info,
-                                  product_list: updatedData,
-                                },
-                              }));
-                            }
-                          },
-                        }}
-                        margin="normal"
-                      />
+                    <Typography variant="subtitle1">
+                      1 KRW = {currentExchangeRate} USD
+                    </Typography>
+                    <Typography variant="caption">{currentDate}</Typography>
+                    <Grid container spacing={2}>
+                      <Grid item sm={6} xs={12}>
+                        <TextField
+                          label="Product Quantity"
+                          type="number"
+                          variant="outlined"
+                          disabled={status === 1}
+                          fullWidth
+                          value={
+                            status === 2
+                              ? formData.request_info.product_list[index]
+                                  .quantity
+                              : product.quantity
+                          }
+                          InputProps={{
+                            readOnly: status === 1, // 읽기 전용 모드에서는 readOnly 속성 사용
+                          }}
+                          inputProps={{
+                            onChange: (
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              if (status === 2) {
+                                const updatedData = [
+                                  ...formData.request_info.product_list,
+                                ];
+                                updatedData[index] = {
+                                  ...updatedData[index],
+                                  quantity: e.target.value,
+                                };
+                                setFormData((prevData: any) => ({
+                                  ...prevData,
+                                  request_info: {
+                                    ...prevData.request_info,
+                                    product_list: updatedData,
+                                  },
+                                }));
+                              }
+                            },
+                          }}
+                          margin="normal"
+                        />
+                      </Grid>
+                      <Grid item sm={6} xs={12}>
+                        <TextField
+                          label="Total Value (USD)"
+                          variant="outlined"
+                          disabled={status === 1}
+                          fullWidth
+                          value={
+                            status === 2
+                              ? formData.request_info.product_list[index]
+                                  .totalValueUSD
+                              : product.totalValueUSD
+                          }
+                          InputProps={{
+                            readOnly: status === 1, // 읽기 전용 모드에서는 readOnly 속성 사용
+                          }}
+                          inputProps={{
+                            onChange: (
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              if (status === 2) {
+                                const updatedData = [
+                                  ...formData.request_info.product_list,
+                                ];
+                                updatedData[index] = {
+                                  ...updatedData[index],
+                                  totalValueUSD: e.target.value,
+                                };
+                                setFormData((prevData: any) => ({
+                                  ...prevData,
+                                  request_info: {
+                                    ...prevData.request_info,
+                                    product_list: updatedData,
+                                  },
+                                }));
+                              }
+                            },
+                          }}
+                          margin="normal"
+                        />
+                      </Grid>
                     </Grid>
-                    <Grid item sm={6} xs={12}>
-                      <TextField
-                        label="Price (USD)"
-                        variant="outlined"
-                        disabled={status === 1}
-                        fullWidth
-                        value={
-                          status === 2
-                            ? formData.request_info.product_list[index].priceUSD
-                            : product.priceUSD
-                        }
-                        InputProps={{
-                          readOnly: status === 1, // 읽기 전용 모드에서는 readOnly 속성 사용
-                        }}
-                        inputProps={{
-                          onChange: (e) => {
-                            if (status === 2) {
-                              const updatedData = [
-                                ...formData.request_info.product_list,
-                              ];
-                              updatedData[index] = {
-                                ...updatedData[index],
-                                priceUSD: e.target.value,
-                              };
-                              setFormData((prevData) => ({
-                                ...prevData,
-                                request_info: {
-                                  ...prevData.request_info,
-                                  product_list: updatedData,
-                                },
-                              }));
-                            }
-                          },
-                        }}
-                        margin="normal"
-                      />
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                        <TextField
+                          label="Product URL"
+                          variant="outlined"
+                          disabled={status === 1}
+                          fullWidth
+                          value={
+                            status === 2
+                              ? formData.request_info.product_list[index].url
+                              : product.url
+                          }
+                          InputProps={{
+                            readOnly: status === 1, // 읽기 전용 모드에서는 readOnly 속성 사용
+                          }}
+                          inputProps={{
+                            onChange: (
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              if (status === 2) {
+                                const updatedData = [
+                                  ...formData.request_info.product_list,
+                                ];
+                                updatedData[index] = {
+                                  ...updatedData[index],
+                                  url: e.target.value,
+                                };
+                                setFormData((prevData: any) => ({
+                                  ...prevData,
+                                  request_info: {
+                                    ...prevData.request_info,
+                                    product_list: updatedData,
+                                  },
+                                }));
+                              }
+                            },
+                          }}
+                          margin="normal"
+                        />
+                      </Grid>
                     </Grid>
-                  </Grid>
-                  <Typography variant="subtitle1">
-                    1 KRW = {currentExchangeRate} USD
-                  </Typography>
-                  <Typography variant="caption">{currentDate}</Typography>
-                  <Grid container spacing={2}>
-                    <Grid item sm={6} xs={12}>
-                      <TextField
-                        label="Product Quantity"
-                        type="number"
-                        variant="outlined"
-                        disabled={status === 1}
-                        fullWidth
-                        value={
-                          status === 2
-                            ? formData.request_info.product_list[index].quantity
-                            : product.quantity
-                        }
-                        InputProps={{
-                          readOnly: status === 1, // 읽기 전용 모드에서는 readOnly 속성 사용
-                        }}
-                        inputProps={{
-                          onChange: (e) => {
-                            if (status === 2) {
-                              const updatedData = [
-                                ...formData.request_info.product_list,
-                              ];
-                              updatedData[index] = {
-                                ...updatedData[index],
-                                quantity: e.target.value,
-                              };
-                              setFormData((prevData) => ({
-                                ...prevData,
-                                request_info: {
-                                  ...prevData.request_info,
-                                  product_list: updatedData,
-                                },
-                              }));
-                            }
-                          },
-                        }}
-                        margin="normal"
-                      />
-                    </Grid>
-                    <Grid item sm={6} xs={12}>
-                      <TextField
-                        label="Total Value (USD)"
-                        variant="outlined"
-                        disabled={status === 1}
-                        fullWidth
-                        value={
-                          status === 2
-                            ? formData.request_info.product_list[index]
-                                .totalValueUSD
-                            : product.totalValueUSD
-                        }
-                        InputProps={{
-                          readOnly: status === 1, // 읽기 전용 모드에서는 readOnly 속성 사용
-                        }}
-                        inputProps={{
-                          onChange: (e) => {
-                            if (status === 2) {
-                              const updatedData = [
-                                ...formData.request_info.product_list,
-                              ];
-                              updatedData[index] = {
-                                ...updatedData[index],
-                                totalValueUSD: e.target.value,
-                              };
-                              setFormData((prevData) => ({
-                                ...prevData,
-                                request_info: {
-                                  ...prevData.request_info,
-                                  product_list: updatedData,
-                                },
-                              }));
-                            }
-                          },
-                        }}
-                        margin="normal"
-                      />
-                    </Grid>
-                  </Grid>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <TextField
-                        label="Product URL"
-                        variant="outlined"
-                        disabled={status === 1}
-                        fullWidth
-                        value={
-                          status === 2
-                            ? formData.request_info.product_list[index].url
-                            : product.url
-                        }
-                        InputProps={{
-                          readOnly: status === 1, // 읽기 전용 모드에서는 readOnly 속성 사용
-                        }}
-                        inputProps={{
-                          onChange: (e) => {
-                            if (status === 2) {
-                              const updatedData = [
-                                ...formData.request_info.product_list,
-                              ];
-                              updatedData[index] = {
-                                ...updatedData[index],
-                                url: e.target.value,
-                              };
-                              setFormData((prevData) => ({
-                                ...prevData,
-                                request_info: {
-                                  ...prevData.request_info,
-                                  product_list: updatedData,
-                                },
-                              }));
-                            }
-                          },
-                        }}
-                        margin="normal"
-                      />
-                    </Grid>
-                  </Grid>
-                </div>
-              ))}
+                  </div>
+                )
+              )}
             </Card1>
 
             <Card1 sx={{ mb: 4 }}>
@@ -541,9 +567,9 @@ export default function Form({ data }: any) {
                       readOnly: status === 1,
                     }}
                     inputProps={{
-                      onChange: (e) => {
+                      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
                         if (status === 2) {
-                          setFormData((prevData) => ({
+                          setFormData((prevData: any) => ({
                             ...prevData,
                             request_info: {
                               ...prevData.request_info,
@@ -571,9 +597,9 @@ export default function Form({ data }: any) {
                       readOnly: status === 1,
                     }}
                     inputProps={{
-                      onChange: (e) => {
+                      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
                         if (status === 2) {
-                          setFormData((prevData) => ({
+                          setFormData((prevData: any) => ({
                             ...prevData,
                             request_info: {
                               ...prevData.request_info,
@@ -603,9 +629,9 @@ export default function Form({ data }: any) {
                       readOnly: status === 1,
                     }}
                     inputProps={{
-                      onChange: (e) => {
+                      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
                         if (status === 2) {
-                          setFormData((prevData) => ({
+                          setFormData((prevData: any) => ({
                             ...prevData,
                             request_info: {
                               ...prevData.request_info,
@@ -635,9 +661,9 @@ export default function Form({ data }: any) {
                       readOnly: status === 1,
                     }}
                     inputProps={{
-                      onChange: (e) => {
+                      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
                         if (status === 2) {
-                          setFormData((prevData) => ({
+                          setFormData((prevData: any) => ({
                             ...prevData,
                             request_info: {
                               ...prevData.request_info,
@@ -668,9 +694,9 @@ export default function Form({ data }: any) {
                       readOnly: status === 1,
                     }}
                     inputProps={{
-                      onChange: (e) => {
+                      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
                         if (status === 2) {
-                          setFormData((prevData) => ({
+                          setFormData((prevData: any) => ({
                             ...prevData,
                             request_info: {
                               ...prevData.request_info,
@@ -699,9 +725,9 @@ export default function Form({ data }: any) {
                       readOnly: status === 1,
                     }}
                     inputProps={{
-                      onChange: (e) => {
+                      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
                         if (status === 2) {
-                          setFormData((prevData) => ({
+                          setFormData((prevData: any) => ({
                             ...prevData,
                             request_info: {
                               ...prevData.request_info,
@@ -730,9 +756,9 @@ export default function Form({ data }: any) {
                       readOnly: status === 1,
                     }}
                     inputProps={{
-                      onChange: (e) => {
+                      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
                         if (status === 2) {
-                          setFormData((prevData) => ({
+                          setFormData((prevData: any) => ({
                             ...prevData,
                             request_info: {
                               ...prevData.request_info,
@@ -762,9 +788,9 @@ export default function Form({ data }: any) {
                       readOnly: status === 1,
                     }}
                     inputProps={{
-                      onChange: (e) => {
+                      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
                         if (status === 2) {
-                          setFormData((prevData) => ({
+                          setFormData((prevData: any) => ({
                             ...prevData,
                             request_info: {
                               ...prevData.request_info,
@@ -782,64 +808,60 @@ export default function Form({ data }: any) {
               </Grid>
             </Card1>
 
-            <Grid container spacing={5}>
-              <Grid item xs={12}>
-                <Button variant="outlined" color="primary" fullWidth>
+            <Grid container spacing={2}>
+              <Grid item xs={4}>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => setStatus(2)}
+                  fullWidth
+                >
+                  Edit
+                </Button>
+              </Grid>
+              <Grid item xs={4}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => {
+                    // formData를 서버로 업데이트
+                    updateDataOnServer(formData);
+
+                    // 저장 후 상태를 보기 모드(1)로 변경
+                    setStatus(1);
+                  }}
+                  fullWidth
+                >
                   Submit
+                </Button>
+              </Grid>
+              <Grid item xs={4}>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => {
+                    setStatus(1); // 뷰 모드로 변경
+                    setFormData(data); // 이전 데이터로 복원
+                  }}
+                  fullWidth
+                >
+                  Cancel
                 </Button>
               </Grid>
             </Grid>
           </form>
-        </Container>
-      </Grid>
 
-      <Grid item sm={4} xs={12}>
-        <Card1
-          sx={{ mb: 4 }}
-          style={{ position: "sticky", padding: "16px", top: "0" }}
-        >
-          <Grid container spacing={5}>
-            <Grid item sm={6} xs={12}>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() => setStatus(2)}
-                fullWidth
-              >
-                Edit
-              </Button>
-            </Grid>
-            <Grid item sm={6} xs={12}>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={() => {
-                  // formData를 서버로 업데이트
-                  updateDataOnServer(formData);
-
-                  // 저장 후 상태를 보기 모드(1)로 변경
-                  setStatus(1);
-                }}
-                fullWidth
-              >
-                Save
-              </Button>
-            </Grid>
-            <Grid item sm={6} xs={12}>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() => {
-                  setStatus(1); // 뷰 모드로 변경
-                  setFormData(data); // 이전 데이터로 복원
-                }}
-                fullWidth
-              >
-                Cancel
-              </Button>
-            </Grid>
+          <Grid item xs={12}>
+            <Card sx={{ padding: 3 }}>
+              {session?.user.role === "admin" && (
+                // 여기에서 'admin' 역할 사용자에게만 표시할 내용 추가
+                <>
+                  <ArrivedUploadButton data={data} />
+                </>
+              )}
+            </Card>
           </Grid>
-        </Card1>
+        </Container>
       </Grid>
     </Grid>
   );

@@ -64,19 +64,24 @@ const ProductCard7 = ({
         alignItems="center"
       >
         <Checkbox checked={isChecked} onChange={onToggleCheckbox} />
-        <Span ellipsis fontWeight="600" fontSize={18}>
+        <Span fontWeight="600" fontSize={18} style={{ width: "60px" }}>
           {request_id}
         </Span>
 
-        <Span ellipsis fontWeight="600" fontSize={15}>
+        <Span
+          ellipsis
+          fontWeight="600"
+          fontSize={15}
+          style={{ width: "150px" }}
+        >
           {product_list.map((product) => product.name).join(", ")}
         </Span>
 
-        <Span fontWeight={600} color="primary.main">
+        <Span fontWeight={600} color="primary.main" style={{ width: "60px" }}>
           $ {totalValue}
         </Span>
 
-        <Span mx={1} fontWeight={600} fontSize={15}>
+        <Span mx={1} fontWeight={600} fontSize={15} style={{ width: "80px" }}>
           Status: {status}
         </Span>
       </FlexBox>

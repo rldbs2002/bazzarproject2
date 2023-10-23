@@ -1,17 +1,13 @@
 "use client";
 
 import { ReactElement, FC, useState } from "react";
-import { GetStaticProps } from "next";
 import { Box, Card, Stack, Table, TableContainer, Avatar } from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import TableHeader from "../data-table/TableHeader";
 import TablePagination from "../data-table/TablePagination";
 import VendorDashboardLayout from "../layouts/vendor-dashboard";
-import Scrollbar from "../Scrollbar";
-import { H3 } from "../Typography";
 import useMuiTable from "@/app/hooks/useMuiTable";
 import RefundRequestRow from "../project/RefundRequestRow";
-import api from "@/utils/__api__/dashboard";
 import { FlexBox } from "../flex-box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
@@ -188,8 +184,9 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
           </Grid>
         </Grid>
 
-        <Grid container spacing={1}>
+        <Grid container spacing={3}>
           <Grid item sm={6} xs={12}>
+            <Divider />
             <Heading number={2} title="Optional Service" />
             <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
               <Button
@@ -197,16 +194,17 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
                 color="primary"
                 onClick={() => handleOptionClick("ConsoliDate")}
                 disabled={selectedItems.length === 0}
+                style={{ marginRight: "0.5rem", width: "120px" }}
               >
                 ConsoliDate
               </Button>
-            </div>
-            <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+
               <Button
                 variant="outlined"
                 color="secondary"
                 onClick={() => handleOptionClick("Repacking")}
                 disabled={selectedItems.length === 0}
+                style={{ marginRight: "0.5rem", width: "120px" }}
               >
                 Repacking
               </Button>
@@ -218,10 +216,35 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
                 to the cart
               </Typography>
             </div>
+            <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
+              <FlexBox gap={1.5} alignItems="center" mb={3.5}>
+                <Avatar
+                  sx={{
+                    width: 32,
+                    height: 32,
+                    color: "primary.text",
+                    backgroundColor: "primary.main",
+                    margin: "0.8rem",
+                  }}
+                >
+                  3
+                </Avatar>
+                <Typography fontSize="20px">Add to Cart</Typography>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={handleAddToCart}
+                  disabled={selectedItems.length === 0}
+                  style={{ marginLeft: "2rem", width: "130px" }}
+                >
+                  Add To Cart
+                </Button>
+              </FlexBox>
+            </div>
           </Grid>
 
           <Grid item sm={6} xs={12}>
-            <Heading number={3} title="Add to Cart" />
+            <Divider />
             <Typography fontSize="50px" style={{ textAlign: "center" }}>
               $ {getTotalPrice()}
             </Typography>
@@ -231,27 +254,6 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
             >
               Option Price
             </Typography>
-            <Divider
-              orientation="horizontal"
-              style={{ marginBottom: "2.5rem" }}
-            />
-
-            <Typography
-              fontSize="20px"
-              style={{ textAlign: "center", marginBottom: "1.5rem" }}
-            >
-              {selectedItems.length > 0 ? selectedOption : "No Selected Option"}
-            </Typography>
-            <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={handleAddToCart}
-                disabled={selectedItems.length === 0}
-              >
-                Add To Cart
-              </Button>
-            </div>
           </Grid>
         </Grid>
       </Card>

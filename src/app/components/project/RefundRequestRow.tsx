@@ -13,9 +13,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 type RefundRequestRowProps = {
-  request: any;
   handleCheckboxChange: (itemId: string) => void;
   isSelected: boolean;
+  data: any; // data 프로퍼티 추가
 };
 
 // ========================================================================
@@ -112,9 +112,9 @@ const RefundRequestRow: FC<RefundRequestRowProps> = ({
           <Edit onClick={() => handleCellClick(_id)} />
         </StyledIconButton>
 
-        <StyledIconButton>
+        {/* <StyledIconButton>
           <RemoveRedEye />
-        </StyledIconButton>
+        </StyledIconButton> */}
 
         <StyledIconButton>
           <Delete onClick={handleDeleteClick} />

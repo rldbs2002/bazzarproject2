@@ -41,7 +41,7 @@ const ShopLayout1: FC<ShopLayout1Props> = ({
   return (
     <Fragment>
       {/* TOPBAR */}
-      {showTopbar && <Topbar bgColor={topbarBgColor} />}
+      {/* {showTopbar && <Topbar bgColor={topbarBgColor} />} */}
 
       {/* HEADER */}
       <Sticky fixedOn={0} onSticky={toggleIsFixed} scrollDistance={300}>
