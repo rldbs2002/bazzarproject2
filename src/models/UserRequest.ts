@@ -33,6 +33,12 @@ const productListSchema = new Schema({
 });
 
 const requestSchema = new Schema({
+  // Request를 생성한 사용자를 참조합니다.
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
+
   request_id: String,
 
   status: Number,

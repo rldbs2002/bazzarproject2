@@ -1,12 +1,26 @@
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
+import User from "@/models/User";
 import UserRequest from "@/models/UserRequest";
 
 export const GET = async (request: any) => {
   try {
     await connect();
-    const posts = await UserRequest.find();
-    return new NextResponse(JSON.stringify(posts), { status: 200 });
+
+    // 사용자의 이메일 주소 (예: 사용자의 실제 이메일 주소로 변경해야 함)
+    const userEmail = "admin@admin.com";
+
+    // User를 이메일 주소로 찾음
+    const user = await User.findOne({ email: userEmail });
+
+    if (!user) {
+      return new NextResponse("User not found", { status: 404 });
+    }
+
+    // User가 소유한 UserRequest를 찾음
+    const userRequests = await UserRequest.find({ user: user._id });
+
+    return new NextResponse(JSON.stringify(userRequests), { status: 200 });
   } catch (err) {
     return new NextResponse("Database Error", { status: 500 });
   }
@@ -17,6 +31,15 @@ export const POST = async (request: any) => {
   await connect();
 
   try {
+    const userEmail = "admin@admin.com"; // Replace with the user's email
+
+    // Find the user based on their email
+    const user = await User.findOne({ email: userEmail });
+
+    if (!user) {
+      return new NextResponse("User not found", { status: 404 });
+    }
+
     // 현재 년도와 날짜를 가져오는 함수 (예: 20230918)
     const getCurrentYearAndDate = () => {
       const now = new Date();
@@ -52,7 +75,8 @@ export const POST = async (request: any) => {
     // 코드에서 finalRequestId를 사용합니다.
 
     // 서버 스키마에 맞게 데이터를 구성합니다.
-    const newUser = new UserRequest({
+    const newUserRequest = new UserRequest({
+      user: user._id, // Link the UserRequest to the user
       request_info: {
         product_list: requestData.request_info.product_list,
         arrived_info: {
@@ -80,7 +104,7 @@ export const POST = async (request: any) => {
       // 다른 상태 필드도 필요에 따라 추가합니다.
     });
 
-    await newUser.save();
+    await newUserRequest.save();
     return new NextResponse("User has been created", {
       status: 201,
     });

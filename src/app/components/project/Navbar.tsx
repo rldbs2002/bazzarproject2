@@ -238,7 +238,7 @@ export default function Navbar() {
         {session.status === "authenticated" && (
           <List>
             <ListItem>
-              <Link href="/api/auth/signout">
+              <Link href="/signout">
                 <Button color="inherit" sx={buttonStyle}>
                   Sign Out
                 </Button>

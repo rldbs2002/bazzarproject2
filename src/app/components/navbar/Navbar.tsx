@@ -18,8 +18,8 @@ import { NavLink } from "../nav-link";
 import { FlexBox } from "../flex-box";
 import BazaarCard from "../BazaarCard";
 import useSettings from "@/app/hooks/useSettings";
-import Link from "next/link";
-import Typography from "@mui/material/Typography";
+import MegaMenu from "./MegaMenu";
+import MegaMenu2 from "./MegaMenu2";
 
 // NavList props interface
 type Navs = {

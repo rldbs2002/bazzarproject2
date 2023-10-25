@@ -9,9 +9,24 @@ import Section6 from "./landing/Section6";
 import { Box } from "@mui/material";
 import Section8 from "./landing/Section8";
 import Header from "./landing/Header";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const Home = () => {
   const [filterDemo, setFilterDemo] = useState("");
+
+  const router = useRouter();
+
+  const { data: session } = useSession({
+    required: true,
+    //  onUnauthenticated() {
+    //    router.push("/api/auth/signin?callbackUrl=/");
+    //  },
+  });
+
+  console.log(session?.user);
+
+  if (!session?.user) return null;
 
   return (
     <>

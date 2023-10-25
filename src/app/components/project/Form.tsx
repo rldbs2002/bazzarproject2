@@ -15,9 +15,9 @@ import {
 import { FlexBox, FlexBetween } from "../flex-box";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import Card from "@mui/material/Card";
-import { Span } from "../Typography";
 import { useSession } from "next-auth/react";
 import ArrivedUploadButton from "./ArrivedUploadButton";
+import { redirect } from "next/navigation";
 
 type HeadingProps = { number: number; title: string };
 
@@ -66,17 +66,6 @@ export default function Form({ data }: any) {
     },
   });
 
-  useEffect(() => {
-    // 컴포넌트가 마운트될 때 환율 정보와 오늘 날짜를 가져옴
-    const fetchData = async () => {
-      const { exchangeRate, currentDate } = await getExchangeRateAndDate();
-      setCurrentExchangeRate(exchangeRate);
-      setCurrentDate(currentDate);
-    };
-
-    fetchData();
-  }, []); // 빈 배열을 전달하여 한 번만 실행되도록 설정
-
   const [formData, setFormData] = useState(data); // data를 초기 데이터로 설정
 
   const [status, setStatus] = useState(1); // 1은 보기 모드, 2는 편집 모드
@@ -92,6 +81,9 @@ export default function Form({ data }: any) {
       });
       if (response.ok) {
         console.log("데이터가 성공적으로 업데이트되었습니다.");
+        const updatedDataDB = await response.json();
+        // 로컬 데이터를 업데이트합니다.
+        setFormData(updatedDataDB);
       } else {
         console.error("데이터 업데이트 실패");
       }
@@ -808,45 +800,99 @@ export default function Form({ data }: any) {
               </Grid>
             </Card1>
 
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => setStatus(2)}
-                  fullWidth
-                >
-                  Edit
-                </Button>
-              </Grid>
-              <Grid item xs={4}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => {
-                    // formData를 서버로 업데이트
-                    updateDataOnServer(formData);
+            {data.status >= 5 && (
+              <Card1 sx={{ mb: 4 }}>
+                <Heading number={4} title="Arrived Items" />
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <div
+                      style={{
+                        display: "flex",
+                        overflowX: "auto", // 가로 스크롤을 만듭니다.
+                        whiteSpace: "nowrap", // 이미지가 옆으로 이어지게 합니다.
+                      }}
+                    >
+                      {data.arrived.arrived_images.map(
+                        (image: string, index: number) => (
+                          <div
+                            key={index}
+                            style={{
+                              marginRight: "8px",
+                              marginBottom: "8px",
+                              minWidth: "33.33%",
+                            }}
+                          >
+                            <img
+                              src={image}
+                              alt={`Arrived Image ${index}`}
+                              style={{
+                                width: "100%", // 이미지의 가로 크기를 100%로 설정
+                                height: "auto", // 높이를 자동으로 조절하여 비율 유지
+                              }}
+                            />
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </Grid>
+                </Grid>
+              </Card1>
+            )}
 
-                    // 저장 후 상태를 보기 모드(1)로 변경
-                    setStatus(1);
-                  }}
-                  fullWidth
-                >
-                  Submit
-                </Button>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                {status === 1 ? (
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => setStatus(2)}
+                    fullWidth
+                  >
+                    Edit
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => {
+                      setStatus(1); // 뷰 모드로 변경
+                      setFormData(data); // 이전 데이터로 복원
+                    }}
+                    fullWidth
+                  >
+                    Cancel
+                  </Button>
+                )}
               </Grid>
-              <Grid item xs={4}>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => {
-                    setStatus(1); // 뷰 모드로 변경
-                    setFormData(data); // 이전 데이터로 복원
-                  }}
-                  fullWidth
-                >
-                  Cancel
-                </Button>
+              <Grid item xs={6}>
+                {status === 1 ? (
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => {
+                      // formData를 서버로 업데이트
+                      updateDataOnServer(formData);
+
+                      // 저장 후 상태를 보기 모드(1)로 변경
+                      setStatus(1);
+                    }}
+                    fullWidth
+                  >
+                    Submit
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => {
+                      setFormData(formData); // 여기서 updatedData는 수정된 formData입니다.
+                      setStatus(1); // 뷰 모드로 변경
+                    }}
+                    fullWidth
+                  >
+                    Save
+                  </Button>
+                )}
               </Grid>
             </Grid>
           </form>

@@ -2,7 +2,7 @@ import React from "react";
 import Cart from "../components/project/Cart";
 
 async function getData() {
-  const res = await fetch("http://localhost:3000/api/request", {
+  const res = await fetch("http://localhost:3000/api/cart", {
     cache: "no-store",
   });
   if (!res.ok) {

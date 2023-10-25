@@ -44,7 +44,7 @@ const RefundRequestRow: FC<RefundRequestRowProps> = ({
   }
 
   const product_price = data.request_info.product_list.reduce(
-    (total, product): any => total + product.totalValueUSD,
+    (total: number, product: any) => total + product.totalValueUSD,
     0
   );
 

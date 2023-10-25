@@ -21,6 +21,7 @@ import { FlexBox } from "../components/flex-box";
 import Sidenav from "../components/Sidenav";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 const headerHeight = 72;
 
@@ -150,7 +151,7 @@ const Header = () => {
                   href={
                     session.status === "unauthenticated"
                       ? "/api/auth/signin"
-                      : "/api/auth/signout"
+                      : "/signout"
                   }
                 >
                   <Button variant="outlined">
@@ -232,7 +233,7 @@ const Header = () => {
                       href={
                         session.status === "unauthenticated"
                           ? "/api/auth/signin"
-                          : "/api/auth/signout"
+                          : "/signout"
                       }
                     >
                       <Typography

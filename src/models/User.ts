@@ -22,6 +22,12 @@ const userSchema = new Schema(
       required: true,
       default: "user",
     },
+    requests: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "UserRequest",
+      },
+    ],
   },
   { timestamps: true }
 );

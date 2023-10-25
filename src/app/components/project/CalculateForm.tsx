@@ -6,7 +6,6 @@ import Button from "@mui/material/Button";
 import { useRouter } from "next/navigation";
 
 export default function CalculatorForm({ data, selectedRequest }: any) {
-  const [productPrice, setProductPrice] = useState("");
   const [result, setResult] = useState("");
   const [repackingPrice, setRepackingPrice] = useState("");
   const [abroadShippingFee, setAbroadShippingFee] = useState("");
@@ -26,15 +25,11 @@ export default function CalculatorForm({ data, selectedRequest }: any) {
   };
 
   const calculateTotal = () => {
-    const num1 = parseFloat(productPrice);
     const num3 = parseFloat(repackingPrice);
     const num4 = parseFloat(abroadShippingFee);
 
     let calculatedResult = 0;
 
-    if (!isNaN(num1)) {
-      calculatedResult += num1;
-    }
     if (!isNaN(num3)) {
       calculatedResult += num3;
     }
@@ -94,15 +89,6 @@ export default function CalculatorForm({ data, selectedRequest }: any) {
     <div>
       <h1>예상 금액 산정</h1>
       <form>
-        <div>
-          <TextField
-            label={`Product Price`}
-            variant="outlined"
-            value={productPrice}
-            onChange={ProductPriceChange}
-            style={{ margin: "10px 0" }}
-          />
-        </div>
         <div>
           <TextField
             label={`Repacking Price`}

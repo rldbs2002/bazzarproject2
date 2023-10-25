@@ -52,7 +52,7 @@ RefundRequest.getLayout = function getLayout(page: ReactElement) {
 };
 // =============================================================================
 
-type RefundRequestProps = { requests: any[]; data: any };
+type RefundRequestProps = { requests?: any[]; data: any };
 
 // =============================================================================
 
@@ -203,7 +203,7 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
                 variant="outlined"
                 color="secondary"
                 onClick={() => handleOptionClick("Repacking")}
-                disabled={selectedItems.length === 0}
+                disabled={selectedItems.length !== 1}
                 style={{ marginRight: "0.5rem", width: "120px" }}
               >
                 Repacking

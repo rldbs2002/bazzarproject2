@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import UserRequest from "@/models/UserRequest";
+import Cart from "@/models/Cart";
 
 export const GET = async (request: any, { params }: any) => {
   const { id } = params;
@@ -36,73 +37,26 @@ export const PUT = async (request: any, { params }: any) => {
 
       // 상태를 2로 업데이트합니다 ("add_to_cart")
       userRequest.status = 2;
-    }
 
-    // 클라이언트에서 보낸 `updatedData` 객체에는 변경된 필드와 그에 해당하는 값을 포함하고 있어야 합니다.
+      const cartItem = {
+        userRequest: userRequest._id,
+        quantity: requestData.add_to_cart.quantity, // 여기서 요청의 수량을 지정하세요.
+      };
 
-    // tracking_number 필드 업데이트
-    if (requestData.tracking_number) {
-      userRequest.request_info.tracking_info.tracking_number =
-        requestData.tracking_number;
-    }
+      let cart = await Cart.findOne({ user: userRequest.user });
 
-    // tracking_carrier 필드 업데이트
-    if (requestData.tracking_carrier) {
-      userRequest.request_info.tracking_info.tracking_carrier =
-        requestData.tracking_carrier;
-    }
-
-    // order_number 필드 업데이트
-    if (requestData.order_number) {
-      userRequest.request_info.tracking_info.order_number =
-        requestData.order_number;
-    }
-
-    // store 필드 업데이트
-    if (requestData.store) {
-      userRequest.request_info.tracking_info.store = requestData.store;
-    }
-
-    // firstname 필드 업데이트
-    if (requestData.firstname) {
-      userRequest.request_info.arrived_info.firstname = requestData.firstname;
-    }
-
-    // lastname 필드 업데이트
-    if (requestData.lastname) {
-      userRequest.request_info.arrived_info.lastname = requestData.lastname;
-    }
-
-    // address 필드 업데이트
-    if (requestData.address) {
-      userRequest.request_info.arrived_info.address = requestData.address;
-    }
-
-    // country 필드 업데이트
-    if (requestData.country) {
-      userRequest.request_info.arrived_info.country.label =
-        requestData.country.label;
-    }
-
-    // city 필드 업데이트
-    if (requestData.city) {
-      userRequest.request_info.arrived_info.city = requestData.city;
-    }
-
-    // state 필드 업데이트
-    if (requestData.state) {
-      userRequest.request_info.arrived_info.state = requestData.state;
-    }
-
-    // postal_code 필드 업데이트
-    if (requestData.postal_code) {
-      userRequest.request_info.arrived_info.postal_code =
-        requestData.postal_code;
-    }
-
-    // phone 필드 업데이트
-    if (requestData.phone) {
-      userRequest.request_info.arrived_info.phone = requestData.phone;
+      if (!cart) {
+        // 해당 사용자에 대한 Cart가 없는 경우, 새로운 Cart 문서를 생성하고 CartItem을 추가합니다.
+        cart = new Cart({
+          user: userRequest.user,
+          items: [cartItem],
+        });
+        await cart.save();
+      } else {
+        // 해당 사용자에 대한 Cart가 이미 있는 경우, CartItem을 추가합니다.
+        cart.items.push(cartItem);
+        await cart.save();
+      }
     }
 
     // 요청된 데이터에서 price_calculate 상태를 업데이트합니다.
@@ -117,17 +71,6 @@ export const PUT = async (request: any, { params }: any) => {
       };
 
       // Update the status to 3 ("price_calculate")
-      userRequest.status = 3;
-    }
-
-    // 요청된 데이터에서 user_confirm 상태를 업데이트합니다.
-    if (requestData.user_confirm) {
-      // Update the user_confirm field with submitted_at and isChecked
-      userRequest.user_confirm = {
-        submitted_at: requestData.user_confirm.submitted_at,
-      };
-
-      // Update the status to 3 ("user_confirm")
       userRequest.status = 3;
     }
 

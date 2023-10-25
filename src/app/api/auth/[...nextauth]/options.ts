@@ -87,5 +87,7 @@ export const options: NextAuthOptions = {
       return session;
     },
   },
-  pages: {},
+  pages: {
+    signOut: "/signout",
+  },
 };

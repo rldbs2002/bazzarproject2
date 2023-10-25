@@ -1,13 +1,7 @@
-"use client";
-
-import { FC } from "react";
-import Link from "next/link";
-import { Add, CheckBox, Close, Remove } from "@mui/icons-material";
 import { Button, Card, IconButton, styled } from "@mui/material";
-import Image from "../BazaarImage";
 import { Span } from "../Typography";
 import { FlexBox } from "../flex-box";
-import Checkbox from "@mui/material/Checkbox";
+import { notFound } from "next/navigation";
 
 // styled components
 const Wrapper = styled(Card)(({ theme }) => ({
@@ -26,34 +20,7 @@ const Wrapper = styled(Card)(({ theme }) => ({
   },
 }));
 
-// =========================================================
-type ProductCardProps = {
-  qty: number;
-  name: string;
-  slug: string;
-  price: number;
-  imgUrl?: string;
-  id: string | number;
-};
-// =========================================================
-
-const ProductCard7 = ({
-  request_id,
-  status,
-  _id,
-  request_info,
-  add_to_cart,
-
-  isChecked,
-  onToggleCheckbox,
-}: any) => {
-  const product_list = request_info.product_list; // Get the entire product list array
-
-  // Calculate the total value for all items in the product_list
-  const totalValue = product_list.reduce((accumulator, product) => {
-    return accumulator + product.totalValueUSD;
-  }, 0);
-
+const ProductCard7 = async ({ status, params }: any) => {
   return (
     <Wrapper>
       <FlexBox
@@ -63,9 +30,8 @@ const ProductCard7 = ({
         flexDirection="row"
         alignItems="center"
       >
-        <Checkbox checked={isChecked} onChange={onToggleCheckbox} />
         <Span fontWeight="600" fontSize={18} style={{ width: "60px" }}>
-          {request_id}
+          {data.request_id}
         </Span>
 
         <Span
@@ -74,11 +40,11 @@ const ProductCard7 = ({
           fontSize={15}
           style={{ width: "150px" }}
         >
-          {product_list.map((product) => product.name).join(", ")}
+          {}
         </Span>
 
         <Span fontWeight={600} color="primary.main" style={{ width: "60px" }}>
-          $ {totalValue}
+          $ {}
         </Span>
 
         <Span mx={1} fontWeight={600} fontSize={15} style={{ width: "80px" }}>
