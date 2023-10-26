@@ -9,7 +9,7 @@ import ProductCard7 from "../product-cards/ProductCard7";
 import CheckoutNavLayout from "../layouts/CheckoutNavLayout";
 import { useAppContext } from "@/app/contexts/AppContext";
 import { currency } from "@/lib";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Card1 from "../Card1";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
@@ -22,7 +22,22 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Form from "./Form";
-import { notFound } from "next/navigation";
+
+// async function getUserRequestData(userRequestId) {
+//   try {
+//     const response = await fetch(
+//       `http://localhost:3000/api/request/${userRequestId}`
+//     ); // API 엔드포인트를 사용하여 데이터를 가져옵니다.
+//     if (!response.ok) {
+//       throw new Error("Failed to fetch userRequest data");
+//     }
+//     const data = await response.json();
+//     return data;
+//   } catch (error) {
+//     console.error("Error fetching userRequest data:", error);
+//     return null;
+//   }
+// }
 
 const Cart: NextPage = ({ data }: any) => {
   const { state } = useAppContext();
@@ -33,6 +48,8 @@ const Cart: NextPage = ({ data }: any) => {
       redirect("/api/auth/signin?callbackUrl=/");
     },
   });
+
+  console.log(data);
 
   // 아코디언 상태를 저장하는 변수
   const [expanded, setExpanded] = useState<number | false>(false);
@@ -57,26 +74,6 @@ const Cart: NextPage = ({ data }: any) => {
             >
               Cart
             </Typography>
-            {data.map((item, index) => (
-              <Accordion key={item._id} onChange={handleAccordionChange(index)}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>{item.user}</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  {item.items.map((subItem) => (
-                    <div key={subItem.userRequest._id}>
-                      {/* 여기에서 subItem 정보를 렌더링합니다 */}
-                      <p>UserRequest ID: {subItem.userRequest}</p>
-                      {/* 필요한 정보를 추가로 표시하세요 */}
-                      {/* <Form data={subItem.userRequest} /> */}
-                    </div>
-                  ))}
-                </AccordionDetails>
-              </Accordion>
-            ))}
-            {/* {data.map((item) => (
-              <ProductCard7 key={item._id} {...item} />
-            ))} */}
           </Card1>
         </Grid>
 

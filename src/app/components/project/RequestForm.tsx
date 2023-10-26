@@ -18,9 +18,8 @@ import { Formik, FieldArray } from "formik";
 import Autocomplete from "@mui/material/Autocomplete";
 import { FlexBox } from "../flex-box";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
-import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
-import InputAdornment from "@mui/material/InputAdornment";
+import { useSession } from "next-auth/react";
 
 type HeadingProps = { number: number; title: string };
 
@@ -60,6 +59,9 @@ const getExchangeRateAndDate = async () => {
 
 const RequestForm: FC = () => {
   const router = useRouter();
+  const { data: session } = useSession();
+
+  console.log(session?.user.email);
 
   const [currentExchangeRate, setCurrentExchangeRate] = useState(""); // 환율 정보를 저장할 상태 변수
   const [currentDate, setCurrentDate] = useState(""); // 오늘 날짜를 저장할 상태 변수
@@ -182,6 +184,7 @@ const RequestForm: FC = () => {
         },
       },
       status: 1,
+      user: session?.user.email,
     };
 
     try {

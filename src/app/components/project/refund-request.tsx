@@ -4,8 +4,6 @@ import { ReactElement, FC, useState } from "react";
 import { Box, Card, Stack, Table, TableContainer, Avatar } from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import TableHeader from "../data-table/TableHeader";
-import TablePagination from "../data-table/TablePagination";
-import VendorDashboardLayout from "../layouts/vendor-dashboard";
 import useMuiTable from "@/app/hooks/useMuiTable";
 import RefundRequestRow from "../project/RefundRequestRow";
 import { FlexBox } from "../flex-box";
@@ -46,12 +44,6 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
   );
 };
 
-// =============================================================================
-RefundRequest.getLayout = function getLayout(page: ReactElement) {
-  return <VendorDashboardLayout>{page}</VendorDashboardLayout>;
-};
-// =============================================================================
-
 type RefundRequestProps = { requests?: any[]; data: any };
 
 // =============================================================================
@@ -64,15 +56,6 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
   const router = useRouter();
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedOption, setSelectedOption] = useState(""); // 선택한 옵션 추가
-
-  // 현재 페이지 번호와 페이지당 항목 수를 관리
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10); // 페이지당 최대 항목 수
-
-  // 페이지 번호를 변경하는 핸들러
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage); // 페이지 번호 업데이트
-  };
 
   const handleCheckboxChange = (_id: string) => {
     if (selectedItems.includes(_id)) {
@@ -172,15 +155,7 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
               </Table>
             </TableContainer>
 
-            <Stack alignItems="center" my={3}>
-              <TablePagination
-                onChange={handleChangePage}
-                count={Math.ceil(data.length / rowsPerPage)}
-                page={page} // 현재 페이지 번호
-                rowsPerPage={rowsPerPage} // 페이지당 항목 수
-                rowsPerPageOptions={[10]} // 페이지당 항목 수 옵션
-              />
-            </Stack>
+            <Stack alignItems="center" my={3}></Stack>
           </Grid>
         </Grid>
 
