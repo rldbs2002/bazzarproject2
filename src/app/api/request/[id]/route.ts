@@ -49,6 +49,7 @@ export const PUT = async (request: any, { params }: any) => {
         // 해당 사용자에 대한 Cart가 없는 경우, 새로운 Cart 문서를 생성하고 CartItem을 추가합니다.
         cart = new Cart({
           user: userRequest.user,
+          status: 2, // 또한 cart에도 status를 2로 설정
           items: [cartItem],
         });
         await cart.save();
