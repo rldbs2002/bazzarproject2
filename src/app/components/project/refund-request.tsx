@@ -87,32 +87,30 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
   };
 
   const handleAddToCart = async () => {
-    const requestData = {
+    // 모든 선택한 항목을 requestData 배열에 저장
+    const requestData = selectedItems.map((itemId) => ({
       add_to_cart: {
         options: selectedOption,
         total_price: getTotalPrice(),
       },
+      userRequest: itemId, // 각 요청의 _id
       status: 2,
-    };
+    }));
 
     try {
-      // 선택한 옵션을 각 선택된 항목에 대해 PUT 요청으로 전송
-      for (const itemId of selectedItems) {
-        const response = await fetch(`/api/request/${itemId}`, {
-          // data._id를 사용하도록 수정
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestData),
-        });
+      const cartResponse = await fetch("/api/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
 
-        if (response.status === 200) {
-          // PUT 요청이 성공하면 추가 작업을 수행하거나 필요하다면 여기에 다른 작업을 추가합니다.
-          router.push("/cart");
-        } else {
-          console.error("Error submitting data:", response.status);
-        }
+      if (cartResponse.status === 200) {
+        // 장바구니에 항목을 추가한 성공적인 응답을 처리합니다.
+        router.push("/cart");
+      } else {
+        console.error("Error submitting data to cart:", cartResponse.status);
       }
     } catch (error) {
       console.error("Error submitting data:", error);

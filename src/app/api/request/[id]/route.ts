@@ -14,6 +14,54 @@ export const GET = async (request: any, { params }: any) => {
   }
 };
 
+export const POST = async (request: any, { params }: any) => {
+  const { id } = params;
+
+  const requestData = await request.json();
+
+  try {
+    // 사용자 요청을 찾습니다.
+    const userRequest = await UserRequest.findOne({
+      _id: id, // params.id 대신 id를 사용합니다.
+    });
+
+    if (!userRequest) {
+      return new NextResponse("User Request not found", {
+        status: 404,
+      });
+    }
+
+    if (requestData.add_to_cart) {
+      const cartItem = {
+        userRequest: userRequest._id,
+      };
+
+      // 각 항목을 별도의 Cart 항목으로 생성
+      const cart = new Cart({
+        user: userRequest.user,
+        status: 2,
+        items: [cartItem],
+        add_to_cart: {
+          options: requestData.add_to_cart.options,
+          total_price: requestData.add_to_cart.total_price,
+        },
+      });
+
+      await cart.save();
+    }
+
+    // 사용자 요청을 저장하고 업데이트된 요청을 반환합니다.
+    await userRequest.save();
+    return new NextResponse("User Request has been updated", {
+      status: 200,
+    });
+  } catch (err: any) {
+    return new NextResponse(err.message, {
+      status: 500,
+    });
+  }
+};
+
 export const PUT = async (request: any, { params }: any) => {
   const { id } = params;
 
@@ -38,26 +86,26 @@ export const PUT = async (request: any, { params }: any) => {
       // 상태를 2로 업데이트합니다 ("add_to_cart")
       userRequest.status = 2;
 
-      const cartItem = {
-        userRequest: userRequest._id,
-        quantity: requestData.add_to_cart.quantity, // 여기서 요청의 수량을 지정하세요.
-      };
+      //   const cartItem = {
+      //     userRequest: userRequest._id,
+      //     quantity: requestData.add_to_cart.quantity, // 여기서 요청의 수량을 지정하세요.
+      //   };
 
-      let cart = await Cart.findOne({ user: userRequest.user });
+      //   let cart = await Cart.findOne({ user: userRequest.user });
 
-      if (!cart) {
-        // 해당 사용자에 대한 Cart가 없는 경우, 새로운 Cart 문서를 생성하고 CartItem을 추가합니다.
-        cart = new Cart({
-          user: userRequest.user,
-          status: 2, // 또한 cart에도 status를 2로 설정
-          items: [cartItem],
-        });
-        await cart.save();
-      } else {
-        // 해당 사용자에 대한 Cart가 이미 있는 경우, CartItem을 추가합니다.
-        cart.items.push(cartItem);
-        await cart.save();
-      }
+      //   if (!cart) {
+      //     // 해당 사용자에 대한 Cart가 없는 경우, 새로운 Cart 문서를 생성하고 CartItem을 추가합니다.
+      //     cart = new Cart({
+      //       user: userRequest.user,
+      //       status: 2, // 또한 cart에도 status를 2로 설정
+      //       items: [cartItem],
+      //     });
+      //     await cart.save();
+      //   } else {
+      //     // 해당 사용자에 대한 Cart가 이미 있는 경우, CartItem을 추가합니다.
+      //     cart.items.push(cartItem);
+      //     await cart.save();
+      //   }
     }
 
     // 요청된 데이터에서 price_calculate 상태를 업데이트합니다.

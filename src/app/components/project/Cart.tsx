@@ -74,28 +74,27 @@ const Cart: NextPage = ({ data }: any) => {
             >
               Cart
             </Typography>
-            <div>
-              {data.cartData.map((cartItem, index) => (
-                <Accordion
-                  key={cartItem._id}
-                  onChange={() => handleAccordionChange(index)}
-                >
-                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography>CartData</Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    {data.userRequestData.map((userRequest, index) => (
-                      <div key={userRequest._id}>
-                        <Typography>{userRequest.request_id}</Typography>
-                        {/* Render other userRequest data here */}
-                        <Form data={userRequest} />
-                        {/* userRequest 데이터를 Form 컴포넌트에 전달 */}
-                      </div>
-                    ))}
-                  </AccordionDetails>
-                </Accordion>
-              ))}
-            </div>
+            {Object.keys(data).map((cartId) => (
+              <Accordion key={cartId}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography>
+                    {data[cartId][0].cartOptions}Cart ID: {cartId}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {data[cartId].map((userRequest) => (
+                    <div key={userRequest.userRequest._id}>
+                      <Typography>
+                        Request ID: {userRequest.userRequest.request_id}
+                      </Typography>
+                      {/* Render other userRequest data here */}
+                      <Form data={userRequest.userRequest} />
+                      {/* userRequest 데이터를 Form 컴포넌트에 전달 */}
+                    </div>
+                  ))}
+                </AccordionDetails>
+              </Accordion>
+            ))}
           </Card1>
         </Grid>
 

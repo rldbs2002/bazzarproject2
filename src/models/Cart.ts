@@ -6,6 +6,14 @@ const CartItemSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "UserRequest", // UserRequest 모델을 참조합니다.
   },
+  add_to_cart: {
+    options: {
+      type: String,
+    },
+    total_price: {
+      type: Number,
+    },
+  },
 });
 
 const CartSchema = new Schema(
@@ -25,6 +33,8 @@ const CartSchema = new Schema(
     // 6. repacking
     // 7: shipping
     // 8: end
+
+    options: String,
   },
   { timestamps: true }
 );
