@@ -17,6 +17,7 @@ export const GET = async (request: any) => {
       const cartId = cart._id; // Cart의 _id를 한 번만 가져옴
 
       const cartOptions = cart.options;
+      const price_calculate = cart.price_calculate;
 
       for (const item of cart.items) {
         if (item.userRequest) {
@@ -27,7 +28,12 @@ export const GET = async (request: any) => {
 
           if (userRequest) {
             // userRequest 및 해당 Cart ID를 묶어서 추가
-            userRequestData.push({ cartId, userRequest, cartOptions });
+            userRequestData.push({
+              cartId,
+              userRequest,
+              cartOptions,
+              price_calculate,
+            });
           }
         }
       }

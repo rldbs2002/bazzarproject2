@@ -5,16 +5,12 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/navigation";
 
-export default function CalculatorForm({ data, selectedRequest }: any) {
+export default function CalculatorForm({ data, selectedAccordion }: any) {
   const [result, setResult] = useState("");
   const [repackingPrice, setRepackingPrice] = useState("");
   const [abroadShippingFee, setAbroadShippingFee] = useState("");
 
   const router = useRouter();
-
-  const ProductPriceChange = (event: any) => {
-    setProductPrice(event.target.value);
-  };
 
   const RepackingPriceChange = (event: any) => {
     setRepackingPrice(event.target.value);
@@ -49,7 +45,7 @@ export default function CalculatorForm({ data, selectedRequest }: any) {
 
     if (result !== "") {
       try {
-        const requestUrl = `/api/request/${selectedRequest._id}`; // request_id에 해당하는 URL 생성
+        const requestUrl = `/api/cart/${selectedAccordion}`; // request_id에 해당하는 URL 생성
         // 클라이언트 측에서 price_check 객체 생성
         const priceCheckData = {
           submitted_at: new Date().toISOString(),

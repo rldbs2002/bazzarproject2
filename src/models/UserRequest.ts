@@ -87,15 +87,6 @@ const requestSchema = new Schema({
 
   request_submitted_at: Date, // "request_submit"의 제출 시간
 
-  add_to_cart: {
-    options: {
-      type: String,
-    },
-    total_price: {
-      type: Number,
-    },
-  },
-
   price_calculate: {
     submitted_at: Date, // 가격 확인이 제출된 시간
     repacking_price: Number,
