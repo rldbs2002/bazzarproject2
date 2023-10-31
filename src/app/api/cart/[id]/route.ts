@@ -34,6 +34,11 @@ export const PUT = async (request: any, { params }: any) => {
       cartRequest.status = 3;
     }
 
+    if (requestData.cart_total_price) {
+      cartRequest.cart_total_price = requestData.cart_total_price;
+      cartRequest.status = 4; // 4는 Checkout 상태를 나타내는 값으로 변경합니다.
+    }
+
     // 사용자 요청을 저장하고 업데이트된 요청을 반환합니다.
     await cartRequest.save();
     return new NextResponse("User Request has been updated", {

@@ -13,10 +13,10 @@ import { redirect } from "next/navigation";
 import CalculatorForm from "./CalculateForm";
 import CartListItems from "./CartListItems";
 import { FlexBetween } from "../flex-box";
+import { useRouter } from "next/navigation";
 
 const Cart: NextPage = ({ data }: any) => {
-  const { state } = useAppContext();
-
+  const router = useRouter();
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
@@ -28,6 +28,9 @@ const Cart: NextPage = ({ data }: any) => {
     null
   );
   const [total, setTotal] = useState(0); // Store the total price
+
+  // Add a state variable to track whether the form is being submitted
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function calculateTotalPrice(data) {
     let totalPrice = 0;
@@ -50,12 +53,12 @@ const Cart: NextPage = ({ data }: any) => {
 
       const cartTotalPrice =
         cartData[0] && cartData[0].price_calculate
-          ? cartData[0].price_calculate.total_price
+          ? cartData[0].price_calculate.total_price || 0
           : 0;
 
-      debugger;
-
-      totalPrice += userRequestTotal + cartTotalPrice;
+      if (!isNaN(cartTotalPrice)) {
+        totalPrice += userRequestTotal + cartTotalPrice;
+      }
     }
 
     return totalPrice;
@@ -65,20 +68,54 @@ const Cart: NextPage = ({ data }: any) => {
 
   // Callback function for handling radio button click
   const handleRadioClick = (cartId: string | null) => {
-    setSelectedAccordion(cartId);
+    if (cartId === selectedAccordion) {
+      // If the same radio button is clicked again, deselect it
+      setSelectedAccordion(null);
+      setTotal(0); // Set total to 0 when deselected
+    } else {
+      setSelectedAccordion(cartId);
 
-    if (cartId !== null) {
       // Calculate and set the total price for the selected cartId
       const selectedCartData = data[cartId];
       const selectedTotal = calculateTotalPrice({ [cartId]: selectedCartData });
       setTotal(selectedTotal);
-    } else {
-      // No cart selected, set total price to 0
-      setTotal(0);
     }
   };
 
   console.log(data);
+
+  const handleFormSubmit = async (values: any) => {
+    if (isSubmitting) {
+      return; // If the form is already being submitted, exit early
+    }
+
+    setIsSubmitting(true);
+
+    const requestData = {
+      cart_total_price: total,
+      status: 4,
+    };
+
+    try {
+      const response = await fetch(`/api/cart/${selectedAccordion}`, {
+        // 선택한 radiobutton의 cartID로 fetch
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      if (response.status === 200) {
+        // 이부분은 서버 응답에 따라 변경될 수 있습니다.
+        router.push("/checkout");
+      }
+    } catch (error) {
+      console.error("Error submitting data:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <CheckoutNavLayout>
@@ -99,6 +136,7 @@ const Cart: NextPage = ({ data }: any) => {
               selectedAccordion={selectedAccordion}
               setSelectedAccordion={setSelectedAccordion}
               onRadioClick={handleRadioClick} // Pass the callback function
+              session={session}
             />
           </Card>
         </Grid>
@@ -127,8 +165,11 @@ const Cart: NextPage = ({ data }: any) => {
             <Button
               fullWidth
               color="primary"
-              variant="contained"
-              onClick={() => console.log(selectedAccordion)}
+              variant="outlined"
+              onClick={handleFormSubmit}
+              disabled={
+                !(selectedAccordion && data[selectedAccordion][0].status === 3)
+              }
             >
               Checkout Now
             </Button>

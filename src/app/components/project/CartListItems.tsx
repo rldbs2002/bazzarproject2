@@ -16,52 +16,71 @@ const CartListItems = ({
   selectedAccordion,
   setSelectedAccordion,
   onRadioClick, // Add a prop for radio button click callback
+  session, // Add a prop for the user session
 }: any) => {
   const handleAccordionClick = (cartId: string) => {
     if (cartId === selectedAccordion) {
-      setSelectedAccordion(null); // 클릭한 아코디언이 이미 열려있는 경우 닫습니다.
+      setSelectedAccordion(null);
     } else {
-      setSelectedAccordion(cartId); // 클릭한 아코디언을 엽니다.
+      setSelectedAccordion(cartId);
     }
   };
 
-  // Handle radio button click and notify the parent component
   const handleRadioClick = (cartId: string) => {
     onRadioClick(cartId);
   };
 
+  // Check if there is any cart data to show
+  const hasCartData = Object.keys(data).some((cartId) => {
+    const cartData = data[cartId][0];
+    const status = cartData.status;
+    return session?.user.role === "admin" || status === 2 || status === 3;
+  });
+
   return (
     <>
-      {Object.keys(data).map((cartId) => (
-        <Accordion
-          key={cartId}
-          expanded={cartId === selectedAccordion}
-          onChange={() => handleAccordionClick(cartId)}
-        >
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Radio
-              checked={cartId === selectedAccordion}
-              onChange={() => handleRadioClick(cartId)} // Handle radio button click
-              value={cartId}
-            />
-            <Typography>
-              {data[cartId][0].cartOptions}Cart ID: {cartId}
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            {data[cartId].map((userRequest) => (
-              <div key={userRequest.userRequest._id}>
-                <Typography>
-                  Request ID: {userRequest.userRequest.request_id}
-                </Typography>
-                {/* Render other userRequest data here */}
-                <Form data={userRequest.userRequest} />
-                {/* userRequest 데이터를 Form 컴포넌트에 전달 */}
-              </div>
-            ))}
-          </AccordionDetails>
-        </Accordion>
-      ))}
+      {hasCartData ? (
+        Object.keys(data).map((cartId) => {
+          const cartData = data[cartId][0];
+          const status = cartData.status;
+          const isAdminOrStatus2Or3 =
+            session?.user.role === "admin" || status === 2 || status === 3;
+
+          if (isAdminOrStatus2Or3) {
+            return (
+              <Accordion
+                key={cartId}
+                expanded={cartId === selectedAccordion}
+                onChange={() => handleAccordionClick(cartId)}
+              >
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Radio
+                    checked={cartId === selectedAccordion}
+                    onChange={() => handleRadioClick(cartId)}
+                    value={cartId}
+                  />
+                  <Typography>
+                    {cartData.cartOptions}Cart ID: {cartId}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {data[cartId].map((userRequest) => (
+                    <div key={userRequest.userRequest._id}>
+                      <Typography>
+                        Request ID: {userRequest.userRequest.request_id}
+                      </Typography>
+                      <Form data={userRequest.userRequest} />
+                    </div>
+                  ))}
+                </AccordionDetails>
+              </Accordion>
+            );
+          }
+          return null;
+        })
+      ) : (
+        <Typography>Cart Data is Empty</Typography>
+      )}
     </>
   );
 };
