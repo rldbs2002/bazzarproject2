@@ -24,65 +24,58 @@ const Cart: NextPage = ({ data }: any) => {
     },
   });
 
-  const [selectedAccordion, setSelectedAccordion] = useState<string | null>(
-    null
-  );
-  const [total, setTotal] = useState(0); // Store the total price
+  const [selectedCart, setSelectedCart] = useState<string | null>(null);
+  const [productPrice, setProductPrice] = useState(0); // Store the product price
+  const [cartTotalValue, setCartTotalValue] = useState(0); // Store the cart total value
+  const [cartTotalPrice, setCartTotalPrice] = useState(0); // Store the cart total price
 
   // Add a state variable to track whether the form is being submitted
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  function calculateTotalPrice(data) {
-    let totalPrice = 0;
+  console.log(selectedCart);
 
-    for (const cartId in data) {
-      const cartData = data[cartId];
+  // Calculate the product price, cart total value, and cart total price when a different cart is selected
+  const calculateTotalPrice = (cartId: string) => {
+    let productPrice = 0;
+    let cartTotalValue = 0;
+    let cartTotalPrice = 0;
 
-      // Calculate the totalValueUSD for each userRequest and sum them up
-      const userRequestTotal = cartData.reduce((total, userRequest) => {
-        const product_list =
-          userRequest.userRequest.request_info.product_list || [];
+    const cartData = data[cartId];
 
-        return (
-          total +
-          product_list.reduce((subtotal, product) => {
-            return subtotal + (product.totalValueUSD || 0);
-          }, 0)
-        );
-      }, 0);
+    // Calculate the totalValueUSD for each userRequest and sum them up for product price and cart total value
+    const userRequestTotal = cartData.reduce((total, userRequest) => {
+      const product_list =
+        userRequest.userRequest.request_info.product_list || [];
 
-      const cartTotalPrice =
-        cartData[0] && cartData[0].price_calculate
-          ? cartData[0].price_calculate.total_price || 0
-          : 0;
+      return (
+        total +
+        product_list.reduce((subtotal, product) => {
+          return subtotal + (product.totalValueUSD || 0);
+        }, 0)
+      );
+    }, 0);
 
-      if (!isNaN(cartTotalPrice)) {
-        totalPrice += userRequestTotal + cartTotalPrice;
-      }
+    const hasCartTotalValue = cartData[0] && cartData[0].price_calculate;
+
+    if (hasCartTotalValue) {
+      cartTotalValue = hasCartTotalValue.total_price || 0;
     }
 
-    return totalPrice;
-  }
+    productPrice = userRequestTotal;
+    cartTotalPrice = productPrice + cartTotalValue;
 
-  console.log(total);
-
-  // Callback function for handling radio button click
-  const handleRadioClick = (cartId: string | null) => {
-    if (cartId === selectedAccordion) {
-      // If the same radio button is clicked again, deselect it
-      setSelectedAccordion(null);
-      setTotal(0); // Set total to 0 when deselected
-    } else {
-      setSelectedAccordion(cartId);
-
-      // Calculate and set the total price for the selected cartId
-      const selectedCartData = data[cartId];
-      const selectedTotal = calculateTotalPrice({ [cartId]: selectedCartData });
-      setTotal(selectedTotal);
-    }
+    setProductPrice(productPrice);
+    setCartTotalValue(cartTotalValue);
+    setCartTotalPrice(cartTotalPrice);
   };
 
-  console.log(data);
+  // Callback function for handling cart selection
+  const handleCartSelect = (cartId: string) => {
+    setSelectedCart(cartId);
+
+    // Calculate the product price, cart total value, and cart total price for the selected cart
+    calculateTotalPrice(cartId);
+  };
 
   const handleFormSubmit = async (values: any) => {
     if (isSubmitting) {
@@ -92,13 +85,12 @@ const Cart: NextPage = ({ data }: any) => {
     setIsSubmitting(true);
 
     const requestData = {
-      cart_total_price: total,
+      cart_total_price: cartTotalPrice,
       status: 4,
     };
 
     try {
-      const response = await fetch(`/api/cart/${selectedAccordion}`, {
-        // 선택한 radiobutton의 cartID로 fetch
+      const response = await fetch(`/api/cart/${selectedCart}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -107,7 +99,7 @@ const Cart: NextPage = ({ data }: any) => {
       });
 
       if (response.status === 200) {
-        // 이부분은 서버 응답에 따라 변경될 수 있습니다.
+        // Redirect as needed based on server response
         router.push("/checkout");
       }
     } catch (error) {
@@ -125,18 +117,11 @@ const Cart: NextPage = ({ data }: any) => {
         {/* CART PRODUCT LIST */}
         <Grid item md={8} xs={12}>
           <Card sx={{ mb: 4 }}>
-            <Typography
-              fontSize="40px"
-              style={{ textAlign: "left", marginBottom: "1.5rem" }}
-            >
-              Cart
-            </Typography>
             <CartListItems
               data={data}
-              selectedAccordion={selectedAccordion}
-              setSelectedAccordion={setSelectedAccordion}
-              onRadioClick={handleRadioClick} // Pass the callback function
               session={session}
+              selectedCart={selectedCart}
+              onCartSelect={handleCartSelect}
             />
           </Card>
         </Grid>
@@ -146,19 +131,30 @@ const Cart: NextPage = ({ data }: any) => {
           <Card sx={{ padding: 3 }}>
             {session?.user.role === "admin" && (
               <>
-                <CalculatorForm
-                  data={data}
-                  selectedAccordion={selectedAccordion}
-                />
+                <CalculatorForm data={data} selectedCart={selectedCart} />
               </>
             )}
 
             <Divider />
 
             <FlexBetween mb={2}>
-              <Span color="grey.600">Total:</Span>
+              <Span color="grey.600">Product Price:</Span>
               <Span fontSize={18} fontWeight={600} lineHeight="1">
-                {currency(total)}
+                {currency(productPrice)}
+              </Span>
+            </FlexBetween>
+
+            <FlexBetween mb={2}>
+              <Span color="grey.600">Service Price:</Span>
+              <Span fontSize={18} fontWeight={600} lineHeight="1">
+                {cartTotalValue === 0 ? "N/A" : currency(cartTotalValue)}
+              </Span>
+            </FlexBetween>
+
+            <FlexBetween mb={2}>
+              <Span color="grey.600">Cart Total Price:</Span>
+              <Span fontSize={18} fontWeight={600} lineHeight="1">
+                {currency(cartTotalPrice)}
               </Span>
             </FlexBetween>
 
@@ -167,9 +163,7 @@ const Cart: NextPage = ({ data }: any) => {
               color="primary"
               variant="outlined"
               onClick={handleFormSubmit}
-              disabled={
-                !(selectedAccordion && data[selectedAccordion][0].status === 3)
-              }
+              disabled={!(selectedCart && data[selectedCart][0].status === 3)}
             >
               Checkout Now
             </Button>

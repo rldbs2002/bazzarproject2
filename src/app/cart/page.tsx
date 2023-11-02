@@ -1,6 +1,6 @@
 import React from "react";
 import Cart from "../components/project/Cart";
-import { notFound } from "next/navigation";
+import useSWR from "swr";
 
 async function getData() {
   const res = await fetch("http://localhost:3000/api/cart", {
