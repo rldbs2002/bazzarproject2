@@ -6,6 +6,7 @@ import Sticky from "../Sticky";
 import Header from "../header/Header";
 // import Navbar from "../navbar/Navbar";
 import SearchInput from "../search-box/SearchInput";
+import { Footer3 } from "../footer";
 
 /**
  *  Used in:
@@ -45,6 +46,9 @@ const ShopLayout2: FC<ShopLayout2Props> = ({
 
         {/* BODY CONTENT */}
         {children}
+
+        {/* FOOTER CONTENT */}
+        <Footer3 />
       </Box>
     </Fragment>
   );

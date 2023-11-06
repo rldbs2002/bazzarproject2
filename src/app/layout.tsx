@@ -24,7 +24,6 @@ export default function RootLayout({
         <AuthProvider>
           <MuiTheme>
             <main>{children}</main>
-            <Footer3 />
           </MuiTheme>
         </AuthProvider>
       </body>

@@ -19,6 +19,7 @@ export const GET = async (request: any) => {
       const cartOptions = cart.options;
       const price_calculate = cart.price_calculate;
       const status = cart.status;
+      const cart_total_price = cart.cart_total_price;
 
       for (const item of cart.items) {
         if (item.userRequest) {
@@ -35,6 +36,7 @@ export const GET = async (request: any) => {
               cartOptions,
               price_calculate,
               status,
+              cart_total_price,
             });
           }
         }

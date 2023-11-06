@@ -3,7 +3,7 @@
 import { FC, Fragment, ReactNode, useCallback, useState } from "react";
 import Sticky from "../Sticky";
 import Topbar from "../Topbar";
-import { Footer1 } from "../footer";
+import { Footer1, Footer3 } from "../footer";
 import Header from "../header/Header";
 // import Navbar from "../navbar/Navbar";
 import { MobileNavigationBar } from "../mobile-navigation";
@@ -60,7 +60,7 @@ const ShopLayout1: FC<ShopLayout1Props> = ({
       <MobileNavigationBar />
 
       {/* FOOTER */}
-      {/* <Footer1 /> */}
+      {/* <Footer3 /> */}
     </Fragment>
   );
 };

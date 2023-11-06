@@ -24,7 +24,7 @@ const StyledFooter = styled("footer")<{ bgcolor?: string }>(
     color: "white",
     padding: "40px",
     background: bgcolor ? bgcolor : theme.palette.primary.main,
-    [theme.breakpoints.down("md")]: { marginBottom: "4rem" },
+    // [theme.breakpoints.down("md")]: { marginBottom: "4rem" },
   })
 );
 

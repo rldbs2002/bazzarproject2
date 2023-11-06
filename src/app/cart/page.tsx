@@ -12,10 +12,10 @@ async function getData() {
   return res.json();
 }
 
-const page = async ({ params }: any) => {
+const CartPage = async ({ params }: any) => {
   const data = await getData();
 
   return <Cart data={data} />;
 };
 
-export default page;
+export default CartPage;

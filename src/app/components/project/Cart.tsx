@@ -2,10 +2,16 @@
 
 import { useState } from "react";
 import { NextPage } from "next";
-import { Button, Card, Divider, Grid, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  Container,
+  Divider,
+  Grid,
+  Typography,
+} from "@mui/material";
 import SEO from "../SEO";
 import { Span } from "../Typography";
-import CheckoutNavLayout from "../layouts/CheckoutNavLayout";
 import { useAppContext } from "@/app/contexts/AppContext";
 import { currency } from "@/lib";
 import { useSession } from "next-auth/react";
@@ -14,6 +20,7 @@ import CalculatorForm from "./CalculateForm";
 import CartListItems from "./CartListItems";
 import { FlexBetween } from "../flex-box";
 import { useRouter } from "next/navigation";
+import ShopLayout2 from "../layouts/ShopLayout2";
 
 const Cart: NextPage = ({ data }: any) => {
   const router = useRouter();
@@ -110,67 +117,68 @@ const Cart: NextPage = ({ data }: any) => {
   };
 
   return (
-    <CheckoutNavLayout>
+    <ShopLayout2>
       <SEO title="Cart" />
+      <Container sx={{ my: "1.5rem" }}>
+        <Grid container spacing={3}>
+          {/* CART PRODUCT LIST */}
+          <Grid item md={8} xs={12}>
+            <Card sx={{ mb: 4 }}>
+              <CartListItems
+                data={data}
+                session={session}
+                selectedCart={selectedCart}
+                onCartSelect={handleCartSelect}
+              />
+            </Card>
+          </Grid>
 
-      <Grid container spacing={3}>
-        {/* CART PRODUCT LIST */}
-        <Grid item md={8} xs={12}>
-          <Card sx={{ mb: 4 }}>
-            <CartListItems
-              data={data}
-              session={session}
-              selectedCart={selectedCart}
-              onCartSelect={handleCartSelect}
-            />
-          </Card>
+          {/* CHECKOUT FORM */}
+          <Grid item md={4} xs={12}>
+            <Card sx={{ padding: 3 }}>
+              {session?.user.role === "admin" && (
+                <>
+                  <CalculatorForm data={data} selectedCart={selectedCart} />
+                </>
+              )}
+
+              <Divider />
+
+              <FlexBetween mb={2}>
+                <Span color="grey.600">Product Price:</Span>
+                <Span fontSize={18} fontWeight={600} lineHeight="1">
+                  {currency(productPrice)}
+                </Span>
+              </FlexBetween>
+
+              <FlexBetween mb={2}>
+                <Span color="grey.600">Service Price:</Span>
+                <Span fontSize={18} fontWeight={600} lineHeight="1">
+                  {cartTotalValue === 0 ? "N/A" : currency(cartTotalValue)}
+                </Span>
+              </FlexBetween>
+
+              <FlexBetween mb={2}>
+                <Span color="grey.600">Cart Total Price:</Span>
+                <Span fontSize={18} fontWeight={600} lineHeight="1">
+                  {currency(cartTotalPrice)}
+                </Span>
+              </FlexBetween>
+
+              <Button
+                fullWidth
+                color="primary"
+                variant="outlined"
+                onClick={handleFormSubmit}
+                disabled={!(selectedCart && data[selectedCart][0].status === 3)}
+              >
+                Checkout Now
+              </Button>
+            </Card>
+          </Grid>
         </Grid>
-
-        {/* CHECKOUT FORM */}
-        <Grid item md={4} xs={12}>
-          <Card sx={{ padding: 3 }}>
-            {session?.user.role === "admin" && (
-              <>
-                <CalculatorForm data={data} selectedCart={selectedCart} />
-              </>
-            )}
-
-            <Divider />
-
-            <FlexBetween mb={2}>
-              <Span color="grey.600">Product Price:</Span>
-              <Span fontSize={18} fontWeight={600} lineHeight="1">
-                {currency(productPrice)}
-              </Span>
-            </FlexBetween>
-
-            <FlexBetween mb={2}>
-              <Span color="grey.600">Service Price:</Span>
-              <Span fontSize={18} fontWeight={600} lineHeight="1">
-                {cartTotalValue === 0 ? "N/A" : currency(cartTotalValue)}
-              </Span>
-            </FlexBetween>
-
-            <FlexBetween mb={2}>
-              <Span color="grey.600">Cart Total Price:</Span>
-              <Span fontSize={18} fontWeight={600} lineHeight="1">
-                {currency(cartTotalPrice)}
-              </Span>
-            </FlexBetween>
-
-            <Button
-              fullWidth
-              color="primary"
-              variant="outlined"
-              onClick={handleFormSubmit}
-              disabled={!(selectedCart && data[selectedCart][0].status === 3)}
-            >
-              Checkout Now
-            </Button>
-          </Card>
-        </Grid>
-      </Grid>
-    </CheckoutNavLayout>
+      </Container>
+    </ShopLayout2>
   );
 };
 

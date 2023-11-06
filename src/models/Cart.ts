@@ -43,7 +43,13 @@ const CartSchema = new Schema(
       abroad_shipping_fee: Number,
       total_price: Number, //
     },
+    repacking: {
+      repacking_images: [],
+      repacking_at: Date,
+      repacking_completed: Boolean, // Boolean flag to indicate if the upload is completed
+    },
   },
+
   { timestamps: true }
 );
 

@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 
-const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
+const Checklist = ({ data, selectedCart, onCartSelect }: any) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // 한 페이지에 보여줄 아이템 수
 
@@ -41,45 +41,30 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Select</TableCell>
               <TableCell>Cart ID</TableCell>
-              <TableCell>Request ID</TableCell>
+              <TableCell>Options</TableCell>
+              <TableCell>Total Price</TableCell>
               <TableCell>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {getCurrentPageItems()
-              .filter((cartId) => {
-                const cartData = data[cartId][0];
-                const status = cartData.status;
-                return status !== 4; //status가 4인 항목을 걸러냅니다.
-              })
-              .map((cartId) => {
-                const cartData = data[cartId][0];
-                const status = cartData.status;
-                const isAdminOrStatus2Or3 = status === 2 || status === 3;
+            {getCurrentPageItems().map((cartId) => {
+              const cartData = data[cartId][0];
+              const status = cartData.status;
 
+              if (status >= 4) {
                 return (
                   <TableRow key={cartId}>
                     <TableCell>
-                      <Radio // Radio 컴포넌트 사용
-                        name="selectedCart"
-                        checked={selectedCart === cartId}
-                        onChange={() => onCartSelect(cartId)}
-                      />
+                      <Link href={`/checkout/${cartId}`}>{cartId}</Link>
                     </TableCell>
-                    <Link href={`/cart/${cartId}`}>{cartId}</Link>
-                    <TableCell>
-                      {data[cartId].map((userRequest) => (
-                        <div key={userRequest.userRequest._id}>
-                          Request ID: {userRequest.userRequest.request_id}
-                        </div>
-                      ))}
-                    </TableCell>
-                    <TableCell>{isAdminOrStatus2Or3 ? status : ""}</TableCell>
+                    <TableCell>{cartData.cartOptions}</TableCell>
+                    <TableCell>$ {cartData.cart_total_price}</TableCell>
+                    <TableCell>{status}</TableCell>
                   </TableRow>
                 );
-              })}
+              }
+            })}
           </TableBody>
         </Table>
       </TableContainer>
@@ -107,4 +92,4 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
   );
 };
 
-export default CartListItems;
+export default Checklist;

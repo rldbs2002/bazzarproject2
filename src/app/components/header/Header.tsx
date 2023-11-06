@@ -261,7 +261,7 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
 
           <Badge badgeContent={state.cart.length} color="primary">
             <Box
-              p={1.25}
+              // p={1.25}
               bgcolor="grey.200"
               component={IconButton}
               onClick={toggleSidenav}

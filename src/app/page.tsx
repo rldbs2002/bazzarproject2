@@ -36,6 +36,7 @@ const Home = () => {
         <Section6 setFilterDemo={setFilterDemo} />
         {/* <Section3 filterDemo={filterDemo} setFilterDemo={setFilterDemo} /> */}
         <Section8 setFilterDemo={setFilterDemo} />
+        <Footer3 />
       </Box>
     </>
   );
