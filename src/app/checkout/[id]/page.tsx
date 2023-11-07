@@ -55,7 +55,6 @@ async function getData(id: any) {
 
 const OrderDetails: NextPage = async ({ params }: any) => {
   const data = await getData(params.id);
-  console.log(data);
 
   // SECTION TITLE HEADER
 

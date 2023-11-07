@@ -1,9 +1,10 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, FC } from "react";
 import { useRouter } from "next/navigation";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { format } from "date-fns";
+import Card1 from "../Card1";
 import { Done, ShoppingBag } from "@mui/icons-material";
 import {
   Avatar,
@@ -42,6 +43,26 @@ const StyledFlexbox = styled(FlexBetween)(({ theme }) => ({
     [theme.breakpoints.down("sm")]: { flex: "unset", height: 50, minWidth: 4 },
   },
 }));
+
+type HeadingProps = { number: number; title: string };
+
+const Heading: FC<HeadingProps> = ({ number, title }) => {
+  return (
+    <FlexBox gap={1.5} alignItems="center" mb={3.5}>
+      <Avatar
+        sx={{
+          width: 32,
+          height: 32,
+          color: "primary.text",
+          backgroundColor: "primary.main",
+        }}
+      >
+        {number}
+      </Avatar>
+      <Typography fontSize="20px">{title}</Typography>
+    </FlexBox>
+  );
+};
 
 type OrderStatus = "Packaging" | "Shipping" | "Delivering" | "Complete";
 
@@ -266,6 +287,45 @@ const ChecklistForm: NextPage = ({ data }: any) => {
           </Card>
         </Grid>
       </Grid>
+
+      {data[0].status >= 6 && (
+        <Card1 sx={{ mt: 4, mb: 4 }}>
+          <Heading number={4} title="Repacking Items" />
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <div
+                style={{
+                  display: "flex",
+                  overflowX: "auto", // 가로 스크롤을 만듭니다.
+                  whiteSpace: "nowrap", // 이미지가 옆으로 이어지게 합니다.
+                }}
+              >
+                {data[0].repacking.repacking_images.map(
+                  (image: string, index: number) => (
+                    <div
+                      key={index}
+                      style={{
+                        marginRight: "8px",
+                        marginBottom: "8px",
+                        minWidth: "33.33%",
+                      }}
+                    >
+                      <img
+                        src={image}
+                        alt={`Repacking Image ${index}`}
+                        style={{
+                          width: "100%", // 이미지의 가로 크기를 100%로 설정
+                          height: "auto", // 높이를 자동으로 조절하여 비율 유지
+                        }}
+                      />
+                    </div>
+                  )
+                )}
+              </div>
+            </Grid>
+          </Grid>
+        </Card1>
+      )}
 
       <Grid container spacing={3}>
         <Grid item xs={12}>

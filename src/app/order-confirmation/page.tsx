@@ -7,7 +7,7 @@ import { Button, Container, styled } from "@mui/material";
 import SEO from "../components/SEO";
 import BazaarCard from "../components/BazaarCard";
 import { H1, Paragraph } from "../components/Typography";
-import ShopLayout2 from "../components/layouts/ShopLayout1";
+import ShopLayout2 from "../components/layouts/ShopLayout2";
 
 // custom styled components
 const Wrapper = styled(BazaarCard)({

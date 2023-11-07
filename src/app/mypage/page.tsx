@@ -4,7 +4,7 @@ import ShopLayout2 from "../components/layouts/ShopLayout2";
 import SEO from "../components/SEO";
 import { NextPage } from "next";
 import { Footer3 } from "../components/footer";
-import RefundRequest from "../components/project/refund-request";
+import RefundRequest from "../components/project/RefundRequest";
 
 export async function getData() {
   const res = await fetch("http://localhost:3000/api/request", {

@@ -1,22 +1,33 @@
 "use client";
 
 import { ReactElement, FC, useState } from "react";
-import { Box, Card, Stack, Table, TableContainer, Avatar } from "@mui/material";
+import {
+  Box,
+  Card,
+  Stack,
+  Table,
+  TableContainer,
+  Avatar,
+  Typography,
+  Grid,
+  Button,
+  Divider,
+  Pagination, // Import TablePagination
+  TextField,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import TableHeader from "../data-table/TableHeader";
 import useMuiTable from "@/app/hooks/useMuiTable";
-import RefundRequestRow from "../project/RefundRequestRow";
+import RefundRequestRow from "./RefundRequestRow";
 import { FlexBox } from "../flex-box";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
 import { useRouter } from "next/navigation";
-import Divider from "@mui/material/Divider";
 
 // table column list
 const tableHeading = [
   { id: "check", label: "Check", align: "left" },
-  { id: "orderNo", label: "Order No", align: "left" },
+  { id: "requestNo", label: "Request No", align: "left" },
   { id: "product", label: "Product Details", align: "left" },
   { id: "price", label: "Price", align: "left" },
   { id: "status", label: "Status", align: "left" },
@@ -49,13 +60,40 @@ type RefundRequestProps = { requests?: any[]; data: any };
 // =============================================================================
 
 export default function RefundRequest({ requests, data }: RefundRequestProps) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchCategory, setSearchCategory] = useState("productName"); // 검색 카테고리 추가 (기본값: productName)
+
   const { order, orderBy, selected, handleRequestSort } = useMuiTable({
     listData: requests,
   });
 
+  // 검색어를 기반으로 데이터 필터링
+  const filteredData = data.filter((item) => {
+    if (searchCategory === "productName") {
+      // `product_list` 배열 내에서 `name`으로 검색
+      const productNames = item.request_info.product_list.map(
+        (product) => product.name
+      );
+      return productNames.some((productName) =>
+        productName.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    } else if (searchCategory === "requestId") {
+      return item.request_id.toString().includes(searchQuery);
+    }
+    return false; // 다른 경우에는 false를 반환하여 해당 항목을 건너뜁니다.
+  });
+
+
   const router = useRouter();
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedOption, setSelectedOption] = useState(""); // 선택한 옵션 추가
+
+  const [page, setPage] = useState(0); // Add state for page number
+  const [rowsPerPage, setRowsPerPage] = useState(10); // Add state for rows per page
+
+  const handleChangePage = (event: any, newPage: number) => {
+    setPage(newPage);
+  };
 
   const handleCheckboxChange = (_id: string) => {
     if (selectedItems.includes(_id)) {
@@ -129,6 +167,30 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Heading number={1} title="Order List" />
+
+            {/* 검색 카테고리를 선택할 수 있는 드롭다운 메뉴 추가 */}
+            <Select
+              label="Search Category"
+              value={searchCategory}
+              onChange={(e) => setSearchCategory(e.target.value)}
+              variant="outlined"
+              style={{ width: "150px", margin: "1rem" }}
+            >
+              <MenuItem value="productName">Product Name</MenuItem>
+              <MenuItem value="requestId">Request ID</MenuItem>
+            </Select>
+
+            {/* 검색 필드 추가 */}
+            <TextField
+              label={`Search ${
+                searchCategory === "productName" ? "Product" : "Request ID"
+              }`}
+              variant="outlined"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ margin: "1rem", width: "250px" }}
+            />
+
             <TableContainer sx={{ minWidth: 900 }}>
               <Table>
                 <TableHeader
@@ -141,19 +203,30 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
                   onRequestSort={handleRequestSort}
                 />
                 <TableBody>
-                  {data.map((request: any, index: any) => (
-                    <RefundRequestRow
-                      data={request}
-                      key={index}
-                      handleCheckboxChange={handleCheckboxChange}
-                      isSelected={selectedItems.includes(request._id)} // request._id를 사용하도록 수정
-                    />
-                  ))}
+                  {filteredData
+                    .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+                    .map((request: any, index: any) => (
+                      <RefundRequestRow
+                        data={request}
+                        key={index}
+                        handleCheckboxChange={handleCheckboxChange}
+                        isSelected={selectedItems.includes(request._id)}
+                      />
+                    ))}
                 </TableBody>
               </Table>
             </TableContainer>
 
-            <Stack alignItems="center" my={3}></Stack>
+            <Stack alignItems="center" my={3} margin="1rem">
+              <Pagination
+                count={Math.ceil(data.length / rowsPerPage)}
+                page={page + 1}
+                color="primary"
+                onChange={(event, newPage) => {
+                  handleChangePage(null, newPage - 1);
+                }}
+              />
+            </Stack>
           </Grid>
         </Grid>
 
@@ -218,14 +291,21 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
 
           <Grid item sm={6} xs={12}>
             <Divider />
-            <Typography fontSize="50px" style={{ textAlign: "center" }}>
-              $ {getTotalPrice()}
-            </Typography>
             <Typography
               fontSize="20px"
-              style={{ textAlign: "center", marginBottom: "2.5rem" }}
+              style={{
+                textAlign: "center",
+                marginBottom: "2.5rem",
+                margin: "1rem",
+              }}
             >
-              Option Price
+              Selected Option
+            </Typography>
+            <Typography
+              fontSize="40px"
+              style={{ textAlign: "center", color: "primary", margin: "1rem" }}
+            >
+              {selectedOption}
             </Typography>
           </Grid>
         </Grid>
