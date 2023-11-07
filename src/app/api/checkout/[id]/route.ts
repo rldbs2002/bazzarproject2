@@ -64,6 +64,55 @@ export const PUT = async (request: any, { params }: any) => {
       cartRequest.status = 6;
     }
 
+    // 데이터에서 shipping 정보 추출
+    const { shipping } = requestData;
+
+    if (
+      shipping &&
+      shipping.shipping_images &&
+      shipping.shipping_images.length > 0
+    ) {
+      // Initialize the repacking images array if it's not already initialized
+      if (!cartRequest.shipping.shipping_images) {
+        cartRequest.shipping.shipping_images = [];
+      }
+
+      // Add the imageFileUrls to the shipping images array
+      cartRequest.shipping.shipping_images.push(...shipping.shipping_images);
+
+      // Update 'shipping_at' if it's available in the shipping object
+      if (shipping.shipping_at) {
+        cartRequest.shipping.shipping_at = new Date(shipping.shipping_at);
+      }
+      cartRequest.status = 7;
+    }
+
+    // shipping 정보 업데이트
+    if (shipping) {
+      const {
+        shippingCarrier,
+        shippingNumber,
+        shippingCompleted,
+        shipping_at,
+      } = shipping;
+
+      if (shippingCarrier) {
+        cartRequest.shipping.shipping_carrier = shippingCarrier;
+      }
+
+      if (shippingNumber) {
+        cartRequest.shipping.shipping_number = shippingNumber;
+      }
+
+      if (shippingCompleted !== undefined) {
+        cartRequest.shipping.shipping_completed = shippingCompleted;
+      }
+
+      if (shipping_at) {
+        cartRequest.shipping.shipping_at = new Date(shipping_at);
+      }
+    }
+
     // 사용자 요청을 저장하고 업데이트된 요청을 반환합니다.
     await cartRequest.save();
     return new NextResponse("User Request has been updated", {

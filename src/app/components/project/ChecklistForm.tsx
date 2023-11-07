@@ -29,6 +29,8 @@ import { currency } from "@/lib";
 import { useSession } from "next-auth/react";
 import RepackingUploadButton from "./RepackingUploadButton";
 import { redirect } from "next/navigation";
+import ShippingForm from "./ShippingForm";
+import ShippingUploadButton from "./ShippingUploadButton";
 
 // styled components
 const StyledFlexbox = styled(FlexBetween)(({ theme }) => ({
@@ -158,7 +160,7 @@ const ChecklistForm: NextPage = ({ data }: any) => {
             color="primary.main"
             bgcolor="primary.light"
           >
-            Estimated Delivery Date <b>4th October</b>
+            Estimated Delivery Date {format(new Date(), "dd MMM, yyyy")}
           </Typography>
         </FlexBox>
       </Card>
@@ -327,6 +329,45 @@ const ChecklistForm: NextPage = ({ data }: any) => {
         </Card1>
       )}
 
+      {data[0].status >= 7 && (
+        <Card1 sx={{ mt: 4, mb: 4 }}>
+          <Heading number={5} title="shipping Items" />
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <div
+                style={{
+                  display: "flex",
+                  overflowX: "auto", // 가로 스크롤을 만듭니다.
+                  whiteSpace: "nowrap", // 이미지가 옆으로 이어지게 합니다.
+                }}
+              >
+                {data[0].shipping.shipping_images.map(
+                  (image: string, index: number) => (
+                    <div
+                      key={index}
+                      style={{
+                        marginRight: "8px",
+                        marginBottom: "8px",
+                        minWidth: "33.33%",
+                      }}
+                    >
+                      <img
+                        src={image}
+                        alt={`Shipping Image ${index}`}
+                        style={{
+                          width: "100%", // 이미지의 가로 크기를 100%로 설정
+                          height: "auto", // 높이를 자동으로 조절하여 비율 유지
+                        }}
+                      />
+                    </div>
+                  )
+                )}
+              </div>
+            </Grid>
+          </Grid>
+        </Card1>
+      )}
+
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Card sx={{ padding: 3 }}>
@@ -334,6 +375,8 @@ const ChecklistForm: NextPage = ({ data }: any) => {
               // 여기에서 'admin' 역할 사용자에게만 표시할 내용 추가
               <>
                 <RepackingUploadButton data={data} />
+                <ShippingForm data={data} />
+                <ShippingUploadButton data={data} />
               </>
             )}
           </Card>

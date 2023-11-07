@@ -84,8 +84,11 @@ const Checklist = ({ data, selectedCart, onCartSelect }: any) => {
 
   return (
     <>
-      <TableContainer component={Paper}>
-        <FormControl variant="outlined" style={{ margin: "1rem" }}>
+      <TableContainer component={Paper} sx={{ minWidth: 900 }}>
+        <FormControl
+          variant="outlined"
+          style={{ margin: "1rem", width: "100px" }}
+        >
           <InputLabel id="search-field-label">Search Field</InputLabel>
           <Select
             labelId="search-field-label"
