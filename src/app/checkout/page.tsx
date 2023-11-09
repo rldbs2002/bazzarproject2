@@ -22,15 +22,8 @@ const CheckoutPage = async () => {
   return (
     <ShopLayout2>
       <SEO title="Checkout" />
-
       <Container sx={{ my: "1.5rem" }}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Card sx={{ mb: 4 }}>
-              <Checklist data={data} />
-            </Card>
-          </Grid>
-        </Grid>
+        <Checklist data={data} />
       </Container>
     </ShopLayout2>
   );

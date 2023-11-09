@@ -1,3 +1,5 @@
+"use client";
+
 import React, { ChangeEvent, useState } from "react";
 import { Button, Checkbox, TextField } from "@mui/material";
 
@@ -20,7 +22,7 @@ const ShippingForm = ({ data }: any) => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`/api/checkout/${data[0]._id}`, {
+      const response = await fetch(`/api/checkout/${data}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -49,13 +51,12 @@ const ShippingForm = ({ data }: any) => {
   };
 
   return (
-    <>
+    <main className="flex flex-col items-center justify-start">
       <TextField
         label="Shipping Carrier"
         variant="outlined"
         value={shippingCarrier}
         onChange={handleShippingCarrierChange}
-        fullWidth
         margin="normal"
       />
       <TextField
@@ -63,7 +64,6 @@ const ShippingForm = ({ data }: any) => {
         variant="outlined"
         value={shippingNumber}
         onChange={handleShippingNumberChange}
-        fullWidth
         margin="normal"
       />
       <Checkbox
@@ -72,10 +72,10 @@ const ShippingForm = ({ data }: any) => {
         color="primary"
       />
       Shipping Completed
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
+      <Button variant="outlined" color="primary" onClick={handleSubmit}>
         Submit
       </Button>
-    </>
+    </main>
   );
 };
 

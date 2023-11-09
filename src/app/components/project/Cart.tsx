@@ -40,6 +40,12 @@ const Cart: NextPage = ({ data }: any) => {
   // Add a state variable to track whether the form is being submitted
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [isPriceConfirm, setIsPriceConfirm] = useState(false); // Add state for confirmation checkbox
+
+  const handleCheckboxChange = () => {
+    setIsPriceConfirm(!isPriceConfirm);
+  };
+
   console.log(selectedCart);
 
   // Calculate the product price, cart total value, and cart total price when a different cart is selected
@@ -86,7 +92,7 @@ const Cart: NextPage = ({ data }: any) => {
   };
 
   const handleFormSubmit = async (values: any) => {
-    if (isSubmitting) {
+    if (isSubmitting || !isPriceConfirm) {
       return; // If the form is already being submitted, exit early
     }
 
@@ -95,20 +101,27 @@ const Cart: NextPage = ({ data }: any) => {
     const requestData = {
       cart_total_price: cartTotalPrice,
       status: 4,
+      price_confirm: isPriceConfirm,
     };
 
     try {
-      const response = await fetch(`/api/cart/${selectedCart}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      });
+      // Add a check for confirmation before submitting
+      if (isPriceConfirm) {
+        const response = await fetch(`/api/cart/${selectedCart}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestData),
+        });
 
-      if (response.status === 200) {
-        // Redirect as needed based on server response
-        router.push("/checkout");
+        if (response.status === 200) {
+          // Redirect as needed based on server response
+          router.push("/checkout");
+        }
+      } else {
+        // Handle case where user hasn't confirmed
+        console.log("Please confirm before checking out.");
       }
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -137,14 +150,6 @@ const Cart: NextPage = ({ data }: any) => {
           {/* CHECKOUT FORM */}
           <Grid item md={4} xs={12}>
             <Card sx={{ padding: 3 }}>
-              {session?.user.role === "admin" && (
-                <>
-                  <CalculatorForm data={data} selectedCart={selectedCart} />
-                </>
-              )}
-
-              <Divider />
-
               <FlexBetween mb={2}>
                 <Span color="grey.600">Product Price:</Span>
                 <Span fontSize={18} fontWeight={600} lineHeight="1">
@@ -166,12 +171,27 @@ const Cart: NextPage = ({ data }: any) => {
                 </Span>
               </FlexBetween>
 
+              {/* Confirmation Checkbox */}
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isPriceConfirm}
+                  onChange={handleCheckboxChange}
+                />
+                Confirm Price
+              </label>
+
+              {/* Checkout Button */}
+
               <Button
                 fullWidth
                 color="primary"
                 variant="outlined"
                 onClick={handleFormSubmit}
-                disabled={!(selectedCart && data[selectedCart][0].status === 3)}
+                disabled={
+                  !(selectedCart && data[selectedCart][0].status === 3) ||
+                  !isPriceConfirm
+                }
               >
                 Checkout Now
               </Button>

@@ -6,6 +6,8 @@ import { Container, Grid } from "@mui/material";
 import ShopLayout2 from "@/app/components/layouts/ShopLayout2";
 import SEO from "@/app/components/SEO";
 import { NextPage } from "next";
+import CalculatorForm from "@/app/components/project/CalculateForm";
+import CartLayer from "@/app/components/project/CartLayer";
 
 async function getData(id: any) {
   const res = await fetch(`http://localhost:3000/api/cart/${id}`, {
@@ -19,26 +21,11 @@ async function getData(id: any) {
 
 const CartPage: NextPage = async ({ params }: any) => {
   const data = await getData(params.id);
-  // console.log(data);
 
   return (
     <ShopLayout2>
       <SEO title="Checkout alternative" />
-      <Container sx={{ my: "1.5rem" }}>
-        <Grid container spacing={3}>
-          {/* <Grid
-            item
-            lg={3}
-            xs={12}
-            sx={{ display: { xs: "none", sm: "none", md: "block" } }}
-          >
-            <Navigations />
-          </Grid> */}
-          <Grid item xs={12}>
-            <CartForm data={data} />
-          </Grid>
-        </Grid>
-      </Container>
+      <CartLayer data={data} />
     </ShopLayout2>
   );
 };

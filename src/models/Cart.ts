@@ -18,17 +18,19 @@ const CartItemSchema = new Schema({
 
 const CartSchema = new Schema(
   {
+    cart_id: String,
+
     user: {
       type: Schema.Types.ObjectId,
       ref: "User", // 사용자 모델을 참조합니다.
     },
     items: [CartItemSchema], // 각각의 CartItem을 배열로 가집니다.
     status: Number,
-    // 0: 임시저장
-    // 1: request submit
-    // 2: Add to Cart
-    // 3: price calculate
-    // 4: check out
+
+    // 2: Add to Cart( before calculated)
+    // 3: price calculate (calculated)
+    // ---yes or no----
+    // 4: check out ( yes )
     // 5: arrived
     // 6. repacking
     // 7: shipping
@@ -36,6 +38,7 @@ const CartSchema = new Schema(
 
     options: String,
     cart_total_price: Number,
+    price_confirm: Boolean,
 
     price_calculate: {
       submitted_at: Date, // 가격 확인이 제출된 시간

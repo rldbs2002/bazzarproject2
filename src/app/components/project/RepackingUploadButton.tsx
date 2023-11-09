@@ -73,7 +73,7 @@ export default function RepackingUploadButton({ data }: any) {
     try {
       const imageFileUrls = images.map((image: any) => image.fileUrl);
 
-      const response = await fetch(`/api/checkout/${data[0]._id}`, {
+      const response = await fetch(`/api/checkout/${data}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

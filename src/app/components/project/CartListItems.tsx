@@ -17,8 +17,25 @@ import {
   Select,
   MenuItem,
   Pagination, // MUI Pagination 불러오기
+  styled,
+  InputBase,
 } from "@mui/material";
 import Link from "next/link";
+import { StyledTableCell, StyledTableRow } from "./StyledComponents";
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  height: 44,
+  fontSize: 14,
+  width: "100%",
+  maxWidth: 350,
+  fontWeight: 500,
+  padding: "0 1rem",
+  borderRadius: "8px",
+  color: theme.palette.grey[600],
+  backgroundColor: theme.palette.grey[200],
+  [theme.breakpoints.down("sm")]: { maxWidth: "100%" },
+  "::placeholder": { color: theme.palette.text.disabled },
+}));
 
 const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,36 +77,42 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
 
   return (
     <>
-      <div style={{ display: "flex", alignItems: "center", margin: "1.5rem" }}>
-        <FormControl sx={{ width: "120px" }}>
-          <Select
-            value={searchCriteria}
-            onChange={(e) => setSearchCriteria(e.target.value)}
-          >
-            <MenuItem value="cartId">Cart ID</MenuItem>
-            <MenuItem value="status">Status</MenuItem>
-            <MenuItem value="requestId">Request ID</MenuItem>
-          </Select>
-        </FormControl>
-        <TextField
-          label="Search..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          sx={{
-            width: "250px",
-            margin: "1rem",
-          }} // TextField와 간격 조절
-        />
-      </div>
+      <Select
+        value={searchCriteria}
+        onChange={(e) => setSearchCriteria(e.target.value)}
+        sx={{
+          height: 44,
+          fontSize: 14,
+          width: "100%",
+          maxWidth: 120,
+          fontWeight: 500,
+          borderRadius: "8px",
+          margin: "1rem",
+        }}
+        variant="outlined"
+      >
+        <MenuItem value="cartId">Cart ID</MenuItem>
+        <MenuItem value="status">Status</MenuItem>
+        <MenuItem value="requestId">Request ID</MenuItem>
+      </Select>
+
+      <StyledInputBase
+        placeholder="Search..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        sx={{
+          width: "250px",
+        }} // TextField와 간격 조절
+      />
 
       <TableContainer component={Paper}>
         <Table>
-          <TableHead>
+          <TableHead sx={{ backgroundColor: "grey.200" }}>
             <TableRow>
-              <TableCell>Select</TableCell>
-              <TableCell>Cart ID</TableCell>
-              <TableCell>Request ID</TableCell>
-              <TableCell>Status</TableCell>
+              <StyledTableCell>Select</StyledTableCell>
+              <StyledTableCell>Cart ID</StyledTableCell>
+              <StyledTableCell>Request ID</StyledTableCell>
+              <StyledTableCell>Status</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -102,25 +125,43 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
               .map((cartId) => {
                 const cartData = data[cartId][0];
                 const status = cartData.status;
+                const options = cartData.cartOptions;
+                const cart_id = cartData.cart_id;
 
                 return (
                   <TableRow key={cartId}>
-                    <TableCell>
+                    <StyledTableCell
+                      align="left"
+                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                    >
                       <Radio
                         name="selectedCart"
                         checked={selectedCart === cartId}
                         onChange={() => onCartSelect(cartId)}
                       />
-                    </TableCell>
-                    <Link href={`/cart/${cartId}`}>{cartId}</Link>
-                    <TableCell>
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="left"
+                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                    >
+                      <Link href={`/cart/${cartId}`}>{cart_id}</Link>
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="left"
+                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                    >
                       {data[cartId].map((userRequest) => (
                         <div key={userRequest.userRequest._id}>
                           Request ID: {userRequest.userRequest.request_id}
                         </div>
                       ))}
-                    </TableCell>
-                    <TableCell>{status}</TableCell>
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="left"
+                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                    >
+                      {status}
+                    </StyledTableCell>
                   </TableRow>
                 );
               })}

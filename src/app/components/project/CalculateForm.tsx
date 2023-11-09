@@ -4,9 +4,9 @@ import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/navigation";
+import Card1 from "../Card1";
 
 export default function CalculatorForm({ data, selectedCart }: any) {
-  const [result, setResult] = useState("");
   const [repackingPrice, setRepackingPrice] = useState("");
   const [abroadShippingFee, setAbroadShippingFee] = useState("");
 
@@ -33,7 +33,10 @@ export default function CalculatorForm({ data, selectedCart }: any) {
       calculatedResult += num4;
     }
 
-    const requestUrl = `/api/cart/${selectedCart}`;
+    const keys = Object.keys(data);
+    const firstKey = keys[0];
+
+    const requestUrl = `/api/cart/${firstKey}`;
 
     const priceCheckData = {
       submitted_at: new Date().toISOString(),
@@ -55,51 +58,52 @@ export default function CalculatorForm({ data, selectedCart }: any) {
       });
 
       if (response.ok) {
-        setResult("서버에 제출되었습니다.");
-        router.push("/");
+        console.log("success");
+        router.push("/cart");
       } else {
-        setResult("서버 오류 발생");
+        console.log("failed");
       }
     } catch (error) {
-      setResult("서버와 통신 중 오류 발생");
+      console.log("failed");
     }
   };
 
   return (
-    <div>
-      <h1>예상 금액 산정</h1>
-      <form>
-        <div>
-          <TextField
-            label={`Service Price`}
-            variant="outlined"
-            value={repackingPrice}
-            onChange={RepackingPriceChange}
-            style={{ margin: "10px 0" }}
-          />
-        </div>
-        <div>
-          <TextField
-            label={`Abroad Shipping Fee`}
-            variant="outlined"
-            value={abroadShippingFee}
-            onChange={AbroadShippingFeeChange}
-            style={{ margin: "10px 0" }}
-          />
-        </div>
+    <Card1>
+      <div className="flex flex-col items-center justify-start">
+        <h1>Price Calculate</h1>
+        <form>
+          <div>
+            <TextField
+              label={`Service Price`}
+              variant="outlined"
+              value={repackingPrice}
+              onChange={RepackingPriceChange}
+              style={{ margin: "10px 0" }}
+            />
+          </div>
+          <div>
+            <TextField
+              label={`Abroad Shipping Fee`}
+              variant="outlined"
+              value={abroadShippingFee}
+              onChange={AbroadShippingFeeChange}
+              style={{ margin: "10px 0" }}
+            />
+          </div>
 
-        <div>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={calculateAndSubmit}
-            style={{ margin: "10px 0" }}
-          >
-            Submit
-          </Button>
-        </div>
-        <div>{result}</div>
-      </form>
-    </div>
+          <div>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={calculateAndSubmit}
+              style={{ margin: "10px 0" }}
+            >
+              Submit
+            </Button>
+          </div>
+        </form>
+      </div>
+    </Card1>
   );
 }

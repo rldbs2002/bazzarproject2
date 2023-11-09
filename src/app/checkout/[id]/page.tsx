@@ -21,7 +21,12 @@ import { FlexBetween, FlexBox } from "@/app/components/flex-box";
 import { currency } from "@/lib";
 import { notFound } from "next/navigation";
 import ShopLayout2 from "@/app/components/layouts/ShopLayout2";
-import ChecklistForm from "@/app/components/project/ChecklistForm";
+
+import CartForm from "@/app/components/project/CartForm";
+import RepackingUploadButton from "@/app/components/project/RepackingUploadButton";
+import ShippingUploadButton from "@/app/components/project/ShippingUploadButton";
+import ShippingForm from "@/app/components/project/ShippingForm";
+import CheckoutLayer from "@/app/components/project/CheckoutLayer";
 
 // // styled components
 // const StyledFlexbox = styled(FlexBetween)(({ theme }) => ({
@@ -60,13 +65,7 @@ const OrderDetails: NextPage = async ({ params }: any) => {
 
   return (
     <ShopLayout2>
-      {/* ORDERED PRODUCT LIST */}
-
-      <Container sx={{ my: "1.5rem" }}>
-        <ChecklistForm data={data} />
-      </Container>
-
-      {/* SHIPPING AND ORDER SUMMERY */}
+      <CheckoutLayer data={data} />
     </ShopLayout2>
   );
 };

@@ -20,6 +20,9 @@ export const GET = async (request: any) => {
       const price_calculate = cart.price_calculate;
       const status = cart.status;
       const cart_total_price = cart.cart_total_price;
+      const repacking = cart.repacking;
+      const shipping = cart.shipping;
+      const cart_id = cart.cart_id;
 
       for (const item of cart.items) {
         if (item.userRequest) {
@@ -37,6 +40,9 @@ export const GET = async (request: any) => {
               price_calculate,
               status,
               cart_total_price,
+              repacking,
+              shipping,
+              cart_id,
             });
           }
         }
@@ -61,27 +67,61 @@ export const POST = async (request: any) => {
   const requestData = await request.json();
 
   try {
+    // 현재 년도와 날짜를 가져오는 함수 (예: 20230918)
+    const getCurrentYearAndDate = () => {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      return `${year}${month}${day}`;
+    };
+
+    const currentDatePart = getCurrentYearAndDate(); // Get current date part (e.g., 20230918)
+
+    const lastCart = await Cart.findOne(
+      { cart_id: { $regex: `^C${currentDatePart}-` } },
+      {},
+      { sort: { cart_id: -1 } }
+    );
+
+    let newCartId = "0001";
+
+    if (lastCart) {
+      const lastCartId = lastCart.cart_id;
+      const lastNumber = parseInt(lastCartId.substr(10), 11); // Extract the number part after the date
+
+      if (lastNumber < 9999) {
+        newCartId = String(lastNumber + 1).padStart(4, "0");
+      } else {
+        // If it reaches 9999, don't reset, keep it as "9999"
+        newCartId = "9999";
+      }
+    }
+
+    const finalCartId = `C${currentDatePart}-${newCartId}`;
+
     const cartItems = requestData.map((item: any) => {
       return {
         userRequest: item.userRequest,
         add_to_cart: {
-          options: item.add_to_cart.options, // 클라이언트에서 받아온 options 값 유지
+          options: item.add_to_cart.options,
           total_price: item.add_to_cart.total_price,
         },
       };
     });
 
-    // Cart 생성
-    const options = requestData[0].add_to_cart.options; // 클라이언트에서 받아온 options 값 유지
+    // Create a new Cart with the generated Cart ID
+    const options = requestData[0].add_to_cart.options;
 
     const cart = new Cart({
-      user: requestData[0].userRequest.user,
+      cart_id: finalCartId,
       status: 2,
       items: cartItems,
-      options: options, // 클라이언트에서 받아온 options 값을 설정
+      options: options,
     });
 
     await cart.save();
+
     return new NextResponse("항목이 장바구니에 추가되었습니다", {
       status: 200,
     });

@@ -104,13 +104,12 @@ const ChecklistForm: NextPage = ({ data }: any) => {
     <>
       <UserDashboardHeader
         icon={ShoppingBag}
-        title="Order Details"
+        title="Checkout Details"
         navigation={<CustomerDashboardNavigation />}
-        button={HEADER_BUTTON}
       />
 
       {/* ORDER PROGRESS AREA */}
-      <Card sx={{ p: "2rem 1.5rem", mb: "30px" }}>
+      <Card sx={{ p: "2rem 1.5rem", margin: "30px" }}>
         <StyledFlexbox>
           {stepIconList.map((Icon, ind) => (
             <Fragment key={ind}>
@@ -241,15 +240,19 @@ const ChecklistForm: NextPage = ({ data }: any) => {
       </Card>
 
       {/* SHIPPING AND ORDER SUMMERY */}
-      <Grid container spacing={3}>
+      <Grid container spacing={3} style={{ marginBottom: "1rem" }}>
         <Grid item lg={6} md={6} xs={12}>
           <Card sx={{ p: "20px 30px" }}>
             <H5 mt={0} mb={2}>
-              Shipping Address
+              Shipping Info
             </H5>
 
-            <Paragraph fontSize={14} my={0}>
-              {}
+            <Paragraph fontSize={15} my={0}>
+              Company : {data[0].shipping.shipping_carrier}
+            </Paragraph>
+
+            <Paragraph fontSize={15} my={0}>
+              Number : {data[0].shipping.shipping_number}
             </Paragraph>
           </Card>
         </Grid>
@@ -370,16 +373,14 @@ const ChecklistForm: NextPage = ({ data }: any) => {
 
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Card sx={{ padding: 3 }}>
-            {session?.user.role === "admin" && (
-              // 여기에서 'admin' 역할 사용자에게만 표시할 내용 추가
-              <>
-                <RepackingUploadButton data={data} />
-                <ShippingForm data={data} />
-                <ShippingUploadButton data={data} />
-              </>
-            )}
-          </Card>
+          {session?.user.role === "admin" ? (
+            <Card sx={{ padding: 3 }}>
+              {/* 'admin' 역할 사용자에게만 표시할 내용 추가 */}
+              <RepackingUploadButton data={data} />
+              <ShippingForm data={data} />
+              <ShippingUploadButton data={data} />
+            </Card>
+          ) : null}
         </Grid>
       </Grid>
     </>

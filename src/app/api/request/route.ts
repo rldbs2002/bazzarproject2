@@ -52,7 +52,7 @@ export const POST = async (request: any) => {
     const currentDatePart = getCurrentYearAndDate();
 
     const lastUserRequest = await UserRequest.findOne(
-      { request_id: { $regex: `^${currentDatePart}-` } },
+      { request_id: { $regex: `^R${currentDatePart}-` } },
       {},
       { sort: { request_id: -1 } }
     );
@@ -61,7 +61,7 @@ export const POST = async (request: any) => {
 
     if (lastUserRequest) {
       const lastRequestId = lastUserRequest.request_id;
-      const lastNumber = parseInt(lastRequestId.substr(9), 10); // 9 이후의 숫자 부분 추출
+      const lastNumber = parseInt(lastRequestId.substr(10), 11); // 9 이후의 숫자 부분 추출
 
       if (lastNumber < 9999) {
         newRequestId = String(lastNumber + 1).padStart(4, "0");
@@ -71,7 +71,7 @@ export const POST = async (request: any) => {
       }
     }
 
-    const finalRequestId = `${currentDatePart}-${newRequestId}`;
+    const finalRequestId = `R${currentDatePart}-${newRequestId}`;
     // 코드에서 finalRequestId를 사용합니다.
 
     // 서버 스키마에 맞게 데이터를 구성합니다.

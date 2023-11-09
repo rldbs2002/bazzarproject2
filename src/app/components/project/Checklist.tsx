@@ -16,10 +16,28 @@ import {
   Select,
   MenuItem,
   TextField,
+  styled,
+  InputBase,
+  Card,
 } from "@mui/material";
 import Link from "next/link";
+import { StyledTableCell, StyledTableRow } from "./StyledComponents";
 
-const Checklist = ({ data, selectedCart, onCartSelect }: any) => {
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  height: 44,
+  fontSize: 14,
+  width: "100%",
+  maxWidth: 350,
+  fontWeight: 500,
+  padding: "0 1rem",
+  borderRadius: "8px",
+  color: theme.palette.grey[600],
+  backgroundColor: theme.palette.grey[200],
+  [theme.breakpoints.down("sm")]: { maxWidth: "100%" },
+  "::placeholder": { color: theme.palette.text.disabled },
+}));
+
+const Checklist = ({ data }: any) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [searchField, setSearchField] = useState("cartID");
@@ -83,58 +101,62 @@ const Checklist = ({ data, selectedCart, onCartSelect }: any) => {
   );
 
   return (
-    <>
+    <Card sx={{ mb: 4 }}>
       <TableContainer component={Paper} sx={{ minWidth: 900 }}>
-        <FormControl
+        <Select
+          value={searchField}
           variant="outlined"
-          style={{ margin: "1rem", width: "100px" }}
+          onChange={handleSearchFieldChange}
+          sx={{
+            height: 44,
+            fontSize: 14,
+            width: "100%",
+            maxWidth: 100,
+            fontWeight: 500,
+            borderRadius: "8px",
+            margin: "1rem",
+          }}
         >
-          <InputLabel id="search-field-label">Search Field</InputLabel>
-          <Select
-            labelId="search-field-label"
-            id="search-field"
-            value={searchField}
-            onChange={handleSearchFieldChange}
-            label="Search Field"
-          >
-            <MenuItem value="cartID">Cart ID</MenuItem>
-            <MenuItem value="options">Options</MenuItem>
-            <MenuItem value="status">Status</MenuItem>
-          </Select>
-        </FormControl>
+          <MenuItem value="cartID">Cart ID</MenuItem>
+          <MenuItem value="options">Options</MenuItem>
+          <MenuItem value="status">Status</MenuItem>
+        </Select>
 
-        <TextField
-          label={`Search ${searchField}`}
-          variant="outlined"
+        <StyledInputBase
+          placeholder="Search..."
           value={searchValue}
           onChange={handleSearchValueChange}
-          style={{ margin: "1rem", width: "250px" }}
+          style={{ width: "250px" }}
         />
 
         <Table>
-          <TableHead>
+          <TableHead sx={{ backgroundColor: "grey.200" }}>
             <TableRow>
-              <TableCell>Cart ID</TableCell>
-              <TableCell>Options</TableCell>
-              <TableCell>Total Price</TableCell>
-              <TableCell>Status</TableCell>
+              <StyledTableCell>Cart ID</StyledTableCell>
+              <StyledTableCell>Options</StyledTableCell>
+              <StyledTableCell>Status</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {currentPageItems.map((cartId) => {
               const cartData = data[cartId][0];
+              console.log(cartData);
               const status = cartData.status;
+              const cart_id = cartData.cart_id;
 
               if (status >= 4) {
                 return (
-                  <TableRow key={cartId}>
-                    <TableCell>
-                      <Link href={`/checkout/${cartId}`}>{cartId}</Link>
-                    </TableCell>
-                    <TableCell>{cartData.cartOptions}</TableCell>
-                    <TableCell>$ {cartData.cart_total_price}</TableCell>
-                    <TableCell>{status}</TableCell>
-                  </TableRow>
+                  <StyledTableRow key={cartId}>
+                    <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
+                      <Link href={`/checkout/${cartId}`}>{cart_id}</Link>
+                    </StyledTableCell>
+                    <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
+                      {cartData.cartOptions}
+                    </StyledTableCell>
+                    <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
+                      {status}
+                    </StyledTableCell>
+                  </StyledTableRow>
                 );
               }
             })}
@@ -157,7 +179,7 @@ const Checklist = ({ data, selectedCart, onCartSelect }: any) => {
           onChange={handlePageClick}
         />
       </Stack>
-    </>
+    </Card>
   );
 };
 
