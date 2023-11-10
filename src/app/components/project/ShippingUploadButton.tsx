@@ -89,7 +89,7 @@ export default function ShippingUploadButton({ data }: any) {
 
       if (response.ok) {
         console.log("Image file keys sent to the server.");
-        router.push("/");
+        router.push("/checkout");
       } else {
         console.error("Server responded with an error.");
       }

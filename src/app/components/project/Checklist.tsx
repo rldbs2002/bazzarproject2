@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { StyledTableCell, StyledTableRow } from "./StyledComponents";
+import { statusNames } from "@/constants";
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   height: 44,
@@ -154,7 +155,7 @@ const Checklist = ({ data }: any) => {
                       {cartData.cartOptions}
                     </StyledTableCell>
                     <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
-                      {status}
+                      {statusNames[status]}
                     </StyledTableCell>
                   </StyledTableRow>
                 );

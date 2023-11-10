@@ -11,6 +11,7 @@ import { Checkbox } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { statusNames } from "@/constants";
 
 type RefundRequestRowProps = {
   handleCheckboxChange: (itemId: string) => void;
@@ -104,7 +105,7 @@ const RefundRequestRow: FC<RefundRequestRowProps> = ({
       </StyledTableCell>
 
       <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
-        <StatusWrapper status={status}>{status}</StatusWrapper>
+        <StatusWrapper status={status}>{statusNames[status]}</StatusWrapper>
       </StyledTableCell>
 
       <StyledTableCell align="center">

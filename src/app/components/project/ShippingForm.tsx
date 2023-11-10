@@ -2,11 +2,13 @@
 
 import React, { ChangeEvent, useState } from "react";
 import { Button, Checkbox, TextField } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 const ShippingForm = ({ data }: any) => {
   const [shippingCarrier, setShippingCarrier] = useState("");
   const [shippingNumber, setShippingNumber] = useState("");
   const [shippingCompleted, setShippingCompleted] = useState(false);
+  const router = useRouter();
 
   const handleShippingCarrierChange = (e: ChangeEvent<HTMLInputElement>) => {
     setShippingCarrier(e.target.value);
@@ -40,6 +42,7 @@ const ShippingForm = ({ data }: any) => {
       if (response.ok) {
         // 성공적으로 처리된 경우의 로직을 추가하세요.
         console.log("Shipping information submitted successfully");
+        router.push("/checkout");
       } else {
         // 요청이 실패한 경우의 로직을 추가하세요.
         console.error("Failed to submit shipping information");

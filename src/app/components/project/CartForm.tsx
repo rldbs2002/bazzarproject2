@@ -15,6 +15,7 @@ import {
 import { FlexBox } from "../flex-box";
 import { Modal, Backdrop, Fade } from "@mui/material";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
+
 type HeadingProps = { number: number; title: string };
 
 const Heading: FC<HeadingProps> = ({ number, title }) => {
@@ -79,6 +80,9 @@ const CartForm: FC = ({ data }: any) => {
   };
 
   console.log(data);
+
+  // data를 배열로 변환
+  const dataArray = Object.values(data);
 
   return (
     <>
@@ -251,60 +255,50 @@ const CartForm: FC = ({ data }: any) => {
                 )}
               </div>
             ))}
-          </Card1>
-        ))}
-        {Object.keys(data).map((cartId, index) => (
-          <Card1 key={index} sx={{ mb: 4 }}>
-            {data[cartId].map((item, itemIndex) => (
-              <div key={itemIndex}>
-                {/* Repacking 정보 */}
-                {item.repacking && (
-                  <div>
-                    <Typography variant="subtitle1">Repacking Info:</Typography>
-                    {/* Repacking Images */}
-                    {item.repacking.repacking_images && (
-                      <div>
-                        {item.repacking.repacking_images.map(
-                          (image, imageIndex) => (
-                            <div key={imageIndex}>
-                              {/* 클릭 시 모달 열도록 수정 */}
-                              <Button onClick={() => openModal(image)}>
-                                Repacking Image {imageIndex + 1}
-                              </Button>
-                            </div>
-                          )
-                        )}
-                      </div>
-                    )}
-                  </div>
-                )}
 
-                {/* Shipping 정보 */}
-                {item.shipping && (
+            {/* Repacking 정보 */}
+            {data[cartId][0].repacking && data[cartId][0].status >= 6 && (
+              <div className="m-5">
+                <Heading number={3} title={`Repacking Images`} />
+                {/* Repacking Images */}
+                {data[cartId][0].repacking.repacking_images && (
                   <div>
-                    {/* Shipping 정보를 출력하는 코드 작성 */}
-                    {/* Repacking Images */}
-                    {item.shipping.shipping_images && (
-                      <div>
-                        <Typography variant="subtitle2">
-                          Shipping Images:
-                        </Typography>
-                        {item.shipping.shipping_images.map(
-                          (image, imageIndex) => (
-                            <div key={imageIndex}>
-                              {/* 클릭 시 모달 열도록 수정 */}
-                              <Button onClick={() => openModal(image)}>
-                                Shipping Image {imageIndex + 1}
-                              </Button>
-                            </div>
-                          )
-                        )}
-                      </div>
+                    {data[cartId][0].repacking.repacking_images.map(
+                      (image, imageIndex) => (
+                        <div key={imageIndex}>
+                          {/* 클릭 시 모달 열도록 수정 */}
+                          <Button onClick={() => openModal(image)}>
+                            {image}
+                          </Button>
+                        </div>
+                      )
                     )}
                   </div>
                 )}
               </div>
-            ))}
+            )}
+
+            {/* Shipping 정보 */}
+            {data[cartId][0].shipping && data[cartId][0].status >= 7 && (
+              <div className="m-5">
+                <Heading number={4} title={`Shipping Images`} />
+                {/* Shipping Images */}
+                {data[cartId][0].shipping.shipping_images && (
+                  <div>
+                    {data[cartId][0].shipping.shipping_images.map(
+                      (image, imageIndex) => (
+                        <div key={imageIndex}>
+                          {/* 클릭 시 모달 열도록 수정 */}
+                          <Button onClick={() => openModal(image)}>
+                            {image}
+                          </Button>
+                        </div>
+                      )
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
           </Card1>
         ))}
       </Container>
