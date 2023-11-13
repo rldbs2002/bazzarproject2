@@ -7,7 +7,6 @@ import ShopLayout2 from "@/app/components/layouts/ShopLayout2";
 import SEO from "@/app/components/SEO";
 import { NextPage } from "next";
 
-
 async function getData(id: any) {
   const res = await fetch(`http://localhost:3000/api/request/${id}`, {
     cache: "no-store",

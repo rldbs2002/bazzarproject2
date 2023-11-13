@@ -37,36 +37,10 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
 };
 
 // 환율과 날짜를 가져오는 함수
-const getExchangeRateAndDate = async () => {
-  try {
-    const response = await fetch(
-      "https://api.exchangerate-api.com/v4/latest/KRW"
-    );
-    const data = await response.json();
-    const exchangeRate = data.rates.USD.toFixed(5);
-    const currentDate = data.date;
-    return { exchangeRate, currentDate };
-  } catch (error) {
-    console.error("환율 정보 가져오기 실패:", error);
-    return { exchangeRate: "N/A", currentDate: "N/A" };
-  }
-};
 
 const CartForm: FC = ({ data }: any) => {
-  const [currentExchangeRate, setCurrentExchangeRate] = useState("");
-  const [currentDate, setCurrentDate] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedImageUrl, setSelectedImageUrl] = useState("");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const { exchangeRate, currentDate } = await getExchangeRateAndDate();
-      setCurrentExchangeRate(exchangeRate);
-      setCurrentDate(currentDate);
-    };
-
-    fetchData();
-  }, []);
 
   // 모달을 열기 위한 함수
   const openModal = (imageUrl: string) => {
@@ -199,22 +173,6 @@ const CartForm: FC = ({ data }: any) => {
                         </Grid>
                       </Grid>
 
-                      <FlexBox
-                        flexDirection="row"
-                        alignItems="center"
-                        justifyContent="flex-end"
-                      >
-                        <Typography variant="subtitle1">
-                          1 KRW = {currentExchangeRate} USD
-                        </Typography>
-                      </FlexBox>
-                      <FlexBox
-                        flexDirection="row"
-                        alignItems="center"
-                        justifyContent="flex-end"
-                      >
-                        <Typography variant="caption">{currentDate}</Typography>
-                      </FlexBox>
                       <Grid container spacing={2}>
                         <Grid item sm={6} xs={12}>
                           <TextField
@@ -253,13 +211,112 @@ const CartForm: FC = ({ data }: any) => {
                     </div>
                   )
                 )}
+
+                <div style={{ marginTop: "2rem" }}>
+                  <Heading number={3} title="Shipping Address" />
+                  <Grid container spacing={2}>
+                    <Grid item sm={6} xs={12}>
+                      <TextField
+                        name="firstname"
+                        label="First Name"
+                        variant="outlined"
+                        fullWidth
+                        value={
+                          userRequest.userRequest.request_info.arrived_info
+                            .firstname
+                        }
+                        margin="normal"
+                      />
+                      <TextField
+                        name="lastname"
+                        label="Last Name"
+                        variant="outlined"
+                        fullWidth
+                        value={
+                          userRequest.userRequest.request_info.arrived_info
+                            .lastname
+                        }
+                        margin="normal"
+                      />
+
+                      <TextField
+                        name="address"
+                        label="Address"
+                        variant="outlined"
+                        fullWidth
+                        value={
+                          userRequest.userRequest.request_info.arrived_info
+                            .address
+                        }
+                        margin="normal"
+                      />
+
+                      <TextField
+                        label="Country"
+                        margin="normal"
+                        variant="outlined"
+                        fullWidth
+                        value={
+                          userRequest.userRequest.request_info.arrived_info
+                            .country.label
+                        }
+                      />
+                    </Grid>
+
+                    <Grid item sm={6} xs={12}>
+                      <TextField
+                        name="city"
+                        label="City"
+                        variant="outlined"
+                        fullWidth
+                        value={
+                          userRequest.userRequest.request_info.arrived_info.city
+                        }
+                        margin="normal"
+                      />
+                      <TextField
+                        name="state"
+                        label="State"
+                        variant="outlined"
+                        fullWidth
+                        value={
+                          userRequest.userRequest.request_info.arrived_info
+                            .state
+                        }
+                        margin="normal"
+                      />
+                      <TextField
+                        name="postal_code"
+                        label="Postal Code"
+                        variant="outlined"
+                        fullWidth
+                        value={
+                          userRequest.userRequest.request_info.arrived_info
+                            .postal_code
+                        }
+                        margin="normal"
+                      />
+                      <TextField
+                        name="phone"
+                        label="Phone Number"
+                        variant="outlined"
+                        fullWidth
+                        value={
+                          userRequest.userRequest.request_info.arrived_info
+                            .phone
+                        }
+                        margin="normal"
+                      />
+                    </Grid>
+                  </Grid>
+                </div>
               </div>
             ))}
 
             {/* Repacking 정보 */}
             {data[cartId][0].repacking && data[cartId][0].status >= 6 && (
-              <div className="m-5">
-                <Heading number={3} title={`Repacking Images`} />
+              <div className="m-5" style={{ margin: "2rem" }}>
+                <Heading number={4} title={`Repacking Images`} />
                 {/* Repacking Images */}
                 {data[cartId][0].repacking.repacking_images && (
                   <div>
@@ -280,8 +337,8 @@ const CartForm: FC = ({ data }: any) => {
 
             {/* Shipping 정보 */}
             {data[cartId][0].shipping && data[cartId][0].status >= 7 && (
-              <div className="m-5">
-                <Heading number={4} title={`Shipping Images`} />
+              <div className="m-5" style={{ margin: "2rem" }}>
+                <Heading number={5} title={`Shipping Images`} />
                 {/* Shipping Images */}
                 {data[cartId][0].shipping.shipping_images && (
                   <div>
@@ -297,6 +354,20 @@ const CartForm: FC = ({ data }: any) => {
                     )}
                   </div>
                 )}
+
+                {/* Additional Information */}
+                <div style={{ marginTop: "2rem" }}>
+                  <Heading number={6} title={`Additional Information`} />
+                  <div>
+                    <Typography variant="subtitle2">
+                      Carrier: {data[cartId][0].shipping.shipping_carrier}
+                    </Typography>
+                    <Typography variant="subtitle2">
+                      Tracking Number:{" "}
+                      {data[cartId][0].shipping.shipping_number}
+                    </Typography>
+                  </div>
+                </div>
               </div>
             )}
           </Card1>
@@ -304,15 +375,7 @@ const CartForm: FC = ({ data }: any) => {
       </Container>
 
       {/* MUI Modal 컴포넌트 */}
-      <Modal
-        open={!!selectedImage}
-        onClose={closeModal}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
+      <Modal open={!!selectedImage} onClose={closeModal} closeAfterTransition>
         <Fade in={!!selectedImage}>
           <div
             style={{

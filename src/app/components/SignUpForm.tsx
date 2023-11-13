@@ -63,7 +63,7 @@ const SignUpForm = () => {
       });
 
       if (res.status === 201) {
-        router.push("http://localhost:3000/api/auth/signin");
+        router.push("/api/auth/signin");
       } else {
         setError("Something went wrong!");
       }

@@ -18,7 +18,11 @@ const CartItemSchema = new Schema({
 
 const CartSchema = new Schema(
   {
-    cart_id: String,
+    cart_id: {
+      type: String,
+      unique: true, // Set this to true to enforce uniqueness
+      // ... other options ...
+    },
 
     user: {
       type: Schema.Types.ObjectId,

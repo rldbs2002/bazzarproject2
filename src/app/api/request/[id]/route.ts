@@ -43,7 +43,6 @@ export const POST = async (request: any, { params }: any) => {
         items: [cartItem],
         add_to_cart: {
           options: requestData.add_to_cart.options,
-          total_price: requestData.add_to_cart.total_price,
         },
       });
 

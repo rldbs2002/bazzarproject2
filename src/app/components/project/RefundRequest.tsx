@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactElement, FC, useState } from "react";
+import { ReactElement, FC, useState, useEffect } from "react";
 import {
   Box,
   Card,
@@ -104,6 +104,8 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedOption, setSelectedOption] = useState(""); // 선택한 옵션 추가
 
+  console.log(selectedItems);
+
   const [page, setPage] = useState(0); // Add state for page number
   const [rowsPerPage, setRowsPerPage] = useState(10); // Add state for rows per page
 
@@ -113,31 +115,12 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
 
   const handleCheckboxChange = (_id: string) => {
     if (selectedItems.includes(_id)) {
+      // 이미 선택된 아이템을 다시 클릭하면 선택 해제
       setSelectedItems(selectedItems.filter((id) => id !== _id));
     } else {
+      // 선택되지 않은 아이템을 클릭하면 선택 추가
       setSelectedItems([...selectedItems, _id]);
     }
-  };
-
-  const handleOptionClick = (option: string) => {
-    setSelectedOption(option);
-  };
-
-  const getPricePerItem = () => {
-    // 선택한 옵션에 따라 가격 계산 로직 구현
-    if (selectedOption === "ConsoliDate") {
-      return 20; // 한 개당 $20
-    } else if (selectedOption === "Repacking") {
-      return 30; // 한 개당 $30
-    } else {
-      return 0; // 선택한 옵션이 없으면 0
-    }
-  };
-
-  const getTotalPrice = () => {
-    // 선택한 항목 수와 가격을 곱하여 총 가격 계산
-    const pricePerItem = getPricePerItem();
-    return selectedItems.length * pricePerItem;
   };
 
   const handleAddToCart = async () => {
@@ -145,7 +128,6 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
     const requestData = selectedItems.map((itemId) => ({
       add_to_cart: {
         options: selectedOption,
-        total_price: getTotalPrice(),
       },
       userRequest: itemId, // 각 요청의 _id
       status: 2,
@@ -165,6 +147,42 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
         router.push("/cart");
       } else {
         console.error("Error submitting data to cart:", cartResponse.status);
+      }
+    } catch (error) {
+      console.error("Error submitting data:", error);
+    }
+  };
+
+  // 각 항목에 대한 옵션을 가져오는 함수
+  const getOptionForItem = (itemId) => {
+    // 여기에서 itemId에 기반한 옵션을 가져오는 로직을 추가하세요.
+    // 예를 들어, 상수 "Consolidate"를 반환하도록 하거나, 다른 로직을 적용하세요.
+    return "Consolidate";
+  };
+
+  const handleConsolidate = async () => {
+    // 모든 선택한 항목을 requestData 배열에 저장
+    const requestData = selectedItems.map((itemId) => ({
+      userRequest: itemId, // 각 요청의 _id
+      options: getOptionForItem(itemId),
+    }));
+
+    try {
+      const response = await fetch("/api/consolidate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      if (response.status === 200) {
+        // 성공적인 응답을 처리합니다.
+        // 여기서 추가적인 로직을 수행할 수 있습니다.
+        console.log("Consolidate operation successful");
+        router.push("/consolidate");
+      } else {
+        console.error("Error submitting data:", response.status);
       }
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -251,15 +269,15 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
         </Grid>
 
         <Grid container spacing={3}>
-          <Grid item sm={6} xs={12}>
+          <Grid item xs={12}>
             <Divider />
-            <Heading number={2} title="Optional Service" />
+            <Heading number={2} title="Choose Service" />
             <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
               <Button
                 variant="outlined"
                 color="primary"
-                onClick={() => handleOptionClick("ConsoliDate")}
-                disabled={selectedItems.length === 0}
+                onClick={handleConsolidate}
+                disabled={selectedItems.length <= 1}
                 style={{ marginRight: "0.5rem", width: "120px" }}
               >
                 ConsoliDate
@@ -268,65 +286,30 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
               <Button
                 variant="outlined"
                 color="secondary"
-                onClick={() => handleOptionClick("Repacking")}
                 disabled={selectedItems.length !== 1}
                 style={{ marginRight: "0.5rem", width: "120px" }}
               >
                 Repacking
               </Button>
-              <Typography
-                fontSize="13px"
-                style={{ textAlign: "center", marginTop: "2.5rem" }}
-              >
-                *if you do not need Optional Services, add your package directly
-                to the cart
-              </Typography>
-            </div>
-            <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
-              <FlexBox gap={1.5} alignItems="center" mb={3.5}>
-                <Avatar
-                  sx={{
-                    width: 32,
-                    height: 32,
-                    color: "primary.text",
-                    backgroundColor: "primary.main",
-                    margin: "0.8rem",
-                  }}
-                >
-                  3
-                </Avatar>
-                <Typography fontSize="20px">Add to Cart</Typography>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={handleAddToCart}
-                  disabled={selectedItems.length === 0}
-                  style={{ marginLeft: "2rem", width: "130px" }}
-                >
-                  Add To Cart
-                </Button>
-              </FlexBox>
-            </div>
-          </Grid>
 
-          <Grid item sm={6} xs={12}>
-            <Divider />
-            <Typography
-              fontSize="20px"
-              style={{
-                textAlign: "center",
-                marginBottom: "2.5rem",
-                margin: "1rem",
-              }}
-            >
-              Selected Option
-            </Typography>
-            <Typography
-              fontSize="40px"
-              style={{ textAlign: "center", color: "primary", margin: "1rem" }}
-            >
-              {selectedOption}
-            </Typography>
+              <Button
+                variant="outlined"
+                color="primary"
+                disabled={selectedItems.length <= 1}
+                style={{ marginRight: "0.5rem", width: "120px" }}
+              >
+                Shipping
+              </Button>
+
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleAddToCart}
+                style={{ marginLeft: "2rem", width: "130px" }}
+              >
+                Add To Cart
+              </Button>
+            </div>
           </Grid>
         </Grid>
       </Card>

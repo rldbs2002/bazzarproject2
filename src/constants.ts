@@ -1,3 +1,6 @@
+import { FaTruck, FaBox, FaPlane } from "react-icons/fa";
+import { IconType } from "react-icons";
+
 export const statusNames: Record<number, string> = {
   1: "Request Submit",
   2: "Add to Cart",

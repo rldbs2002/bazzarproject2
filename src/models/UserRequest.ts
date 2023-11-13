@@ -39,7 +39,11 @@ const requestSchema = new Schema({
     ref: "User",
   },
 
-  request_id: String,
+  request_id: {
+    type: String,
+    unique: true, // Set this to true to enforce uniqueness
+    // ... other options ...
+  },
 
   status: Number,
   // 0: 임시저장
@@ -72,20 +76,11 @@ const requestSchema = new Schema({
     },
 
     product_list: [productListSchema],
-
-    arrived_info: {
-      firstname: String,
-      lastname: String,
-      country: {},
-      address: String,
-      city: String,
-      state: String,
-      postal_code: String,
-      phone: String,
-    },
   },
 
   request_submitted_at: Date, // "request_submit"의 제출 시간
+
+  options: String,
 
   price_calculate: {
     submitted_at: Date, // 가격 확인이 제출된 시간
@@ -102,16 +97,6 @@ const requestSchema = new Schema({
     arrived_images: [],
     arrived_at: Date,
     arrived_completed: Boolean, // Boolean flag to indicate if the upload is completed
-  },
-  repacking: {
-    repacking_images: [],
-    repacking_at: Date,
-    repacking_completed: Boolean, // Boolean flag to indicate if the upload is completed
-  },
-  shipping: {
-    shipping_images: [],
-    shipping_at: Date,
-    shipping_completed: Boolean, // Boolean flag to indicate if the upload is completed
   },
 });
 

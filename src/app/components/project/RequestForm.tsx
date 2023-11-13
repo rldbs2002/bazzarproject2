@@ -122,14 +122,7 @@ const RequestForm: FC = () => {
     tracking_carrier: yup.string().required("Carrier is required"),
     order_number: yup.string().required("Order Number is required"),
     store: yup.string().required("Merchant / Store is required"),
-    firstname: yup.string().required("First Name is required"),
-    lastname: yup.string().required("Last Name is required"),
-    country: yup.object().required("required"),
-    address: yup.string().required("Address is required"),
-    city: yup.string().required("City is required"),
-    state: yup.string().required("State is required"),
-    postal_code: yup.string().required("Postal Code is required"),
-    phone: yup.string().required("Phone Number is required"),
+
     product_list: yup.array().of(
       yup.object().shape({
         name: yup.string().required("Product Name is required"),
@@ -166,16 +159,7 @@ const RequestForm: FC = () => {
     const requestData = {
       request_info: {
         product_list: values.product_list,
-        arrived_info: {
-          firstname: values.firstname,
-          lastname: values.lastname,
-          country: values.country,
-          address: values.address,
-          city: values.city,
-          state: values.state,
-          postal_code: values.postal_code,
-          phone: values.phone,
-        },
+
         tracking_info: {
           tracking_number: values.tracking_number,
           tracking_carrier: values.tracking_carrier,
@@ -591,127 +575,6 @@ const RequestForm: FC = () => {
                   </>
                 )}
               </FieldArray>
-            </Card1>
-
-            <Card1 sx={{ mb: 4 }}>
-              <Heading number={3} title="Shipping Address" />
-              <Grid container spacing={2}>
-                <Grid item sm={6} xs={12}>
-                  <TextField
-                    name="firstname"
-                    label="First Name"
-                    variant="outlined"
-                    fullWidth
-                    value={values.firstname}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.firstname && !!errors.firstname}
-                    helperText={
-                      (touched.firstname && errors.firstname) as string
-                    }
-                    margin="normal"
-                  />
-                  <TextField
-                    name="lastname"
-                    label="Last Name"
-                    variant="outlined"
-                    fullWidth
-                    value={values.lastname}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.lastname && !!errors.lastname}
-                    helperText={(touched.lastname && errors.lastname) as string}
-                    margin="normal"
-                  />
-
-                  <TextField
-                    name="address"
-                    label="Address"
-                    variant="outlined"
-                    fullWidth
-                    value={values.address}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.address && !!errors.address}
-                    helperText={(touched.address && errors.address) as string}
-                    margin="normal"
-                  />
-
-                  <Autocomplete
-                    fullWidth
-                    options={countryList}
-                    value={values.country}
-                    getOptionLabel={(option) => option.label}
-                    onChange={(_, value) => setFieldValue("country", value)}
-                    renderInput={(params) => (
-                      <TextField
-                        label="Country"
-                        margin="normal"
-                        variant="outlined"
-                        placeholder="Select Country"
-                        error={!!touched.country && !!errors.country}
-                        helperText={
-                          (touched.country && errors.country) as string
-                        }
-                        {...params}
-                      />
-                    )}
-                  />
-                </Grid>
-
-                <Grid item sm={6} xs={12}>
-                  <TextField
-                    name="city"
-                    label="City"
-                    variant="outlined"
-                    fullWidth
-                    value={values.city}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.city && !!errors.city}
-                    helperText={(touched.city && errors.city) as string}
-                    margin="normal"
-                  />
-                  <TextField
-                    name="state"
-                    label="State"
-                    variant="outlined"
-                    fullWidth
-                    value={values.state}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.state && !!errors.state}
-                    helperText={(touched.state && errors.state) as string}
-                    margin="normal"
-                  />
-                  <TextField
-                    name="postal_code"
-                    label="Postal Code"
-                    variant="outlined"
-                    fullWidth
-                    value={values.postal_code}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.postal_code && !!errors.postal_code}
-                    helperText={
-                      (touched.postal_code && errors.postal_code) as string
-                    }
-                    margin="normal"
-                  />
-                  <TextField
-                    name="phone"
-                    label="Phone Number"
-                    variant="outlined"
-                    fullWidth
-                    value={values.phone}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.phone && !!errors.phone}
-                    helperText={(touched.phone && errors.phone) as string}
-                    margin="normal"
-                  />
-                </Grid>
-              </Grid>
             </Card1>
 
             <Grid container spacing={6}>

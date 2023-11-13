@@ -79,16 +79,7 @@ export const POST = async (request: any) => {
       user: user._id, // Link the UserRequest to the user
       request_info: {
         product_list: requestData.request_info.product_list,
-        arrived_info: {
-          firstname: requestData.request_info.arrived_info.firstname,
-          lastname: requestData.request_info.arrived_info.lastname,
-          country: requestData.request_info.arrived_info.country,
-          address: requestData.request_info.arrived_info.address,
-          city: requestData.request_info.arrived_info.city,
-          state: requestData.request_info.arrived_info.state,
-          postal_code: requestData.request_info.arrived_info.postal_code,
-          phone: requestData.request_info.arrived_info.phone,
-        },
+
         tracking_info: {
           tracking_number:
             requestData.request_info.tracking_info.tracking_number,

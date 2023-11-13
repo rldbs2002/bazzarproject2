@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -19,6 +19,9 @@ import {
   styled,
   InputBase,
   Card,
+  Button,
+  ToggleButton,
+  ToggleButtonGroup,
 } from "@mui/material";
 import Link from "next/link";
 import { StyledTableCell, StyledTableRow } from "./StyledComponents";
@@ -43,6 +46,24 @@ const Checklist = ({ data }: any) => {
   const itemsPerPage = 10;
   const [searchField, setSearchField] = useState("cartID");
   const [searchValue, setSearchValue] = useState("");
+  const [alignment, setAlignment] = useState("process"); // 기본값은 'process'로 설정
+
+  const handleAlignmentChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string
+  ) => {
+    setAlignment(newAlignment);
+
+    // Reset search and current page when changing the alignment
+    setSearchValue("");
+    setCurrentPage(1);
+  };
+
+  // Use useEffect to re-render when alignment changes
+  useEffect(() => {
+    // Update the current page items based on the new alignment
+    setCurrentPageItems(getCurrentPageItems());
+  }, [alignment]);
 
   const numPages = Math.ceil(Object.keys(data).length / itemsPerPage);
 
@@ -60,7 +81,7 @@ const Checklist = ({ data }: any) => {
   };
 
   const handleSearchFieldChange = (event) => {
-    setSearchField(event.target.value);
+    setSearchField(event.target.value.toLowerCase()); // 소문자로 변경
   };
 
   const handleSearchValueChange = (event) => {
@@ -73,18 +94,14 @@ const Checklist = ({ data }: any) => {
 
       if (status >= 4) {
         if (
-          searchField.toLowerCase() === "cartid" &&
-          cartId.toLowerCase().includes(value)
+          searchField.toLowerCase() === "cartID" && // 변경: "cartID"를 "cart_id"로 수정
+          cartData.cart_id.toLowerCase().includes(value)
         ) {
           return true;
         } else if (
+          // "status" 삭제
           searchField.toLowerCase() === "options" &&
           cartData.cartOptions.toLowerCase().includes(value)
-        ) {
-          return true;
-        } else if (
-          searchField.toLowerCase() === "status" &&
-          status.toString().toLowerCase().includes(value)
         ) {
           return true;
         }
@@ -104,31 +121,44 @@ const Checklist = ({ data }: any) => {
   return (
     <Card sx={{ mb: 4 }}>
       <TableContainer component={Paper} sx={{ minWidth: 900 }}>
-        <Select
-          value={searchField}
-          variant="outlined"
-          onChange={handleSearchFieldChange}
-          sx={{
-            height: 44,
-            fontSize: 14,
-            width: "100%",
-            maxWidth: 100,
-            fontWeight: 500,
-            borderRadius: "8px",
-            margin: "1rem",
-          }}
-        >
-          <MenuItem value="cartID">Cart ID</MenuItem>
-          <MenuItem value="options">Options</MenuItem>
-          <MenuItem value="status">Status</MenuItem>
-        </Select>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <Select
+            value={searchField.toLowerCase()} // 소문자로 설정
+            variant="outlined"
+            onChange={handleSearchFieldChange}
+            sx={{
+              height: 44,
+              fontSize: 14,
+              width: "100%",
+              maxWidth: 100,
+              fontWeight: 500,
+              borderRadius: "8px",
+              margin: "1rem",
+            }}
+          >
+            <MenuItem value="cartid">Cart ID</MenuItem>
+            <MenuItem value="options">Options</MenuItem>
+          </Select>
 
-        <StyledInputBase
-          placeholder="Search..."
-          value={searchValue}
-          onChange={handleSearchValueChange}
-          style={{ width: "250px" }}
-        />
+          <StyledInputBase
+            placeholder="Search..."
+            value={searchValue}
+            onChange={handleSearchValueChange}
+            style={{ width: "250px", marginRight: "1rem" }}
+          />
+
+          {/* ToggleButtonGroup으로 process과 complete 버튼을 표시합니다. */}
+          <ToggleButtonGroup
+            value={alignment}
+            exclusive
+            onChange={handleAlignmentChange}
+            aria-label="Show Items"
+            sx={{ margin: "1rem", marginLeft: "auto" }}
+          >
+            <ToggleButton value="process">process</ToggleButton>
+            <ToggleButton value="complete">complete</ToggleButton>
+          </ToggleButtonGroup>
+        </div>
 
         <Table>
           <TableHead sx={{ backgroundColor: "grey.200" }}>
@@ -141,11 +171,15 @@ const Checklist = ({ data }: any) => {
           <TableBody>
             {currentPageItems.map((cartId) => {
               const cartData = data[cartId][0];
-              console.log(cartData);
               const status = cartData.status;
               const cart_id = cartData.cart_id;
 
-              if (status >= 4) {
+              // Check the alignment value and show items accordingly
+              if (
+                (!alignment && cartData.status >= 4) ||
+                (alignment === "complete" && status > 4) ||
+                (alignment === "process" && status === 4)
+              ) {
                 return (
                   <StyledTableRow key={cartId}>
                     <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
@@ -160,6 +194,7 @@ const Checklist = ({ data }: any) => {
                   </StyledTableRow>
                 );
               }
+              return null; // Don't render if conditions are not met
             })}
           </TableBody>
         </Table>
