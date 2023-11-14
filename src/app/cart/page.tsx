@@ -14,6 +14,7 @@ async function getData() {
 
 const CartPage = async ({ params }: any) => {
   const data = await getData();
+  console.log(data);
 
   return <Cart data={data} />;
 };

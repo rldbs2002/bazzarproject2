@@ -17,7 +17,7 @@ async function getData() {
 
 const page = async () => {
   const data = await getData();
-  console.log(data);
+  // console.log(data);
 
   // const handleAddToCart = async () => {
   //   // 모든 선택한 항목을 requestData 배열에 저장

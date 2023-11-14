@@ -1,17 +1,7 @@
 import React, { FC } from "react";
-import { FlexBox } from "@/app/components/flex-box";
-import {
-  Avatar,
-  Typography,
-  Grid,
-  Container,
-  TextField,
-  Button,
-} from "@mui/material";
-import Card1 from "@/app/components/Card1";
-import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
-import { useRouter } from "next/navigation";
 import Repacking from "../components/project/Repacking";
+import ShopLayout2 from "../components/layouts/ShopLayout2";
+import SEO from "../components/SEO";
 
 async function getData() {
   const res = await fetch("http://localhost:3000/api/repacking", {
@@ -57,7 +47,13 @@ const page = async () => {
   //   }
   // };
 
-  return <Repacking data={data} />;
+  return (
+    <ShopLayout2>
+      <SEO title="Checkout alternative" />
+
+      <Repacking data={data} />
+    </ShopLayout2>
+  );
 };
 
 export default page;

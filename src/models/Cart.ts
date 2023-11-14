@@ -6,12 +6,6 @@ const CartItemSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "UserRequest", // UserRequest 모델을 참조합니다.
   },
-  add_to_cart: {
-    options: {
-      type: String,
-    },
-    
-  },
 });
 
 const CartSchema = new Schema(
@@ -28,6 +22,17 @@ const CartSchema = new Schema(
     },
     items: [CartItemSchema], // 각각의 CartItem을 배열로 가집니다.
     status: Number,
+
+    arrived_info: {
+      firstname: String,
+      lastname: String,
+      country: {},
+      address: String,
+      city: String,
+      state: String,
+      postal_code: String,
+      phone: String,
+    },
 
     // 2: Add to Cart( before calculated)
     // 3: price calculate (calculated)

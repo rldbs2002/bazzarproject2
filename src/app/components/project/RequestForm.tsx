@@ -12,10 +12,8 @@ import {
   Typography,
   MenuItem,
 } from "@mui/material";
-import countryList from "@/app/data/countryList";
 import * as yup from "yup";
 import { Formik, FieldArray } from "formik";
-import Autocomplete from "@mui/material/Autocomplete";
 import { FlexBox } from "../flex-box";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { useRouter } from "next/navigation";
@@ -95,14 +93,6 @@ const RequestForm: FC = () => {
     tracking_carrier: "",
     order_number: "",
     store: "",
-    firstname: "",
-    lastname: "",
-    country: countryList[229],
-    address: "",
-    city: "",
-    state: "",
-    postal_code: "",
-    phone: "",
     product_list: [
       {
         name: "",

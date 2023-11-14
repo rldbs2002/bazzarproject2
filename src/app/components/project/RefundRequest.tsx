@@ -147,7 +147,7 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
         if (response.status === 200) {
           // 성공적인 응답을 처리합니다
           console.log(`${action} 작업 성공`);
-          router.push("/consolidate"); // 필요한 경우 성공 페이지로 이동합니다
+          router.push(`/${action}`); // 필요한 경우 성공 페이지로 이동합니다
         } else {
           console.error("데이터 제출 오류:", response.status);
         }
@@ -244,6 +244,16 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
               <Button
                 variant="outlined"
                 color="primary"
+                onClick={() => handleAction("shipping")}
+                disabled={selectedItems.length <= 1}
+                style={{ marginRight: "0.5rem", width: "120px" }}
+              >
+                Shipping
+              </Button>
+
+              <Button
+                variant="outlined"
+                color="primary"
                 onClick={() => handleAction("consolidate")}
                 disabled={selectedItems.length <= 1}
                 style={{ marginRight: "0.5rem", width: "120px" }}
@@ -259,16 +269,6 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
                 style={{ marginRight: "0.5rem", width: "120px" }}
               >
                 Repacking
-              </Button>
-
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={() => handleAction("shipping")}
-                disabled={selectedItems.length <= 1}
-                style={{ marginRight: "0.5rem", width: "120px" }}
-              >
-                Shipping
               </Button>
             </div>
           </Grid>

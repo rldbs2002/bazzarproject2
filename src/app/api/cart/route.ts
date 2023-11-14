@@ -100,24 +100,21 @@ export const POST = async (request: any) => {
 
     const finalCartId = `C${currentDatePart}-${newCartId}`;
 
-    const cartItems = requestData.map((item: any) => {
+    const { items, arrived_info, options } = requestData;
+
+    const cartItems = items.map((item: any) => {
       return {
         userRequest: item.userRequest,
-        add_to_cart: {
-          options: item.add_to_cart.options,
-          total_price: item.add_to_cart.total_price,
-        },
       };
     });
 
-    // Create a new Cart with the generated Cart ID
-    const options = requestData[0].add_to_cart.options;
-
+    // 나머지 코드는 동일하게 유지
     const cart = new Cart({
       cart_id: finalCartId,
       status: 2,
       items: cartItems,
-      options: options,
+      arrived_info,
+      options,
     });
 
     await cart.save();

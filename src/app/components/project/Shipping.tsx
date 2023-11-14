@@ -37,7 +37,7 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
   );
 };
 
-const Consolidate = ({ data }: any) => {
+const Shipping = ({ data }: any) => {
   const router = useRouter();
 
   // Add a state variable to track whether the form is being submitted
@@ -85,7 +85,7 @@ const Consolidate = ({ data }: any) => {
         phone: values.phone,
       },
       status: 2,
-      options: "consolidate",
+      options: "shipping",
       items: data.map((item) => ({
         userRequest: item._id,
       })),
@@ -110,37 +110,6 @@ const Consolidate = ({ data }: any) => {
     }
   };
 
-  // const handleAddToCart = async () => {
-  //   // 모든 선택한 항목을 requestData 배열에 저장
-  //   const requestData = selectedItems.map((itemId) => ({
-  //     add_to_cart: {
-  //       options: selectedOption,
-  //       total_price: getTotalPrice(),
-  //     },
-  //     userRequest: itemId, // 각 요청의 _id
-  //     status: 2,
-  //   }));
-
-  //   try {
-  //     const cartResponse = await fetch("/api/cart", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(requestData),
-  //     });
-
-  //     if (cartResponse.status === 200) {
-  //       // 장바구니에 항목을 추가한 성공적인 응답을 처리합니다.
-  //       router.push("/cart");
-  //     } else {
-  //       console.error("Error submitting data to cart:", cartResponse.status);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error submitting data:", error);
-  //   }
-  // };
-
   return (
     <>
       <Grid container spacing={3}>
@@ -150,7 +119,7 @@ const Consolidate = ({ data }: any) => {
               fontSize="40px"
               style={{ textAlign: "left", marginBottom: "1.5rem" }}
             >
-              Consolidate
+              Repacking
             </Typography>
             {data.map((item, index) => (
               <Card1 key={index} sx={{ mb: 4 }}>
@@ -450,4 +419,4 @@ const Consolidate = ({ data }: any) => {
   );
 };
 
-export default Consolidate;
+export default Shipping;
