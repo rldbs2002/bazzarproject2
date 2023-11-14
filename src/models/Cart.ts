@@ -10,9 +10,7 @@ const CartItemSchema = new Schema({
     options: {
       type: String,
     },
-    total_price: {
-      type: Number,
-    },
+    
   },
 });
 

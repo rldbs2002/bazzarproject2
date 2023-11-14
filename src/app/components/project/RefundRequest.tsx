@@ -102,7 +102,7 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
 
   const router = useRouter();
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const [selectedOption, setSelectedOption] = useState(""); // 선택한 옵션 추가
+  const [selectedAction, setSelectedAction] = useState("");
 
   console.log(selectedItems);
 
@@ -123,69 +123,37 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
     }
   };
 
-  const handleAddToCart = async () => {
-    // 모든 선택한 항목을 requestData 배열에 저장
-    const requestData = selectedItems.map((itemId) => ({
-      add_to_cart: {
-        options: selectedOption,
-      },
-      userRequest: itemId, // 각 요청의 _id
-      status: 2,
-    }));
+  const handleAction = async (action: string) => {
+    // 선택된 액션을 설정합니다
+    setSelectedAction(action);
 
-    try {
-      const cartResponse = await fetch("/api/cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      });
+    // 선택된 아이템이 있는 경우에만 액션을 수행합니다
+    if (selectedItems.length > 0) {
+      // 서버로 전송할 데이터를 준비합니다
+      const requestData = selectedItems.map((itemId) => ({
+        options: action,
+        requestId: itemId,
+      }));
 
-      if (cartResponse.status === 200) {
-        // 장바구니에 항목을 추가한 성공적인 응답을 처리합니다.
-        router.push("/cart");
-      } else {
-        console.error("Error submitting data to cart:", cartResponse.status);
+      try {
+        const response = await fetch(`/api/${action}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestData),
+        });
+
+        if (response.status === 200) {
+          // 성공적인 응답을 처리합니다
+          console.log(`${action} 작업 성공`);
+          router.push("/consolidate"); // 필요한 경우 성공 페이지로 이동합니다
+        } else {
+          console.error("데이터 제출 오류:", response.status);
+        }
+      } catch (error) {
+        console.error("데이터 제출 오류:", error);
       }
-    } catch (error) {
-      console.error("Error submitting data:", error);
-    }
-  };
-
-  // 각 항목에 대한 옵션을 가져오는 함수
-  const getOptionForItem = (itemId) => {
-    // 여기에서 itemId에 기반한 옵션을 가져오는 로직을 추가하세요.
-    // 예를 들어, 상수 "Consolidate"를 반환하도록 하거나, 다른 로직을 적용하세요.
-    return "Consolidate";
-  };
-
-  const handleConsolidate = async () => {
-    // 모든 선택한 항목을 requestData 배열에 저장
-    const requestData = selectedItems.map((itemId) => ({
-      userRequest: itemId, // 각 요청의 _id
-      options: getOptionForItem(itemId),
-    }));
-
-    try {
-      const response = await fetch("/api/consolidate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      });
-
-      if (response.status === 200) {
-        // 성공적인 응답을 처리합니다.
-        // 여기서 추가적인 로직을 수행할 수 있습니다.
-        console.log("Consolidate operation successful");
-        router.push("/consolidate");
-      } else {
-        console.error("Error submitting data:", response.status);
-      }
-    } catch (error) {
-      console.error("Error submitting data:", error);
     }
   };
 
@@ -276,16 +244,17 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
               <Button
                 variant="outlined"
                 color="primary"
-                onClick={handleConsolidate}
+                onClick={() => handleAction("consolidate")}
                 disabled={selectedItems.length <= 1}
                 style={{ marginRight: "0.5rem", width: "120px" }}
               >
-                ConsoliDate
+                Consolidate
               </Button>
 
               <Button
                 variant="outlined"
                 color="secondary"
+                onClick={() => handleAction("repacking")}
                 disabled={selectedItems.length !== 1}
                 style={{ marginRight: "0.5rem", width: "120px" }}
               >
@@ -295,19 +264,11 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
               <Button
                 variant="outlined"
                 color="primary"
+                onClick={() => handleAction("shipping")}
                 disabled={selectedItems.length <= 1}
                 style={{ marginRight: "0.5rem", width: "120px" }}
               >
                 Shipping
-              </Button>
-
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={handleAddToCart}
-                style={{ marginLeft: "2rem", width: "130px" }}
-              >
-                Add To Cart
               </Button>
             </div>
           </Grid>

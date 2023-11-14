@@ -1,28 +1,29 @@
-import React, { FC } from "react";
-import { FlexBox } from "@/app/components/flex-box";
-import {
-  Avatar,
-  Typography,
-  Grid,
-  Container,
-  TextField,
-  Button,
-} from "@mui/material";
-import Card1 from "@/app/components/Card1";
-import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
+import React from "react";
+
 import { useRouter } from "next/navigation";
+import Consolidate from "../components/project/Consolidate";
+import ShopLayout2 from "../components/layouts/ShopLayout2";
+import SEO from "../components/SEO";
 
-type HeadingProps = { number: number; title: string };
+async function getData() {
+  const res = await fetch("http://localhost:3000/api/consolidate", {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return res.json();
+}
 
-const Heading: FC<HeadingProps> = ({ number, title }) => {
-  const router = useRouter();
+const page = async () => {
+  const data = await getData();
+  console.log(data);
 
   // const handleAddToCart = async () => {
   //   // 모든 선택한 항목을 requestData 배열에 저장
   //   const requestData = selectedItems.map((itemId) => ({
   //     add_to_cart: {
   //       options: selectedOption,
-  //       total_price: getTotalPrice(),
   //     },
   //     userRequest: itemId, // 각 요청의 _id
   //     status: 2,
@@ -49,226 +50,11 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
   // };
 
   return (
-    <FlexBox gap={1.5} alignItems="center" mb={3.5}>
-      <Avatar
-        sx={{
-          width: 32,
-          height: 32,
-          color: "primary.text",
-          backgroundColor: "primary.main",
-        }}
-      >
-        {number}
-      </Avatar>
-      <Typography fontSize="20px">{title}</Typography>
-    </FlexBox>
-  );
-};
+    <ShopLayout2>
+      <SEO title="Checkout alternative" />
 
-const page = () => {
-  return (
-    <Grid
-      container
-      spacing={3}
-      style={{ position: "relative", overflowY: "auto" }}
-    >
-      <Grid item xs={12}>
-        <Container maxWidth="md">
-          <form>
-            <Card1 sx={{ mb: 4 }}>
-              <Typography
-                fontSize="40px"
-                style={{ textAlign: "left", marginBottom: "1.5rem" }}
-              >
-                New Request
-              </Typography>
-              <Heading number={1} title="Request Form" />
-              <Grid container spacing={2}>
-                <Grid item sm={6} xs={12}>
-                  <TextField
-                    label="Tracking number"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                  />
-                  <TextField
-                    label="Carrier"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                  />
-                </Grid>
-                <Grid item sm={6} xs={12}>
-                  <TextField
-                    label="Order Number"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                  />
-                  <TextField
-                    label="Merchant / Store"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    sx={{ mb: 4 }}
-                  />
-                </Grid>
-              </Grid>
-            </Card1>
-
-            <Card1 sx={{ mb: 4 }}>
-              <Heading number={2} title="Product List" />
-              {data.request_info.product_list.map(
-                (product: any, index: number) => (
-                  <div key={index}>
-                    <Typography variant="h6">ITEM #{index + 1}</Typography>
-                    {index > 0 && (
-                      <div>
-                        <HighlightOffOutlinedIcon
-                          color="primary"
-                          sx={{ cursor: "pointer", marginBottom: "2px" }}
-                        />
-                      </div>
-                    )}
-                    <Grid container spacing={2}>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Product Name"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                        />
-                      </Grid>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Product Type"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                        />
-                      </Grid>
-                    </Grid>
-                    <Typography variant="subtitle2">PRICE / UNIT</Typography>
-                    <Grid container spacing={2}>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Price (KRW)"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                        />
-                      </Grid>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Price (USD)"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                        />
-                      </Grid>
-                    </Grid>
-                    <Grid container spacing={2}>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Product Quantity"
-                          type="number"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                        />
-                      </Grid>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Total Value (USD)"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                        />
-                      </Grid>
-                    </Grid>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12}>
-                        <TextField
-                          label="Product URL"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                        />
-                      </Grid>
-                    </Grid>
-                  </div>
-                )
-              )}
-            </Card1>
-
-            <Card1 sx={{ mb: 4 }}>
-              <Heading number={3} title="Shipping Address" />
-              <Grid container spacing={2}>
-                <Grid item sm={6} xs={12}>
-                  <TextField
-                    label="First Name"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                  />
-                  <TextField
-                    label="Last Name"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                  />
-
-                  <TextField
-                    label="Address"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                  />
-
-                  <TextField label="country" fullWidth margin="normal" />
-                </Grid>
-
-                <Grid item sm={6} xs={12}>
-                  <TextField
-                    label="City"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                  />
-                  <TextField
-                    label="State"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                  />
-                  <TextField
-                    label="Postal Code"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                  />
-                  <TextField
-                    label="Phone Number"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                  />
-                </Grid>
-              </Grid>
-            </Card1>
-          </form>
-
-          <Button
-            variant="outlined"
-            color="primary"
-            /* onClick={handleAddToCart} */
-            style={{ marginLeft: "2rem", width: "130px" }}
-          >
-            Add To Cart
-          </Button>
-        </Container>
-      </Grid>
-    </Grid>
+      <Consolidate data={data} />
+    </ShopLayout2>
   );
 };
 

@@ -7,7 +7,7 @@ export const GET = async (request: any) => {
     await connect();
 
     // User가 소유한 UserRequest를 찾음
-    const userRequests = await UserRequest.find({ options: "Shipping" });
+    const userRequests = await UserRequest.find({ options: "shipping" });
 
     return new NextResponse(JSON.stringify(userRequests), { status: 200 });
   } catch (err) {
@@ -15,29 +15,37 @@ export const GET = async (request: any) => {
   }
 };
 
-export const POST = async (request: any, { params }: any) => {
-  const { id } = params;
-
+export const PUT = async (request: any) => {
   const requestData = await request.json();
 
   try {
-    // 사용자 요청을 찾습니다.
-    const userRequest = await UserRequest.findOne({
-      _id: id, // params.id 대신 id를 사용합니다.
-    });
+    await connect();
 
-    if (!userRequest) {
-      return new NextResponse("User Request not found", {
-        status: 404,
-      });
-    }
+    const updatedRequests = await Promise.all(
+      requestData.map(async (item: any) => {
+        // requestId로 기존 데이터를 찾음
+        const existingRequest = await UserRequest.findOne({
+          _id: item.requestId,
+        });
 
-    userRequest.options = requestData.options;
+        if (!existingRequest) {
+          // 요청한 requestId에 해당하는 데이터가 없으면 새로운 데이터 생성
+          const newRequest = new UserRequest({
+            options: item.options,
+          });
 
-    // 사용자 요청을 저장하고 업데이트된 요청을 반환합니다.
-    await userRequest.save();
-    return new NextResponse("User Request has been updated", {
+          return await newRequest.save();
+        }
+
+        // 이미 존재하는 데이터가 있으면 업데이트
+        existingRequest.options = item.options;
+        return await existingRequest.save();
+      })
+    );
+
+    return new NextResponse({
       status: 200,
+      body: updatedRequests,
     });
   } catch (err: any) {
     return new NextResponse(err.message, {
