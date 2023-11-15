@@ -18,6 +18,7 @@ import Card from "@mui/material/Card";
 import { useSession } from "next-auth/react";
 import ArrivedUploadButton from "./ArrivedUploadButton";
 import { redirect } from "next/navigation";
+import { Modal, Backdrop, Fade } from "@mui/material";
 
 type HeadingProps = { number: number; title: string };
 
@@ -69,6 +70,20 @@ export default function Form({ data }: any) {
   const [formData, setFormData] = useState(data); // data를 초기 데이터로 설정
 
   const [status, setStatus] = useState(1); // 1은 보기 모드, 2는 편집 모드
+
+  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImageUrl, setSelectedImageUrl] = useState("");
+
+  // 모달을 열기 위한 함수
+  const openModal = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
+    setSelectedImageUrl(imageUrl);
+  };
+
+  // 모달을 닫기 위한 함수
+  const closeModal = () => {
+    setSelectedImage("");
+  };
 
   const updateDataOnServer = async (updatedData: any) => {
     try {
@@ -542,7 +557,7 @@ export default function Form({ data }: any) {
 
             {data.status >= 5 && (
               <Card1 sx={{ mb: 4 }}>
-                <Heading number={4} title="Arrived Items" />
+                <Heading number={3} title="Arrived Items" />
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <div
@@ -554,22 +569,11 @@ export default function Form({ data }: any) {
                     >
                       {data.arrived.arrived_images.map(
                         (image: string, index: number) => (
-                          <div
-                            key={index}
-                            style={{
-                              marginRight: "8px",
-                              marginBottom: "8px",
-                              minWidth: "33.33%",
-                            }}
-                          >
-                            <img
-                              src={image}
-                              alt={`Arrived Image ${index}`}
-                              style={{
-                                width: "100%", // 이미지의 가로 크기를 100%로 설정
-                                height: "auto", // 높이를 자동으로 조절하여 비율 유지
-                              }}
-                            />
+                          <div key={index}>
+                            {/* 클릭 시 모달 열도록 수정 */}
+                            <Button onClick={() => openModal(image)}>
+                              {image}
+                            </Button>
                           </div>
                         )
                       )}
@@ -649,6 +653,38 @@ export default function Form({ data }: any) {
           </Grid>
         </Container>
       </Grid>
+
+      {/* MUI Modal 컴포넌트 */}
+      <Modal open={!!selectedImage} onClose={closeModal} closeAfterTransition>
+        <Fade in={!!selectedImage}>
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              maxWidth: "80vw",
+              maxHeight: "80vh",
+              overflow: "auto",
+            }}
+          >
+            <img
+              src={selectedImageUrl}
+              alt="Selected Image"
+              style={{ width: "100%", height: "auto" }}
+            />
+            <HighlightOffOutlinedIcon
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                cursor: "pointer",
+              }}
+              onClick={closeModal}
+            />
+          </div>
+        </Fade>
+      </Modal>
     </Grid>
   );
 }

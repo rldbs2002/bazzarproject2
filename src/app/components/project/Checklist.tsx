@@ -24,8 +24,14 @@ import {
   ToggleButtonGroup,
 } from "@mui/material";
 import Link from "next/link";
-import { StyledTableCell, StyledTableRow } from "./StyledComponents";
+import {
+  StyledTableCell,
+  StyledTableRow,
+  StyledIconButton,
+} from "./StyledComponents";
 import { statusNames } from "@/constants";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   height: 44,
@@ -69,11 +75,14 @@ const Checklist = ({ data }: any) => {
 
   const getCurrentPageItems = () => {
     const cartIds = Object.keys(data);
+    console.log(cartIds);
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
 
-    return cartIds.slice(startIndex, endIndex);
+    return cartIds
+      .sort((a, b) => b.localeCompare(a)) // Sort cartIds in reverse order
+      .slice(startIndex, endIndex);
   };
 
   const handlePageClick = (event, page) => {

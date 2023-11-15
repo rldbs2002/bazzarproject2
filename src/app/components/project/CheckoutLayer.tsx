@@ -27,8 +27,8 @@ const CheckoutLayer = ({ data }: any) => {
       {session?.user.role === "admin" && (
         <Card1>
           <RepackingUploadButton data={firstKey} />
-          <ShippingForm data={firstKey} />
           <ShippingUploadButton data={firstKey} />
+          <ShippingForm data={firstKey} />
         </Card1>
       )}
     </Container>

@@ -19,10 +19,10 @@ export const GET = async (request: any) => {
       const cartOptions = cart.options;
       const price_calculate = cart.price_calculate;
       const status = cart.status;
-      const cart_total_price = cart.cart_total_price;
       const repacking = cart.repacking;
       const shipping = cart.shipping;
       const cart_id = cart.cart_id;
+      const arrived_info = cart.arrived_info;
 
       for (const item of cart.items) {
         if (item.userRequest) {
@@ -37,12 +37,11 @@ export const GET = async (request: any) => {
               cartId,
               userRequest,
               cartOptions,
-              price_calculate,
               status,
-              cart_total_price,
               repacking,
               shipping,
               cart_id,
+              arrived_info,
             });
           }
         }
@@ -125,6 +124,34 @@ export const POST = async (request: any) => {
   } catch (error) {
     console.error("새로운 Cart를 생성하는 중 오류 발생:", error);
     return new NextResponse("새로운 Cart를 생성하는 중 오류 발생", {
+      status: 500,
+    });
+  }
+};
+
+export const DELETE = async (request: any) => {
+  const requestData = await request.json();
+  await connect();
+
+  try {
+    // 사용자 요청을 찾습니다.
+    const cartRequest = await Cart.findOne({
+      cart_id: requestData.cart_id,
+    });
+
+    if (!cartRequest) {
+      return new NextResponse("User Request not found", {
+        status: 404,
+      });
+    }
+
+    // 사용자 요청을 저장하고 업데이트된 요청을 반환합니다.
+    await cartRequest.save();
+    return new NextResponse("User Request has been updated", {
+      status: 200,
+    });
+  } catch (err: any) {
+    return new NextResponse(err.message, {
       status: 500,
     });
   }

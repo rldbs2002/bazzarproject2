@@ -21,7 +21,14 @@ import {
   InputBase,
 } from "@mui/material";
 import Link from "next/link";
-import { StyledTableCell, StyledTableRow } from "./StyledComponents";
+import {
+  StyledTableCell,
+  StyledTableRow,
+  StyledIconButton,
+} from "./StyledComponents";
+import { Delete } from "@mui/icons-material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   height: 44,
@@ -52,27 +59,54 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
 
-    return cartIds.slice(startIndex, endIndex).filter((cartId) => {
-      const cartData = data[cartId][0];
-      const status = cartData.status;
-      const requestId = data[cartId][0].userRequest.request_id;
+    return cartIds
+      .filter((cartId) => {
+        const cartData = data[cartId][0];
+        const status = cartData.status;
+        const requestId = data[cartId][0].userRequest.request_id;
 
-      if (status === 2 || status === 3) {
-        // status가 2 또는 3인 경우에만 반환
-        if (searchCriteria === "status") {
-          return status.toString().includes(searchTerm);
-        } else if (searchCriteria === "requestId") {
-          return requestId.includes(searchTerm);
-        } else {
-          return cartId.toLowerCase().includes(searchTerm.toLowerCase());
+        if (status === 2 || status === 3 || status === 5) {
+          // status가 2 또는 3인 경우에만 반환
+          if (searchCriteria === "status") {
+            return status.toString().includes(searchTerm);
+          } else if (searchCriteria === "requestId") {
+            return requestId.includes(searchTerm);
+          } else {
+            return cartId.toLowerCase().includes(searchTerm.toLowerCase());
+          }
         }
-      }
-      return false; // status가 2 또는 3이 아닌 경우는 필터링
-    });
+        return false; // status가 2 또는 3이 아닌 경우는 필터링
+      })
+      .sort((a, b) => b.localeCompare(a)) // Sort cartIds in reverse order
+      .slice(startIndex, endIndex);
   };
 
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
+  };
+
+  const [isDeleted, setIsDeleted] = useState(false);
+
+  const handleDeleteClick = () => {
+    if (window.confirm("정말로 삭제하시겠습니까?")) {
+      // 서버에 DELETE 요청을 보냅니다.
+      fetch(`/api/cart/`, {
+        method: "DELETE",
+      })
+        .then((response) => {
+          if (response.ok) {
+            // 삭제 성공 시 Toastify 메시지를 표시하고 페이지를 리로드합니다.
+            toast.success("요청이 성공적으로 삭제되었습니다.");
+            setIsDeleted(true);
+          } else {
+            // 삭제 실패
+            console.error("요청 삭제에 실패했습니다.");
+          }
+        })
+        .catch((error) => {
+          console.error("요청 삭제 중 오류 발생: ", error);
+        });
+    }
   };
 
   return (
@@ -109,10 +143,10 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
         <Table>
           <TableHead sx={{ backgroundColor: "grey.200" }}>
             <TableRow>
-              <StyledTableCell>Select</StyledTableCell>
               <StyledTableCell>Cart ID</StyledTableCell>
               <StyledTableCell>Request ID</StyledTableCell>
               <StyledTableCell>Status</StyledTableCell>
+              <StyledTableCell>Actions</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -120,7 +154,7 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
               .filter((cartId) => {
                 const cartData = data[cartId][0];
                 const status = cartData.status;
-                return status === 2 || status === 3;
+                return status === 2 || status === 3 || status === 5;
               })
               .map((cartId) => {
                 const cartData = data[cartId][0];
@@ -130,16 +164,6 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
 
                 return (
                   <TableRow key={cartId}>
-                    <StyledTableCell
-                      align="left"
-                      sx={{ fontWeight: 400, cursor: "pointer" }}
-                    >
-                      <Radio
-                        name="selectedCart"
-                        checked={selectedCart === cartId}
-                        onChange={() => onCartSelect(cartId)}
-                      />
-                    </StyledTableCell>
                     <StyledTableCell
                       align="left"
                       sx={{ fontWeight: 400, cursor: "pointer" }}
@@ -162,6 +186,14 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
                     >
                       {status}
                     </StyledTableCell>
+                    <StyledTableCell
+                      align="left"
+                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                    >
+                      <StyledIconButton>
+                        <Delete onClick={handleDeleteClick} />
+                      </StyledIconButton>
+                    </StyledTableCell>
                   </TableRow>
                 );
               })}
@@ -171,7 +203,7 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
       {getCurrentPageItems().filter((cartId) => {
         const cartData = data[cartId][0];
         const status = cartData.status;
-        return status === 2 || status === 3;
+        return status === 2 || status === 3 || status === 5;
       }).length === 0 && (
         <div style={{ textAlign: "center", margin: "1rem" }}>
           Cart Data is Empty

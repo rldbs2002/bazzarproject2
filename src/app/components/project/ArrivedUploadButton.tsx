@@ -72,7 +72,7 @@ export default function ArrivedUploadButton({ data }: any) {
     try {
       const imageFileUrls = images.map((image: any) => image.fileUrl);
 
-      const response = await fetch(`/api/request/${data._id}`, {
+      const response = await fetch(`/api/checkout/${data}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -89,7 +89,7 @@ export default function ArrivedUploadButton({ data }: any) {
 
       if (response.ok) {
         console.log("Image file keys sent to the server.");
-        router.push("/");
+        router.push("/cart");
       } else {
         console.error("Server responded with an error.");
       }

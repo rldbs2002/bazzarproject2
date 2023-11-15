@@ -136,19 +136,17 @@ const Cart: NextPage = ({ data }: any) => {
       <Container sx={{ my: "1.5rem" }}>
         <Grid container spacing={3}>
           {/* CART PRODUCT LIST */}
-          <Grid item md={8} xs={12}>
+          <Grid  xs={12}>
             <Card sx={{ mb: 4 }}>
               <CartListItems
                 data={data}
                 session={session}
-                selectedCart={selectedCart}
-                onCartSelect={handleCartSelect}
               />
             </Card>
           </Grid>
 
           {/* CHECKOUT FORM */}
-          <Grid item md={4} xs={12}>
+          {/* <Grid item md={4} xs={12}>
             <Card sx={{ padding: 3 }}>
               <FlexBetween mb={2}>
                 <Span color="grey.600">Product Price:</Span>
@@ -171,7 +169,7 @@ const Cart: NextPage = ({ data }: any) => {
                 </Span>
               </FlexBetween>
 
-              {/* Confirmation Checkbox */}
+              
               <label>
                 <input
                   type="checkbox"
@@ -180,8 +178,6 @@ const Cart: NextPage = ({ data }: any) => {
                 />
                 Confirm Price
               </label>
-
-              {/* Checkout Button */}
 
               <Button
                 fullWidth
@@ -196,7 +192,7 @@ const Cart: NextPage = ({ data }: any) => {
                 Checkout Now
               </Button>
             </Card>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </ShopLayout2>

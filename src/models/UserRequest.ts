@@ -92,12 +92,6 @@ const requestSchema = new Schema({
   user_confirm: {
     submitted_at: Date, // 사용자의 가격 동의가 제출된 시간
   },
-
-  arrived: {
-    arrived_images: [],
-    arrived_at: Date,
-    arrived_completed: Boolean, // Boolean flag to indicate if the upload is completed
-  },
 });
 
 export default mongoose.models.UserRequest ||

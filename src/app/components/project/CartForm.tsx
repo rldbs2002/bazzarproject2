@@ -15,6 +15,7 @@ import {
 import { FlexBox } from "../flex-box";
 import { Modal, Backdrop, Fade } from "@mui/material";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
+import { useRouter } from "next/navigation";
 
 type HeadingProps = { number: number; title: string };
 
@@ -39,8 +40,92 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
 // 환율과 날짜를 가져오는 함수
 
 const CartForm: FC = ({ data }: any) => {
+  const router = useRouter();
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedImageUrl, setSelectedImageUrl] = useState("");
+
+  const [productPrice, setProductPrice] = useState(0); // Store the product price
+  const [cartTotalValue, setCartTotalValue] = useState(0); // Store the cart total value
+  const [cartTotalPrice, setCartTotalPrice] = useState(0); // Store the cart total price
+
+  // Add a state variable to track whether the form is being submitted
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [isPriceConfirm, setIsPriceConfirm] = useState(false); // Add state for confirmation checkbox
+
+  // Calculate the product price, cart total value, and cart total price when a different cart is selected
+  const calculateTotalPrice = (cartId: string) => {
+    let productPrice = 0;
+    let cartTotalValue = 0;
+    let cartTotalPrice = 0;
+
+    const cartData = data[cartId];
+
+    // Calculate the totalValueUSD for each userRequest and sum them up for product price and cart total value
+    const userRequestTotal = cartData.reduce((total, userRequest) => {
+      const product_list =
+        userRequest.userRequest.request_info.product_list || [];
+
+      return (
+        total +
+        product_list.reduce((subtotal, product) => {
+          return subtotal + (product.totalValueUSD || 0);
+        }, 0)
+      );
+    }, 0);
+
+    const hasCartTotalValue = cartData[0] && cartData[0].price_calculate;
+
+    if (hasCartTotalValue) {
+      cartTotalValue = hasCartTotalValue.total_price || 0;
+    }
+
+    productPrice = userRequestTotal;
+    cartTotalPrice = productPrice + cartTotalValue;
+
+    setProductPrice(productPrice);
+    setCartTotalValue(cartTotalValue);
+    setCartTotalPrice(cartTotalPrice);
+  };
+
+  const handleFormSubmit = async (values: any) => {
+    if (isSubmitting || !isPriceConfirm) {
+      return; // If the form is already being submitted, exit early
+    }
+
+    setIsSubmitting(true);
+
+    const requestData = {
+      cart_total_price: cartTotalPrice,
+      status: 4,
+      price_confirm: isPriceConfirm,
+    };
+
+    try {
+      // Add a check for confirmation before submitting
+      if (isPriceConfirm) {
+        const response = await fetch(`/api/cart/`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestData),
+        });
+
+        if (response.status === 200) {
+          // Redirect as needed based on server response
+          router.push("/checkout");
+        }
+      } else {
+        // Handle case where user hasn't confirmed
+        console.log("Please confirm before checking out.");
+      }
+    } catch (error) {
+      console.error("Error submitting data:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   // 모달을 열기 위한 함수
   const openModal = (imageUrl: string) => {
@@ -53,8 +138,6 @@ const CartForm: FC = ({ data }: any) => {
     setSelectedImage("");
   };
 
-  console.log(data);
-
   // data를 배열로 변환
   const dataArray = Object.values(data);
 
@@ -63,19 +146,15 @@ const CartForm: FC = ({ data }: any) => {
       <Container maxWidth="md">
         {Object.keys(data).map((cartId, index) => (
           <Card1 key={index} sx={{ mb: 4 }}>
-            <Typography
-              fontSize="40px"
-              style={{ textAlign: "left", marginBottom: "1.5rem" }}
-            >
-              Request Lists
-            </Typography>
-
             {data[cartId].map((userRequest, userRequestIndex) => (
               <div key={userRequestIndex} style={{ margin: "2rem" }}>
-                <Heading
-                  number={1}
-                  title={`Request ID: #${userRequest.userRequest.request_id}`}
-                />
+                <Typography
+                  fontSize="40px"
+                  style={{ textAlign: "left", marginBottom: "1.5rem" }}
+                >
+                  {userRequest.userRequest.request_id}
+                </Typography>
+                <Heading number={1} title={`Tracking Info`} />
                 <Grid container spacing={2}>
                   <Grid item sm={6} xs={12}>
                     <TextField
@@ -211,112 +290,111 @@ const CartForm: FC = ({ data }: any) => {
                     </div>
                   )
                 )}
-
-                <div style={{ marginTop: "2rem" }}>
-                  <Heading number={3} title="Shipping Address" />
-                  <Grid container spacing={2}>
-                    <Grid item sm={6} xs={12}>
-                      <TextField
-                        name="firstname"
-                        label="First Name"
-                        variant="outlined"
-                        fullWidth
-                        value={
-                          userRequest.userRequest.request_info.arrived_info
-                            .firstname
-                        }
-                        margin="normal"
-                      />
-                      <TextField
-                        name="lastname"
-                        label="Last Name"
-                        variant="outlined"
-                        fullWidth
-                        value={
-                          userRequest.userRequest.request_info.arrived_info
-                            .lastname
-                        }
-                        margin="normal"
-                      />
-
-                      <TextField
-                        name="address"
-                        label="Address"
-                        variant="outlined"
-                        fullWidth
-                        value={
-                          userRequest.userRequest.request_info.arrived_info
-                            .address
-                        }
-                        margin="normal"
-                      />
-
-                      <TextField
-                        label="Country"
-                        margin="normal"
-                        variant="outlined"
-                        fullWidth
-                        value={
-                          userRequest.userRequest.request_info.arrived_info
-                            .country.label
-                        }
-                      />
-                    </Grid>
-
-                    <Grid item sm={6} xs={12}>
-                      <TextField
-                        name="city"
-                        label="City"
-                        variant="outlined"
-                        fullWidth
-                        value={
-                          userRequest.userRequest.request_info.arrived_info.city
-                        }
-                        margin="normal"
-                      />
-                      <TextField
-                        name="state"
-                        label="State"
-                        variant="outlined"
-                        fullWidth
-                        value={
-                          userRequest.userRequest.request_info.arrived_info
-                            .state
-                        }
-                        margin="normal"
-                      />
-                      <TextField
-                        name="postal_code"
-                        label="Postal Code"
-                        variant="outlined"
-                        fullWidth
-                        value={
-                          userRequest.userRequest.request_info.arrived_info
-                            .postal_code
-                        }
-                        margin="normal"
-                      />
-                      <TextField
-                        name="phone"
-                        label="Phone Number"
-                        variant="outlined"
-                        fullWidth
-                        value={
-                          userRequest.userRequest.request_info.arrived_info
-                            .phone
-                        }
-                        margin="normal"
-                      />
-                    </Grid>
-                  </Grid>
-                </div>
               </div>
             ))}
+
+            <div className="m-5" style={{ margin: "2rem" }}>
+              <Heading number={3} title="Shipping Address" />
+              <Grid container spacing={2}>
+                <Grid item sm={6} xs={12}>
+                  <TextField
+                    name="firstname"
+                    label="First Name"
+                    variant="outlined"
+                    fullWidth
+                    value={data[cartId][0].arrived_info.firstname}
+                    margin="normal"
+                  />
+                  <TextField
+                    name="lastname"
+                    label="Last Name"
+                    variant="outlined"
+                    fullWidth
+                    value={data[cartId][0].arrived_info.lastname}
+                    margin="normal"
+                  />
+
+                  <TextField
+                    name="address"
+                    label="Address"
+                    variant="outlined"
+                    fullWidth
+                    value={data[cartId][0].arrived_info.address}
+                    margin="normal"
+                  />
+
+                  <TextField
+                    label="Country"
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                    value={data[cartId][0].arrived_info.country.label}
+                  />
+                </Grid>
+
+                <Grid item sm={6} xs={12}>
+                  <TextField
+                    name="city"
+                    label="City"
+                    variant="outlined"
+                    fullWidth
+                    value={data[cartId][0].arrived_info.city}
+                    margin="normal"
+                  />
+                  <TextField
+                    name="state"
+                    label="State"
+                    variant="outlined"
+                    fullWidth
+                    value={data[cartId][0].arrived_info.state}
+                    margin="normal"
+                  />
+                  <TextField
+                    name="postal_code"
+                    label="Postal Code"
+                    variant="outlined"
+                    fullWidth
+                    value={data[cartId][0].arrived_info.postal_code}
+                    margin="normal"
+                  />
+                  <TextField
+                    name="phone"
+                    label="Phone Number"
+                    variant="outlined"
+                    fullWidth
+                    value={data[cartId][0].arrived_info.phone}
+                    margin="normal"
+                  />
+                </Grid>
+              </Grid>
+            </div>
+
+            {/* Arrived 정보 */}
+            {data[cartId][0].arrived && data[cartId][0].status >= 4 && (
+              <div className="m-5" style={{ margin: "2rem" }}>
+                <Heading number={4} title={`arrived Images`} />
+                {/* Arrived Images */}
+                {data[cartId][0].arrived.arrived_images && (
+                  <div>
+                    {data[cartId][0].arrived.arrived_images.map(
+                      (image, imageIndex) => (
+                        <div key={imageIndex}>
+                          {/* 클릭 시 모달 열도록 수정 */}
+                          <Button onClick={() => openModal(image)}>
+                            {image}
+                          </Button>
+                        </div>
+                      )
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Repacking 정보 */}
             {data[cartId][0].repacking && data[cartId][0].status >= 6 && (
               <div className="m-5" style={{ margin: "2rem" }}>
-                <Heading number={4} title={`Repacking Images`} />
+                <Heading number={5} title={`Repacking Images`} />
                 {/* Repacking Images */}
                 {data[cartId][0].repacking.repacking_images && (
                   <div>
@@ -338,7 +416,7 @@ const CartForm: FC = ({ data }: any) => {
             {/* Shipping 정보 */}
             {data[cartId][0].shipping && data[cartId][0].status >= 7 && (
               <div className="m-5" style={{ margin: "2rem" }}>
-                <Heading number={5} title={`Shipping Images`} />
+                <Heading number={6} title={`Shipping Images`} />
                 {/* Shipping Images */}
                 {data[cartId][0].shipping.shipping_images && (
                   <div>
@@ -357,7 +435,7 @@ const CartForm: FC = ({ data }: any) => {
 
                 {/* Additional Information */}
                 <div style={{ marginTop: "2rem" }}>
-                  <Heading number={6} title={`Additional Information`} />
+                  <Heading number={7} title={`Additional Information`} />
                   <div>
                     <Typography variant="subtitle2">
                       Carrier: {data[cartId][0].shipping.shipping_carrier}

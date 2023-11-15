@@ -23,6 +23,8 @@ export const GET = async (request: any) => {
       const status = cart.status;
       const repacking = cart.repacking;
       const shipping = cart.shipping;
+      const arrived_info = cart.arrived_info;
+      const arrived = cart.arrived;
 
       for (const item of cart.items) {
         if (item.userRequest) {
@@ -41,6 +43,8 @@ export const GET = async (request: any) => {
               status,
               repacking,
               shipping,
+              arrived_info,
+              arrived,
             });
           }
         }
@@ -76,6 +80,30 @@ export const PUT = async (request: any, { params }: any) => {
       return new NextResponse("User Request not found", {
         status: 404,
       });
+    }
+
+    // Extract and update arrived images
+    const { arrived } = requestData;
+
+    if (
+      arrived &&
+      arrived.arrived_images &&
+      arrived.arrived_images.length > 0
+    ) {
+      // Initialize the arrived images array if it's not already initialized
+      if (!cartRequest.arrived.arrived_images) {
+        cartRequest.arrived.arrived_images = [];
+      }
+
+      // Add the imageFileUrls to the arrived images array
+      cartRequest.arrived.arrived_images.push(...arrived.arrived_images);
+
+      // Update 'arrived_at' if it's available in the arrived object
+      if (arrived.arrived_at) {
+        cartRequest.arrived.arrived_at = new Date(arrived.arrived_at);
+      }
+      // Update status to 5
+      cartRequest.status = 5;
     }
 
     // Extract and update repacking images

@@ -8,7 +8,7 @@ export const GET = async (request: any) => {
     await connect();
 
     const cartId = new URL(request.url).pathname.replace("/api/cart/", "");
-    console.log(cartId);
+
     // 1. 먼저 모든 Cart 데이터를 가져옵니다.
     const cartData = await Cart.find({ _id: cartId });
 
@@ -21,6 +21,8 @@ export const GET = async (request: any) => {
       const cartOptions = cart.options;
       const price_calculate = cart.price_calculate;
       const status = cart.status;
+      const arrived_info = cart.arrived_info;
+      const arrived = cart.arrived;
 
       for (const item of cart.items) {
         if (item.userRequest) {
@@ -37,6 +39,8 @@ export const GET = async (request: any) => {
               cartOptions,
               price_calculate,
               status,
+              arrived_info,
+              arrived,
             });
           }
         }
@@ -106,5 +110,16 @@ export const PUT = async (request: any, { params }: any) => {
     return new NextResponse(err.message, {
       status: 500,
     });
+  }
+};
+
+export const DELETE = async (request: any, { params }: any) => {
+  const { id } = params;
+  try {
+    await connect();
+    await Cart.findByIdAndDelete(id);
+    return new NextResponse("Post has been deleted", { status: 200 });
+  } catch (err) {
+    return new NextResponse("Database Error", { status: 500 });
   }
 };

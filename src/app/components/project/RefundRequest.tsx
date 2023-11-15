@@ -18,6 +18,8 @@ import {
   MenuItem,
   InputBase,
   styled,
+  TableRow,
+  TableCell,
 } from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import TableHeader from "../data-table/TableHeader";
@@ -103,8 +105,6 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
   const router = useRouter();
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedAction, setSelectedAction] = useState("");
-
-  console.log(selectedItems);
 
   const [page, setPage] = useState(0); // Add state for page number
   const [rowsPerPage, setRowsPerPage] = useState(10); // Add state for rows per page
@@ -209,16 +209,30 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
                   onRequestSort={handleRequestSort}
                 />
                 <TableBody>
-                  {filteredData
-                    .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-                    .map((request: any, index: any) => (
-                      <RefundRequestRow
-                        data={request}
-                        key={index}
-                        handleCheckboxChange={handleCheckboxChange}
-                        isSelected={selectedItems.includes(request._id)}
-                      />
-                    ))}
+                  {filteredData.length === 0 ||
+                  !filteredData.some((item) => item.options) ? (
+                    <TableRow>
+                      <TableCell
+                        colSpan={tableHeading.length + 1}
+                        align="center"
+                      >
+                        Data가 없습니다.
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    filteredData
+                      .filter((item) => !item.options) // options가 없는 항목만 필터링
+                      .sort((a, b) => b.request_id.localeCompare(a.request_id)) // Sort by request_id in descending order
+                      .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+                      .map((request: any, index: any) => (
+                        <RefundRequestRow
+                          data={request}
+                          key={index}
+                          handleCheckboxChange={handleCheckboxChange}
+                          isSelected={selectedItems.includes(request._id)}
+                        />
+                      ))
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>

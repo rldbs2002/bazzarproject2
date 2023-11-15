@@ -53,6 +53,12 @@ const CartSchema = new Schema(
       abroad_shipping_fee: Number,
       total_price: Number, //
     },
+    arrived: {
+      arrived_images: [],
+      arrived_at: Date,
+      arrived_completed: Boolean, // Boolean flag to indicate if the upload is completed
+    },
+
     repacking: {
       repacking_images: [],
       repacking_at: Date,
