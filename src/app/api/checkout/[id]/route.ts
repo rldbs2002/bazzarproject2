@@ -102,8 +102,8 @@ export const PUT = async (request: any, { params }: any) => {
       if (arrived.arrived_at) {
         cartRequest.arrived.arrived_at = new Date(arrived.arrived_at);
       }
-      // Update status to 5
-      cartRequest.status = 5;
+      // Update status to 3
+      cartRequest.status = 3;
     }
 
     // Extract and update repacking images

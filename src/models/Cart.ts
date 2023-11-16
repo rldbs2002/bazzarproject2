@@ -34,11 +34,13 @@ const CartSchema = new Schema(
       phone: String,
     },
 
+    // 1: Request submit
     // 2: Add to Cart( before calculated)
-    // 3: price calculate (calculated)
+    // 3: arrived image
+    // 4: price calculate (calculated)
     // ---yes or no----
-    // 4: check out ( yes )
-    // 5: arrived
+    // 5: check out ( yes )
+
     // 6. repacking
     // 7: shipping
     // 8: end

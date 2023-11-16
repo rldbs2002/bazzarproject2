@@ -10,25 +10,22 @@ import {
   TableRow,
   Paper,
   Stack,
-  Radio,
-  TextField,
-  FormControl,
-  InputLabel,
   Select,
   MenuItem,
   Pagination, // MUI Pagination 불러오기
   styled,
   InputBase,
+  Button,
 } from "@mui/material";
 import Link from "next/link";
-import {
-  StyledTableCell,
-  StyledTableRow,
-  StyledIconButton,
-} from "./StyledComponents";
+import { StyledTableCell, StyledIconButton } from "./StyledComponents";
 import { Delete } from "@mui/icons-material";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import { useRouter } from "next/navigation";
+import { statusNames } from "@/constants";
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   height: 44,
@@ -45,17 +42,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState(""); // 검색어 상태 추가
-  const [searchCriteria, setSearchCriteria] = useState("cartId"); // "status" 또는 "requestId" 중 하나로 초기화
-  const itemsPerPage = 10; // 한 페이지에 보여줄 아이템 수
+  const router = useRouter();
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchCriteria, setSearchCriteria] = useState("cartId");
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState(null);
+
+  const itemsPerPage = 10;
   const numPages = Math.ceil(Object.keys(data).length / itemsPerPage);
 
-  // 현재 페이지에 해당하는 아이템을 가져오는 함수
   const getCurrentPageItems = () => {
     const cartIds = Object.keys(data);
-
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
 
@@ -65,8 +64,7 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
         const status = cartData.status;
         const requestId = data[cartId][0].userRequest.request_id;
 
-        if (status === 2 || status === 3 || status === 5) {
-          // status가 2 또는 3인 경우에만 반환
+        if (status === 2 || status === 3 || status === 4) {
           if (searchCriteria === "status") {
             return status.toString().includes(searchTerm);
           } else if (searchCriteria === "requestId") {
@@ -75,9 +73,9 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
             return cartId.toLowerCase().includes(searchTerm.toLowerCase());
           }
         }
-        return false; // status가 2 또는 3이 아닌 경우는 필터링
+        return false;
       })
-      .sort((a, b) => b.localeCompare(a)) // Sort cartIds in reverse order
+      .sort((a, b) => b.localeCompare(a))
       .slice(startIndex, endIndex);
   };
 
@@ -85,28 +83,35 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
     setCurrentPage(newPage);
   };
 
-  const [isDeleted, setIsDeleted] = useState(false);
+  const handleDeleteClick = (cartId: string) => {
+    setDeleteTarget(cartId);
+    setDeleteModalOpen(true);
+  };
 
-  const handleDeleteClick = () => {
-    if (window.confirm("정말로 삭제하시겠습니까?")) {
-      // 서버에 DELETE 요청을 보냅니다.
-      fetch(`/api/cart/`, {
-        method: "DELETE",
+  const handleDeleteConfirm = () => {
+    const cartId = deleteTarget;
+    // 서버에 DELETE 요청을 보냅니다.
+    fetch(`/api/cart/${cartId}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (response.ok) {
+          // 삭제 성공 시 다른 로직을 추가할 수 있습니다.
+          router.push("/cart");
+        } else {
+          // 삭제 실패 시 다른 로직을 추가할 수 있습니다.
+        }
       })
-        .then((response) => {
-          if (response.ok) {
-            // 삭제 성공 시 Toastify 메시지를 표시하고 페이지를 리로드합니다.
-            toast.success("요청이 성공적으로 삭제되었습니다.");
-            setIsDeleted(true);
-          } else {
-            // 삭제 실패
-            console.error("요청 삭제에 실패했습니다.");
-          }
-        })
-        .catch((error) => {
-          console.error("요청 삭제 중 오류 발생: ", error);
-        });
-    }
+      .catch((error) => {
+        console.error("요청 삭제 중 오류 발생: ", error);
+      })
+      .finally(() => {
+        setDeleteModalOpen(false);
+      });
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteModalOpen(false);
   };
 
   return (
@@ -136,7 +141,7 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
         onChange={(e) => setSearchTerm(e.target.value)}
         sx={{
           width: "250px",
-        }} // TextField와 간격 조절
+        }}
       />
 
       <TableContainer component={Paper}>
@@ -154,12 +159,11 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
               .filter((cartId) => {
                 const cartData = data[cartId][0];
                 const status = cartData.status;
-                return status === 2 || status === 3 || status === 5;
+                return status === 2 || status === 3 || status === 4;
               })
               .map((cartId) => {
                 const cartData = data[cartId][0];
                 const status = cartData.status;
-                const options = cartData.cartOptions;
                 const cart_id = cartData.cart_id;
 
                 return (
@@ -184,26 +188,43 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
                       align="left"
                       sx={{ fontWeight: 400, cursor: "pointer" }}
                     >
-                      {status}
+                      {statusNames[status]}
                     </StyledTableCell>
                     <StyledTableCell
                       align="left"
                       sx={{ fontWeight: 400, cursor: "pointer" }}
                     >
                       <StyledIconButton>
-                        <Delete onClick={handleDeleteClick} />
+                        <Delete onClick={() => handleDeleteClick(cartId)} />
                       </StyledIconButton>
                     </StyledTableCell>
                   </TableRow>
                 );
               })}
+
+            {/* Delete Confirmation Modal */}
+            <Dialog open={isDeleteModalOpen} onClose={handleDeleteCancel}>
+              <DialogContent>
+                <DialogContentText>
+                  Are you sure you want to delete this item?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleDeleteCancel} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={handleDeleteConfirm} color="primary">
+                  Delete
+                </Button>
+              </DialogActions>
+            </Dialog>
           </TableBody>
         </Table>
       </TableContainer>
       {getCurrentPageItems().filter((cartId) => {
         const cartData = data[cartId][0];
         const status = cartData.status;
-        return status === 2 || status === 3 || status === 5;
+        return status === 2 || status === 3 || status === 4;
       }).length === 0 && (
         <div style={{ textAlign: "center", margin: "1rem" }}>
           Cart Data is Empty

@@ -52,7 +52,7 @@ export default function CalculatorForm({ data, selectedCart }: any) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          status: 3,
+          status: 4,
           price_calculate: priceCheckData,
         }),
       });

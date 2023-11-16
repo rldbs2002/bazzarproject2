@@ -97,7 +97,7 @@ const CartForm: FC = ({ data }: any) => {
 
     const requestData = {
       cart_total_price: cartTotalPrice,
-      status: 4,
+      status: 5,
       price_confirm: isPriceConfirm,
     };
 
@@ -370,7 +370,7 @@ const CartForm: FC = ({ data }: any) => {
             </div>
 
             {/* Arrived 정보 */}
-            {data[cartId][0].arrived && data[cartId][0].status >= 4 && (
+            {data[cartId][0].arrived && data[cartId][0].status >= 3 && (
               <div className="m-5" style={{ margin: "2rem" }}>
                 <Heading number={4} title={`arrived Images`} />
                 {/* Arrived Images */}

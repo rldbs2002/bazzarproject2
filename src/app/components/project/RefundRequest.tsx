@@ -102,6 +102,8 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
     return false; // 다른 경우에는 false를 반환하여 해당 항목을 건너뜁니다.
   });
 
+  console.log(filteredData);
+
   const router = useRouter();
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedAction, setSelectedAction] = useState("");
@@ -133,6 +135,7 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
       const requestData = selectedItems.map((itemId) => ({
         options: action,
         requestId: itemId,
+        status: 2,
       }));
 
       try {

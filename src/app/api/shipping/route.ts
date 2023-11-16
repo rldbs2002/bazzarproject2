@@ -39,6 +39,7 @@ export const PUT = async (request: any) => {
 
         // 이미 존재하는 데이터가 있으면 업데이트
         existingRequest.options = item.options;
+        existingRequest.status = item.status;
         return await existingRequest.save();
       })
     );

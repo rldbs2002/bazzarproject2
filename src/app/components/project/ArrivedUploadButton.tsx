@@ -83,7 +83,7 @@ export default function ArrivedUploadButton({ data }: any) {
             arrived_at: new Date(),
             arrived_complete: submitCompleted, // 업로드 완료 여부 업데이트
           },
-          status: 5,
+          status: 3,
         }),
       });
 

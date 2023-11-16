@@ -71,20 +71,6 @@ export default function Form({ data }: any) {
 
   const [status, setStatus] = useState(1); // 1은 보기 모드, 2는 편집 모드
 
-  const [selectedImage, setSelectedImage] = useState("");
-  const [selectedImageUrl, setSelectedImageUrl] = useState("");
-
-  // 모달을 열기 위한 함수
-  const openModal = (imageUrl: string) => {
-    setSelectedImage(imageUrl);
-    setSelectedImageUrl(imageUrl);
-  };
-
-  // 모달을 닫기 위한 함수
-  const closeModal = () => {
-    setSelectedImage("");
-  };
-
   const updateDataOnServer = async (updatedData: any) => {
     try {
       const response = await fetch(`/api/request/${data._id}`, {
@@ -555,34 +541,6 @@ export default function Form({ data }: any) {
               )}
             </Card1>
 
-            {data.status >= 5 && (
-              <Card1 sx={{ mb: 4 }}>
-                <Heading number={3} title="Arrived Items" />
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <div
-                      style={{
-                        display: "flex",
-                        overflowX: "auto", // 가로 스크롤을 만듭니다.
-                        whiteSpace: "nowrap", // 이미지가 옆으로 이어지게 합니다.
-                      }}
-                    >
-                      {data.arrived.arrived_images.map(
-                        (image: string, index: number) => (
-                          <div key={index}>
-                            {/* 클릭 시 모달 열도록 수정 */}
-                            <Button onClick={() => openModal(image)}>
-                              {image}
-                            </Button>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </Grid>
-                </Grid>
-              </Card1>
-            )}
-
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 {status === 1 ? (
@@ -640,51 +598,8 @@ export default function Form({ data }: any) {
               </Grid>
             </Grid>
           </form>
-
-          <Grid item xs={12}>
-            <Card sx={{ padding: 3 }}>
-              {session?.user.role === "admin" && (
-                // 여기에서 'admin' 역할 사용자에게만 표시할 내용 추가
-                <>
-                  <ArrivedUploadButton data={data} />
-                </>
-              )}
-            </Card>
-          </Grid>
         </Container>
       </Grid>
-
-      {/* MUI Modal 컴포넌트 */}
-      <Modal open={!!selectedImage} onClose={closeModal} closeAfterTransition>
-        <Fade in={!!selectedImage}>
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              maxWidth: "80vw",
-              maxHeight: "80vh",
-              overflow: "auto",
-            }}
-          >
-            <img
-              src={selectedImageUrl}
-              alt="Selected Image"
-              style={{ width: "100%", height: "auto" }}
-            />
-            <HighlightOffOutlinedIcon
-              style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
-                cursor: "pointer",
-              }}
-              onClick={closeModal}
-            />
-          </div>
-        </Fade>
-      </Modal>
     </Grid>
   );
 }

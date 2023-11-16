@@ -88,13 +88,13 @@ export const PUT = async (request: any, { params }: any) => {
         abroad_shipping_fee: requestData.price_calculate.abroad_shipping_fee,
       };
 
-      // Update the status to 3 ("price_calculate")
-      cartRequest.status = 3;
+      // Update the status to 4 ("price_calculate")
+      cartRequest.status = 4;
     }
 
     if (requestData.cart_total_price) {
       cartRequest.cart_total_price = requestData.cart_total_price;
-      cartRequest.status = 4; // 4는 Checkout 상태를 나타내는 값으로 변경합니다.
+      cartRequest.status = 5; // 4는 Checkout 상태를 나타내는 값으로 변경합니다.
     }
 
     if (requestData.price_confirm) {

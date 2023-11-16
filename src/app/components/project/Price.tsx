@@ -1,3 +1,5 @@
+"use client";
+
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { Card, Grid, Button } from "@mui/material";
@@ -15,8 +17,8 @@ const Price = ({ data }: any) => {
 
   const keys = Object.keys(data);
   const firstKey = keys[0];
-
-  console.log(firstKey);
+  const status = data[firstKey][0].status;
+  console.log(status);
 
   const handleFormSubmit = async () => {
     // Check if the price is confirmed
@@ -139,7 +141,7 @@ const Price = ({ data }: any) => {
             color="primary"
             variant="outlined"
             onClick={handleFormSubmit}
-            disabled={!isPriceConfirmed} // Disable the button if the price is not confirmed
+            disabled={!isPriceConfirmed || status !== 4} // Disable the button if the price is not confirmed
           >
             Checkout Now
           </Button>
