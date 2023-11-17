@@ -29,22 +29,13 @@ export const PUT = async (request: any) => {
   await connect();
 
   try {
-    const { arrived_info } = requestData;
+    const { arrived_info, session } = requestData;
 
-    // 세션에서 이메일 가져오기
-    const session = await getSession(request); // 추가: getSession 추가
     console.log(session);
-
-    if (!session?.user?.email) {
-      console.error("세션에서 이메일을 찾을 수 없음");
-      return new NextResponse("세션에서 이메일을 찾을 수 없음", {
-        status: 404,
-      });
-    }
 
     // 기존 사용자 정보를 찾아서 arrived_info 업데이트
     const user = await User.findOneAndUpdate(
-      { email: session.user.email },
+      { email: session },
       { $set: { arrived_info } },
       { new: true } // 업데이트 후의 문서를 반환하도록 설정
     );

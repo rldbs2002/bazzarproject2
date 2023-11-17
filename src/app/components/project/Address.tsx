@@ -10,6 +10,9 @@ import { useSession } from "next-auth/react";
 const Address = () => {
   const [allAddress, setAllAddress] = useState([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const { data: session } = useSession();
+
+  console.log(session?.user);
 
   const handleAddressDelete = (id: string) => {
     // 주소 삭제 로직 구현
@@ -35,6 +38,7 @@ const Address = () => {
         postal_code: values.postal_code,
         phone: values.phone,
       },
+      session: session?.user.email,
     };
 
     try {

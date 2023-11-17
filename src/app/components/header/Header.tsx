@@ -158,8 +158,10 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
                 </Link>
               </Box>
 
-              <Box component={IconButton} onClick={toggleDialog}>
-                <Icon.User sx={ICON_STYLE} />
+              <Box component={IconButton}>
+                <Link href="/account">
+                  <Icon.User sx={ICON_STYLE} />
+                </Link>
               </Box>
 
               <Box component={IconButton}>
@@ -259,13 +261,10 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
             </Link>
           </Box>
 
-          <Box
-            component={IconButton}
-            p={1.25}
-            bgcolor="grey.200"
-            onClick={toggleDialog}
-          >
-            <PersonOutline />
+          <Box component={IconButton} p={1.25} bgcolor="grey.200">
+            <Link href="/account">
+              <PersonOutline />
+            </Link>
           </Box>
 
           <Box
