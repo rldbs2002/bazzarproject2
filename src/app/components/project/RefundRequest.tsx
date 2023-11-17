@@ -212,8 +212,7 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
                   onRequestSort={handleRequestSort}
                 />
                 <TableBody>
-                  {filteredData.length === 0 ||
-                  !filteredData.some((item) => item.options) ? (
+                  {filteredData.length === 0 ? (
                     <TableRow>
                       <TableCell
                         colSpan={tableHeading.length + 1}
@@ -225,7 +224,7 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
                   ) : (
                     filteredData
                       .filter((item) => !item.options) // options가 없는 항목만 필터링
-                      .sort((a, b) => b.request_id.localeCompare(a.request_id)) // Sort by request_id in descending order
+                      .sort((a, b) => b.request_id.localeCompare(a.request_id))
                       .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
                       .map((request: any, index: any) => (
                         <RefundRequestRow
@@ -260,9 +259,21 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
             <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
               <Button
                 variant="outlined"
+                color="secondary"
+                onClick={() => handleAction("repacking")}
+                disabled={selectedItems.length !== 1}
+                style={{ marginRight: "0.5rem", width: "120px" }}
+              >
+                Repacking
+              </Button>
+
+              <Button
+                variant="outlined"
                 color="primary"
                 onClick={() => handleAction("shipping")}
-                disabled={selectedItems.length <= 1}
+                disabled={
+                  selectedItems.length !== 1 && selectedItems.length <= 1
+                }
                 style={{ marginRight: "0.5rem", width: "120px" }}
               >
                 Shipping
@@ -276,16 +287,6 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
                 style={{ marginRight: "0.5rem", width: "120px" }}
               >
                 Consolidate
-              </Button>
-
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() => handleAction("repacking")}
-                disabled={selectedItems.length !== 1}
-                style={{ marginRight: "0.5rem", width: "120px" }}
-              >
-                Repacking
               </Button>
             </div>
           </Grid>

@@ -42,7 +42,7 @@ const CartLayer = ({ data }: any) => {
         </Grid>
         <Grid item md={3} xs={12}>
           <>
-            <Price data={data} />
+            <Price data={data} style={{ marginBottom: "10px" }} />
           </>
           {session?.user.role === "admin" && (
             <>

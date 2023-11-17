@@ -183,9 +183,9 @@ const Checklist = ({ data }: any) => {
 
               // Check the alignment value and show items accordingly
               if (
-                (!alignment && cartData.status >= 4) ||
-                (alignment === "complete" && status > 4) ||
-                (alignment === "process" && status === 4)
+                (!alignment && cartData.status >= 5) ||
+                (alignment === "complete" && status > 6) ||
+                (alignment === "process" && (status === 5 || status === 6))
               ) {
                 return (
                   <StyledTableRow key={cartId}>

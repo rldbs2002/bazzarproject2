@@ -17,16 +17,9 @@ const Home = () => {
 
   const router = useRouter();
 
-  const { data: session } = useSession({
-    required: true,
-    //  onUnauthenticated() {
-    //    router.push("/api/auth/signin?callbackUrl=/");
-    //  },
-  });
+  const { data: session } = useSession();
 
   console.log(session?.user);
-
-  if (!session?.user) return null;
 
   return (
     <>

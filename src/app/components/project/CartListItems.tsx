@@ -149,6 +149,7 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
           <TableHead sx={{ backgroundColor: "grey.200" }}>
             <TableRow>
               <StyledTableCell>Cart ID</StyledTableCell>
+              <StyledTableCell>Options</StyledTableCell>
               <StyledTableCell>Request ID</StyledTableCell>
               <StyledTableCell>Status</StyledTableCell>
               <StyledTableCell>Actions</StyledTableCell>
@@ -165,6 +166,8 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
                 const cartData = data[cartId][0];
                 const status = cartData.status;
                 const cart_id = cartData.cart_id;
+                console.log(cartData);
+                const cartOptions = cartData.cartOptions;
 
                 return (
                   <TableRow key={cartId}>
@@ -178,9 +181,15 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
                       align="left"
                       sx={{ fontWeight: 400, cursor: "pointer" }}
                     >
+                      {cartOptions}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="left"
+                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                    >
                       {data[cartId].map((userRequest) => (
                         <div key={userRequest.userRequest._id}>
-                          Request ID: {userRequest.userRequest.request_id}
+                          {userRequest.userRequest.request_id}
                         </div>
                       ))}
                     </StyledTableCell>

@@ -101,7 +101,7 @@ const Consolidate = ({ data }: any) => {
       });
 
       if (response.status === 200) {
-        router.push("/cart");
+        router.push("/mypage");
       }
     } catch (error) {
       console.error("Error submitting data:", error);

@@ -40,7 +40,6 @@ const theme = createTheme();
 const defaultTheme = createTheme();
 
 const SignUpForm = () => {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -56,7 +55,6 @@ const SignUpForm = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name,
           email,
           password,
         }),
@@ -98,19 +96,6 @@ const SignUpForm = () => {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  type="text"
-                  label="Username"
-                  id="Username"
-                  required
-                  variant="outlined"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  autoFocus
-                  fullWidth
-                />
-              </Grid>
               <Grid item xs={12}>
                 <TextField
                   type="text"

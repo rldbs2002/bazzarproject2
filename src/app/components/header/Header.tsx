@@ -123,18 +123,6 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
               </Box> */}
 
               <Box component={IconButton}>
-                <Link href="/">
-                  <Typography
-                    className="link"
-                    color="grey.600"
-                    p="0.25rem 1.25rem"
-                  >
-                    Home
-                  </Typography>
-                </Link>
-              </Box>
-
-              <Box component={IconButton}>
                 <Link href="/newrequest">
                   <Typography
                     className="link"
@@ -153,7 +141,19 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
                     color="grey.600"
                     p="0.25rem 1.25rem"
                   >
-                    My Page
+                    Requests
+                  </Typography>
+                </Link>
+              </Box>
+
+              <Box component={IconButton}>
+                <Link href="/checkout">
+                  <Typography
+                    className="link"
+                    color="grey.600"
+                    p="0.25rem 1.25rem"
+                  >
+                    Checkout
                   </Typography>
                 </Link>
               </Box>
@@ -162,10 +162,10 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
                 <Icon.User sx={ICON_STYLE} />
               </Box>
 
-              <Box component={IconButton} onClick={toggleSidenav}>
-                <Badge badgeContent={state.cart.length} color="primary">
+              <Box component={IconButton}>
+                <Link href="/cart">
                   <Icon.CartBag sx={ICON_STYLE} />
-                </Badge>
+                </Link>
               </Box>
             </FlexBox>
           </FlexBetween>
@@ -246,10 +246,19 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
           <Box component={IconButton}>
             <Link href="/mypage">
               <Typography className="link" color="grey.600" p="0.25rem 1.25rem">
-                My Page
+                Requests
               </Typography>
             </Link>
           </Box>
+
+          <Box component={IconButton}>
+            <Link href="/checkout">
+              <Typography className="link" color="grey.600" p="0.25rem 1.25rem">
+                Checkout
+              </Typography>
+            </Link>
+          </Box>
+
           <Box
             component={IconButton}
             p={1.25}
@@ -259,16 +268,17 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
             <PersonOutline />
           </Box>
 
-          <Badge badgeContent={state.cart.length} color="primary">
-            <Box
-              // p={1.25}
-              bgcolor="grey.200"
-              component={IconButton}
-              onClick={toggleSidenav}
-            >
-              <ShoppingBagOutlined />
+          <Box
+            // p={1.25}
+            bgcolor="grey.200"
+            component={IconButton}
+          >
+            <Box component={IconButton}>
+              <Link href="/cart">
+                <ShoppingBagOutlined />
+              </Link>
             </Box>
-          </Badge>
+          </Box>
         </FlexBox>
 
         {/* LOGIN FORM DIALOG AND CART SIDE BAR  */}
