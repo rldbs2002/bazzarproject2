@@ -73,6 +73,11 @@ const handler = NextAuth({
       },
     }),
   ],
+  // session: {
+  //   strategy: "jwt",
+  //   maxAge: 1 * 24 * 60 * 60, // 세션의 최대 유지 기간 (1일)
+  // },
+
   callbacks: {
     // Ref: https://authjs.dev/guides/basics/role-based-access-control#persisting-the-role
     async jwt({ token, user }) {

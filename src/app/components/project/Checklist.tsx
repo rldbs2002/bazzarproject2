@@ -73,7 +73,6 @@ const Checklist = ({ data }: any) => {
 
   const getCurrentPageItems = () => {
     const cartIds = Object.keys(data);
-    console.log(cartIds);
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;

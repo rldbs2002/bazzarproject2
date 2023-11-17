@@ -13,6 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+import { signOut } from "next-auth/react";
 
 const buttonStyle = {
   fontSize: "16px",
@@ -24,6 +25,10 @@ export default function Navbar() {
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+
+  const handleSignOut = () => {
+    signOut({ callbackUrl: "/" }); // 로그아웃 후 리다이렉트할 URL 설정
+  };
 
   // 함수를 이용하여 창 크기에 따라 메뉴 상태를 관리
   const handleResize = () => {
@@ -124,11 +129,13 @@ export default function Navbar() {
               )}
               {session.status === "authenticated" && (
                 <li>
-                  <Link href="/api/auth/signout">
-                    <Button color="inherit" sx={buttonStyle}>
-                      Sign Out
-                    </Button>
-                  </Link>
+                  <Button
+                    color="inherit"
+                    sx={buttonStyle}
+                    onClick={() => handleSignOut()}
+                  >
+                    Sign Out
+                  </Button>
                 </li>
               )}
               {session.status === "unauthenticated" && (

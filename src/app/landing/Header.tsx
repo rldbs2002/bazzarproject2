@@ -66,6 +66,10 @@ const Header = () => {
 
   const toggleSidenav = () => setOpen((open) => !open);
 
+  const handleSignOut = () => {
+    signOut({ callbackUrl: "/" }); // 로그아웃 후 리다이렉트할 URL 설정
+  };
+
   const scrollListener = debounce(() => {
     if (window?.pageYOffset >= headerHeight) setFixed(true);
     else setFixed(false);
@@ -105,16 +109,6 @@ const Header = () => {
               <Box sx={{ mx: "auto" }}></Box>
 
               <FlexBox className="right-links" alignItems="center">
-                <Link href="/">
-                  <Typography
-                    className="link"
-                    color="grey.600"
-                    p="0.25rem 1.25rem"
-                  >
-                    Home
-                  </Typography>
-                </Link>
-
                 <Link href="/notice">
                   <Typography
                     className="link"
@@ -141,7 +135,7 @@ const Header = () => {
                     color="grey.600"
                     p="0.25rem 1.25rem"
                   >
-                    My Page
+                    Requests
                   </Typography>
                 </Link>
               </FlexBox>
@@ -150,7 +144,7 @@ const Header = () => {
                 <Link
                   href={
                     session.status === "unauthenticated"
-                      ? "/api/auth/signin"
+                      ? "/signin"
                       : "/signout"
                   }
                 >
@@ -185,17 +179,6 @@ const Header = () => {
                       },
                     }}
                   >
-                    <Link href="/">
-                      <Typography
-                        className="link"
-                        py={1}
-                        mb={2}
-                        onClick={toggleSidenav}
-                      >
-                        Home
-                      </Typography>
-                    </Link>
-
                     <Link href="/notice">
                       <Typography
                         className="link"
@@ -218,14 +201,25 @@ const Header = () => {
                       </Typography>
                     </Link>
 
-                    <Link href="/mypage">
+                    <Link href="/">
                       <Typography
                         className="link"
                         py={1}
                         mb={2}
                         onClick={toggleSidenav}
                       >
-                        My Page
+                        Requests
+                      </Typography>
+                    </Link>
+
+                    <Link href="/my">
+                      <Typography
+                        className="link"
+                        py={1}
+                        mb={2}
+                        onClick={toggleSidenav}
+                      >
+                        My
                       </Typography>
                     </Link>
 

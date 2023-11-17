@@ -61,7 +61,7 @@ const SignUpForm = () => {
       });
 
       if (res.status === 201) {
-        router.push("/api/auth/signin");
+        router.push("/signin");
       } else {
         setError("Something went wrong!");
       }
@@ -118,14 +118,6 @@ const SignUpForm = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
                 />
               </Grid>
             </Grid>

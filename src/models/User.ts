@@ -17,6 +17,17 @@ const userSchema = new Schema(
       required: true,
       default: "user",
     },
+
+    arrived_info: {
+      firstname: String,
+      lastname: String,
+      country: {},
+      address: String,
+      city: String,
+      state: String,
+      postal_code: String,
+      phone: String,
+    },
   },
   { timestamps: true }
 );

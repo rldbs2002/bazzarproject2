@@ -1,10 +1,22 @@
 "use client";
-import React, { useRef } from "react";
-import { signIn } from "next-auth/react";
+import React, { useRef, useState, useEffect } from "react";
+import { signIn, getProviders } from "next-auth/react";
 import Link from "next/link";
 import { Typography } from "@mui/material";
 
-function Login() {
+function SignIn() {
+  // 추가된 부분
+  const [providers, setProviders] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const res: any = await getProviders();
+      console.log(res);
+      setProviders(res);
+    })();
+  }, []);
+  // 추가된 부분
+
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
@@ -20,9 +32,18 @@ function Login() {
     });
   };
 
+  // 추가된 부분
+  const handleGoogle = async () => {
+    const result = await signIn("google", {
+      redirect: true,
+      callbackUrl: "/",
+    });
+  };
+  // 추가된 부분
+
   return (
     <main className="flex min-h-screen flex-col items-center space-y-10 p-24">
-      <h1 className="text-4xl font-semibold">Login</h1>
+      <h1 className="text-4xl font-semibold">Sign In</h1>
       <div>
         <div>
           <label
@@ -72,7 +93,7 @@ function Login() {
             onClick={handleSubmit}
             className="w-full transform rounded-md bg-gray-700 px-4 py-2 tracking-wide text-white transition-colors duration-200 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none"
           >
-            Log In
+            Sign In
           </button>
         </div>
 
@@ -82,8 +103,16 @@ function Login() {
           </Link>
         </div>
       </div>
+      <div>
+        <button
+          className="w-full transform rounded-md bg-gray-700 px-4 py-2 tracking-wide text-white transition-colors duration-200 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none"
+          onClick={() => signIn("google", { redirect: true, callbackUrl: "/" })}
+        >
+          Google SignIn
+        </button>
+      </div>
     </main>
   );
 }
 
-export default Login;
+export default SignIn;
