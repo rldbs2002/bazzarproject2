@@ -49,7 +49,7 @@ const SignUpForm = () => {
     event.preventDefault();
 
     try {
-      const res = await fetch("/api/auth/signup", {
+      const res = await fetch("/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +60,7 @@ const SignUpForm = () => {
         }),
       });
 
-      if (res.status === 201) {
+      if (res.status === 200) {
         router.push("/signin");
       } else {
         setError("Something went wrong!");
@@ -131,7 +131,7 @@ const SignUpForm = () => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/api/auth/signin" variant="body2">
+                <Link href="/api/auth/signin">
                   Already have an account? Sign in
                 </Link>
               </Grid>

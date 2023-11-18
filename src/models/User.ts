@@ -1,6 +1,20 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
+const addressSchema = new Schema({
+  firstname: String,
+  lastname: String,
+  country: {
+    label: String,
+    value: String,
+  },
+  address: String,
+  city: String,
+  state: String,
+  postal_code: String,
+  phone: String,
+});
+
 const userSchema = new Schema(
   {
     email: {
@@ -18,16 +32,7 @@ const userSchema = new Schema(
       default: "user",
     },
 
-    arrived_info: {
-      firstname: String,
-      lastname: String,
-      country: {},
-      address: String,
-      city: String,
-      state: String,
-      postal_code: String,
-      phone: String,
-    },
+    arrived_info: { type: [addressSchema], required: false },
   },
   { timestamps: true }
 );

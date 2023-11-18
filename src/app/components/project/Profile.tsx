@@ -8,16 +8,19 @@ import {
   Button,
   Modal,
   TextField,
+  CircularProgress,
 } from "@mui/material";
 import { FlexBetween, FlexBox } from "../flex-box";
 import { H5 } from "../Typography";
-import { currency } from "@/lib";
+import { signOut } from "next-auth/react";
 
 const Profile = ({ session }: any) => {
   const [isPasswordChangeOpen, setIsPasswordChangeOpen] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [error, setError] = useState<string | null>(null); // State for error message
+  const [loading, setLoading] = useState(false); // State for loading indicator
 
   const handlePasswordChangeClick = () => {
     setIsPasswordChangeOpen(true);
@@ -29,18 +32,62 @@ const Profile = ({ session }: any) => {
     setCurrentPassword("");
     setNewPassword("");
     setConfirmNewPassword("");
+    setError(null); // Reset error state
   };
 
-  const handlePasswordChange = () => {
-    // 여기에서 패스워드 변경 로직을 구현하세요.
-    // currentPassword, newPassword, confirmNewPassword를 사용하여 처리
-    console.log("Changing password...");
-    // 초기화
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmNewPassword("");
-    setIsPasswordChangeOpen(false);
+  const handleChangePassword = async () => {
+    try {
+      // Basic client-side validation
+      if (!currentPassword || !newPassword || !confirmNewPassword) {
+        setError("Please fill in all fields.");
+        return;
+      }
+
+      if (newPassword !== confirmNewPassword) {
+        setError("New passwords do not match");
+        return;
+      }
+
+      setLoading(true);
+      setError(null);
+
+      console.log(
+        currentPassword,
+        newPassword,
+        confirmNewPassword,
+        session?.user.email
+      );
+      const response = await fetch("/api/changepassword", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          currentPassword,
+          newPassword,
+          confirmNewPassword,
+          email: session?.user.email,
+        }),
+      });
+
+      if (response.status === 200) {
+        console.log("Password changed successfully!");
+        // You can reset the form or perform any additional actions here
+
+        // 로그아웃 처리
+        await signOut();
+      } else {
+        const data = await response.json();
+        setError(data.message || "Failed to change password");
+      }
+    } catch (error) {
+      console.error("Error changing password:", error);
+      setError("Internal Server Error");
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <>
       <Box mb={4}>
@@ -126,8 +173,33 @@ const Profile = ({ session }: any) => {
             value={confirmNewPassword}
             onChange={(e) => setConfirmNewPassword(e.target.value)}
           />
-          <Button onClick={handlePasswordChangeClose}>Cancel</Button>
-          <Button onClick={handlePasswordChange}>Change Password</Button>
+
+          {error && (
+            <Typography color="error" mt={2}>
+              {error}
+            </Typography>
+          )}
+
+          <Box mt={2}>
+            <Button
+              onClick={handlePasswordChangeClose}
+              color="secondary"
+              disabled={loading}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleChangePassword}
+              color="primary"
+              disabled={loading}
+            >
+              {loading ? (
+                <CircularProgress size={20} color="inherit" />
+              ) : (
+                "Change Password"
+              )}
+            </Button>
+          </Box>
         </Box>
       </Modal>
     </>

@@ -1,30 +1,25 @@
-"use client";
-
 import React from "react";
 import ShopLayout2 from "../components/layouts/ShopLayout2";
-import { Container, Grid } from "@mui/material";
-import Profile from "../components/project/Profile";
-import { useSession } from "next-auth/react";
-import Address from "../components/project/Address";
+import AccountLayer from "../components/project/AccountLayer";
+import { notFound } from "next/navigation";
 
-const page = () => {
-  const { data: session } = useSession();
+async function getData() {
+  const res = await fetch(`http://localhost:3000/api/user`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    return notFound();
+  }
+  return res.json();
+}
 
-  console.log(session?.user);
+const page = async () => {
+  const data = await getData();
+  console.log(data);
 
   return (
     <ShopLayout2>
-      <Container sx={{ my: "1.5rem" }}>
-        <Grid container spacing={3}>
-          <Grid item md={6} xs={12}>
-            <Profile session={session} />
-          </Grid>
-
-          <Grid item md={6} xs={12}>
-            <Address />
-          </Grid>
-        </Grid>
-      </Container>
+      <AccountLayer data={data} />
     </ShopLayout2>
   );
 };

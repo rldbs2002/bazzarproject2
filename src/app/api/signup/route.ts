@@ -1,0 +1,28 @@
+import User from "@/models/User";
+import connect from "@/utils/db";
+import bcrypt from "bcryptjs";
+import { NextResponse } from "next/server";
+
+export const POST = async (request: any) => {
+  const requestData = await request.json();
+  await connect();
+  console.log(requestData);
+  try {
+    const { email, password } = requestData;
+
+    const hashedPassword = await bcrypt.hash(password, 5);
+
+    const newUser = new User({
+      email,
+      password: hashedPassword,
+    });
+
+    await newUser.save();
+    return new NextResponse("User has been created", {
+      status: 200,
+    });
+  } catch (error) {
+    console.error("Error in server code:", error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+};
