@@ -9,7 +9,6 @@ import { useSession } from "next-auth/react";
 const AccountLayer = ({ data }: any) => {
   const { data: session } = useSession();
 
-  console.log(session?.user);
 
   return (
     <Container sx={{ my: "1.5rem" }}>

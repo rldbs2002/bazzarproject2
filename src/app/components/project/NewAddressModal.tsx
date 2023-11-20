@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
 import {
@@ -9,11 +9,19 @@ import {
   TextField,
   Autocomplete,
   Typography,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import Card1 from "../Card1";
 import countryList from "@/app/data/countryList";
 
-const NewAddressModal = ({ initialValues, onSubmit, onCancel }) => {
+const NewAddressModal = ({
+  initialValues,
+  onSubmit,
+  onCancel,
+  isDefault,
+  onCheckboxChange,
+}) => {
   // Define Yup validation schema
   const checkoutSchema = yup.object().shape({
     firstname: yup.string().required("First Name is required"),
@@ -38,7 +46,9 @@ const NewAddressModal = ({ initialValues, onSubmit, onCancel }) => {
         <Formik
           initialValues={initialValues}
           validationSchema={checkoutSchema}
-          onSubmit={onSubmit}
+          onSubmit={(values) => {
+            onSubmit({ ...values, isDefault });
+          }}
         >
           {({
             values,
@@ -59,6 +69,18 @@ const NewAddressModal = ({ initialValues, onSubmit, onCancel }) => {
                   Add Shipping Address
                 </Typography>
                 <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={isDefault}
+                          onChange={onCheckboxChange}
+                          name="isDefault"
+                        />
+                      }
+                      label="Set as Default Address"
+                    />
+                  </Grid>
                   <Grid item xs={12}>
                     <TextField
                       name="firstname"

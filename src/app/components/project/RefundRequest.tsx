@@ -28,6 +28,7 @@ import RefundRequestRow from "./RefundRequestRow";
 import { FlexBox } from "../flex-box";
 import { useRouter } from "next/navigation";
 import { statusNames } from "@/constants";
+import { useSession } from "next-auth/react";
 
 // table column list
 const tableHeading = [
@@ -79,6 +80,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 // =============================================================================
 
 export default function RefundRequest({ requests, data }: RefundRequestProps) {
+  const { data: session } = useSession();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState("requestId"); // 검색 카테고리 추가 (기본값: productName)
 

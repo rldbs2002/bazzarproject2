@@ -9,9 +9,8 @@ import { useSession } from "next-auth/react";
 const Address = ({ data }: any) => {
   const [allAddress, setAllAddress] = useState([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDefault, setIsDefault] = useState(false); // Add this line
   const { data: session } = useSession();
-
-  console.log(session?.user);
 
   // 주소 삭제 함수
   const handleAddressDelete = async (id: string) => {
@@ -67,14 +66,20 @@ const Address = ({ data }: any) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          arrived_info: newAddress, // 새로운 주소를 보냄
+          arrived_info: isDefault
+            ? [newAddress, ...allAddress]
+            : [...allAddress, newAddress],
           email: session?.user.email,
         }),
       });
 
       if (response.status === 200) {
         console.log("주소가 성공적으로 추가되었습니다!");
-        setAllAddress([...allAddress, newAddress]); // 기존 주소에 새로운 주소를 추가
+        setAllAddress((prevAllAddress) =>
+          isDefault
+            ? [newAddress, ...prevAllAddress]
+            : [...prevAllAddress, newAddress]
+        );
         setIsAddModalOpen(false);
       } else {
         console.error("주소 추가에 실패했습니다. 상태:", response.status);
@@ -107,6 +112,8 @@ const Address = ({ data }: any) => {
           }}
           onSubmit={handleFormSubmit}
           onCancel={handleCancelAddNewAddress}
+          isDefault={isDefault} // Pass isDefault to the modal
+          onCheckboxChange={() => setIsDefault(!isDefault)} // Add a callback for checkbox change
         />
       )}
       {/* Render existing addresses */}

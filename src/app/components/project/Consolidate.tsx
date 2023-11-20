@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { FlexBox } from "@/app/components/flex-box";
 import {
   Avatar,
@@ -10,12 +10,15 @@ import {
   TextField,
   Button,
   Autocomplete,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import Card1 from "@/app/components/Card1";
-import { Formik } from "formik";
+import { Formik, useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import * as yup from "yup";
 import countryList from "@/app/data/countryList";
+import { useSession } from "next-auth/react";
 
 type HeadingProps = { number: number; title: string };
 
@@ -37,11 +40,25 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
   );
 };
 
-const Consolidate = ({ data }: any) => {
+const Consolidate = ({ data, userdata }: any) => {
   const router = useRouter();
+  const { data: session } = useSession();
+  console.log(userdata);
 
   // Add a state variable to track whether the form is being submitted
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // Update state to store user's default address
+  const [isDefaultAddress, setIsDefaultAddress] = useState(false);
+  const [defaultAddressData, setDefaultAddressData] = useState({
+    firstname: "",
+    lastname: "",
+    country: countryList[229],
+    address: "",
+    city: "",
+    state: "",
+    postal_code: "",
+    phone: "",
+  });
 
   const initialValues = {
     firstname: "",
@@ -56,14 +73,14 @@ const Consolidate = ({ data }: any) => {
 
   // Define Yup validation schema
   const checkoutSchema = yup.object().shape({
-    firstname: yup.string().required("First Name is required"),
-    lastname: yup.string().required("Last Name is required"),
-    country: yup.object().required("required"),
-    address: yup.string().required("Address is required"),
-    city: yup.string().required("City is required"),
-    state: yup.string().required("State is required"),
-    postal_code: yup.string().required("Postal Code is required"),
-    phone: yup.string().required("Phone Number is required"),
+    // firstname: yup.string().required("First Name is required"),
+    // lastname: yup.string().required("Last Name is required"),
+    // country: yup.object().required("required"),
+    // address: yup.string().required("Address is required"),
+    // city: yup.string().required("City is required"),
+    // state: yup.string().required("State is required"),
+    // postal_code: yup.string().required("Postal Code is required"),
+    // phone: yup.string().required("Phone Number is required"),
   });
 
   const handleFormSubmit = async (values: any) => {
@@ -74,16 +91,18 @@ const Consolidate = ({ data }: any) => {
     setIsSubmitting(true);
 
     const requestData = {
-      arrived_info: {
-        firstname: values.firstname,
-        lastname: values.lastname,
-        country: values.country,
-        address: values.address,
-        city: values.city,
-        state: values.state,
-        postal_code: values.postal_code,
-        phone: values.phone,
-      },
+      arrived_info: isDefaultAddress
+        ? userdata.arrived_info[0] // 사용자의 첫 번째 주소를 사용
+        : {
+            firstname: values.firstname,
+            lastname: values.lastname,
+            country: values.country,
+            address: values.address,
+            city: values.city,
+            state: values.state,
+            postal_code: values.postal_code,
+            phone: values.phone,
+          },
       status: 2,
       options: "consolidate",
       items: data.map((item) => ({
@@ -110,36 +129,21 @@ const Consolidate = ({ data }: any) => {
     }
   };
 
-  // const handleAddToCart = async () => {
-  //   // 모든 선택한 항목을 requestData 배열에 저장
-  //   const requestData = selectedItems.map((itemId) => ({
-  //     add_to_cart: {
-  //       options: selectedOption,
-  //       total_price: getTotalPrice(),
-  //     },
-  //     userRequest: itemId, // 각 요청의 _id
-  //     status: 2,
-  //   }));
-
-  //   try {
-  //     const cartResponse = await fetch("/api/cart", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(requestData),
-  //     });
-
-  //     if (cartResponse.status === 200) {
-  //       // 장바구니에 항목을 추가한 성공적인 응답을 처리합니다.
-  //       router.push("/cart");
-  //     } else {
-  //       console.error("Error submitting data to cart:", cartResponse.status);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error submitting data:", error);
-  //   }
-  // };
+  useEffect(() => {
+    // Update defaultAddressData when isDefaultAddress changes
+    if (isDefaultAddress) {
+      setDefaultAddressData({
+        firstname: userdata.arrived_info[0]?.firstname || "",
+        lastname: userdata.arrived_info[0]?.lastname || "",
+        country: userdata.arrived_info[0]?.country || countryList[229],
+        address: userdata.arrived_info[0]?.address || "",
+        city: userdata.arrived_info[0]?.city || "",
+        state: userdata.arrived_info[0]?.state || "",
+        postal_code: userdata.arrived_info[0]?.postal_code || "",
+        phone: userdata.arrived_info[0]?.phone || "",
+      });
+    }
+  }, [isDefaultAddress, userdata]);
 
   return (
     <>
@@ -301,6 +305,17 @@ const Consolidate = ({ data }: any) => {
                 setFieldValue,
               }) => (
                 <form onSubmit={handleSubmit}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isDefaultAddress}
+                        onChange={() => setIsDefaultAddress(!isDefaultAddress)}
+                        name="isDefaultAddress"
+                      />
+                    }
+                    label="Use default address"
+                  />
+
                   <Card1 sx={{ mb: 4 }}>
                     <Heading number={3} title="Shipping Address" />
                     <Grid container spacing={2}>
@@ -310,7 +325,11 @@ const Consolidate = ({ data }: any) => {
                           label="First Name"
                           variant="outlined"
                           fullWidth
-                          value={values.firstname}
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.firstname
+                              : values.firstname
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.firstname && !!errors.firstname}
@@ -318,13 +337,18 @@ const Consolidate = ({ data }: any) => {
                             (touched.firstname && errors.firstname) as string
                           }
                           margin="normal"
+                          // Disable when using default address
                         />
                         <TextField
                           name="lastname"
                           label="Last Name"
                           variant="outlined"
                           fullWidth
-                          value={values.lastname}
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.lastname
+                              : values.lastname
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.lastname && !!errors.lastname}
@@ -339,7 +363,11 @@ const Consolidate = ({ data }: any) => {
                           label="Address"
                           variant="outlined"
                           fullWidth
-                          value={values.address}
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.address
+                              : values.address
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.address && !!errors.address}
@@ -352,7 +380,11 @@ const Consolidate = ({ data }: any) => {
                         <Autocomplete
                           fullWidth
                           options={countryList}
-                          value={values.country}
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.country
+                              : values.country
+                          }
                           getOptionLabel={(option) => option.label}
                           onChange={(_, value) =>
                             setFieldValue("country", value)
@@ -379,7 +411,11 @@ const Consolidate = ({ data }: any) => {
                           label="City"
                           variant="outlined"
                           fullWidth
-                          value={values.city}
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.city
+                              : values.city
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.city && !!errors.city}
@@ -391,7 +427,11 @@ const Consolidate = ({ data }: any) => {
                           label="State"
                           variant="outlined"
                           fullWidth
-                          value={values.state}
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.state
+                              : values.state
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.state && !!errors.state}
@@ -403,7 +443,11 @@ const Consolidate = ({ data }: any) => {
                           label="Postal Code"
                           variant="outlined"
                           fullWidth
-                          value={values.postal_code}
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.postal_code
+                              : values.postal_code
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.postal_code && !!errors.postal_code}
@@ -418,7 +462,11 @@ const Consolidate = ({ data }: any) => {
                           label="Phone Number"
                           variant="outlined"
                           fullWidth
-                          value={values.phone}
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.phone
+                              : values.phone
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.phone && !!errors.phone}

@@ -2,25 +2,37 @@ import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import User from "@/models/User";
 import UserRequest from "@/models/UserRequest";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth/next";
+import { options } from "../auth/[...nextauth]/options";
 
 export const GET = async (request: any) => {
   try {
     await connect();
 
-    // 사용자의 이메일 주소 (예: 사용자의 실제 이메일 주소로 변경해야 함)
-    const userEmail = "admin@admin.com";
+    // // 서버 측 세션을 가져옴
+    // const session = await getServerSession(options);
+    // console.log(session);
 
-    // User를 이메일 주소로 찾음
+    // // 사용자가 인증되었는지 확인
+    // if (!session || !session.user) {
+    //   return new NextResponse("사용자가 인증되지 않았습니다", { status: 401 });
+    // }
+
+    // 세션에서 사용자 이메일을 가져옴
+    const userEmail = "kiyoonj@naver.com";
+
+    // 데이터베이스에서 사용자를 이메일로 찾음
     const user = await User.findOne({ email: userEmail });
 
     if (!user) {
-      return new NextResponse("User not found", { status: 404 });
+      return new NextResponse("사용자를 찾을 수 없습니다", { status: 404 });
     }
+
+    // 나머지 로직 계속하기...
 
     return new NextResponse(JSON.stringify(user), { status: 200 });
   } catch (err) {
-    return new NextResponse("Database Error", { status: 500 });
+    return new NextResponse("데이터베이스 오류", { status: 500 });
   }
 };
 
@@ -30,8 +42,6 @@ export const PUT = async (request: any) => {
 
   try {
     const { arrived_info, email } = requestData;
-
-    console.log(email);
 
     // 기존 사용자 정보를 찾아서 arrived_info 업데이트
     const user = await User.findOneAndUpdate(
@@ -62,8 +72,6 @@ export const DELETE = async (request: any) => {
 
   try {
     const { addressId, email } = requestData;
-
-    console.log(email);
 
     // 기존 사용자 정보를 찾아서 arrived_info에서 해당 주소를 삭제
     const user = await User.findOneAndUpdate(
