@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
 import {
@@ -22,6 +24,13 @@ const NewAddressModal = ({
   isDefault,
   onCheckboxChange,
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    // 모달이 열릴 때 폼을 렌더링하도록 설정
+    setIsModalOpen(true);
+  }, []);
+
   // Define Yup validation schema
   const checkoutSchema = yup.object().shape({
     firstname: yup.string().required("First Name is required"),
@@ -48,6 +57,7 @@ const NewAddressModal = ({
           validationSchema={checkoutSchema}
           onSubmit={(values) => {
             onSubmit({ ...values, isDefault });
+            setIsModalOpen(false); // 폼이 성공적으로 제출되면 모달을 닫음
           }}
         >
           {({

@@ -2,6 +2,9 @@ import React, { FC } from "react";
 import Shipping from "../components/project/Shipping";
 import ShopLayout2 from "../components/layouts/ShopLayout2";
 import SEO from "../components/SEO";
+import { notFound } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 async function getData() {
   const res = await fetch("http://localhost:3000/api/shipping", {
@@ -13,8 +16,19 @@ async function getData() {
   return res.json();
 }
 
+async function getUserData() {
+  const res = await fetch(`http://localhost:3000/api/user`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    return notFound();
+  }
+  return res.json();
+}
+
 const page = async () => {
   const data = await getData();
+  const userdata = await getUserData();
 
   // const handleAddToCart = async () => {
   //   // 모든 선택한 항목을 requestData 배열에 저장
@@ -50,7 +64,7 @@ const page = async () => {
     <ShopLayout2>
       <SEO title="Checkout alternative" />
 
-      <Shipping data={data} />
+      <Shipping data={data} userdata={userdata} />
     </ShopLayout2>
   );
 };

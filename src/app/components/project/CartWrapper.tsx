@@ -34,11 +34,6 @@ const CartLayer = ({ data }: any) => {
           </Grid> */}
         <Grid item md={9} xs={12}>
           <CartForm data={data} />
-          {session?.user.role === "admin" && (
-            <>
-              <ArrivedUploadButton data={firstKey} />
-            </>
-          )}
         </Grid>
         <Grid item md={3} xs={12}>
           <>

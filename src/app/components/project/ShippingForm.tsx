@@ -54,7 +54,7 @@ const ShippingForm = ({ data }: any) => {
   };
 
   return (
-    <main className="flex flex-col items-center justify-start">
+    <main className="flex flex-col items-end">
       <TextField
         label="Shipping Carrier"
         variant="outlined"

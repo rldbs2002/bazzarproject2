@@ -19,6 +19,8 @@ import { useRouter } from "next/navigation";
 import * as yup from "yup";
 import countryList from "@/app/data/countryList";
 import { useSession } from "next-auth/react";
+import NewAddressModal from "./NewAddressModal";
+import NewAddressModalWrapper from "./NewAddressModalWrapper";
 
 type HeadingProps = { number: number; title: string };
 
@@ -47,6 +49,11 @@ const Consolidate = ({ data, userdata }: any) => {
 
   // Add a state variable to track whether the form is being submitted
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [allAddress, setAllAddress] = useState([]);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDefault, setIsDefault] = useState(false); // Add this line
+
   // Update state to store user's default address
   const [isDefaultAddress, setIsDefaultAddress] = useState(false);
   const [defaultAddressData, setDefaultAddressData] = useState({
@@ -120,12 +127,54 @@ const Consolidate = ({ data, userdata }: any) => {
       });
 
       if (response.status === 200) {
-        router.push("/mypage");
+        router.push("/cart");
       }
     } catch (error) {
       console.error("Error submitting data:", error);
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleAddressSubmit = async (values: any) => {
+    const newAddress = {
+      firstname: values.firstname,
+      lastname: values.lastname,
+      country: values.country,
+      address: values.address,
+      city: values.city,
+      state: values.state,
+      postal_code: values.postal_code,
+      phone: values.phone,
+    };
+
+    try {
+      const response = await fetch("/api/user", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          arrived_info: isDefault
+            ? [newAddress, ...allAddress]
+            : [...allAddress, newAddress],
+          email: session?.user.email,
+        }),
+      });
+
+      if (response.status === 200) {
+        console.log("주소가 성공적으로 추가되었습니다!");
+        setAllAddress((prevAllAddress) =>
+          isDefault
+            ? [newAddress, ...prevAllAddress]
+            : [...prevAllAddress, newAddress]
+        );
+        setIsAddModalOpen(false);
+      } else {
+        console.error("주소 추가에 실패했습니다. 상태:", response.status);
+      }
+    } catch (error) {
+      console.error("데이터 제출 중 오류 발생:", error);
     }
   };
 
@@ -144,6 +193,41 @@ const Consolidate = ({ data, userdata }: any) => {
       });
     }
   }, [isDefaultAddress, userdata]);
+
+  // 주소 삭제 함수
+  const handleAddressDelete = async (id: string) => {
+    try {
+      // 서버에 삭제 요청을 보냄
+      const response = await fetch("/api/user", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          addressId: id,
+          email: session?.user.email,
+        }),
+      });
+
+      if (response.status === 200) {
+        console.log("주소가 성공적으로 삭제되었습니다!");
+        // 삭제된 주소를 제외한 나머지 주소를 유지
+        setAllAddress(allAddress.filter((address) => address._id !== id));
+      } else {
+        console.error("주소 삭제에 실패했습니다. 상태:", response.status);
+      }
+    } catch (error) {
+      console.error("데이터 삭제 중 오류 발생:", error);
+    }
+  };
+
+  const handleAddNewAddress = () => {
+    setIsAddModalOpen(true);
+  };
+
+  const handleCancelAddNewAddress = () => {
+    setIsAddModalOpen(false);
+  };
 
   return (
     <>
@@ -315,6 +399,35 @@ const Consolidate = ({ data, userdata }: any) => {
                     }
                     label="Use default address"
                   />
+
+                  <Button
+                    color="primary"
+                    variant="outlined"
+                    style={{ marginLeft: "1rem" }}
+                    onClick={handleAddNewAddress} // Use the same function you have for the "Add New Address" button
+                  >
+                    Add Address
+                  </Button>
+
+                  {/* 모달 부분 */}
+                  {isAddModalOpen && (
+                    <NewAddressModalWrapper
+                      initialValues={{
+                        firstname: "",
+                        lastname: "",
+                        country: countryList[229],
+                        address: "",
+                        city: "",
+                        state: "",
+                        postal_code: "",
+                        phone: "",
+                      }}
+                      onSubmit={handleAddressSubmit}
+                      onCancel={handleCancelAddNewAddress}
+                      isDefault={isDefault} // Pass isDefault to the modal
+                      onCheckboxChange={() => setIsDefault(!isDefault)} // Add a callback for checkbox change
+                    />
+                  )}
 
                   <Card1 sx={{ mb: 4 }}>
                     <Heading number={3} title="Shipping Address" />

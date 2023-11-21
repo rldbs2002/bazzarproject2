@@ -1,6 +1,6 @@
 import React from "react";
 import ShopLayout2 from "../components/layouts/ShopLayout2";
-import AccountLayer from "../components/project/AccountLayer";
+import AccountLayer from "../components/project/AccountWrapper";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { options } from "../api/auth/[...nextauth]/options";

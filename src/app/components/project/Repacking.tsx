@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { FlexBox } from "@/app/components/flex-box";
 import {
   Avatar,
@@ -10,12 +10,15 @@ import {
   TextField,
   Button,
   Autocomplete,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import Card1 from "@/app/components/Card1";
 import { Formik } from "formik";
 import { useRouter } from "next/navigation";
 import * as yup from "yup";
 import countryList from "@/app/data/countryList";
+import NewAddressModalWrapper from "./NewAddressModalWrapper";
 
 type HeadingProps = { number: number; title: string };
 
@@ -37,11 +40,27 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
   );
 };
 
-const Repacking = ({ data }: any) => {
+const Repacking = ({ data, userdata }: any) => {
   const router = useRouter();
 
   // Add a state variable to track whether the form is being submitted
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [allAddress, setAllAddress] = useState([]);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDefault, setIsDefault] = useState(false); // Add this line
+
+  // Update state to store user's default address
+  const [isDefaultAddress, setIsDefaultAddress] = useState(false);
+  const [defaultAddressData, setDefaultAddressData] = useState({
+    firstname: "",
+    lastname: "",
+    country: countryList[229],
+    address: "",
+    city: "",
+    state: "",
+    postal_code: "",
+    phone: "",
+  });
 
   const initialValues = {
     firstname: "",
@@ -56,14 +75,14 @@ const Repacking = ({ data }: any) => {
 
   // Define Yup validation schema
   const checkoutSchema = yup.object().shape({
-    firstname: yup.string().required("First Name is required"),
-    lastname: yup.string().required("Last Name is required"),
-    country: yup.object().required("required"),
-    address: yup.string().required("Address is required"),
-    city: yup.string().required("City is required"),
-    state: yup.string().required("State is required"),
-    postal_code: yup.string().required("Postal Code is required"),
-    phone: yup.string().required("Phone Number is required"),
+    // firstname: yup.string().required("First Name is required"),
+    // lastname: yup.string().required("Last Name is required"),
+    // country: yup.object().required("required"),
+    // address: yup.string().required("Address is required"),
+    // city: yup.string().required("City is required"),
+    // state: yup.string().required("State is required"),
+    // postal_code: yup.string().required("Postal Code is required"),
+    // phone: yup.string().required("Phone Number is required"),
   });
 
   const handleFormSubmit = async (values: any) => {
@@ -74,16 +93,18 @@ const Repacking = ({ data }: any) => {
     setIsSubmitting(true);
 
     const requestData = {
-      arrived_info: {
-        firstname: values.firstname,
-        lastname: values.lastname,
-        country: values.country,
-        address: values.address,
-        city: values.city,
-        state: values.state,
-        postal_code: values.postal_code,
-        phone: values.phone,
-      },
+      arrived_info: isDefaultAddress
+        ? userdata.arrived_info[0] // 사용자의 첫 번째 주소를 사용
+        : {
+            firstname: values.firstname,
+            lastname: values.lastname,
+            country: values.country,
+            address: values.address,
+            city: values.city,
+            state: values.state,
+            postal_code: values.postal_code,
+            phone: values.phone,
+          },
       status: 2,
       options: "repacking",
       items: data.map((item) => ({
@@ -101,7 +122,7 @@ const Repacking = ({ data }: any) => {
       });
 
       if (response.status === 200) {
-        router.push("/mypage");
+        router.push("/cart");
       }
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -110,6 +131,98 @@ const Repacking = ({ data }: any) => {
     }
   };
 
+  const handleAddressSubmit = async (values: any) => {
+    const newAddress = {
+      firstname: values.firstname,
+      lastname: values.lastname,
+      country: values.country,
+      address: values.address,
+      city: values.city,
+      state: values.state,
+      postal_code: values.postal_code,
+      phone: values.phone,
+    };
+
+    try {
+      const response = await fetch("/api/user", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          arrived_info: isDefault
+            ? [newAddress, ...allAddress]
+            : [...allAddress, newAddress],
+          email: session?.user.email,
+        }),
+      });
+
+      if (response.status === 200) {
+        console.log("주소가 성공적으로 추가되었습니다!");
+        setAllAddress((prevAllAddress) =>
+          isDefault
+            ? [newAddress, ...prevAllAddress]
+            : [...prevAllAddress, newAddress]
+        );
+        setIsAddModalOpen(false);
+      } else {
+        console.error("주소 추가에 실패했습니다. 상태:", response.status);
+      }
+    } catch (error) {
+      console.error("데이터 제출 중 오류 발생:", error);
+    }
+  };
+
+  const handleAddNewAddress = () => {
+    setIsAddModalOpen(true);
+  };
+
+  const handleCancelAddNewAddress = () => {
+    setIsAddModalOpen(false);
+  };
+
+  // 주소 삭제 함수
+  const handleAddressDelete = async (id: string) => {
+    try {
+      // 서버에 삭제 요청을 보냄
+      const response = await fetch("/api/user", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          addressId: id,
+          email: session?.user.email,
+        }),
+      });
+
+      if (response.status === 200) {
+        console.log("주소가 성공적으로 삭제되었습니다!");
+        // 삭제된 주소를 제외한 나머지 주소를 유지
+        setAllAddress(allAddress.filter((address) => address._id !== id));
+      } else {
+        console.error("주소 삭제에 실패했습니다. 상태:", response.status);
+      }
+    } catch (error) {
+      console.error("데이터 삭제 중 오류 발생:", error);
+    }
+  };
+
+  useEffect(() => {
+    // Update defaultAddressData when isDefaultAddress changes
+    if (isDefaultAddress) {
+      setDefaultAddressData({
+        firstname: userdata.arrived_info[0]?.firstname || "",
+        lastname: userdata.arrived_info[0]?.lastname || "",
+        country: userdata.arrived_info[0]?.country || countryList[229],
+        address: userdata.arrived_info[0]?.address || "",
+        city: userdata.arrived_info[0]?.city || "",
+        state: userdata.arrived_info[0]?.state || "",
+        postal_code: userdata.arrived_info[0]?.postal_code || "",
+        phone: userdata.arrived_info[0]?.phone || "",
+      });
+    }
+  }, [isDefaultAddress, userdata]);
 
   return (
     <>
@@ -271,6 +384,46 @@ const Repacking = ({ data }: any) => {
                 setFieldValue,
               }) => (
                 <form onSubmit={handleSubmit}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isDefaultAddress}
+                        onChange={() => setIsDefaultAddress(!isDefaultAddress)}
+                        name="isDefaultAddress"
+                      />
+                    }
+                    label="Use default address"
+                  />
+
+                  <Button
+                    color="primary"
+                    variant="outlined"
+                    style={{ marginLeft: "1rem" }}
+                    onClick={handleAddNewAddress} // Use the same function you have for the "Add New Address" button
+                  >
+                    Add Address
+                  </Button>
+
+                  {/* 모달 부분 */}
+                  {isAddModalOpen && (
+                    <NewAddressModalWrapper
+                      initialValues={{
+                        firstname: "",
+                        lastname: "",
+                        country: countryList[229],
+                        address: "",
+                        city: "",
+                        state: "",
+                        postal_code: "",
+                        phone: "",
+                      }}
+                      onSubmit={handleAddressSubmit}
+                      onCancel={handleCancelAddNewAddress}
+                      isDefault={isDefault} // Pass isDefault to the modal
+                      onCheckboxChange={() => setIsDefault(!isDefault)} // Add a callback for checkbox change
+                    />
+                  )}
+
                   <Card1 sx={{ mb: 4 }}>
                     <Heading number={3} title="Shipping Address" />
                     <Grid container spacing={2}>
@@ -280,7 +433,11 @@ const Repacking = ({ data }: any) => {
                           label="First Name"
                           variant="outlined"
                           fullWidth
-                          value={values.firstname}
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.firstname
+                              : values.firstname
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.firstname && !!errors.firstname}
@@ -288,13 +445,18 @@ const Repacking = ({ data }: any) => {
                             (touched.firstname && errors.firstname) as string
                           }
                           margin="normal"
+                          // Disable when using default address
                         />
                         <TextField
                           name="lastname"
                           label="Last Name"
                           variant="outlined"
                           fullWidth
-                          value={values.lastname}
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.lastname
+                              : values.lastname
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.lastname && !!errors.lastname}
@@ -309,7 +471,11 @@ const Repacking = ({ data }: any) => {
                           label="Address"
                           variant="outlined"
                           fullWidth
-                          value={values.address}
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.address
+                              : values.address
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.address && !!errors.address}
@@ -322,7 +488,11 @@ const Repacking = ({ data }: any) => {
                         <Autocomplete
                           fullWidth
                           options={countryList}
-                          value={values.country}
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.country
+                              : values.country
+                          }
                           getOptionLabel={(option) => option.label}
                           onChange={(_, value) =>
                             setFieldValue("country", value)
@@ -349,7 +519,11 @@ const Repacking = ({ data }: any) => {
                           label="City"
                           variant="outlined"
                           fullWidth
-                          value={values.city}
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.city
+                              : values.city
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.city && !!errors.city}
@@ -361,7 +535,11 @@ const Repacking = ({ data }: any) => {
                           label="State"
                           variant="outlined"
                           fullWidth
-                          value={values.state}
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.state
+                              : values.state
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.state && !!errors.state}
@@ -373,7 +551,11 @@ const Repacking = ({ data }: any) => {
                           label="Postal Code"
                           variant="outlined"
                           fullWidth
-                          value={values.postal_code}
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.postal_code
+                              : values.postal_code
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.postal_code && !!errors.postal_code}
@@ -388,7 +570,11 @@ const Repacking = ({ data }: any) => {
                           label="Phone Number"
                           variant="outlined"
                           fullWidth
-                          value={values.phone}
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.phone
+                              : values.phone
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.phone && !!errors.phone}

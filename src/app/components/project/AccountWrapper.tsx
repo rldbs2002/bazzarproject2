@@ -5,10 +5,19 @@ import { Container, Grid } from "@mui/material";
 import Profile from "./Profile";
 import Address from "./Address";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const AccountLayer = ({ data }: any) => {
-  const { data: session } = useSession();
+  const router = useRouter();
 
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push("/api/auth/signin?callbackUrl=/");
+    },
+  });
+
+  if (!session?.user) return null;
 
   return (
     <Container sx={{ my: "1.5rem" }}>

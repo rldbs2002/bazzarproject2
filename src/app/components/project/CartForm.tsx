@@ -16,6 +16,11 @@ import { FlexBox } from "../flex-box";
 import { Modal, Backdrop, Fade } from "@mui/material";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { useRouter } from "next/navigation";
+import RepackingUploadButton from "./RepackingUploadButton";
+import { useSession } from "next-auth/react";
+import ShippingUploadButton from "./ShippingUploadButton";
+import ArrivedUploadButton from "./ArrivedUploadButton";
+import ShippingForm from "./ShippingForm";
 
 type HeadingProps = { number: number; title: string };
 
@@ -41,6 +46,8 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
 
 const CartForm: FC = ({ data }: any) => {
   const router = useRouter();
+  const { data: session } = useSession();
+
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedImageUrl, setSelectedImageUrl] = useState("");
 
@@ -138,8 +145,8 @@ const CartForm: FC = ({ data }: any) => {
     setSelectedImage("");
   };
 
-  // data를 배열로 변환
-  const dataArray = Object.values(data);
+  const keys = Object.keys(data);
+  const firstKey = keys[0];
 
   return (
     <>
@@ -370,84 +377,128 @@ const CartForm: FC = ({ data }: any) => {
             </div>
 
             {/* Arrived 정보 */}
-            {data[cartId][0].arrived && data[cartId][0].status >= 3 && (
-              <div className="m-5" style={{ margin: "2rem" }}>
-                <Heading number={4} title={`arrived Images`} />
-                {/* Arrived Images */}
-                {data[cartId][0].arrived.arrived_images && (
-                  <div>
-                    {data[cartId][0].arrived.arrived_images.map(
-                      (image, imageIndex) => (
-                        <div key={imageIndex}>
-                          {/* 클릭 시 모달 열도록 수정 */}
-                          <Button onClick={() => openModal(image)}>
-                            {image}
-                          </Button>
-                        </div>
-                      )
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
+            <div className="m-5" style={{ margin: "2rem" }}>
+              <Heading number={4} title={`Arrived Images`} />
+              {/* 항상 Heading은 보이도록 */}
+              {data[cartId][0].arrived ? (
+                <>
+                  {/* arrived이 있을 경우 */}
+                  {session?.user.role === "admin" && (
+                    // admin인 경우에만 arrivedUploadButton 보이도록
+                    <ArrivedUploadButton data={firstKey} />
+                  )}
+                  {/* arrived Images가 있을 경우 */}
+                  {data[cartId][0].arrived.arrived_images && (
+                    <div>
+                      {data[cartId][0].arrived.arrived_images.map(
+                        (image, imageIndex) => (
+                          <div key={imageIndex}>
+                            {/* 클릭 시 모달 열도록 수정 */}
+                            <Button onClick={() => openModal(image)}>
+                              {image}
+                            </Button>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  )}
+                </>
+              ) : (
+                // arrived이 없을 경우 빈 박스
+                <></>
+              )}
+            </div>
 
             {/* Repacking 정보 */}
-            {data[cartId][0].repacking && data[cartId][0].status >= 6 && (
-              <div className="m-5" style={{ margin: "2rem" }}>
-                <Heading number={5} title={`Repacking Images`} />
-                {/* Repacking Images */}
-                {data[cartId][0].repacking.repacking_images && (
-                  <div>
-                    {data[cartId][0].repacking.repacking_images.map(
-                      (image, imageIndex) => (
-                        <div key={imageIndex}>
-                          {/* 클릭 시 모달 열도록 수정 */}
-                          <Button onClick={() => openModal(image)}>
-                            {image}
-                          </Button>
-                        </div>
-                      )
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
+            <div className="m-5" style={{ margin: "2rem" }}>
+              <Heading number={5} title={`Repacking Images`} />
+              {/* 항상 Heading은 보이도록 */}
+              {data[cartId][0].repacking ? (
+                <>
+                  {/* Repacking이 있을 경우 */}
+                  {session?.user.role === "admin" && (
+                    // admin인 경우에만 RepackingUploadButton 보이도록
+                    <RepackingUploadButton data={firstKey} />
+                  )}
+                  {/* Repacking Images가 있을 경우 */}
+                  {data[cartId][0].repacking.repacking_images && (
+                    <div>
+                      {data[cartId][0].repacking.repacking_images.map(
+                        (image, imageIndex) => (
+                          <div key={imageIndex}>
+                            {/* 클릭 시 모달 열도록 수정 */}
+                            <Button onClick={() => openModal(image)}>
+                              {image}
+                            </Button>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  )}
+                </>
+              ) : (
+                // Repacking이 없을 경우 빈 박스
+                <></>
+              )}
+            </div>
 
             {/* Shipping 정보 */}
-            {data[cartId][0].shipping && data[cartId][0].status >= 7 && (
-              <div className="m-5" style={{ margin: "2rem" }}>
-                <Heading number={6} title={`Shipping Images`} />
-                {/* Shipping Images */}
-                {data[cartId][0].shipping.shipping_images && (
-                  <div>
-                    {data[cartId][0].shipping.shipping_images.map(
-                      (image, imageIndex) => (
-                        <div key={imageIndex}>
-                          {/* 클릭 시 모달 열도록 수정 */}
-                          <Button onClick={() => openModal(image)}>
-                            {image}
-                          </Button>
-                        </div>
-                      )
-                    )}
-                  </div>
-                )}
+            <div className="m-5" style={{ margin: "2rem" }}>
+              <Heading number={6} title={`Shipping Images`} />
+              {/* 항상 Heading은 보이도록 */}
+              {data[cartId][0].shipping ? (
+                <>
+                  {/* shipping이 있을 경우 */}
+                  {session?.user.role === "admin" && (
+                    // admin인 경우에만 shippingUploadButton 보이도록
+                    <ShippingUploadButton data={firstKey} />
+                  )}
+                  {/* shipping Images가 있을 경우 */}
+                  {data[cartId][0].shipping.shipping_images && (
+                    <div>
+                      {data[cartId][0].shipping.shipping_images.map(
+                        (image, imageIndex) => (
+                          <div key={imageIndex}>
+                            {/* 클릭 시 모달 열도록 수정 */}
+                            <Button onClick={() => openModal(image)}>
+                              {image}
+                            </Button>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  )}
+                </>
+              ) : (
+                // shipping이 없을 경우 빈 박스
+                <></>
+              )}
+            </div>
 
-                {/* Additional Information */}
-                <div style={{ marginTop: "2rem" }}>
-                  <Heading number={7} title={`Additional Information`} />
-                  <div>
-                    <Typography variant="subtitle2">
-                      Carrier: {data[cartId][0].shipping.shipping_carrier}
-                    </Typography>
-                    <Typography variant="subtitle2">
-                      Tracking Number:{" "}
-                      {data[cartId][0].shipping.shipping_number}
-                    </Typography>
-                  </div>
-                </div>
-              </div>
-            )}
+            {/* Shipping Information 정보 */}
+            <div className="m-5" style={{ margin: "2rem" }}>
+              <Heading number={7} title={`Shipping Information`} />
+              {/* 항상 Heading은 보이도록 */}
+              {data[cartId][0].shipping ? (
+                <>
+                  {/* shipping이 있을 경우 */}
+                  {session?.user.role === "admin" && (
+                    // admin인 경우에만 shippingUploadButton 보이도록
+                    <ShippingForm data={firstKey} />
+                  )}
+                  {/* shipping Images가 있을 경우 */}
+                  <Typography variant="subtitle2">
+                    Carrier: {data[cartId][0].shipping.shipping_carrier}
+                  </Typography>
+                  <Typography variant="subtitle2">
+                    Tracking Number: {data[cartId][0].shipping.shipping_number}
+                  </Typography>
+                </>
+              ) : (
+                // shipping이 없을 경우 빈 박스
+                <></>
+              )}
+            </div>
           </Card1>
         ))}
       </Container>

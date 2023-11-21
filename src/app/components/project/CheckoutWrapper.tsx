@@ -23,14 +23,6 @@ const CheckoutLayer = ({ data }: any) => {
   return (
     <Container sx={{ my: "1.5rem" }}>
       <CartForm data={data} />
-
-      {session?.user.role === "admin" && (
-        <Card1>
-          <RepackingUploadButton data={firstKey} />
-          <ShippingUploadButton data={firstKey} />
-          <ShippingForm data={firstKey} />
-        </Card1>
-      )}
     </Container>
   );
 };

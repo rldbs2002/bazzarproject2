@@ -1,6 +1,8 @@
 import React from "react";
 import Cart from "../components/project/Cart";
 import useSWR from "swr";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 async function getData() {
   const res = await fetch("http://localhost:3000/api/cart", {

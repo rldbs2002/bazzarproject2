@@ -53,7 +53,7 @@ export default function ShippingUploadButton({ data }: any) {
   };
 
   return (
-    <main className="flex flex-col items-center justify-start p-24">
+    <main className="flex flex-col items-end">
       <h1>Shipping Image Upload</h1>
       <UploadButton<OurFileRouter>
         endpoint="imageUploader"

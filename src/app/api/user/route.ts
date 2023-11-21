@@ -9,17 +9,8 @@ export const GET = async (request: any) => {
   try {
     await connect();
 
-    // // 서버 측 세션을 가져옴
-    // const session = await getServerSession(options);
-    // console.log(session);
-
-    // // 사용자가 인증되었는지 확인
-    // if (!session || !session.user) {
-    //   return new NextResponse("사용자가 인증되지 않았습니다", { status: 401 });
-    // }
-
     // 세션에서 사용자 이메일을 가져옴
-    const userEmail = "kiyoonj@naver.com";
+    const userEmail = "admin@admin.com";
 
     // 데이터베이스에서 사용자를 이메일로 찾음
     const user = await User.findOne({ email: userEmail });

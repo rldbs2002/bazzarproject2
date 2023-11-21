@@ -7,7 +7,7 @@ import ShopLayout2 from "@/app/components/layouts/ShopLayout2";
 import SEO from "@/app/components/SEO";
 import { NextPage } from "next";
 import CalculatorForm from "@/app/components/project/CalculateForm";
-import CartLayer from "@/app/components/project/CartLayer";
+import CartLayer from "@/app/components/project/CartWrapper";
 
 async function getData(id: any) {
   const res = await fetch(`http://localhost:3000/api/cart/${id}`, {

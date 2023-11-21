@@ -57,7 +57,7 @@ export default function ArrivedUploadButton({ data }: any) {
   };
 
   return (
-    <main className="flex flex-col items-center justify-start p-24">
+    <main className="flex flex-col items-end">
       <h1>Arrived Image Upload</h1>
       <UploadButton<OurFileRouter>
         endpoint="imageUploader"

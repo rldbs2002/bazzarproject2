@@ -11,14 +11,6 @@ import { useSession } from "next-auth/react";
 const CheckoutAlternative: NextPage = () => {
   const router = useRouter();
 
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/api/auth/signin?callbackUrl=/");
-    },
-  });
-
-  if (!session?.user) return null;
   return (
     <ShopLayout2>
       <SEO title="Checkout alternative" />

@@ -26,7 +26,7 @@ import CartForm from "@/app/components/project/CartForm";
 import RepackingUploadButton from "@/app/components/project/RepackingUploadButton";
 import ShippingUploadButton from "@/app/components/project/ShippingUploadButton";
 import ShippingForm from "@/app/components/project/ShippingForm";
-import CheckoutLayer from "@/app/components/project/CheckoutLayer";
+import CheckoutLayer from "@/app/components/project/CheckoutWrapper";
 
 // // styled components
 // const StyledFlexbox = styled(FlexBetween)(({ theme }) => ({

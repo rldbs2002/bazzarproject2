@@ -4,6 +4,8 @@ import { Card, Grid } from "@mui/material";
 import ShopLayout2 from "../components/layouts/ShopLayout2";
 import Checklist from "../components/project/Checklist";
 import Container from "@mui/material/Container";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 async function getData() {
   const res = await fetch("http://localhost:3000/api/cart", {
