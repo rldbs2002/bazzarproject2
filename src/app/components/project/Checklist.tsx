@@ -4,31 +4,22 @@ import React, { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
-  TableCell,
   TableContainer,
   TableHead,
   TableRow,
   Paper,
   Stack,
   Pagination, // Pagination 컴포넌트 불러오기
-  FormControl,
-  InputLabel,
   Select,
   MenuItem,
-  TextField,
   styled,
   InputBase,
   Card,
-  Button,
   ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material";
 import Link from "next/link";
-import {
-  StyledTableCell,
-  StyledTableRow,
-  StyledIconButton,
-} from "./StyledComponents";
+import { StyledTableCell, StyledTableRow } from "./StyledComponents";
 import { statusNames } from "@/constants";
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({

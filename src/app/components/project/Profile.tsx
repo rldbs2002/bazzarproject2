@@ -119,7 +119,7 @@ const Profile = ({ session }: any) => {
         </Grid>
       </Box>
 
-      <Button
+      {/* <Button
         color="primary"
         sx={{ bgcolor: "primary.light", px: 4 }}
         onClick={handlePasswordChangeClick}
@@ -201,7 +201,7 @@ const Profile = ({ session }: any) => {
             </Button>
           </Box>
         </Box>
-      </Modal>
+      </Modal> */}
     </>
   );
 };

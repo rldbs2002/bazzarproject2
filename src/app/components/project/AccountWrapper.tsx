@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Container, Grid } from "@mui/material";
-import Profile from "./Profile";
 import Address from "./Address";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -22,9 +21,7 @@ const AccountLayer = ({ data }: any) => {
   return (
     <Container sx={{ my: "1.5rem" }}>
       <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Profile session={session} />
-        </Grid>
+        <Grid item xs={12}></Grid>
 
         <Grid item xs={12}>
           <Address data={data} />

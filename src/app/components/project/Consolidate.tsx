@@ -19,8 +19,6 @@ import { useRouter } from "next/navigation";
 import * as yup from "yup";
 import countryList from "@/app/data/countryList";
 import { useSession } from "next-auth/react";
-import NewAddressModal from "./NewAddressModal";
-import NewAddressModalWrapper from "./NewAddressModalWrapper";
 
 type HeadingProps = { number: number; title: string };
 
@@ -49,10 +47,6 @@ const Consolidate = ({ data, userdata }: any) => {
 
   // Add a state variable to track whether the form is being submitted
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [allAddress, setAllAddress] = useState([]);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isDefault, setIsDefault] = useState(false); // Add this line
 
   // Update state to store user's default address
   const [isDefaultAddress, setIsDefaultAddress] = useState(false);
@@ -97,7 +91,7 @@ const Consolidate = ({ data, userdata }: any) => {
 
     setIsSubmitting(true);
 
-    const requestData = {
+    const cartRequestData = {
       arrived_info: isDefaultAddress
         ? userdata.arrived_info[0] // 사용자의 첫 번째 주소를 사용
         : {
@@ -117,64 +111,47 @@ const Consolidate = ({ data, userdata }: any) => {
       })),
     };
 
-    try {
-      const response = await fetch("/api/cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData), // 배열로 감싸 전송
-      });
+    const userRequestData = {
+      arrived_info: isDefaultAddress
+        ? userdata.arrived_info[0]
+        : {
+            firstname: values.firstname,
+            lastname: values.lastname,
+            country: values.country,
+            address: values.address,
+            city: values.city,
+            state: values.state,
+            postal_code: values.postal_code,
+            phone: values.phone,
+          },
+      email: session?.user.email,
+    };
 
-      if (response.status === 200) {
+    try {
+      const [cartResponse, userResponse] = await Promise.all([
+        fetch("/api/cart", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cartRequestData),
+        }),
+        fetch("/api/user", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userRequestData),
+        }),
+      ]);
+
+      if (cartResponse.status === 200 && userResponse.status === 200) {
         router.push("/cart");
       }
     } catch (error) {
       console.error("Error submitting data:", error);
     } finally {
       setIsSubmitting(false);
-    }
-  };
-
-  const handleAddressSubmit = async (values: any) => {
-    const newAddress = {
-      firstname: values.firstname,
-      lastname: values.lastname,
-      country: values.country,
-      address: values.address,
-      city: values.city,
-      state: values.state,
-      postal_code: values.postal_code,
-      phone: values.phone,
-    };
-
-    try {
-      const response = await fetch("/api/user", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          arrived_info: isDefault
-            ? [newAddress, ...allAddress]
-            : [...allAddress, newAddress],
-          email: session?.user.email,
-        }),
-      });
-
-      if (response.status === 200) {
-        console.log("주소가 성공적으로 추가되었습니다!");
-        setAllAddress((prevAllAddress) =>
-          isDefault
-            ? [newAddress, ...prevAllAddress]
-            : [...prevAllAddress, newAddress]
-        );
-        setIsAddModalOpen(false);
-      } else {
-        console.error("주소 추가에 실패했습니다. 상태:", response.status);
-      }
-    } catch (error) {
-      console.error("데이터 제출 중 오류 발생:", error);
     }
   };
 
@@ -193,41 +170,6 @@ const Consolidate = ({ data, userdata }: any) => {
       });
     }
   }, [isDefaultAddress, userdata]);
-
-  // 주소 삭제 함수
-  const handleAddressDelete = async (id: string) => {
-    try {
-      // 서버에 삭제 요청을 보냄
-      const response = await fetch("/api/user", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          addressId: id,
-          email: session?.user.email,
-        }),
-      });
-
-      if (response.status === 200) {
-        console.log("주소가 성공적으로 삭제되었습니다!");
-        // 삭제된 주소를 제외한 나머지 주소를 유지
-        setAllAddress(allAddress.filter((address) => address._id !== id));
-      } else {
-        console.error("주소 삭제에 실패했습니다. 상태:", response.status);
-      }
-    } catch (error) {
-      console.error("데이터 삭제 중 오류 발생:", error);
-    }
-  };
-
-  const handleAddNewAddress = () => {
-    setIsAddModalOpen(true);
-  };
-
-  const handleCancelAddNewAddress = () => {
-    setIsAddModalOpen(false);
-  };
 
   return (
     <>
@@ -400,34 +342,90 @@ const Consolidate = ({ data, userdata }: any) => {
                     label="Use default address"
                   />
 
-                  <Button
-                    color="primary"
-                    variant="outlined"
-                    style={{ marginLeft: "1rem" }}
-                    onClick={handleAddNewAddress} // Use the same function you have for the "Add New Address" button
-                  >
-                    Add Address
-                  </Button>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={!isDefaultAddress}
+                        onChange={() => setIsDefaultAddress(!isDefaultAddress)}
+                        name="isNewAddress"
+                      />
+                    }
+                    label="New Address"
+                  />
 
-                  {/* 모달 부분 */}
-                  {isAddModalOpen && (
-                    <NewAddressModalWrapper
-                      initialValues={{
-                        firstname: "",
-                        lastname: "",
-                        country: countryList[229],
-                        address: "",
-                        city: "",
-                        state: "",
-                        postal_code: "",
-                        phone: "",
-                      }}
-                      onSubmit={handleAddressSubmit}
-                      onCancel={handleCancelAddNewAddress}
-                      isDefault={isDefault} // Pass isDefault to the modal
-                      onCheckboxChange={() => setIsDefault(!isDefault)} // Add a callback for checkbox change
-                    />
-                  )}
+                  <Autocomplete
+                    options={userdata.arrived_info}
+                    getOptionLabel={(option) =>
+                      `${option.firstname} ${option.lastname}`
+                    }
+                    value={
+                      isDefaultAddress
+                        ? userdata.arrived_info.find(
+                            (option) =>
+                              option.firstname ===
+                                defaultAddressData.firstname &&
+                              option.lastname === defaultAddressData.lastname &&
+                              option.country.label ===
+                                defaultAddressData.country.label &&
+                              option.address === defaultAddressData.address &&
+                              option.city === defaultAddressData.city &&
+                              option.state === defaultAddressData.state &&
+                              option.postal_code ===
+                                defaultAddressData.postal_code &&
+                              option.phone === defaultAddressData.phone
+                          ) || null // 기본 주소를 찾지 못하면 null로 설정
+                        : defaultAddressData // isDefaultAddress가 false인 경우 기본 주소 데이터 사용
+                    }
+                    isOptionEqualToValue={(option, value) =>
+                      option.firstname === value.firstname &&
+                      option.lastname === value.lastname &&
+                      option.country.label === value.country.label &&
+                      option.address === value.address &&
+                      option.city === value.city &&
+                      option.state === value.state &&
+                      option.postal_code === value.postal_code &&
+                      option.phone === value.phone
+                    }
+                    onChange={(_, value) => {
+                      setIsDefaultAddress(!value);
+                      setDefaultAddressData({
+                        firstname: value?.firstname || "",
+                        lastname: value?.lastname || "",
+                        country: value?.country || countryList[229],
+                        address: value?.address || "",
+                        city: value?.city || "",
+                        state: value?.state || "",
+                        postal_code: value?.postal_code || "",
+                        phone: value?.phone || "",
+                      });
+
+                      // 폼 필드 값을 설정합니다.
+                      setFieldValue("firstname", value?.firstname || "");
+                      setFieldValue("lastname", value?.lastname || "");
+                      setFieldValue(
+                        "country",
+                        value?.country || countryList[229]
+                      );
+                      setFieldValue("address", value?.address || "");
+                      setFieldValue("city", value?.city || "");
+                      setFieldValue("state", value?.state || "");
+                      setFieldValue("postal_code", value?.postal_code || "");
+                      setFieldValue("phone", value?.phone || "");
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        label="Select Address"
+                        margin="normal"
+                        variant="outlined"
+                        placeholder="Select Address"
+                        error={!!touched.address && !!errors.address}
+                        helperText={
+                          (touched.address && errors.address) as string
+                        }
+                        {...params}
+                      />
+                    )}
+                  />
 
                   <Card1 sx={{ mb: 4 }}>
                     <Heading number={3} title="Shipping Address" />
