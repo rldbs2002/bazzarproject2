@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useRef, useState, useEffect } from "react";
 import { signIn, getProviders } from "next-auth/react";
 import Link from "next/link";

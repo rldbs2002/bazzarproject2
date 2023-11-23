@@ -29,6 +29,7 @@ import { FlexBox } from "../flex-box";
 import { useRouter } from "next/navigation";
 import { statusNames } from "@/constants";
 import { useSession } from "next-auth/react";
+import useSWR from "swr";
 
 // table column list
 const tableHeading = [
@@ -87,6 +88,8 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
   const { order, orderBy, selected, handleRequestSort } = useMuiTable({
     listData: requests,
   });
+
+  console.log(data);
 
   // 검색어를 기반으로 데이터 필터링
   const filteredData = data.filter((item) => {

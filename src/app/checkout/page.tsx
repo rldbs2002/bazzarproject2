@@ -1,25 +1,12 @@
 import React from "react";
 import SEO from "../components/SEO";
-import { Card, Grid } from "@mui/material";
 import ShopLayout2 from "../components/layouts/ShopLayout2";
 import Checklist from "../components/project/Checklist";
 import Container from "@mui/material/Container";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-
-async function getData() {
-  const res = await fetch("http://localhost:3000/api/cart", {
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-  return res.json();
-}
+import { getAllCartData } from "../lib/data";
 
 const CheckoutPage = async () => {
-  const data = await getData();
-  // console.log(data);
+  const data = await getAllCartData();
 
   return (
     <ShopLayout2>

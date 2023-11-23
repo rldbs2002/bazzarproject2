@@ -8,7 +8,6 @@ import { NextPage } from "next";
 import RequestForm from "../components/project/RequestForm";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import Navigations from "../components/layouts/customer-dashboard/Navigations";
 
 const NewRequestPage: NextPage = () => {
   const router = useRouter();
@@ -20,27 +19,19 @@ const NewRequestPage: NextPage = () => {
     },
   });
 
-  if (!session?.user) return null;
-  return (
-    <ShopLayout2>
-      <SEO title="Checkout alternative" />
-      <Container sx={{ my: "1.5rem" }}>
-        <Grid container spacing={3}>
-          {/* <Grid
-            item
-            lg={3}
-            xs={12}
-            sx={{ display: { xs: "none", sm: "none", md: "block" } }}
-          >
-            <Navigations />
-          </Grid> */}
-          <Grid item xs={12}>
-            <RequestForm />
+  if (!session?.user)
+    return (
+      <ShopLayout2>
+        <SEO title="Checkout alternative" />
+        <Container sx={{ my: "1.5rem" }}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <RequestForm />
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
-    </ShopLayout2>
-  );
+        </Container>
+      </ShopLayout2>
+    );
 };
 
 export default NewRequestPage;
