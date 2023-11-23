@@ -4,33 +4,18 @@ import ShopLayout2 from "../components/layouts/ShopLayout2";
 import SEO from "../components/SEO";
 import { NextPage } from "next";
 import RefundRequest from "../components/project/RefundRequest";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { getRequestData } from "@/utils/data";
 
-export async function getData() {
-  const res = await fetch("http://localhost:3000/api/request", {
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-  return res.json();
+export async function getServerSideProps() {
+  const data = await getRequestData();
+
+  return {
+    props: { data },
+  };
 }
 
-const MyPage: NextPage = async () => {
-  // const router = useRouter();
-
-  // const { data: session } = useSession({
-  //   required: true,
-  //   onUnauthenticated() {
-  //     router.push("/api/auth/signin?callbackUrl=/");
-  //   },
-  // });
-
-  // if (!session?.user) return null;
-
-  const data = await getData();
-
+const MyPage: NextPage = async ({ data }: any) => {
+  console.log(data);
   return (
     <ShopLayout2>
       <SEO title="Checkout alternative" />
