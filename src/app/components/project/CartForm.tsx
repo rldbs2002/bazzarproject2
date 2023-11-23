@@ -377,18 +377,30 @@ const CartForm: FC = ({ data }: any) => {
             </div>
 
             {/* Arrived 정보 */}
-            <div className="m-5" style={{ margin: "2rem" }}>
+            <div
+              className="m-5"
+              style={{
+                margin: "2rem",
+                border: "1px solid #ccc",
+                padding: "1rem",
+              }}
+            >
               <Heading number={4} title={`Arrived Images`} />
-              {/* 항상 Heading은 보이도록 */}
-              {data[cartId][0].arrived ? (
-                <>
-                  {/* arrived이 있을 경우 */}
-                  {session?.user.role === "admin" && (
-                    // admin인 경우에만 arrivedUploadButton 보이도록
-                    <ArrivedUploadButton data={firstKey} />
-                  )}
-                  {/* arrived Images가 있을 경우 */}
-                  {data[cartId][0].arrived.arrived_images && (
+
+              {/* UploadButton과 리스트를 수평으로 정렬 */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                {/* 항상 Heading은 보이도록 */}
+                {data[cartId][0].arrived &&
+                data[cartId][0].arrived.arrived_images &&
+                data[cartId][0].arrived.arrived_images.length > 0 ? (
+                  <>
+                    {/* arrived Images가 있을 경우 */}
                     <div>
                       {data[cartId][0].arrived.arrived_images.map(
                         (image, imageIndex) => (
@@ -401,27 +413,44 @@ const CartForm: FC = ({ data }: any) => {
                         )
                       )}
                     </div>
-                  )}
-                </>
-              ) : (
-                // arrived이 없을 경우 빈 박스
-                <></>
-              )}
+                  </>
+                ) : (
+                  // No arrived Images
+                  <Typography variant="body2">Empty list</Typography>
+                )}
+
+                {session?.user.role === "admin" && (
+                  // admin인 경우에만 ArrivedUploadButton 보이도록
+                  <ArrivedUploadButton data={firstKey} />
+                )}
+              </div>
             </div>
 
             {/* Repacking 정보 */}
-            <div className="m-5" style={{ margin: "2rem" }}>
+            <div
+              className="m-5"
+              style={{
+                margin: "2rem",
+                border: "1px solid #ccc",
+                padding: "1rem",
+              }}
+            >
               <Heading number={5} title={`Repacking Images`} />
-              {/* 항상 Heading은 보이도록 */}
-              {data[cartId][0].repacking ? (
-                <>
-                  {/* Repacking이 있을 경우 */}
-                  {session?.user.role === "admin" && (
-                    // admin인 경우에만 RepackingUploadButton 보이도록
-                    <RepackingUploadButton data={firstKey} />
-                  )}
-                  {/* Repacking Images가 있을 경우 */}
-                  {data[cartId][0].repacking.repacking_images && (
+
+              {/* UploadButton과 리스트를 수평으로 정렬 */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                {/* 항상 Heading은 보이도록 */}
+                {data[cartId][0].repacking &&
+                data[cartId][0].repacking.repacking_images &&
+                data[cartId][0].repacking.repacking_images.length > 0 ? (
+                  <>
+                    {/* repacking Images가 있을 경우 */}
                     <div>
                       {data[cartId][0].repacking.repacking_images.map(
                         (image, imageIndex) => (
@@ -434,27 +463,44 @@ const CartForm: FC = ({ data }: any) => {
                         )
                       )}
                     </div>
-                  )}
-                </>
-              ) : (
-                // Repacking이 없을 경우 빈 박스
-                <></>
-              )}
+                  </>
+                ) : (
+                  // No repacking Images
+                  <Typography variant="body2">Empty list</Typography>
+                )}
+
+                {session?.user.role === "admin" && (
+                  // admin인 경우에만 RepackingUploadButton 보이도록
+                  <RepackingUploadButton data={firstKey} />
+                )}
+              </div>
             </div>
 
             {/* Shipping 정보 */}
-            <div className="m-5" style={{ margin: "2rem" }}>
+            <div
+              className="m-5"
+              style={{
+                margin: "2rem",
+                border: "1px solid #ccc",
+                padding: "1rem",
+              }}
+            >
               <Heading number={6} title={`Shipping Images`} />
-              {/* 항상 Heading은 보이도록 */}
-              {data[cartId][0].shipping ? (
-                <>
-                  {/* shipping이 있을 경우 */}
-                  {session?.user.role === "admin" && (
-                    // admin인 경우에만 shippingUploadButton 보이도록
-                    <ShippingUploadButton data={firstKey} />
-                  )}
-                  {/* shipping Images가 있을 경우 */}
-                  {data[cartId][0].shipping.shipping_images && (
+
+              {/* UploadButton과 리스트를 수평으로 정렬 */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                {/* 항상 Heading은 보이도록 */}
+                {data[cartId][0].shipping &&
+                data[cartId][0].shipping.shipping_images &&
+                data[cartId][0].shipping.shipping_images.length > 0 ? (
+                  <>
+                    {/* shipping Images가 있을 경우 */}
                     <div>
                       {data[cartId][0].shipping.shipping_images.map(
                         (image, imageIndex) => (
@@ -467,37 +513,66 @@ const CartForm: FC = ({ data }: any) => {
                         )
                       )}
                     </div>
-                  )}
-                </>
-              ) : (
-                // shipping이 없을 경우 빈 박스
-                <></>
-              )}
+                  </>
+                ) : (
+                  // No shipping Images
+                  <Typography variant="body2">Empty list</Typography>
+                )}
+
+                {session?.user.role === "admin" && (
+                  // admin인 경우에만 ShippingUploadButton 보이도록
+                  <ShippingUploadButton data={firstKey} />
+                )}
+              </div>
             </div>
 
             {/* Shipping Information 정보 */}
-            <div className="m-5" style={{ margin: "2rem" }}>
+            <div
+              className="m-5"
+              style={{
+                margin: "2rem",
+                border: "1px solid #ccc",
+                padding: "1rem",
+              }}
+            >
               <Heading number={7} title={`Shipping Information`} />
-              {/* 항상 Heading은 보이도록 */}
-              {data[cartId][0].shipping ? (
-                <>
-                  {/* shipping이 있을 경우 */}
-                  {session?.user.role === "admin" && (
-                    // admin인 경우에만 shippingUploadButton 보이도록
-                    <ShippingForm data={firstKey} />
-                  )}
-                  {/* shipping Images가 있을 경우 */}
-                  <Typography variant="subtitle2">
-                    Carrier: {data[cartId][0].shipping.shipping_carrier}
-                  </Typography>
-                  <Typography variant="subtitle2">
-                    Tracking Number: {data[cartId][0].shipping.shipping_number}
-                  </Typography>
-                </>
-              ) : (
-                // shipping이 없을 경우 빈 박스
-                <></>
-              )}
+
+              {/* UploadButton과 리스트를 수평으로 정렬 */}
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start", // 왼쪽 정렬
+                  width: "100%",
+                }}
+              >
+                {/* 항상 Heading은 보이도록 */}
+                {data[cartId][0].shipping &&
+                data[cartId][0].shipping.shipping_carrier &&
+                data[cartId][0].shipping.shipping_number ? (
+                  <>
+                    {/* shipping이 있을 경우 */}
+                    {/* shipping Images가 있을 경우 */}
+                    <Typography variant="subtitle2">
+                      Carrier: {data[cartId][0].shipping.shipping_carrier}
+                    </Typography>
+                    <Typography variant="subtitle2">
+                      Tracking Number:{" "}
+                      {data[cartId][0].shipping.shipping_number}
+                    </Typography>
+                  </>
+                ) : (
+                  <Typography variant="body2">Empty list</Typography>
+                )}
+                {session?.user.role === "admin" && (
+                  // admin인 경우에만 ShippingUploadButton 보이도록
+                  <ShippingForm
+                    data={firstKey}
+                    style={{ marginTop: "0.5rem" }}
+                  />
+                )}
+              </div>
             </div>
           </Card1>
         ))}

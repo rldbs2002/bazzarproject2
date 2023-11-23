@@ -13,7 +13,7 @@ const Price = ({ data }: any) => {
   const [productPrice, setProductPrice] = useState(0);
   const [cartTotalValue, setCartTotalValue] = useState(0);
   const [cartTotalPrice, setCartTotalPrice] = useState(0);
-  const [isPriceConfirmed, setIsPriceConfirmed] = useState(false);
+  const [isPending, setIsPending] = useState(false); // State for the Pending checkbox
 
   const keys = Object.keys(data);
   const firstKey = keys[0];
@@ -21,38 +21,32 @@ const Price = ({ data }: any) => {
   console.log(status);
 
   const handleFormSubmit = async () => {
-    // Check if the price is confirmed
-    if (isPriceConfirmed) {
-      // Prepare the data to be sent in the PUT request
-      const requestData = {
-        cart_total_price: cartTotalPrice,
-        price_confirm: true,
-      };
+    // Prepare the data to be sent in the PUT request
+    const requestData = {
+      cart_total_price: cartTotalPrice,
+      pending: isPending,
+    };
 
-      try {
-        // Send a PUT request to update the cart information
-        const response = await fetch(`/api/cart/${firstKey}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestData),
-        });
+    try {
+      // Send a PUT request to update the cart information
+      const response = await fetch(`/api/cart/${firstKey}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
 
-        if (response.ok) {
-          // Handle successful response
-          console.log("Cart information updated successfully");
-          router.push("/checkout");
-        } else {
-          // Handle error response
-          console.error("Failed to update cart information");
-        }
-      } catch (error) {
-        console.error("Error while updating cart information", error);
+      if (response.ok) {
+        // Handle successful response
+        console.log("Cart information updated successfully");
+        router.push("/checkout");
+      } else {
+        // Handle error response
+        console.error("Failed to update cart information");
       }
-    } else {
-      // Handle the case where the price is not confirmed
-      console.warn("Price is not confirmed. Please confirm the price.");
+    } catch (error) {
+      console.error("Error while updating cart information", error);
     }
   };
 
@@ -67,10 +61,11 @@ const Price = ({ data }: any) => {
 
       // Calculate productPrice from the sum of totalValueUSD for all product_list items
       const productPriceFromCart = cartItems.reduce(
-        (sum, cartItem) =>
+        (sum: number, cartItem: any) =>
           sum +
           cartItem.userRequest.request_info.product_list.reduce(
-            (productSum, product) => productSum + product.totalValueUSD,
+            (productSum: number, product: any) =>
+              productSum + product.totalValueUSD,
             0
           ),
         0
@@ -97,10 +92,6 @@ const Price = ({ data }: any) => {
     );
   }, [data]);
 
-  const handleCheckboxChange = () => {
-    setIsPriceConfirmed(!isPriceConfirmed);
-  };
-
   return (
     <>
       {/* CHECKOUT FORM */}
@@ -121,27 +112,37 @@ const Price = ({ data }: any) => {
           </FlexBetween>
 
           <FlexBetween mb={2}>
+            <Span color="grey.600">Storage Fee:</Span>
+            <Span fontSize={18} fontWeight={600} lineHeight="1">
+              {}
+            </Span>
+          </FlexBetween>
+
+          <FlexBetween mb={4}>
             <Span color="grey.600">Cart Total Price:</Span>
             <Span fontSize={18} fontWeight={600} lineHeight="1">
               {currency(cartTotalPrice)}
             </Span>
           </FlexBetween>
 
-          <label>
-            <input
-              type="checkbox"
-              checked={isPriceConfirmed}
-              onChange={handleCheckboxChange}
-            />
-            Confirm Price
-          </label>
+          {/* Pending checkbox */}
+          <FlexBetween mb={4}>
+            <label>
+              <input
+                type="checkbox"
+                checked={isPending}
+                onChange={() => setIsPending(!isPending)}
+              />
+              Pending
+            </label>
+          </FlexBetween>
 
           <Button
             fullWidth
             color="primary"
             variant="outlined"
             onClick={handleFormSubmit}
-            disabled={!isPriceConfirmed || status !== 4} // Disable the button if the price is not confirmed
+            disabled={status !== 4} // Disable the button if the price is not confirmed
           >
             Checkout Now
           </Button>

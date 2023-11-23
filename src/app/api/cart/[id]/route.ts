@@ -94,11 +94,11 @@ export const PUT = async (request: any, { params }: any) => {
 
     if (requestData.cart_total_price) {
       cartRequest.cart_total_price = requestData.cart_total_price;
-      cartRequest.status = 5; // 4는 Checkout 상태를 나타내는 값으로 변경합니다.
+      cartRequest.status = 5; // 5는 Checkout 상태를 나타내는 값으로 변경합니다.
     }
 
-    if (requestData.price_confirm) {
-      cartRequest.price_confirm = requestData.price_confirm;
+    if (requestData.pending) {
+      cartRequest.pending = requestData.pending;
     }
 
     // 사용자 요청을 저장하고 업데이트된 요청을 반환합니다.

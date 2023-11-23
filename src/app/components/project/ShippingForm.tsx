@@ -54,7 +54,7 @@ const ShippingForm = ({ data }: any) => {
   };
 
   return (
-    <main className="flex flex-col items-end">
+    <main className="flex flex-col">
       <TextField
         label="Shipping Carrier"
         variant="outlined"
@@ -69,12 +69,16 @@ const ShippingForm = ({ data }: any) => {
         onChange={handleShippingNumberChange}
         margin="normal"
       />
-      <Checkbox
-        checked={shippingCompleted}
-        onChange={handleShippingCompletedChange}
-        color="primary"
-      />
-      Shipping Completed
+      <div className="flex items-center">
+        {" "}
+        {/* 이 부분을 추가하여 checkbox와 button을 수평으로 정렬 */}
+        <Checkbox
+          checked={shippingCompleted}
+          onChange={handleShippingCompletedChange}
+          color="primary"
+        />
+        <span>Shipping Completed</span> {/* Checkbox 라벨 추가 */}
+      </div>
       <Button variant="outlined" color="primary" onClick={handleSubmit}>
         Submit
       </Button>
