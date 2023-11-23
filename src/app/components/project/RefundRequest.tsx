@@ -89,8 +89,6 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
     listData: requests,
   });
 
-  console.log(data);
-
   // 검색어를 기반으로 데이터 필터링
   const filteredData = data.filter((item) => {
     if (searchCategory === "productName") {

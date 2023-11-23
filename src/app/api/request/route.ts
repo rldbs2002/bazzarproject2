@@ -3,11 +3,14 @@ import connect from "@/utils/db";
 import User from "@/models/User";
 import UserRequest from "@/models/UserRequest";
 import { getServerSession } from "next-auth";
+import { options } from "../auth/[...nextauth]/options";
 
 export const GET = async (request: any) => {
   try {
     await connect();
+    const session = await getServerSession(options);
 
+    console.log("Server:", session);
     // 사용자의 이메일 주소 (예: 사용자의 실제 이메일 주소로 변경해야 함)
     const userEmail = "admin@admin.com";
 

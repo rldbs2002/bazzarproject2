@@ -3,6 +3,20 @@ import connect from "@/utils/db";
 import UserRequest from "@/models/UserRequest";
 import Cart from "@/models/Cart";
 
+// Type for an individual entry
+type UserRequestDataEntry = {
+  cartId: string;
+  userRequest: any;
+  cartOptions: any;
+  price_calculate: any;
+  status: any;
+  arrived_info: any;
+  arrived: any;
+};
+
+// Type for the groupedData object
+type GroupedData = Record<string, UserRequestDataEntry[]>;
+
 export const GET = async (request: any) => {
   try {
     await connect();
@@ -48,10 +62,17 @@ export const GET = async (request: any) => {
     }
 
     // userRequestData를 CartId 별로 그룹화
-    const groupedData = userRequestData.reduce((result, entry) => {
-      (result[entry.cartId] = result[entry.cartId] || []).push(entry);
+    const groupedData: GroupedData = userRequestData.reduce((result, entry) => {
+      const cartId = entry.cartId as string; // assert cartId as string
+
+      if (!result[cartId]) {
+        result[cartId] = [];
+      }
+
+      result[cartId].push(entry);
+
       return result;
-    }, {});
+    }, {} as GroupedData);
 
     return new NextResponse(JSON.stringify(groupedData), {
       status: 200,
