@@ -55,7 +55,7 @@ export const options: NextAuthOptions = {
 
           if (user) {
             const isPasswordCorrect = await bcrypt.compare(
-              credentials?.password,
+              credentials?.password ?? "", // Provide a default value (empty string)
               user.password
             );
 
