@@ -3,6 +3,23 @@ import connect from "@/utils/db";
 import UserRequest from "@/models/UserRequest";
 import Cart from "@/models/Cart";
 
+// Type for an individual entry
+type UserRequestDataEntry = {
+  cartId: string;
+  userRequest: any;
+  cartOptions: any;
+  price_calculate: any;
+  status: any;
+  repacking: any;
+  shipping: any;
+  cart_id: any;
+  arrived_info: any;
+  arrived: any;
+};
+
+// Type for the groupedData object
+type GroupedData = Record<string, UserRequestDataEntry[]>;
+
 export const GET = async (request: any) => {
   try {
     await connect();
@@ -22,6 +39,7 @@ export const GET = async (request: any) => {
       const price_calculate = cart.price_calculate;
       const status = cart.status;
       const repacking = cart.repacking;
+      const cart_id = cart.cart_id;
       const shipping = cart.shipping;
       const arrived_info = cart.arrived_info;
       const arrived = cart.arrived;
@@ -45,6 +63,7 @@ export const GET = async (request: any) => {
               shipping,
               arrived_info,
               arrived,
+              cart_id,
             });
           }
         }
@@ -52,10 +71,17 @@ export const GET = async (request: any) => {
     }
 
     // userRequestData를 CartId 별로 그룹화
-    const groupedData = userRequestData.reduce((result, entry) => {
-      (result[entry.cartId] = result[entry.cartId] || []).push(entry);
+    const groupedData: GroupedData = userRequestData.reduce((result, entry) => {
+      const cartId = entry.cartId as string; // assert cartId as string
+
+      if (!result[cartId]) {
+        result[cartId] = [];
+      }
+
+      result[cartId].push(entry);
+
       return result;
-    }, {});
+    }, {} as GroupedData);
 
     return new NextResponse(JSON.stringify(groupedData), {
       status: 200,
