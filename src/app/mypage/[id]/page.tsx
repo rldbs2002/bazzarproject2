@@ -17,14 +17,6 @@ async function getData(id: any) {
   return res.json();
 }
 
-export async function generateMetadata({ params }: any) {
-  const post = await getData(params.id);
-  return {
-    title: post.title,
-    description: post.desc,
-  };
-}
-
 const UserPage: NextPage = async ({ params }: any) => {
   const data = await getData(params.id);
 
