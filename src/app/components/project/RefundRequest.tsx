@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactElement, FC, useState, useEffect } from "react";
+import { FC, useState } from "react";
 import {
   Box,
   Card,
@@ -13,33 +13,19 @@ import {
   Button,
   Divider,
   Pagination, // Import TablePagination
-  TextField,
   Select,
   MenuItem,
   InputBase,
   styled,
   TableRow,
   TableCell,
+  TableHead,
 } from "@mui/material";
 import TableBody from "@mui/material/TableBody";
-import TableHeader from "../data-table/TableHeader";
-import useMuiTable from "@/app/hooks/useMuiTable";
 import RefundRequestRow from "./RefundRequestRow";
 import { FlexBox } from "../flex-box";
 import { useRouter } from "next/navigation";
-import { statusNames } from "@/constants";
-import { useSession } from "next-auth/react";
-import useSWR from "swr";
-
-// table column list
-const tableHeading = [
-  { id: "check", label: "Check", align: "left" },
-  { id: "requestId", label: "Request ID", align: "left" },
-  { id: "product", label: "Product Name", align: "left" },
-  { id: "price", label: "Price", align: "left" },
-  { id: "status", label: "Status", align: "left" },
-  { id: "action", label: "Action", align: "center" },
-];
+import { StyledTableCell } from "./StyledComponents";
 
 type HeadingProps = { number: number; title: string };
 
@@ -62,8 +48,6 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
   );
 };
 
-type RefundRequestProps = { requests?: any[]; data: any };
-
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   height: 44,
   fontSize: 14,
@@ -80,23 +64,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 // =============================================================================
 
-export default function RefundRequest({ requests, data }: RefundRequestProps) {
-  const { data: session } = useSession();
+export default function RefundRequest({ data }: any) {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState("requestId"); // 검색 카테고리 추가 (기본값: productName)
 
-  const { order, orderBy, selected, handleRequestSort } = useMuiTable({
-    listData: requests,
-  });
-
   // 검색어를 기반으로 데이터 필터링
-  const filteredData = data.filter((item) => {
+  const filteredData = data.filter((item: any) => {
     if (searchCategory === "productName") {
       // `product_list` 배열 내에서 `name`으로 검색
       const productNames = item.request_info.product_list.map(
-        (product) => product.name
+        (product: any) => product.name
       );
-      return productNames.some((productName) =>
+      return productNames.some((productName: any) =>
         productName.toLowerCase().includes(searchQuery.toLowerCase())
       );
     } else if (searchCategory === "requestId") {
@@ -205,29 +184,27 @@ export default function RefundRequest({ requests, data }: RefundRequestProps) {
 
             <TableContainer sx={{ minWidth: 900 }}>
               <Table>
-                <TableHeader
-                  order={order}
-                  hideSelectBtn
-                  orderBy={orderBy}
-                  heading={tableHeading}
-                  rowCount={data.length}
-                  numSelected={selected.length}
-                  onRequestSort={handleRequestSort}
-                />
+                <TableHead sx={{ backgroundColor: "grey.200" }}>
+                  <TableRow>
+                    <StyledTableCell>Check</StyledTableCell>
+                    <StyledTableCell>Request ID</StyledTableCell>
+                    <StyledTableCell>Product Name</StyledTableCell>
+                    <StyledTableCell>Price</StyledTableCell>
+                    <StyledTableCell>Status</StyledTableCell>
+                    <StyledTableCell>Actions</StyledTableCell>
+                  </TableRow>
+                </TableHead>
                 <TableBody>
                   {filteredData.length === 0 ? (
                     <TableRow>
-                      <TableCell
-                        colSpan={tableHeading.length + 1}
-                        align="center"
-                      >
-                        Data가 없습니다.
-                      </TableCell>
+                      <TableCell align="center">Data가 없습니다.</TableCell>
                     </TableRow>
                   ) : (
                     filteredData
-                      .filter((item) => !item.options) // options가 없는 항목만 필터링
-                      .sort((a, b) => b.request_id.localeCompare(a.request_id))
+                      .filter((item: any) => !item.options) // options가 없는 항목만 필터링
+                      .sort((a: any, b: any) =>
+                        b.request_id.localeCompare(a.request_id)
+                      )
                       .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
                       .map((request: any, index: any) => (
                         <RefundRequestRow

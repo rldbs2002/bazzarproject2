@@ -11,7 +11,6 @@ import { Clear, KeyboardArrowDown, PersonOutline } from "@mui/icons-material";
 import clsx from "clsx";
 import Icon from "../icons";
 import { layoutConstant } from "@/utils/constants";
-import Login from "../../sessions/Login";
 import { useAppContext } from "@/app/contexts/AppContext";
 import Image from "../BazaarImage";
 import MiniCart from "../MiniCart";
@@ -71,11 +70,8 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
         scroll="body"
         open={dialogOpen}
         fullWidth={isMobile}
-        onClose={toggleDialog}
         sx={{ zIndex: 9999 }}
-      >
-        <Login />
-      </Dialog>
+      ></Dialog>
 
       <Drawer
         open={sidenavOpen}

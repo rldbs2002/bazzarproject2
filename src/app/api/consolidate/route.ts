@@ -44,9 +44,8 @@ export const PUT = async (request: any) => {
       })
     );
 
-    return new NextResponse({
+    return new NextResponse(JSON.stringify(updatedRequests), {
       status: 200,
-      body: updatedRequests,
     });
   } catch (err: any) {
     return new NextResponse(err.message, {

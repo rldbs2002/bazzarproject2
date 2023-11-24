@@ -62,7 +62,6 @@ const themesOptions: ThemeOptions = {
 
 const themeOptions = (publicRuntimeConfig?: any, pathname?: string) => {
   // YOU CAN SET ANOTHER THEME HERE E.G. [THEMES.GROCERY] OR [THEMES.FURNITURE] ETC.
-  let themeOptions: ThemeOptions = themesOptions[THEMES.DEFAULT];
 
   return themeOptions;
 };

@@ -14,9 +14,6 @@ import { useSession } from "next-auth/react";
 
 const Home = () => {
   const [filterDemo, setFilterDemo] = useState("");
-
-  const router = useRouter();
-
   const { data: session } = useSession();
 
   console.log(session?.user);

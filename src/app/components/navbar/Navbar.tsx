@@ -1,25 +1,12 @@
 import { FC } from "react";
-import {
-  Box,
-  Button,
-  Container,
-  MenuItem,
-  styled,
-  SvgIconProps,
-} from "@mui/material";
+import { Box, MenuItem, styled, SvgIconProps } from "@mui/material";
 import ArrowRight from "@mui/icons-material/ArrowRight";
-import {
-  ArrowLeft,
-  ChevronLeft,
-  ChevronRight,
-  KeyboardArrowDown,
-} from "@mui/icons-material";
+import { ArrowLeft, KeyboardArrowDown } from "@mui/icons-material";
 import { NavLink } from "../nav-link";
 import { FlexBox } from "../flex-box";
 import BazaarCard from "../BazaarCard";
 import useSettings from "@/app/hooks/useSettings";
 import MegaMenu from "./MegaMenu";
-import MegaMenu2 from "./MegaMenu2";
 
 // NavList props interface
 type Navs = {
@@ -115,14 +102,6 @@ const Navbar: FC<NavbarProps> = ({
           );
         }
 
-        // show megamenu with sub
-        if (nav.megaMenuWithSub) {
-          return (
-            //@ts-ignore
-            <MegaMenu2 key={nav.title} title={nav.title} menuList={nav.child} />
-          );
-        }
-
         if (nav.url) {
           return (
             <StyledNavLink href={nav.url} key={nav.title}>
@@ -203,7 +182,7 @@ const Navbar: FC<NavbarProps> = ({
     <NavBarWrapper
       hoverEffect={false}
       elevation={elevation}
-      border={border}
+      border={500}
     ></NavBarWrapper>
   );
 };

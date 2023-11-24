@@ -2,12 +2,10 @@
 
 import { FC, Fragment, ReactNode, useCallback, useState } from "react";
 import Sticky from "../Sticky";
-import Topbar from "../Topbar";
-import { Footer1, Footer3 } from "../footer";
+import SearchInputWithCategory from "../search-box/SearchInputWithCategory";
 import Header from "../header/Header";
 // import Navbar from "../navbar/Navbar";
 import { MobileNavigationBar } from "../mobile-navigation";
-import SearchInputWithCategory from "../search-box/SearchInputWithCategory";
 
 /**
  *  Used in:

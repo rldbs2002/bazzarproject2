@@ -75,19 +75,19 @@ const Header = () => {
     else setFixed(false);
   }, 50);
 
-  useEffect(() => {
-    if (!window) return null;
+  // useEffect(() => {
+  //   if (!window) return null;
 
-    window.addEventListener("scroll", scrollListener);
-    return () => window.removeEventListener("scroll", scrollListener);
-  }, [scrollListener]);
+  //   window.addEventListener("scroll", scrollListener);
+  //   return () => window.removeEventListener("scroll", scrollListener);
+  // }, [scrollListener]);
 
   // 세션이 "unauthenticated" 상태일 때만 홈으로 리디렉션하지 않도록 처리
-  useEffect(() => {
-    if (session.status === "unauthenticated" && router.pathname !== "/") {
-      router.push("/");
-    }
-  }, [session, router]);
+  // useEffect(() => {
+  //   if (session.status === "unauthenticated" && router.pathname !== "/") {
+  //     router.push("/");
+  //   }
+  // }, [session, router]);
 
   return (
     <Fragment>

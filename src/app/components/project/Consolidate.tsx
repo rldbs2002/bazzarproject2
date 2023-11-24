@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import * as yup from "yup";
 import countryList from "@/app/data/countryList";
 import { useSession } from "next-auth/react";
+import { Product } from "../../../../type";
 
 type HeadingProps = { number: number; title: string };
 
@@ -106,7 +107,7 @@ const Consolidate = ({ data, userdata }: any) => {
           },
       status: 2,
       options: "consolidate",
-      items: data.map((item) => ({
+      items: data.map((item: any) => ({
         userRequest: item._id,
       })),
     };
@@ -182,7 +183,7 @@ const Consolidate = ({ data, userdata }: any) => {
             >
               Consolidate
             </Typography>
-            {data.map((item, index) => (
+            {data.map((item: any, index: number) => (
               <Card1 key={index} sx={{ mb: 4 }}>
                 <Typography
                   fontSize="30px"
@@ -229,84 +230,86 @@ const Consolidate = ({ data, userdata }: any) => {
 
                 <Heading number={2} title="Product List" />
 
-                {item.request_info.product_list.map((product, index) => (
-                  <div key={index}>
-                    <Typography variant="h6">ITEM #{index + 1}</Typography>
-                    <Grid container spacing={2}>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Product Name"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                          value={product.name}
-                        />
+                {item.request_info.product_list.map(
+                  (product: Product, index: number) => (
+                    <div key={index}>
+                      <Typography variant="h6">ITEM #{index + 1}</Typography>
+                      <Grid container spacing={2}>
+                        <Grid item sm={6} xs={12}>
+                          <TextField
+                            label="Product Name"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={product.name}
+                          />
+                        </Grid>
+                        <Grid item sm={6} xs={12}>
+                          <TextField
+                            label="Product Type"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={product.type}
+                          />
+                        </Grid>
                       </Grid>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Product Type"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                          value={product.type}
-                        />
+                      <Typography variant="subtitle2">PRICE / UNIT</Typography>
+                      <Grid container spacing={2}>
+                        <Grid item sm={6} xs={12}>
+                          <TextField
+                            label="Price (KRW)"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={product.priceKRW}
+                          />
+                        </Grid>
+                        <Grid item sm={6} xs={12}>
+                          <TextField
+                            label="Price (USD)"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={product.priceUSD}
+                          />
+                        </Grid>
                       </Grid>
-                    </Grid>
-                    <Typography variant="subtitle2">PRICE / UNIT</Typography>
-                    <Grid container spacing={2}>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Price (KRW)"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                          value={product.priceKRW}
-                        />
+                      <Grid container spacing={2}>
+                        <Grid item sm={6} xs={12}>
+                          <TextField
+                            label="Product Quantity"
+                            type="number"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={product.quantity}
+                          />
+                        </Grid>
+                        <Grid item sm={6} xs={12}>
+                          <TextField
+                            label="Total Value (USD)"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={product.totalValueUSD}
+                          />
+                        </Grid>
                       </Grid>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Price (USD)"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                          value={product.priceUSD}
-                        />
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Product URL"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={product.url}
+                          />
+                        </Grid>
                       </Grid>
-                    </Grid>
-                    <Grid container spacing={2}>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Product Quantity"
-                          type="number"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                          value={product.quantity}
-                        />
-                      </Grid>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Total Value (USD)"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                          value={product.totalValueUSD}
-                        />
-                      </Grid>
-                    </Grid>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12}>
-                        <TextField
-                          label="Product URL"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                          value={product.url}
-                        />
-                      </Grid>
-                    </Grid>
-                  </div>
-                ))}
+                    </div>
+                  )
+                )}
               </Card1>
             ))}
           </Container>
@@ -373,7 +376,7 @@ const Consolidate = ({ data, userdata }: any) => {
                           value={
                             isDefaultAddress
                               ? userdata.arrived_info.find(
-                                  (option) =>
+                                  (option: any) =>
                                     option.firstname ===
                                       defaultAddressData.firstname &&
                                     option.lastname ===

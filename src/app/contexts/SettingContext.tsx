@@ -31,14 +31,6 @@ const SettingsProvider = ({ children }: settingsProviderProps) => {
     );
   };
 
-  useEffect(() => {
-    if (!window) return null;
-
-    const getItem = window.localStorage.getItem("bazaar_settings");
-
-    if (getItem) setSettings(JSON.parse(getItem));
-  }, []);
-
   return (
     <SettingsContext.Provider value={{ settings, updateSettings }}>
       {children}

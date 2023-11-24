@@ -41,14 +41,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   "::placeholder": { color: theme.palette.text.disabled },
 }));
 
-const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
+const CartListItems = ({ data }: any) => {
   const router = useRouter();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchCriteria, setSearchCriteria] = useState("cartId");
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
 
   const itemsPerPage = 10;
   const numPages = Math.ceil(Object.keys(data).length / itemsPerPage);
@@ -79,7 +79,10 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
       .slice(startIndex, endIndex);
   };
 
-  const handlePageChange = (event, newPage) => {
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    newPage: number
+  ) => {
     setCurrentPage(newPage);
   };
 
@@ -187,7 +190,7 @@ const CartListItems = ({ data, selectedCart, onCartSelect }: any) => {
                       align="left"
                       sx={{ fontWeight: 400, cursor: "pointer" }}
                     >
-                      {data[cartId].map((userRequest) => (
+                      {data[cartId].map((userRequest: any) => (
                         <div key={userRequest.userRequest._id}>
                           {userRequest.userRequest.request_id}
                         </div>

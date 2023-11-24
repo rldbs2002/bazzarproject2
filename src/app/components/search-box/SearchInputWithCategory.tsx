@@ -13,7 +13,6 @@ import TouchRipple from "@mui/material/ButtonBase";
 import BazaarMenu from "../BazaarMenu";
 import { FlexBox } from "../flex-box";
 import { SearchOutlinedIcon, SearchResultCard } from "./styled";
-import api from "@/utils/__api__/products";
 
 const DropDownHandler = styled(FlexBox)(({ theme }) => ({
   whiteSpace: "pre",
@@ -39,27 +38,16 @@ const SearchInputWithCategory: FC = () => {
     };
 
   // FETCH PRODUCTS VIA API
-  const getProducts = async (searchText: string, category?: string) => {
-    const data = await api.searchProducts(searchText, category);
-    setResultList(data);
-  };
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     startTransition(() => {
       const value = e.target?.value;
 
       if (!value) setResultList([]);
-      else if (value && category !== "*") getProducts(value, category);
-      else getProducts(value);
     });
   };
 
   const handleDocumentClick = () => setResultList([]);
-
-  useEffect(() => {
-    window.addEventListener("click", handleDocumentClick);
-    return () => window.removeEventListener("click", null);
-  }, []);
 
   // CATEGORY MENU DROPDOWN
   const categoryDropdown = (

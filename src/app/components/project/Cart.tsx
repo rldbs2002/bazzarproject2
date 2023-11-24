@@ -9,7 +9,7 @@ import CartListItems from "./CartListItems";
 import { useRouter } from "next/navigation";
 import ShopLayout2 from "../layouts/ShopLayout2";
 
-const Cart: NextPage = ({ data }: any) => {
+const Cart = ({ data }: any) => {
   const router = useRouter();
   const { data: session } = useSession({
     required: true,

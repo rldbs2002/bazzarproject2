@@ -45,7 +45,7 @@ const SidebarAccordion: FC<SidebarAccordionProps> = (props) => {
     setCollapsed(!collapsed);
   };
 
-  const calcaulateHeight = useCallback((node) => {
+  const calcaulateHeight = useCallback((node: any) => {
     if (node.name !== "child") {
       for (let child of node.children) {
         calcaulateHeight(child);

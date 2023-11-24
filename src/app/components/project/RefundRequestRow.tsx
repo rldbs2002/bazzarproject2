@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { Delete, Edit, RemoveRedEye } from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 import {
   StatusWrapper,
   StyledIconButton,
@@ -116,7 +116,7 @@ const RefundRequestRow: FC<RefundRequestRowProps> = ({
         <StatusWrapper status={status}>{statusNames[status]}</StatusWrapper>
       </StyledTableCell>
 
-      <StyledTableCell align="center">
+      <StyledTableCell align="left">
         <StyledIconButton>
           <Edit onClick={() => handleCellClick(_id)} />
         </StyledIconButton>

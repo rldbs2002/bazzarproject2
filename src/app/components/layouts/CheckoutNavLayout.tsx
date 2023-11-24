@@ -3,7 +3,6 @@
 import { FC, ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Box, Container, Grid } from "@mui/material";
-import Stepper from "../Stepper";
 import ShopLayout1 from "./ShopLayout1";
 
 /**
@@ -41,22 +40,6 @@ const CheckoutNavLayout: FC<CheckoutNavLayoutProps> = ({ children }) => {
         break;
     }
   };
-
-  useEffect(() => {
-    switch (pathname) {
-      case "/cart":
-        setSelectedStep(1);
-        break;
-      case "/checkout":
-        setSelectedStep(2);
-        break;
-      case "/payment":
-        setSelectedStep(3);
-        break;
-      default:
-        break;
-    }
-  }, [pathname]);
 
   return (
     <ShopLayout1>

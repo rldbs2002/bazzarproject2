@@ -1,10 +1,10 @@
 import React from "react";
 import Cart from "../components/project/Cart";
-import useSWR from "swr";
 import { getAllCartData } from "../lib/data";
 
-const CartPage = async ({ params }: any) => {
+const CartPage = async () => {
   const data = await getAllCartData();
+  console.log(data);
 
   return <Cart data={data} />;
 };

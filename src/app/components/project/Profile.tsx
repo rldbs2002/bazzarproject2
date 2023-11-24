@@ -5,12 +5,8 @@ import {
   Card,
   Avatar,
   Typography,
-  Button,
-  Modal,
-  TextField,
-  CircularProgress,
 } from "@mui/material";
-import { FlexBetween, FlexBox } from "../flex-box";
+import { FlexBetween } from "../flex-box";
 import { H5 } from "../Typography";
 import { signOut } from "next-auth/react";
 

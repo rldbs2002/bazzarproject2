@@ -18,7 +18,8 @@ import { Formik } from "formik";
 import { useRouter } from "next/navigation";
 import * as yup from "yup";
 import countryList from "@/app/data/countryList";
-import NewAddressModalWrapper from "./NewAddressModalWrapper";
+import { Product } from "../../../../type";
+import { useSession } from "next-auth/react";
 
 type HeadingProps = { number: number; title: string };
 
@@ -42,6 +43,7 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
 
 const Repacking = ({ data, userdata }: any) => {
   const router = useRouter();
+  const { data: session } = useSession();
 
   // Add a state variable to track whether the form is being submitted
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -89,7 +91,7 @@ const Repacking = ({ data, userdata }: any) => {
 
     setIsSubmitting(true);
 
-    const requestData = {
+    const cartRequestData = {
       arrived_info: isDefaultAddress
         ? userdata.arrived_info[0] // 사용자의 첫 번째 주소를 사용
         : {
@@ -104,21 +106,46 @@ const Repacking = ({ data, userdata }: any) => {
           },
       status: 2,
       options: "repacking",
-      items: data.map((item) => ({
+      items: data.map((item: any) => ({
         userRequest: item._id,
       })),
     };
 
-    try {
-      const response = await fetch("/api/cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData), // 배열로 감싸 전송
-      });
+    const userRequestData = {
+      arrived_info: isDefaultAddress
+        ? userdata.arrived_info[0]
+        : {
+            firstname: values.firstname,
+            lastname: values.lastname,
+            country: values.country,
+            address: values.address,
+            city: values.city,
+            state: values.state,
+            postal_code: values.postal_code,
+            phone: values.phone,
+          },
+      email: session?.user.email,
+    };
 
-      if (response.status === 200) {
+    try {
+      const [cartResponse, userResponse] = await Promise.all([
+        fetch("/api/cart", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cartRequestData),
+        }),
+        fetch("/api/user", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userRequestData),
+        }),
+      ]);
+
+      if (cartResponse.status === 200 && userResponse.status === 200) {
         router.push("/cart");
       }
     } catch (error) {
@@ -155,7 +182,7 @@ const Repacking = ({ data, userdata }: any) => {
             >
               Repacking
             </Typography>
-            {data.map((item, index) => (
+            {data.map((item: any, index: number) => (
               <Card1 key={index} sx={{ mb: 4 }}>
                 <Typography
                   fontSize="30px"
@@ -202,84 +229,86 @@ const Repacking = ({ data, userdata }: any) => {
 
                 <Heading number={2} title="Product List" />
 
-                {item.request_info.product_list.map((product, index) => (
-                  <div key={index}>
-                    <Typography variant="h6">ITEM #{index + 1}</Typography>
-                    <Grid container spacing={2}>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Product Name"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                          value={product.name}
-                        />
+                {item.request_info.product_list.map(
+                  (product: Product, index: number) => (
+                    <div key={index}>
+                      <Typography variant="h6">ITEM #{index + 1}</Typography>
+                      <Grid container spacing={2}>
+                        <Grid item sm={6} xs={12}>
+                          <TextField
+                            label="Product Name"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={product.name}
+                          />
+                        </Grid>
+                        <Grid item sm={6} xs={12}>
+                          <TextField
+                            label="Product Type"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={product.type}
+                          />
+                        </Grid>
                       </Grid>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Product Type"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                          value={product.type}
-                        />
+                      <Typography variant="subtitle2">PRICE / UNIT</Typography>
+                      <Grid container spacing={2}>
+                        <Grid item sm={6} xs={12}>
+                          <TextField
+                            label="Price (KRW)"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={product.priceKRW}
+                          />
+                        </Grid>
+                        <Grid item sm={6} xs={12}>
+                          <TextField
+                            label="Price (USD)"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={product.priceUSD}
+                          />
+                        </Grid>
                       </Grid>
-                    </Grid>
-                    <Typography variant="subtitle2">PRICE / UNIT</Typography>
-                    <Grid container spacing={2}>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Price (KRW)"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                          value={product.priceKRW}
-                        />
+                      <Grid container spacing={2}>
+                        <Grid item sm={6} xs={12}>
+                          <TextField
+                            label="Product Quantity"
+                            type="number"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={product.quantity}
+                          />
+                        </Grid>
+                        <Grid item sm={6} xs={12}>
+                          <TextField
+                            label="Total Value (USD)"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={product.totalValueUSD}
+                          />
+                        </Grid>
                       </Grid>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Price (USD)"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                          value={product.priceUSD}
-                        />
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Product URL"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={product.url}
+                          />
+                        </Grid>
                       </Grid>
-                    </Grid>
-                    <Grid container spacing={2}>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Product Quantity"
-                          type="number"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                          value={product.quantity}
-                        />
-                      </Grid>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          label="Total Value (USD)"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                          value={product.totalValueUSD}
-                        />
-                      </Grid>
-                    </Grid>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12}>
-                        <TextField
-                          label="Product URL"
-                          variant="outlined"
-                          fullWidth
-                          margin="normal"
-                          value={product.url}
-                        />
-                      </Grid>
-                    </Grid>
-                  </div>
-                ))}
+                    </div>
+                  )
+                )}
               </Card1>
             ))}
           </Container>
@@ -304,19 +333,120 @@ const Repacking = ({ data, userdata }: any) => {
                 setFieldValue,
               }) => (
                 <form onSubmit={handleSubmit}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={isDefaultAddress}
-                        onChange={() => setIsDefaultAddress(!isDefaultAddress)}
-                        name="isDefaultAddress"
-                      />
-                    }
-                    label="Use default address"
-                  />
-
                   <Card1 sx={{ mb: 4 }}>
                     <Heading number={3} title="Shipping Address" />
+                    <Grid container spacing={3}>
+                      <Grid item sm={4} xs={6}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={isDefaultAddress}
+                              onChange={() =>
+                                setIsDefaultAddress(!isDefaultAddress)
+                              }
+                              name="isDefaultAddress"
+                            />
+                          }
+                          label="Use default address"
+                        />
+                      </Grid>
+
+                      <Grid item sm={4} xs={6}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={!isDefaultAddress}
+                              onChange={() =>
+                                setIsDefaultAddress(!isDefaultAddress)
+                              }
+                              name="isNewAddress"
+                            />
+                          }
+                          label="New Address"
+                        />
+                      </Grid>
+
+                      <Grid item sm={4} xs={12}>
+                        <Autocomplete
+                          options={userdata.arrived_info}
+                          getOptionLabel={(option) =>
+                            `${option.firstname} ${option.lastname}`
+                          }
+                          value={
+                            isDefaultAddress
+                              ? userdata.arrived_info.find(
+                                  (option: any) =>
+                                    option.firstname ===
+                                      defaultAddressData.firstname &&
+                                    option.lastname ===
+                                      defaultAddressData.lastname &&
+                                    option.country.label ===
+                                      defaultAddressData.country.label &&
+                                    option.address ===
+                                      defaultAddressData.address &&
+                                    option.city === defaultAddressData.city &&
+                                    option.state === defaultAddressData.state &&
+                                    option.postal_code ===
+                                      defaultAddressData.postal_code &&
+                                    option.phone === defaultAddressData.phone
+                                ) || null // 기본 주소를 찾지 못하면 null로 설정
+                              : defaultAddressData // isDefaultAddress가 false인 경우 기본 주소 데이터 사용
+                          }
+                          isOptionEqualToValue={(option, value) =>
+                            option.firstname === value.firstname &&
+                            option.lastname === value.lastname &&
+                            option.country.label === value.country.label &&
+                            option.address === value.address &&
+                            option.city === value.city &&
+                            option.state === value.state &&
+                            option.postal_code === value.postal_code &&
+                            option.phone === value.phone
+                          }
+                          onChange={(_, value) => {
+                            setIsDefaultAddress(!value);
+                            setDefaultAddressData({
+                              firstname: value?.firstname || "",
+                              lastname: value?.lastname || "",
+                              country: value?.country || countryList[229],
+                              address: value?.address || "",
+                              city: value?.city || "",
+                              state: value?.state || "",
+                              postal_code: value?.postal_code || "",
+                              phone: value?.phone || "",
+                            });
+
+                            // 폼 필드 값을 설정합니다.
+                            setFieldValue("firstname", value?.firstname || "");
+                            setFieldValue("lastname", value?.lastname || "");
+                            setFieldValue(
+                              "country",
+                              value?.country || countryList[229]
+                            );
+                            setFieldValue("address", value?.address || "");
+                            setFieldValue("city", value?.city || "");
+                            setFieldValue("state", value?.state || "");
+                            setFieldValue(
+                              "postal_code",
+                              value?.postal_code || ""
+                            );
+                            setFieldValue("phone", value?.phone || "");
+                          }}
+                          renderInput={(params) => (
+                            <TextField
+                              label="Select Address"
+                              margin="normal"
+                              variant="outlined"
+                              placeholder="Select Address"
+                              error={!!touched.address && !!errors.address}
+                              helperText={
+                                (touched.address && errors.address) as string
+                              }
+                              {...params}
+                            />
+                          )}
+                        />
+                      </Grid>
+                    </Grid>
                     <Grid container spacing={2}>
                       <Grid item sm={6} xs={12}>
                         <TextField

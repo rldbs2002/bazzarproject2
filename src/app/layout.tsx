@@ -7,7 +7,6 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 import MuiTheme from "./theme/MuiTheme";
-import { Footer3 } from "./components/footer";
 
 export default function RootLayout({
   children,

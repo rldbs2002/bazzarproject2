@@ -18,6 +18,7 @@ import { FlexBox } from "../flex-box";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { Product } from "../../../../type";
 
 type HeadingProps = { number: number; title: string };
 
@@ -59,7 +60,6 @@ const RequestForm: FC = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
-
   const [currentExchangeRate, setCurrentExchangeRate] = useState(""); // 환율 정보를 저장할 상태 변수
   const [currentDate, setCurrentDate] = useState(""); // 오늘 날짜를 저장할 상태 변수
 
@@ -96,8 +96,8 @@ const RequestForm: FC = () => {
       {
         name: "",
         type: "",
-        priceKRW: "",
-        priceUSD: "",
+        priceKRW: 0,
+        priceUSD: 0,
         quantity: 0,
         totalValueUSD: 0,
         url: "",
@@ -289,8 +289,8 @@ const RequestForm: FC = () => {
                         arrayHelpers.push({
                           name: "",
                           type: "",
-                          priceKRW: 0, // Price (KRW) 추가
-                          priceUSD: 0, // Price (USD) 추가
+                          priceKRW: 0,
+                          priceUSD: 0,
                           quantity: 0,
                           totalValueUSD: 0,
                           url: "",
@@ -301,266 +301,274 @@ const RequestForm: FC = () => {
                       Add Product
                     </Button>
 
-                    {values.product_list.map((product, index: number) => (
-                      <div key={index}>
-                        <Typography variant="h6">ITEM #{index + 1}</Typography>
-                        {index > 0 && (
-                          <div
-                            style={{
-                              flex: 1,
-                              display: "flex",
-                              justifyContent: "flex-end",
-                            }}
-                          >
-                            <HighlightOffOutlinedIcon
-                              color="primary"
-                              onClick={() => arrayHelpers.remove(index)}
-                              sx={{ cursor: "pointer", marginBottom: "2px" }}
-                            />
-                          </div>
-                        )}
-                        <Grid container spacing={2}>
-                          <Grid item sm={6} xs={12}>
-                            <TextField
-                              label="Product Name"
-                              name={`product_list[${index}].name`}
-                              variant="outlined"
-                              fullWidth
-                              value={product.name}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              error={
-                                touched.product_list?.[index]?.name &&
-                                !!errors.product_list?.[index]?.name
-                              }
-                              helperText={
-                                touched.product_list?.[index]?.name &&
-                                errors.product_list?.[index]?.name
-                              }
-                              margin="normal"
-                            />
-                          </Grid>
-                          <Grid item sm={6} xs={12}>
-                            <TextField
-                              label="Product Type"
-                              name={`product_list[${index}].type`}
-                              variant="outlined"
-                              fullWidth
-                              value={product.type}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              error={
-                                touched.product_list?.[index]?.type &&
-                                !!errors.product_list?.[index]?.type
-                              }
-                              helperText={
-                                touched.product_list?.[index]?.type &&
-                                errors.product_list?.[index]?.type
-                              }
-                              margin="normal"
-                            />
-                          </Grid>
-                        </Grid>
-                        <Typography variant="subtitle2">
-                          PRICE / UNIT
-                        </Typography>
-                        <Grid container spacing={2}>
-                          <Grid item sm={6} xs={12}>
-                            <TextField
-                              label="Price (KRW)"
-                              name={`product_list[${index}].priceKRW`}
-                              variant="outlined"
-                              fullWidth
-                              value={product.priceKRW}
-                              onChange={(e) => {
-                                const priceKRW = Number(e.target.value) || 0;
-                                const priceUSD = krwToUsd(priceKRW).toFixed(2);
-                                setFieldValue(
-                                  `product_list[${index}].priceKRW`,
-                                  priceKRW
-                                );
-                                setFieldValue(
-                                  `product_list[${index}].priceUSD`,
-                                  priceUSD
-                                );
-                              }}
-                              onBlur={handleBlur}
-                              placeholder="Type Number"
-                              error={
-                                touched.product_list?.[index]?.priceKRW &&
-                                !!errors.product_list?.[index]?.priceKRW
-                              }
-                              helperText={
-                                touched.product_list?.[index]?.priceKRW &&
-                                errors.product_list?.[index]?.priceKRW
-                              }
-                              margin="normal"
-                            />
-                          </Grid>
-                          <Grid item sm={6} xs={12}>
-                            <TextField
-                              label="Price (USD)"
-                              name={`product_list[${index}].priceUSD`}
-                              variant="outlined"
-                              fullWidth
-                              value={product.priceUSD}
-                              onChange={(e) => {
-                                const priceUSD = Number(e.target.value) || 0;
-                                setFieldValue(
-                                  `product_list[${index}].priceUSD`,
-                                  priceUSD
-                                );
-
-                                // Price (USD)가 업데이트되었으므로 Price (KRW)를 다시 계산
-                                const priceKRW = usdToKrw(priceUSD).toFixed(2);
-                                setFieldValue(
-                                  `product_list[${index}].priceKRW`,
-                                  priceKRW
-                                );
-
-                                // Price (USD) 및 quantity가 업데이트되었으므로 Total Value (USD)를 다시 계산
-                                const quantity = Number(product.quantity);
-                                const totalValueUSD = (
-                                  priceUSD * quantity
-                                ).toFixed(2);
-                                setFieldValue(
-                                  `product_list[${index}].totalValueUSD`,
-                                  totalValueUSD
-                                );
-                              }}
-                              margin="normal"
-                              onBlur={handleBlur} // onBlur 추가
-                              error={
-                                touched.product_list?.[index]?.priceUSD && // error 추가
-                                !!errors.product_list?.[index]?.priceUSD
-                              }
-                              helperText={
-                                touched.product_list?.[index]?.priceUSD && // helperText 추가
-                                errors.product_list?.[index]?.priceUSD
-                              }
-                            />
-                          </Grid>
-                        </Grid>
-
-                        <FlexBox
-                          flexDirection="row" // 가로 방향으로 요소를 배치
-                          alignItems="center" // 요소들을 세로로 중앙 정렬
-                          justifyContent="flex-end" // 요소들을 오른쪽으로 정렬
-                        >
-                          <Typography variant="subtitle1">
-                            1 KRW = {currentExchangeRate} USD{" "}
-                            {/* 환율 정보 표시 */}
+                    {values.product_list.map(
+                      (product: Product, index: number) => (
+                        <div key={index}>
+                          <Typography variant="h6">
+                            ITEM #{index + 1}
                           </Typography>
-                        </FlexBox>
-                        <FlexBox
-                          flexDirection="row" // 가로 방향으로 요소를 배치
-                          alignItems="center" // 요소들을 세로로 중앙 정렬
-                          justifyContent="flex-end" // 요소들을 오른쪽으로 정렬
-                        >
-                          <Typography variant="caption">
-                            {currentDate}
-                          </Typography>{" "}
-                          {/* 오늘 날짜 표시 */}
-                        </FlexBox>
-                        <Grid container spacing={2}>
-                          <Grid item sm={6} xs={12}>
-                            <TextField
-                              label="Product Quantity"
-                              name={`product_list[${index}].quantity`}
-                              type="number"
-                              variant="outlined"
-                              fullWidth
-                              value={product.quantity}
-                              onChange={(e) => {
-                                const quantity = Number(e.target.value) || 0;
-                                setFieldValue(
-                                  `product_list[${index}].quantity`,
-                                  quantity
-                                );
+                          {index > 0 && (
+                            <div
+                              style={{
+                                flex: 1,
+                                display: "flex",
+                                justifyContent: "flex-end",
+                              }}
+                            >
+                              <HighlightOffOutlinedIcon
+                                color="primary"
+                                onClick={() => arrayHelpers.remove(index)}
+                                sx={{ cursor: "pointer", marginBottom: "2px" }}
+                              />
+                            </div>
+                          )}
+                          <Grid container spacing={2}>
+                            <Grid item sm={6} xs={12}>
+                              <TextField
+                                label="Product Name"
+                                name={`product_list[${index}].name`}
+                                variant="outlined"
+                                fullWidth
+                                value={product.name}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                /* error={
+                                  touched.product_list?.[index]?.name &&
+                                  !!errors.product_list?.[index]?.name
+                                }
+                                helperText={
+                                  touched.product_list?.[index]?.name &&
+                                  errors.product_list?.[index]?.name
+                                } */
+                                margin="normal"
+                              />
+                            </Grid>
+                            <Grid item sm={6} xs={12}>
+                              <TextField
+                                label="Product Type"
+                                name={`product_list[${index}].type`}
+                                variant="outlined"
+                                fullWidth
+                                value={product.type}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                /* error={
+                                  touched.product_list?.[index]?.type &&
+                                  !!errors.product_list?.[index]?.type
+                                }
+                                helperText={
+                                  touched.product_list?.[index]?.type &&
+                                  errors.product_list?.[index]?.type
+                                } */
+                                margin="normal"
+                              />
+                            </Grid>
+                          </Grid>
+                          <Typography variant="subtitle2">
+                            PRICE / UNIT
+                          </Typography>
+                          <Grid container spacing={2}>
+                            <Grid item sm={6} xs={12}>
+                              <TextField
+                                label="Price (KRW)"
+                                name={`product_list[${index}].priceKRW`}
+                                variant="outlined"
+                                fullWidth
+                                value={product.priceKRW}
+                                onChange={(e) => {
+                                  const priceKRW = Number(e.target.value) || 0;
+                                  const priceUSD =
+                                    krwToUsd(priceKRW).toFixed(2);
+                                  setFieldValue(
+                                    `product_list[${index}].priceKRW`,
+                                    priceKRW
+                                  );
+                                  setFieldValue(
+                                    `product_list[${index}].priceUSD`,
+                                    priceUSD
+                                  );
+                                }}
+                                onBlur={handleBlur}
+                                placeholder="Type Number"
+                                /* error={
+                                  touched.product_list?.[index]?.priceKRW &&
+                                  !!errors.product_list?.[index]?.priceKRW
+                                }
+                                helperText={
+                                  touched.product_list?.[index]?.priceKRW &&
+                                  errors.product_list?.[index]?.priceKRW
+                                } */
+                                margin="normal"
+                              />
+                            </Grid>
+                            <Grid item sm={6} xs={12}>
+                              <TextField
+                                label="Price (USD)"
+                                name={`product_list[${index}].priceUSD`}
+                                variant="outlined"
+                                fullWidth
+                                value={product.priceUSD}
+                                onChange={(e) => {
+                                  const priceUSD = Number(e.target.value) || 0;
+                                  setFieldValue(
+                                    `product_list[${index}].priceUSD`,
+                                    priceUSD
+                                  );
 
-                                // quantity가 업데이트되었으므로 totalValueUSD를 다시 계산
-                                const priceUSD = Number(product.priceUSD);
-                                const totalValueUSD = (
-                                  priceUSD * quantity
-                                ).toFixed(2);
-                                setFieldValue(
-                                  `product_list[${index}].totalValueUSD`,
-                                  totalValueUSD
-                                );
-                              }}
-                              onBlur={handleBlur}
-                              placeholder="Type Number"
-                              error={
-                                touched.product_list?.[index]?.quantity &&
-                                !!errors.product_list?.[index]?.quantity
-                              }
-                              helperText={
-                                touched.product_list?.[index]?.quantity &&
-                                errors.product_list?.[index]?.quantity
-                              }
-                              margin="normal"
-                            />
+                                  // Price (USD)가 업데이트되었으므로 Price (KRW)를 다시 계산
+                                  const priceKRW =
+                                    usdToKrw(priceUSD).toFixed(2);
+                                  setFieldValue(
+                                    `product_list[${index}].priceKRW`,
+                                    priceKRW
+                                  );
+
+                                  // Price (USD) 및 quantity가 업데이트되었으므로 Total Value (USD)를 다시 계산
+                                  const quantity = Number(product.quantity);
+                                  const totalValueUSD = (
+                                    priceUSD * quantity
+                                  ).toFixed(2);
+                                  setFieldValue(
+                                    `product_list[${index}].totalValueUSD`,
+                                    totalValueUSD
+                                  );
+                                }}
+                                margin="normal"
+                                onBlur={handleBlur} // onBlur 추가
+                                /* error={
+                                  touched.product_list?.[index]?.priceUSD && // error 추가
+                                  !!errors.product_list?.[index]?.priceUSD
+                                }
+                                helperText={
+                                  touched.product_list?.[index]?.priceUSD && // helperText 추가
+                                  errors.product_list?.[index]?.priceUSD
+                                } */
+                              />
+                            </Grid>
                           </Grid>
-                          <Grid item sm={6} xs={12}>
-                            <TextField
-                              label="Total Value (USD)"
-                              name={`product_list[${index}].totalValueUSD`}
-                              variant="outlined"
-                              fullWidth
-                              value={(
-                                Number(product.priceUSD) *
-                                Number(product.quantity)
-                              ).toFixed(2)}
-                              onBlur={handleBlur}
-                              error={
-                                touched.product_list?.[index]?.totalValueUSD &&
-                                !!errors.product_list?.[index]?.totalValueUSD
-                              }
-                              helperText={
-                                touched.product_list?.[index]?.totalValueUSD &&
-                                errors.product_list?.[index]?.totalValueUSD
-                              }
-                              margin="normal"
-                              onChange={(e) => {
-                                // Total Value (USD) 자동 계산
-                                const priceUSD = Number(product.priceUSD);
-                                const quantity = Number(e.target.value);
-                                const totalValueUSD = (
-                                  priceUSD * quantity
-                                ).toFixed(2);
-                                setFieldValue(
-                                  `product_list[${index}].totalValueUSD`,
-                                  totalValueUSD
-                                );
-                              }}
-                            />
+
+                          <FlexBox
+                            flexDirection="row" // 가로 방향으로 요소를 배치
+                            alignItems="center" // 요소들을 세로로 중앙 정렬
+                            justifyContent="flex-end" // 요소들을 오른쪽으로 정렬
+                          >
+                            <Typography variant="subtitle1">
+                              1 KRW = {currentExchangeRate} USD{" "}
+                              {/* 환율 정보 표시 */}
+                            </Typography>
+                          </FlexBox>
+                          <FlexBox
+                            flexDirection="row" // 가로 방향으로 요소를 배치
+                            alignItems="center" // 요소들을 세로로 중앙 정렬
+                            justifyContent="flex-end" // 요소들을 오른쪽으로 정렬
+                          >
+                            <Typography variant="caption">
+                              {currentDate}
+                            </Typography>{" "}
+                            {/* 오늘 날짜 표시 */}
+                          </FlexBox>
+                          <Grid container spacing={2}>
+                            <Grid item sm={6} xs={12}>
+                              <TextField
+                                label="Product Quantity"
+                                name={`product_list[${index}].quantity`}
+                                type="number"
+                                variant="outlined"
+                                fullWidth
+                                value={product.quantity}
+                                onChange={(e) => {
+                                  const quantity = Number(e.target.value) || 0;
+                                  setFieldValue(
+                                    `product_list[${index}].quantity`,
+                                    quantity
+                                  );
+
+                                  // quantity가 업데이트되었으므로 totalValueUSD를 다시 계산
+                                  const priceUSD = Number(product.priceUSD);
+                                  const totalValueUSD = (
+                                    priceUSD * quantity
+                                  ).toFixed(2);
+                                  setFieldValue(
+                                    `product_list[${index}].totalValueUSD`,
+                                    totalValueUSD
+                                  );
+                                }}
+                                onBlur={handleBlur}
+                                placeholder="Type Number"
+                                /* error={
+                                  touched.product_list?.[index]?.quantity &&
+                                  !!errors.product_list?.[index]?.quantity
+                                }
+                                helperText={
+                                  touched.product_list?.[index]?.quantity &&
+                                  errors.product_list?.[index]?.quantity
+                                } */
+                                margin="normal"
+                              />
+                            </Grid>
+                            <Grid item sm={6} xs={12}>
+                              <TextField
+                                label="Total Value (USD)"
+                                name={`product_list[${index}].totalValueUSD`}
+                                variant="outlined"
+                                fullWidth
+                                value={(
+                                  Number(product.priceUSD) *
+                                  Number(product.quantity)
+                                ).toFixed(2)}
+                                onBlur={handleBlur}
+                                /* error={
+                                  touched.product_list?.[index]
+                                    ?.totalValueUSD &&
+                                  !!errors.product_list?.[index]?.totalValueUSD
+                                }
+                                helperText={
+                                  touched.product_list?.[index]
+                                    ?.totalValueUSD &&
+                                  errors.product_list?.[index]?.totalValueUSD
+                                } */
+                                margin="normal"
+                                onChange={(e) => {
+                                  // Total Value (USD) 자동 계산
+                                  const priceUSD = Number(product.priceUSD);
+                                  const quantity = Number(e.target.value);
+                                  const totalValueUSD = (
+                                    priceUSD * quantity
+                                  ).toFixed(2);
+                                  setFieldValue(
+                                    `product_list[${index}].totalValueUSD`,
+                                    totalValueUSD
+                                  );
+                                }}
+                              />
+                            </Grid>
                           </Grid>
-                        </Grid>
-                        <Grid container spacing={2}>
-                          <Grid item xs={12}>
-                            <TextField
-                              label="Product URL"
-                              name={`product_list[${index}].url`}
-                              variant="outlined"
-                              fullWidth
-                              value={product.url}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              placeholder="Type Number"
-                              error={
-                                touched.product_list?.[index]?.url &&
-                                !!errors.product_list?.[index]?.url
-                              }
-                              helperText={
-                                touched.product_list?.[index]?.url &&
-                                errors.product_list?.[index]?.url
-                              }
-                              margin="normal"
-                            />
+                          <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                              <TextField
+                                label="Product URL"
+                                name={`product_list[${index}].url`}
+                                variant="outlined"
+                                fullWidth
+                                value={product.url}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                placeholder="Type Number"
+                                // error={
+                                //   touched.product_list?.[index]?.url &&
+                                //   !!errors.product_list?.[index]?.url
+                                // }
+                                // helperText={
+                                //   touched.product_list?.[index]?.url &&
+                                //   errors.product_list?.[index]?.url
+                                // }
+                                margin="normal"
+                              />
+                            </Grid>
                           </Grid>
-                        </Grid>
-                      </div>
-                    ))}
+                        </div>
+                      )
+                    )}
                   </>
                 )}
               </FieldArray>

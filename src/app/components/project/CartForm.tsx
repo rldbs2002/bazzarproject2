@@ -1,19 +1,12 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import * as React from "react";
 import Container from "@mui/material/Container";
 import Card1 from "../Card1";
-import {
-  Avatar,
-  Button,
-  Grid,
-  TextField,
-  Typography,
-  MenuItem,
-} from "@mui/material";
+import { Avatar, Button, Grid, TextField, Typography } from "@mui/material";
 import { FlexBox } from "../flex-box";
-import { Modal, Backdrop, Fade } from "@mui/material";
+import { Modal, Fade } from "@mui/material";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { useRouter } from "next/navigation";
 import RepackingUploadButton from "./RepackingUploadButton";
@@ -21,6 +14,7 @@ import { useSession } from "next-auth/react";
 import ShippingUploadButton from "./ShippingUploadButton";
 import ArrivedUploadButton from "./ArrivedUploadButton";
 import ShippingForm from "./ShippingForm";
+import { Product } from "../../../../type";
 
 type HeadingProps = { number: number; title: string };
 
@@ -44,7 +38,7 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
 
 // 환율과 날짜를 가져오는 함수
 
-const CartForm: FC = ({ data }: any) => {
+const CartForm = ({ data }: any) => {
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -69,17 +63,20 @@ const CartForm: FC = ({ data }: any) => {
     const cartData = data[cartId];
 
     // Calculate the totalValueUSD for each userRequest and sum them up for product price and cart total value
-    const userRequestTotal = cartData.reduce((total, userRequest) => {
-      const product_list =
-        userRequest.userRequest.request_info.product_list || [];
+    const userRequestTotal = cartData.reduce(
+      (total: number, userRequest: any) => {
+        const product_list =
+          userRequest.userRequest.request_info.product_list || [];
 
-      return (
-        total +
-        product_list.reduce((subtotal, product) => {
-          return subtotal + (product.totalValueUSD || 0);
-        }, 0)
-      );
-    }, 0);
+        return (
+          total +
+          product_list.reduce((subtotal: number, product: Product) => {
+            return subtotal + (product.totalValueUSD || 0);
+          }, 0)
+        );
+      },
+      0
+    );
 
     const hasCartTotalValue = cartData[0] && cartData[0].price_calculate;
 
@@ -153,7 +150,7 @@ const CartForm: FC = ({ data }: any) => {
       <Container maxWidth="md">
         {Object.keys(data).map((cartId, index) => (
           <Card1 key={index} sx={{ mb: 4 }}>
-            {data[cartId].map((userRequest, userRequestIndex) => (
+            {data[cartId].map((userRequest: any, userRequestIndex: number) => (
               <div key={userRequestIndex} style={{ margin: "2rem" }}>
                 <Typography
                   fontSize="40px"
@@ -212,7 +209,7 @@ const CartForm: FC = ({ data }: any) => {
                 <Heading number={2} title="Product List" />
 
                 {userRequest.userRequest.request_info.product_list.map(
-                  (product, productIndex) => (
+                  (product: Product, productIndex: number) => (
                     <div key={productIndex}>
                       <Typography variant="h6">
                         ITEM #{productIndex + 1}
@@ -403,7 +400,7 @@ const CartForm: FC = ({ data }: any) => {
                     {/* arrived Images가 있을 경우 */}
                     <div>
                       {data[cartId][0].arrived.arrived_images.map(
-                        (image, imageIndex) => (
+                        (image: any, imageIndex: number) => (
                           <div key={imageIndex}>
                             {/* 클릭 시 모달 열도록 수정 */}
                             <Button onClick={() => openModal(image)}>
@@ -453,7 +450,7 @@ const CartForm: FC = ({ data }: any) => {
                     {/* repacking Images가 있을 경우 */}
                     <div>
                       {data[cartId][0].repacking.repacking_images.map(
-                        (image, imageIndex) => (
+                        (image: any, imageIndex: number) => (
                           <div key={imageIndex}>
                             {/* 클릭 시 모달 열도록 수정 */}
                             <Button onClick={() => openModal(image)}>
@@ -503,7 +500,7 @@ const CartForm: FC = ({ data }: any) => {
                     {/* shipping Images가 있을 경우 */}
                     <div>
                       {data[cartId][0].shipping.shipping_images.map(
-                        (image, imageIndex) => (
+                        (image: any, imageIndex: number) => (
                           <div key={imageIndex}>
                             {/* 클릭 시 모달 열도록 수정 */}
                             <Button onClick={() => openModal(image)}>

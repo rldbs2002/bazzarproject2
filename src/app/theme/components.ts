@@ -16,34 +16,34 @@ declare module "@mui/material/Button" {
 // =========================================================
 
 export const components: Components = {
-  MuiCssBaseline: {
-    styleOverrides: (theme: Theme) => ({
-      html: { scrollBehavior: "smooth" },
-      p: { lineHeight: 1.75 },
-      button: {
-        fontSize: 14,
-        fontFamily: theme.typography.fontFamily,
-      },
-      ".MuiRating-sizeSmall": {
-        fontSize: "20px",
-      },
-      a: {
-        textDecoration: "none",
-        color: "inherit",
-      },
-      ul: {
-        margin: 0,
-        padding: 0,
-        listStyle: "none",
-      },
-      "#nprogress .bar": {
-        overflow: "hidden",
-        height: "3px !important",
-        zIndex: "99999999 !important",
-        background: `${theme.palette.primary.main} !important`,
-      },
-    }),
-  },
+  // MuiCssBaseline: {
+  //   styleOverrides: (theme: Theme) => ({
+  //     html: { scrollBehavior: "smooth" },
+  //     p: { lineHeight: 1.75 },
+  //     button: {
+  //       fontSize: 14,
+  //       fontFamily: theme.typography.fontFamily,
+  //     },
+  //     ".MuiRating-sizeSmall": {
+  //       fontSize: "20px",
+  //     },
+  //     a: {
+  //       textDecoration: "none",
+  //       color: "inherit",
+  //     },
+  //     ul: {
+  //       margin: 0,
+  //       padding: 0,
+  //       listStyle: "none",
+  //     },
+  //     "#nprogress .bar": {
+  //       overflow: "hidden",
+  //       height: "3px !important",
+  //       zIndex: "99999999 !important",
+  //       background: `${theme.palette.primary.main} !important`,
+  //     },
+  //   }),
+  // },
   MuiInputLabel: {
     styleOverrides: {
       root: { zIndex: 0 },

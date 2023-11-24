@@ -73,15 +73,18 @@ const Checklist = ({ data }: any) => {
       .slice(startIndex, endIndex);
   };
 
-  const handlePageClick = (event, page) => {
+  const handlePageClick = (event: React.ChangeEvent<unknown>, page: number) => {
     setCurrentPage(page);
   };
 
-  const handleSearchFieldChange = (event) => {
-    setSearchField(event.target.value.toLowerCase()); // 소문자로 변경
+  const handleSearchFieldChange = (event: any) => {
+    const value = event.target.value.toLowerCase();
+    setSearchField(value);
   };
 
-  const handleSearchValueChange = (event) => {
+  const handleSearchValueChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = event.target.value.toLowerCase();
     setSearchValue(value);
 
@@ -122,7 +125,7 @@ const Checklist = ({ data }: any) => {
           <Select
             value={searchField.toLowerCase()} // 소문자로 설정
             variant="outlined"
-            onChange={handleSearchFieldChange}
+            onChange={(event: any) => handleSearchFieldChange(event)}
             sx={{
               height: 44,
               fontSize: 14,

@@ -13,7 +13,7 @@ const AccountPopover = () => {
   const open = Boolean(anchorEl);
 
   const handleClose = () => setAnchorEl(null);
-  const handleClick = (event) => setAnchorEl(event.currentTarget);
+  const handleClick = (event: any) => setAnchorEl(event.currentTarget);
 
   return (
     <Box>

@@ -12,7 +12,7 @@ const Price = ({ data }: any) => {
 
   const [productPrice, setProductPrice] = useState(0);
   const [cartTotalValue, setCartTotalValue] = useState(0);
-  const [cartTotalPrice, setCartTotalPrice] = useState(0);
+  const [cartTotalPrice, setCartTotalPrice] = useState<number | string>(0);
   const [isPending, setIsPending] = useState(false); // State for the Pending checkbox
 
   const keys = Object.keys(data);
@@ -121,7 +121,9 @@ const Price = ({ data }: any) => {
           <FlexBetween mb={4}>
             <Span color="grey.600">Cart Total Price:</Span>
             <Span fontSize={18} fontWeight={600} lineHeight="1">
-              {currency(cartTotalPrice)}
+              {cartTotalPrice === "N/A"
+                ? "N/A"
+                : currency(Number(cartTotalPrice))}
             </Span>
           </FlexBetween>
 

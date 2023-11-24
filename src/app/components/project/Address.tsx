@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { Button, Card, CardContent, Typography } from "@mui/material";
 import { useSession } from "next-auth/react";
+import { AddressType } from "../../../../type";
 
 const Address = ({ data }: any) => {
-  const [allAddress, setAllAddress] = useState([]);
+  const [allAddress, setAllAddress] = useState<AddressType[]>([]);
   const { data: session } = useSession();
 
   // 주소 삭제 함수
@@ -38,7 +39,7 @@ const Address = ({ data }: any) => {
   return (
     <>
       {/* Render existing addresses */}
-      {data?.arrived_info.map((address: any) => (
+      {data?.arrived_info.map((address: AddressType) => (
         <Card key={address._id} sx={{ marginBottom: 2 }}>
           <CardContent>
             <Typography variant="h6">

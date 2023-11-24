@@ -11,33 +11,21 @@ import {
 } from "react";
 import { Box, Button, MenuItem, TextField } from "@mui/material";
 import { SearchOutlinedIcon, SearchResultCard } from "./styled";
-import api from "@/utils/__api__/products";
 
 const SearchInput: FC = () => {
   const parentRef = useRef();
   const [_, startTransition] = useTransition();
   const [resultList, setResultList] = useState<string[]>([]);
 
-  const getProducts = async (searchText: string) => {
-    const data = await api.searchProducts(searchText);
-    setResultList(data);
-  };
-
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     startTransition(() => {
       const value = e.target?.value;
 
       if (!value) setResultList([]);
-      else getProducts(value);
     });
   };
 
   const handleDocumentClick = () => setResultList([]);
-
-  useEffect(() => {
-    window.addEventListener("click", handleDocumentClick);
-    return () => window.removeEventListener("click", null);
-  }, []);
 
   return (
     <Box
