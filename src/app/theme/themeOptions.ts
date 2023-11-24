@@ -21,108 +21,19 @@ const breakpoints = {
   },
 };
 
-/*
-WE CREATED MULTIPLE THEME OPTIONS FOR DIFFERENT SHOP VARIATION.
+interface ExtendedThemeOptions extends ThemeOptions {
+  [key: string]: any;
+}
 
-YOU CAN JUST KEEP [THEMES.DEFAULT] AND REMOVE OTHER THEME OPTIONS.
-*/
-const themesOptions: ThemeOptions = {
+const themesOptions: ExtendedThemeOptions = {
   [THEMES.DEFAULT]: {
     typography,
     breakpoints,
     components: { ...components },
     palette: { primary: { ...primary, light: primary[100] }, ...themeColors },
   },
-  [THEMES.GROCERY]: {
-    typography,
-    breakpoints,
-    components: { ...components },
-    palette: { primary: { ...primary, light: primary[100] }, ...themeColors },
-  },
-  [THEMES.FURNITURE]: {
-    typography,
-    breakpoints,
-    components: { ...components },
-    palette: { primary: { ...paste, light: paste[100] }, ...themeColors },
-  },
-  [THEMES.HEALTH]: {
-    typography,
-    breakpoints,
-    components: { ...components },
-    palette: { primary: { ...blue, light: blue[100] }, ...themeColors },
-  },
-  [THEMES.GIFT]: {
-    typography,
-    breakpoints,
-    components: { ...components },
-    palette: { primary: { ...marron, light: marron[100] }, ...themeColors },
-  },
 };
 
-const themeOptions = (publicRuntimeConfig: any, pathname: string) => {
-  let themeOptions: ThemeOptions;
-
-  /*
-    YOU CAN ALSO REMOVE updateTheme function
-    AND FOLLOWING ENTIRE switch case BLOCK.
-  */
-  const updateTheme = (themeName: string) => {
-    publicRuntimeConfig.theme = themeName;
-    themeOptions = themesOptions[publicRuntimeConfig.theme];
-  };
-
-  switch (pathname) {
-    case "/":
-      updateTheme(THEMES.DEFAULT);
-      break;
-
-    case "/grocery1":
-      updateTheme(THEMES.DEFAULT);
-      break;
-
-    case "/grocery2":
-      updateTheme(THEMES.DEFAULT);
-      break;
-
-    case "/grocery3":
-      updateTheme(THEMES.DEFAULT);
-      break;
-
-    case "/gadget-shop":
-      updateTheme(THEMES.DEFAULT);
-      break;
-
-    case "/fashion-shop-1":
-      updateTheme(THEMES.DEFAULT);
-      break;
-
-    case "/market-1":
-      updateTheme(THEMES.DEFAULT);
-      break;
-
-    case "/furniture-shop":
-      updateTheme(THEMES.FURNITURE);
-      break;
-
-    case "/healthbeauty-shop":
-      updateTheme(THEMES.HEALTH);
-      break;
-
-    case "/gift-shop":
-      updateTheme(THEMES.GIFT);
-      break;
-
-    default:
-      themeOptions = themesOptions[publicRuntimeConfig.theme];
-      break;
-  }
-  /*
-        IF YOU REMOVE THE switch case, YOU NEED TO ASSIGN VALUE TO themeOptions
-        E.G. themeOptions = themesOptions[THEMES.DEFAULT];
-    */
-  // themeOptions = themesOptions[THEMES.DEFAULT];
-
-  return themeOptions;
-};
+const themeOptions: ExtendedThemeOptions = themesOptions[THEMES.DEFAULT];
 
 export default themeOptions;

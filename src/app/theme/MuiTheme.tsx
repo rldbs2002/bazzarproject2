@@ -9,6 +9,7 @@ import {
 } from "@mui/material/styles";
 import useSettings from "../hooks/useSettings";
 import customThemeOptions from "./themeOptions";
+import themeOptions from "./themeOptions";
 
 // =======================================================
 type MuiThemeProps = { children?: ReactNode };
@@ -19,13 +20,6 @@ const MuiTheme: FC<MuiThemeProps> = ({ children }) => {
   const pathname = usePathname();
 
   // 환경 변수 사용
-  const themeOptions = customThemeOptions(
-    {
-      theme: process.env.NEXT_PUBLIC_THEME,
-      currency: process.env.NEXT_PUBLIC_CURRENCY,
-    },
-    pathname
-  );
 
   let theme = createTheme(
     merge({}, { ...themeOptions, direction: settings.direction })
