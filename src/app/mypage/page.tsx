@@ -1,11 +1,10 @@
 import { Container, Grid } from "@mui/material";
 import ShopLayout2 from "../components/layouts/ShopLayout2";
 import SEO from "../components/SEO";
-import { NextPage } from "next";
 import RefundRequest from "../components/project/RefundRequest";
 import { getAllRequestData } from "../lib/data";
 
-const MyPage: NextPage = async () => {
+const MyPage = async () => {
   const data = await getAllRequestData();
 
   return (
