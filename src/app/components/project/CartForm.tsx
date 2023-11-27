@@ -15,6 +15,7 @@ import ShippingUploadButton from "./ShippingUploadButton";
 import ArrivedUploadButton from "./ArrivedUploadButton";
 import ShippingForm from "./ShippingForm";
 import { Product } from "../../../../type";
+import Image from "next/image";
 
 type HeadingProps = { number: number; title: string };
 
@@ -589,9 +590,12 @@ const CartForm = ({ data }: any) => {
               overflow: "auto",
             }}
           >
-            <img
+            <Image
               src={selectedImageUrl}
               alt="Selected Image"
+              width={0}
+              height={0}
+              sizes="100vw"
               style={{ width: "100%", height: "auto" }}
             />
             <HighlightOffOutlinedIcon
