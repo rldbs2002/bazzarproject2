@@ -1,22 +1,30 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Grid } from "@mui/material";
 import Address from "./Address";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { getUserData } from "@/app/lib/data";
 
-const AccountLayer = ({ data }: any) => {
+const AccountLayer = () => {
   const router = useRouter();
+  const [userData, setUserData] = useState({});
 
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/api/auth/signin?callbackUrl=/");
-    },
-  });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getUserData();
 
-  if (!session?.user) return null;
+        setUserData(result);
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+  console.log(userData);
 
   return (
     <Container sx={{ my: "1.5rem" }}>
@@ -24,7 +32,7 @@ const AccountLayer = ({ data }: any) => {
         <Grid item xs={12}></Grid>
 
         <Grid item xs={12}>
-          <Address data={data} />
+          <Address data={userData} />
         </Grid>
       </Grid>
     </Container>

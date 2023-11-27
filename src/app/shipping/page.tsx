@@ -1,18 +1,15 @@
 import React, { FC } from "react";
-import Shipping from "../components/project/Shipping";
 import ShopLayout2 from "../components/layouts/ShopLayout2";
 import SEO from "../components/SEO";
-import { getShippingData, getUserData } from "../lib/data";
+import ShippingWrapper from "../components/project/ShippingWrapper";
 
 const page = async () => {
-  const data = await getShippingData();
-  const userdata = await getUserData();
-
   return (
     <ShopLayout2>
       <SEO title="Checkout alternative" />
 
-      <Shipping data={data} userdata={userdata} />
+      {/* <Shipping data={data} userdata={userdata} /> */}
+      <ShippingWrapper />
     </ShopLayout2>
   );
 };

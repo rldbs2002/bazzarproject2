@@ -60,13 +60,6 @@ export default function Form({ data }: any) {
   const [currentExchangeRate, setCurrentExchangeRate] = useState(""); // 환율 정보를 저장할 상태 변수
   const [currentDate, setCurrentDate] = useState(""); // 오늘 날짜를 저장할 상태 변수
 
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      redirect("/api/auth/signin?callbackUrl=/");
-    },
-  });
-
   const [formData, setFormData] = useState(data); // data를 초기 데이터로 설정
 
   const [status, setStatus] = useState(1); // 1은 보기 모드, 2는 편집 모드

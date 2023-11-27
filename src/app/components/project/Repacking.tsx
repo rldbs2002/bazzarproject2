@@ -20,6 +20,7 @@ import * as yup from "yup";
 import countryList from "@/app/data/countryList";
 import { Product } from "../../../../type";
 import { useSession } from "next-auth/react";
+import { getRepackingData } from "@/app/lib/data";
 
 type HeadingProps = { number: number; title: string };
 
@@ -41,9 +42,25 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
   );
 };
 
-const Repacking = ({ data, userdata }: any) => {
+const Repacking = ({ userdata }: any) => {
   const router = useRouter();
   const { data: session } = useSession();
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getRepackingData();
+
+        setData(result);
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // Add a state variable to track whether the form is being submitted
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -368,7 +385,7 @@ const Repacking = ({ data, userdata }: any) => {
 
                       <Grid item sm={4} xs={12}>
                         <Autocomplete
-                          options={userdata.arrived_info}
+                          options={userdata.arrived_info || []}
                           getOptionLabel={(option) =>
                             `${option.firstname} ${option.lastname}`
                           }

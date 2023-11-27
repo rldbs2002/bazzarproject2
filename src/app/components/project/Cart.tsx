@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 
 import { NextPage } from "next";
 import { Card, Container, Grid } from "@mui/material";
@@ -8,15 +9,34 @@ import { redirect } from "next/navigation";
 import CartListItems from "./CartListItems";
 import { useRouter } from "next/navigation";
 import ShopLayout2 from "../layouts/ShopLayout2";
+import { getAllCartData } from "@/app/lib/data";
 
-const Cart = ({ data }: any) => {
+const Cart = () => {
   const router = useRouter();
+  const [cartData, setCartData] = useState({});
+
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
       redirect("/api/auth/signin?callbackUrl=/");
     },
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getAllCartData();
+
+        setCartData(result);
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(cartData);
 
   return (
     <ShopLayout2>
@@ -26,7 +46,7 @@ const Cart = ({ data }: any) => {
           {/* CART PRODUCT LIST */}
           <Grid xs={12}>
             <Card sx={{ mb: 4 }}>
-              <CartListItems data={data} session={session} />
+              <CartListItems data={cartData} session={session} />
             </Card>
           </Grid>
         </Grid>

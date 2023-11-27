@@ -12,7 +12,7 @@ export const GET = async (request: any) => {
 
     console.log("Server:", session);
     // 사용자의 이메일 주소 (예: 사용자의 실제 이메일 주소로 변경해야 함)
-    const userEmail = "admin@admin.com";
+    const userEmail = session?.user.email;
 
     // User를 이메일 주소로 찾음
     const user = await User.findOne({ email: userEmail });

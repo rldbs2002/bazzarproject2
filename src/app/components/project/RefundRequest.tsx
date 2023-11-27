@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import {
   Box,
   Card,
@@ -26,6 +26,7 @@ import RefundRequestRow from "./RefundRequestRow";
 import { FlexBox } from "../flex-box";
 import { useRouter } from "next/navigation";
 import { StyledTableCell } from "./StyledComponents";
+import { getAllRequestData } from "@/app/lib/data";
 
 type HeadingProps = { number: number; title: string };
 
@@ -64,7 +65,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 // =============================================================================
 
-export default function RefundRequest({ data }: any) {
+export default function RefundRequest() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getAllRequestData();
+
+        setData(result);
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState("requestId"); // 검색 카테고리 추가 (기본값: productName)
 
