@@ -201,7 +201,7 @@ const Header = () => {
                       </Typography>
                     </Link>
 
-                    <Link href="/">
+                    <Link href="/mypage">
                       <Typography
                         className="link"
                         py={1}

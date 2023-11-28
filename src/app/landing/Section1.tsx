@@ -28,8 +28,8 @@ const Section1 = () => {
             mx="auto"
             mb={3}
           >
-            SEO friendly Next.js Ecommerce Template. Helps you to build
-            performant online store faster.
+            You can receive k-culture goods quickly and safely anywhere in the
+            world you want.
           </Paragraph>
 
           <FlexRowCenter
