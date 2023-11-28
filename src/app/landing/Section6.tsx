@@ -9,7 +9,7 @@ import { Dispatch, FC, SetStateAction } from "react";
 const list = [
   {
     title: "배송비 절감",
-    thumbnail: "/assets/images/landing/niche-demos.png",
+    thumbnail: "/assets/images/landing/save-money.png",
     subTitle:
       "9 Niche shop demos for online store. Super store, Fashion, Electronic, Grocery and etc",
     category: "homepage",
@@ -17,7 +17,7 @@ const list = [
   },
   {
     title: "빠른 배송",
-    thumbnail: "/assets/images/landing/inner-pages.png",
+    thumbnail: "/assets/images/landing/fast-delivery.png",
     subTitle:
       "Clean Shop inner pages. Vendor shop, Sale/discount pages, checkout, cart and etc.",
     category: "shop",
@@ -25,7 +25,7 @@ const list = [
   },
   {
     title: "안전하고 신속한 배송",
-    thumbnail: "/assets/images/landing/user-dashboard.png",
+    thumbnail: "/assets/images/landing/safe-delivery.png",
     subTitle:
       "Structured user dashboard for managing user account, orders, address and etc.",
     category: "user",
@@ -33,7 +33,7 @@ const list = [
   },
   {
     title: "업계 최고의 서비스",
-    thumbnail: "/assets/images/landing/admin-dashboard.png",
+    thumbnail: "/assets/images/landing/AdobeStock_604045522_Preview.png",
     subTitle: "30+ Super admin and vendor dashboard interfaces.",
     category: "admin",
     buttonText: "Browse Admin Dashboard",

@@ -8,6 +8,7 @@ import LazyImage from "../components/LazyImage";
 import { FlexBox, FlexRowCenter } from "../components/flex-box";
 import { H1, Paragraph, Span } from "../components/Typography";
 import Link from "next/link";
+import { Circle } from "@mui/icons-material";
 
 const Section1 = () => {
   return (
@@ -26,47 +27,66 @@ const Section1 = () => {
             fontWeight={500}
             maxWidth="540px"
             mx="auto"
-            mb={3}
+            mb={5}
           >
-            You can receive k-culture goods quickly and safely anywhere in the
-            world you want.
+            We deliver the K-culture goods you purchased quickly and safely
+            anywhere in the world you want.
           </Paragraph>
 
-          <FlexRowCenter
-            sx={{ mb: 5, flexDirection: { md: "row", xs: "column" } }}
-          >
-            <FlexBox
-              my={1}
-              mr={2}
-              alignItems="center"
-              fontWeight={500}
-              color="grey.900"
+          <Box>
+            <FlexRowCenter
+              sx={{ mb: 2, flexDirection: { md: "row", xs: "column" } }}
             >
-              <DoneIcon color="success" fontSize="small" sx={{ mr: 0.6 }} />
-              배송 대행
-            </FlexBox>
+              <FlexBox
+                my={1}
+                mr={2}
+                alignItems="flex-start" // Adjusted alignment here
+                fontWeight={500}
+                color="grey.900"
+              >
+                <Circle
+                  color="primary"
+                  sx={{ mr: 0.6, mt: 0.4, fontSize: "14px" }}
+                />
+                You buy K-culture goods and we send them to you
+              </FlexBox>
+            </FlexRowCenter>
 
-            <FlexBox
-              my={1}
-              mr={2}
-              alignItems="center"
-              fontWeight={500}
-              color="grey.900"
+            <FlexRowCenter
+              sx={{ mb: 2, flexDirection: { md: "row", xs: "column" } }}
             >
-              <DoneIcon color="success" fontSize="small" sx={{ mr: 0.6 }} />
-              구매 대행
-            </FlexBox>
+              <FlexBox
+                my={1}
+                mr={2}
+                alignItems="flex-start" // Adjusted alignment here
+                fontWeight={500}
+                color="grey.900"
+              >
+                <Circle
+                  color="primary"
+                  sx={{ mr: 0.6, mt: 0.4, fontSize: "14px" }}
+                />
+                We will buy and send you the k-culture goods you need
+              </FlexBox>
+            </FlexRowCenter>
 
-            <FlexBox
-              my={1}
-              alignItems="center"
-              fontWeight={500}
-              color="grey.900"
+            <FlexRowCenter
+              sx={{ mb: 2, flexDirection: { md: "row", xs: "column" } }}
             >
-              <DoneIcon color="success" fontSize="small" sx={{ mr: 0.6 }} />
-              대량 구매
-            </FlexBox>
-          </FlexRowCenter>
+              <FlexBox
+                my={1}
+                alignItems="flex-start" // Adjusted alignment here
+                fontWeight={500}
+                color="grey.900"
+              >
+                <Circle
+                  color="primary"
+                  sx={{ mr: 0.6, mt: 0.4, fontSize: "14px" }}
+                />
+                We will make a bulk purchase of the product you want
+              </FlexBox>
+            </FlexRowCenter>
+          </Box>
 
           <FlexBox justifyContent="center" mb={3}>
             <Scroll to="get" duration={400} offset={-72 - 16} smooth={true}>
@@ -79,21 +99,10 @@ const Section1 = () => {
                 How To Use
               </Button>
             </Scroll>
-
-            <Link href="/newrequest">
-              <Button
-                variant="outlined"
-                color="primary"
-                size="large"
-                sx={{ m: "0.5rem" }}
-              >
-                New Request
-              </Button>
-            </Link>
           </FlexBox>
         </Box>
 
-        <LazyImage
+        {/* <LazyImage
           priority
           alt="cover"
           width={2600}
@@ -101,7 +110,7 @@ const Section1 = () => {
           quality={100}
           src="/assets/images/landing/page-group-2.png"
           sx={{ display: "grid" }}
-        />
+        /> */}
       </Container>
     </Box>
   );

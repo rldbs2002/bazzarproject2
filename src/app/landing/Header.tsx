@@ -75,20 +75,6 @@ const Header = () => {
     else setFixed(false);
   }, 50);
 
-  // useEffect(() => {
-  //   if (!window) return null;
-
-  //   window.addEventListener("scroll", scrollListener);
-  //   return () => window.removeEventListener("scroll", scrollListener);
-  // }, [scrollListener]);
-
-  // 세션이 "unauthenticated" 상태일 때만 홈으로 리디렉션하지 않도록 처리
-  // useEffect(() => {
-  //   if (session.status === "unauthenticated" && router.pathname !== "/") {
-  //     router.push("/");
-  //   }
-  // }, [session, router]);
-
   return (
     <Fragment>
       <HeaderWrapper>
@@ -109,27 +95,77 @@ const Header = () => {
               <Box sx={{ mx: "auto" }}></Box>
 
               <FlexBox className="right-links" alignItems="center">
-                <Link href="/notice">
-                  <Typography
-                    className="link"
-                    color="grey.600"
-                    p="0.25rem 1.25rem"
-                  >
-                    Notice
-                  </Typography>
-                </Link>
+                {session.status === "unauthenticated" && (
+                  <Fragment>
+                    <Link href="/notice">
+                      <Typography
+                        className="link"
+                        color="grey.600"
+                        p="0.25rem 1.25rem"
+                      >
+                        Notice
+                      </Typography>
+                    </Link>
 
-                <Link href="/newrequest">
-                  <Typography
-                    className="link"
-                    color="grey.600"
-                    p="0.25rem 1.25rem"
-                  >
-                    New Request
-                  </Typography>
-                </Link>
+                    <Link href="/events">
+                      <Typography
+                        className="link"
+                        color="grey.600"
+                        p="0.25rem 1.25rem"
+                      >
+                        Events
+                      </Typography>
+                    </Link>
 
-                <Link href="/mypage">
+                    <Link href="/introduction">
+                      <Typography
+                        className="link"
+                        color="grey.600"
+                        p="0.25rem 1.25rem"
+                      >
+                        Intro
+                      </Typography>
+                    </Link>
+                  </Fragment>
+                )}
+
+                {session.status === "authenticated" && (
+                  <Fragment>
+                    {/* You can customize the links based on your requirements */}
+                    <Link href="/notice">
+                      <Typography
+                        className="link"
+                        color="grey.600"
+                        p="0.25rem 1.25rem"
+                      >
+                        Notice
+                      </Typography>
+                    </Link>
+
+                    <Link href="/event">
+                      <Typography
+                        className="link"
+                        color="grey.600"
+                        p="0.25rem 1.25rem"
+                      >
+                        Events
+                      </Typography>
+                    </Link>
+
+                    <Link href="/newrequest">
+                      <Typography
+                        className="link"
+                        color="grey.600"
+                        p="0.25rem 1.25rem"
+                      >
+                        New Request
+                      </Typography>
+                    </Link>
+                  </Fragment>
+                )}
+
+                {/* Common links for both authentication states */}
+                {/* <Link href="/mypage">
                   <Typography
                     className="link"
                     color="grey.600"
@@ -137,23 +173,33 @@ const Header = () => {
                   >
                     Requests
                   </Typography>
-                </Link>
+                </Link> */}
               </FlexBox>
 
               {!downSM && (
-                <Link
-                  href={
-                    session.status === "unauthenticated"
-                      ? "/signin"
-                      : "/signout"
-                  }
-                >
-                  <Button variant="outlined">
-                    {session.status === "unauthenticated"
-                      ? "Sign In"
-                      : "Sign Out"}
-                  </Button>
-                </Link>
+                <>
+                  <Link
+                    href={
+                      session.status === "unauthenticated"
+                        ? "/signin"
+                        : "/signout"
+                    }
+                  >
+                    <Button variant="outlined" sx={{ mr: 1 }}>
+                      {session.status === "unauthenticated"
+                        ? "Sign In"
+                        : "Sign Out"}
+                    </Button>
+                  </Link>
+
+                  {session.status === "unauthenticated" && (
+                    <Link href={"/signup"}>
+                      <Button variant="contained" color="primary">
+                        Sign up
+                      </Button>
+                    </Link>
+                  )}
+                </>
               )}
 
               {/* mobile menu */}
@@ -179,60 +225,121 @@ const Header = () => {
                       },
                     }}
                   >
-                    <Link href="/notice">
-                      <Typography
-                        className="link"
-                        py={1}
-                        mb={2}
-                        onClick={toggleSidenav}
-                      >
-                        Notice
-                      </Typography>
-                    </Link>
+                    {session.status === "unauthenticated" ? (
+                      <>
+                        <Link href="/notice">
+                          <Typography
+                            className="link"
+                            py={1}
+                            mb={2}
+                            onClick={toggleSidenav}
+                          >
+                            Notice
+                          </Typography>
+                        </Link>
 
-                    <Link href="/newrequest">
-                      <Typography
-                        className="link"
-                        py={1}
-                        mb={2}
-                        onClick={toggleSidenav}
-                      >
-                        New Request
-                      </Typography>
-                    </Link>
+                        <Link href="/events">
+                          <Typography
+                            className="link"
+                            py={1}
+                            mb={2}
+                            onClick={toggleSidenav}
+                          >
+                            Events
+                          </Typography>
+                        </Link>
 
-                    <Link href="/mypage">
-                      <Typography
-                        className="link"
-                        py={1}
-                        mb={2}
-                        onClick={toggleSidenav}
-                      >
-                        Requests
-                      </Typography>
-                    </Link>
+                        <Link href="/introduction">
+                          <Typography
+                            className="link"
+                            py={1}
+                            mb={2}
+                            onClick={toggleSidenav}
+                          >
+                            Intro
+                          </Typography>
+                        </Link>
+                      </>
+                    ) : (
+                      <>
+                        <Link href="/notice">
+                          <Typography
+                            className="link"
+                            py={1}
+                            mb={2}
+                            onClick={toggleSidenav}
+                          >
+                            Notice
+                          </Typography>
+                        </Link>
 
-                    <Link href="/cart">
-                      <Typography
-                        className="link"
-                        py={1}
-                        mb={2}
-                        onClick={toggleSidenav}
-                      >
-                        Cart
-                      </Typography>
-                    </Link>
+                        <Link href="/events">
+                          <Typography
+                            className="link"
+                            py={1}
+                            mb={2}
+                            onClick={toggleSidenav}
+                          >
+                            Events
+                          </Typography>
+                        </Link>
 
-                    <Link href="/checkout">
-                      <Typography
-                        className="link"
-                        py={1}
-                        mb={2}
-                        onClick={toggleSidenav}
-                      >
-                        Checkout
-                      </Typography>
-                    </Link>
+                        <Link href="/introduction">
+                          <Typography
+                            className="link"
+                            py={1}
+                            mb={2}
+                            onClick={toggleSidenav}
+                          >
+                            Intro
+                          </Typography>
+                        </Link>
+
+                        <Link href="/newrequest">
+                          <Typography
+                            className="link"
+                            py={1}
+                            mb={2}
+                            onClick={toggleSidenav}
+                          >
+                            New Request
+                          </Typography>
+                        </Link>
+
+                        <Link href="/mypage">
+                          <Typography
+                            className="link"
+                            py={1}
+                            mb={2}
+                            onClick={toggleSidenav}
+                          >
+                            Requests
+                          </Typography>
+                        </Link>
+
+                        <Link href="/cart">
+                          <Typography
+                            className="link"
+                            py={1}
+                            mb={2}
+                            onClick={toggleSidenav}
+                          >
+                            Cart
+                          </Typography>
+                        </Link>
+
+                        <Link href="/checkout">
+                          <Typography
+                            className="link"
+                            py={1}
+                            mb={2}
+                            onClick={toggleSidenav}
+                          >
+                            Checkout
+                          </Typography>
+                        </Link>
+                      </>
+                    )}
 
                     <Link
                       href={

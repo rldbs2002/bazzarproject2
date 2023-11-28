@@ -17,6 +17,7 @@ import Twitter from "../../components/icons/Twitter";
 import Youtube from "../../components/icons/Youtube";
 import Facebook from "../../components/icons/Facebook";
 import Instagram from "../../components/icons/Instagram";
+import { Copyright } from "@mui/icons-material";
 
 // styled components
 const StyledFooter = styled("footer")<{ bgcolor?: string }>(
@@ -51,46 +52,37 @@ const Footer3: FC<Props> = ({ sx, id, bgcolor }) => {
         </Link>
 
         <Grid container spacing={6}>
-          <Grid item md={6} sm={6} xs={12}>
+          <Grid item md={4} sm={4} xs={12}>
             <Paragraph mb={2.5} color="grey.300" maxWidth="370px">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
               libero id et, in gravida. Sit diam duis mauris nulla cursus. Erat
               et lectus vel ut sollicitudin elit at amet.
             </Paragraph>
 
-            <AppStore />
+            <Paragraph mb={2.5} color="grey.300" maxWidth="370px">
+              <Copyright />
+              2023 All Rights Reserved.
+            </Paragraph>
           </Grid>
 
-          <Grid item md={6} sm={6} xs={12}>
+          <Grid item md={4} sm={4} xs={12}>
             <Box mt={-0.6}>
               {customerCareLinks.map((item, ind) => (
-                <StyledLink href="/" key={ind}>
-                  {item}
+                <StyledLink href={item.url} key={ind}>
+                  {item.title}
                 </StyledLink>
               ))}
             </Box>
+          </Grid>
 
-            <FlexBox className="flex" mx={-0.625} mt={2}>
-              {iconList.map((item, ind) => (
-                <a
-                  href={item.url}
-                  target="_blank"
-                  rel="noreferrer noopenner"
-                  key={ind}
-                >
-                  <IconButton
-                    sx={{
-                      margin: 0.5,
-                      fontSize: 12,
-                      padding: "10px",
-                      backgroundColor: "rgba(0,0,0,0.2)",
-                    }}
-                  >
-                    <item.icon fontSize="inherit" sx={{ color: "white" }} />
-                  </IconButton>
-                </a>
-              ))}
-            </FlexBox>
+          <Grid item md={4} sm={4} xs={12}>
+            <Paragraph mb={2.5} color="grey.300" maxWidth="370px">
+              Address: 14, Yongso-ro, Nam-gu, Busan, Republic of Korea
+            </Paragraph>
+
+            <Paragraph mb={2.5} color="grey.300" maxWidth="370px">
+              Tel. 010 1234 5678
+            </Paragraph>
           </Grid>
         </Grid>
       </Container>
@@ -99,10 +91,16 @@ const Footer3: FC<Props> = ({ sx, id, bgcolor }) => {
 };
 
 const customerCareLinks = [
-  "Help Center",
-  "Track Your Order",
-  "Corporate & Bulk Purchasing",
-  "Returns & Refunds",
+  { title: "Introduction", url: "/introduction" },
+  { title: "Notice", url: "/notice" },
+  {
+    title: "Blog",
+    url: "/",
+  },
+  {
+    title: "Returns & Refunds",
+    url: "/",
+  },
 ];
 
 const iconList = [
