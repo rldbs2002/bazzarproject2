@@ -6,7 +6,9 @@ import SEO from "../components/SEO";
 import { NextPage } from "next";
 
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import Card1 from "../components/Card1";
+import RichTextEditor from "../components/project/RichTextEditor";
+import Notice from "../components/project/Notice";
 
 const CheckoutAlternative: NextPage = () => {
   const router = useRouter();
@@ -15,7 +17,16 @@ const CheckoutAlternative: NextPage = () => {
     <ShopLayout2>
       <SEO title="Checkout alternative" />
       <Grid container spacing={3}>
-        <Grid item xs={12}></Grid>
+        <Grid item sm={6} xs={12}>
+          <Notice />
+        </Grid>
+        <Grid item sm={6} xs={12}>
+          <Container sx={{ my: "1.5rem" }}>
+            <Card1>
+              <RichTextEditor />
+            </Card1>
+          </Container>
+        </Grid>
       </Grid>
     </ShopLayout2>
   );
