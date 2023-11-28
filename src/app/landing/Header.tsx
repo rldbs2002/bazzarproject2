@@ -212,14 +212,25 @@ const Header = () => {
                       </Typography>
                     </Link>
 
-                    <Link href="/my">
+                    <Link href="/cart">
                       <Typography
                         className="link"
                         py={1}
                         mb={2}
                         onClick={toggleSidenav}
                       >
-                        My
+                        Cart
+                      </Typography>
+                    </Link>
+
+                    <Link href="/checkout">
+                      <Typography
+                        className="link"
+                        py={1}
+                        mb={2}
+                        onClick={toggleSidenav}
+                      >
+                        Checkout
                       </Typography>
                     </Link>
 

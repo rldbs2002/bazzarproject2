@@ -10,7 +10,7 @@ export const GET = async (request: any) => {
     await connect();
 
     // 세션에서 사용자 이메일을 가져옴
-    const userEmail = "user@user.com";
+    const userEmail = "admin@admin.com";
 
     // 데이터베이스에서 사용자를 이메일로 찾음
     const user = await User.findOne({ email: userEmail });

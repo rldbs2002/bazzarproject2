@@ -8,11 +8,8 @@ import { options } from "../auth/[...nextauth]/options";
 export const GET = async (request: any) => {
   try {
     await connect();
-    const session = await getServerSession(options);
-
-    console.log("Server:", session);
     // 사용자의 이메일 주소 (예: 사용자의 실제 이메일 주소로 변경해야 함)
-    const userEmail = session?.user.email;
+    const userEmail = "admin@admin.com";
 
     // User를 이메일 주소로 찾음
     const user = await User.findOne({ email: userEmail });

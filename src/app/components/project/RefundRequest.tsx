@@ -199,7 +199,7 @@ export default function RefundRequest() {
               style={{ width: "250px" }}
             />
 
-            <TableContainer sx={{ minWidth: 900 }}>
+            <TableContainer>
               <Table>
                 <TableHead sx={{ backgroundColor: "grey.200" }}>
                   <TableRow>

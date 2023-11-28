@@ -97,27 +97,8 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
               <MobileMenu />
             </Box>
 
-            {/* MIDDLE CONTENT - LOGO */}
-            {/* <Link href="/">
-              <Image
-                height={44}
-                src="/assets/images/bazaar-black-sm.svg"
-                alt="logo"
-              />
-            </Link> */}
-
             {/* RIGHT CONTENT - LOGIN, CART, SEARCH BUTTON */}
             <FlexBox justifyContent="end" flex={1}>
-              {/* <Box component={IconButton}>
-                <Link href="/">
-                  <Image
-                    height={44}
-                    src="/assets/images/bazaar-black-sm.svg"
-                    alt="logo"
-                  />
-                </Link>
-              </Box> */}
-
               <Box component={IconButton}>
                 <Link href="/newrequest">
                   <Typography
@@ -168,27 +149,6 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
             </FlexBox>
           </FlexBetween>
 
-          {/* SEARCH FORM DRAWER */}
-          {/*           <Drawer
-            open={searchBarOpen}
-            anchor="top"
-            onClose={toggleSearchBar}
-            sx={{ zIndex: 9999 }}
-          >
-            <Box sx={{ width: "auto", padding: 2, height: "100vh" }}>
-              <FlexBetween mb={1}>
-                <Paragraph>Search to Bazaar</Paragraph>
-
-                <IconButton onClick={toggleSearchBar}>
-                  <Clear />
-                </IconButton>
-              </FlexBetween> */}
-
-          {/* CATEGORY BASED SEARCH FORM */}
-          {/* {searchInput}
-            </Box>
-          </Drawer> */}
-
           {/* LOGIN FORM DIALOG AND CART SIDE BAR  */}
           {DIALOG_DRAWER}
         </StyledContainer>
@@ -217,11 +177,6 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
             </CategoryMenu>
           )}
         </FlexBox>
-
-        {/* SEARCH FORM */}
-        {/* <FlexBox justifyContent="center" flex="1 1 0">
-          {searchInput}
-        </FlexBox> */}
 
         {/* LOGIN AND CART BUTTON */}
         <FlexBox gap={1.5} alignItems="center">
