@@ -10,7 +10,7 @@ const NoticeContent = ({ data }: any) => {
 
   const handleEdit = () => {
     // 공지 ID를 전달하여 편집 페이지로 이동하는 로직을 구현합니다
-    router.push(`/edit-notice/${data._id}`);
+    router.push(`/notice/${data._id}/edit`);
   };
 
   const handleDelete = async () => {

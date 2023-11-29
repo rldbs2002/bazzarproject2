@@ -2,18 +2,33 @@
 
 import React, { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
-import FroalaEditor from "react-froala-wysiwyg";
-import "froala-editor/css/froala_style.min.css";
-import "froala-editor/css/froala_editor.pkgd.min.css";
-import "froala-editor/js/plugins/image.min.js";
-import "froala-editor/js/plugins/char_counter.min.js";
-import "froala-editor/js/plugins/save.min.js";
+import { useMemo, useRef } from "react";
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
 import { Button, TextField, Box } from "@mui/material";
 
 const RichTextEditor = () => {
   const router = useRouter();
   const [title, setTitle] = useState("");
-  const [model, setModel] = useState("");
+  const quillRef = useRef();
+  const [content, setContent] = useState("");
+
+  // quill에서 사용할 모듈
+  // useMemo를 사용하여 modules가 렌더링 시 에디터가 사라지는 버그를 방지
+  const modules = useMemo(() => {
+    return {
+      toolbar: {
+        container: [
+          [{ header: [1, 2, 3, false] }],
+          ["bold", "italic", "underline", "strike"],
+          ["blockquote"],
+          [{ list: "ordered" }, { list: "bullet" }],
+          [{ color: [] }, { background: [] }],
+          [{ align: [] }, "link", "image"],
+        ],
+      },
+    };
+  }, []);
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.currentTarget.value);
@@ -25,7 +40,7 @@ const RichTextEditor = () => {
   };
 
   const handleSubmit = async () => {
-    const cleanedModel = extractTextFromHTML(model);
+    const cleanedModel = extractTextFromHTML(content);
 
     const requestData = {
       model: cleanedModel,
@@ -65,12 +80,14 @@ const RichTextEditor = () => {
         fullWidth
       />
 
-      <FroalaEditor
-        model={model}
-        onModelChange={(e: string) => setModel(e)}
-        config={{
-          placeholderText: "Start Writing...",
-        }}
+      <ReactQuill
+        style={{ width: "auto", height: "600px" }}
+        placeholder="Quill Content"
+        theme="snow"
+        ref={quillRef}
+        value={content}
+        onChange={setContent}
+        modules={modules}
       />
 
       <Button
