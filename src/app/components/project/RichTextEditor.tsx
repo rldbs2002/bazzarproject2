@@ -1,29 +1,38 @@
-import React, { useState } from "react";
-import dynamic from "next/dynamic";
-import "react-quill/dist/quill.snow.css"; // Quill 에디터 스타일
-import { Button } from "@mui/material";
-import { useRouter } from "next/navigation";
+"use client";
 
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import React, { useState, ChangeEvent } from "react";
+import { useRouter } from "next/navigation";
+import FroalaEditor from "react-froala-wysiwyg";
+import "froala-editor/css/froala_style.min.css";
+import "froala-editor/css/froala_editor.pkgd.min.css";
+import "froala-editor/js/plugins/image.min.js";
+import "froala-editor/js/plugins/char_counter.min.js";
+import "froala-editor/js/plugins/save.min.js";
+import { Button, TextField, Box } from "@mui/material";
 
 const RichTextEditor = () => {
   const router = useRouter();
-  const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
+  const [model, setModel] = useState("");
 
-  const handleTitleChange = (e: any) => {
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.currentTarget.value);
   };
 
+  const extractTextFromHTML = (htmlString: string) => {
+    const doc = new DOMParser().parseFromString(htmlString, "text/html");
+    return doc.body.textContent || "";
+  };
+
   const handleSubmit = async () => {
-    const date = new Date();
+    const cleanedModel = extractTextFromHTML(model);
+
     const requestData = {
-      date,
-      content,
+      model: cleanedModel,
       title,
     };
     try {
-      const response = await fetch("/api/request", {
+      const response = await fetch("/api/notice", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,57 +48,40 @@ const RichTextEditor = () => {
     }
   };
 
-  const modules = {
-    toolbar: [
-      [{ header: "1" }, { header: "2" }, { font: [] }],
-      [{ size: [] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["link", "image", "video"],
-      ["clean"],
-    ],
-  };
-
-  const formats = [
-    "header",
-    "font",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "link",
-    "image",
-    "video",
-  ];
-
-  const handleContentChange = (value: any) => {
-    setContent(value);
-  };
-
-  const handleSave = () => {
-    // 여기에서 content를 저장하는 로직을 추가하면 됩니다.
-    console.log("Saving content:", content);
-  };
-
   return (
-    <>
-      <div>
-        <label htmlFor="title">제목</label>
-        <input id="title" type="text" onChange={handleTitleChange} />
-        <ReactQuill
-          style={{ width: "800px", height: "600px" }}
-          modules={modules}
-          onChange={setContent}
-        />
-      </div>
-      <button style={{ marginTop: "50px" }} onClick={handleSubmit}>
-        제출
-      </button>
-    </>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      p={3}
+    >
+      <TextField
+        label="Title"
+        variant="outlined"
+        value={title}
+        onChange={handleTitleChange}
+        style={{ marginBottom: 16 }}
+        fullWidth
+      />
+
+      <FroalaEditor
+        model={model}
+        onModelChange={(e: string) => setModel(e)}
+        config={{
+          placeholderText: "Start Writing...",
+        }}
+      />
+
+      <Button
+        onClick={handleSubmit}
+        variant="contained"
+        color="primary"
+        style={{ marginTop: 16 }}
+      >
+        Submit
+      </Button>
+    </Box>
   );
 };
 
