@@ -10,7 +10,7 @@ import { Button, TextField, Box } from "@mui/material";
 const RichTextEditor = () => {
   const router = useRouter();
   const [title, setTitle] = useState("");
-  const quillRef = useRef();
+  const quillRef = useRef<ReactQuill | null>(null);
   const [content, setContent] = useState("");
 
   // quill에서 사용할 모듈
