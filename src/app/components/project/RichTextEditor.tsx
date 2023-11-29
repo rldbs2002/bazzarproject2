@@ -1,19 +1,20 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import React, { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef } from "react";
 import "react-quill/dist/quill.snow.css";
-import ReactQuill from "react-quill";
 import { Button, TextField, Box } from "@mui/material";
 import { storage } from "@/Firebase";
 import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const RichTextEditor = () => {
   const router = useRouter();
   const [title, setTitle] = useState("");
 
-  const quillRef = useRef<ReactQuill | null>(null);
   const [content, setContent] = useState("");
 
   // quill에서 사용할 모듈
@@ -116,7 +117,6 @@ const RichTextEditor = () => {
         style={{ width: "auto", height: "600px" }}
         placeholder="Quill Content"
         theme="snow"
-        ref={quillRef}
         value={content}
         onChange={setContent}
         modules={modules}
