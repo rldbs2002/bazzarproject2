@@ -8,7 +8,7 @@ import Card1 from "@/app/components/Card1";
 import { getNoticeData } from "@/app/lib/data";
 import NoticeContent from "@/app/components/project/NoticeContent";
 
-const NoticeIdPage: NextPage = async ({ params }: any) => {
+const NoticeIdPage = async ({ params }: any) => {
   const data = await getNoticeData(params.id);
 
   return (
