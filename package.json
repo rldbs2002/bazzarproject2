@@ -32,6 +32,7 @@
     "dayjs": "^1.11.9",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
+    "firebase": "^10.7.0",
     "flowbite": "^1.8.1",
     "formik": "^2.4.5",
     "froala-editor": "^4.1.3",

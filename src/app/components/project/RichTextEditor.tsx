@@ -6,10 +6,13 @@ import { useMemo, useRef } from "react";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
 import { Button, TextField, Box } from "@mui/material";
+import { storage } from "@/Firebase";
+import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
 
 const RichTextEditor = () => {
   const router = useRouter();
   const [title, setTitle] = useState("");
+
   const quillRef = useRef<ReactQuill | null>(null);
   const [content, setContent] = useState("");
 
@@ -38,6 +41,35 @@ const RichTextEditor = () => {
     const doc = new DOMParser().parseFromString(htmlString, "text/html");
     return doc.body.textContent || "";
   };
+
+  // 이미지 핸들러
+  // const imageHandler = async () => {
+  //   const input = document.createElement("input");
+  //   input.setAttribute("type", "file");
+  //   input.setAttribute("accept", "image/*");
+  //   input.click();
+
+  //   input.addEventListener("change", async () => {
+  //     const file = input.files[0];
+
+  //     try {
+  //       // 파일명을 "image/Date.now()"로 저장
+  //       const storageRef = ref(storage, `image/${Date.now()}`);
+  //       // Firebase Method: uploadBytes, getDownloadURL
+  //       const snapshot = await uploadBytes(storageRef, file);
+  //       const url = await getDownloadURL(snapshot.ref);
+
+  //       // 이미지 URL 에디터에 삽입
+  //       const editor = quillRef.current.getEditor();
+  //       const range = editor.getSelection(true);
+  //       editor.insertEmbed(range.index, "image", url);
+  //       // URL 삽입 후 커서를 이미지 뒷 칸으로 이동
+  //       editor.setSelection(range.index + 1);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   });
+  // };
 
   const handleSubmit = async () => {
     const cleanedModel = extractTextFromHTML(content);
@@ -98,6 +130,7 @@ const RichTextEditor = () => {
       >
         Submit
       </Button>
+      <button onClick={() => console.log(content)}>Value</button>
     </Box>
   );
 };

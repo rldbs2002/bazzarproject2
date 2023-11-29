@@ -1,4 +1,3 @@
-import { Container, Grid } from "@mui/material";
 import ShopLayout2 from "../components/layouts/ShopLayout2";
 import SEO from "../components/SEO";
 import { NextPage } from "next";
