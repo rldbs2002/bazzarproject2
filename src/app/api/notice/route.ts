@@ -23,7 +23,7 @@ export const POST = async (request: any) => {
   try {
     const notice = new Notice({
       title: requestData.title,
-      content: requestData.model,
+      content: requestData.content,
     });
 
     await notice.save();

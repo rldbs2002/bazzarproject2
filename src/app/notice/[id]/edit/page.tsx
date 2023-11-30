@@ -3,9 +3,9 @@ import ShopLayout2 from "@/app/components/layouts/ShopLayout2";
 import SEO from "@/app/components/SEO";
 import Card1 from "@/app/components/Card1";
 import { getNoticeData } from "@/app/lib/data";
-import NoticeContents from "@/app/components/project/NoticeContents";
+import NoticeEdit from "@/app/components/project/NoticeEdit";
 
-const NoticeIdPage = async ({ params }: any) => {
+const NoticeEditPage = async ({ params }: any) => {
   const data = await getNoticeData(params.id);
 
   return (
@@ -15,7 +15,7 @@ const NoticeIdPage = async ({ params }: any) => {
         <Grid item xs={12}>
           <Container sx={{ my: "1.5rem" }}>
             <Card1>
-              <NoticeContents data={data} />
+              <NoticeEdit data={data} />
             </Card1>
           </Container>
         </Grid>
@@ -24,4 +24,4 @@ const NoticeIdPage = async ({ params }: any) => {
   );
 };
 
-export default NoticeIdPage;
+export default NoticeEditPage;

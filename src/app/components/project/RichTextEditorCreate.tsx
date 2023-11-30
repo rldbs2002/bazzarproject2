@@ -8,28 +8,16 @@ import "react-quill/dist/quill.snow.css";
 import { Button, TextField, Box } from "@mui/material";
 import { storage } from "@/Firebase";
 import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
-import ReactQuill, { Quill } from "react-quill";
-
-interface RichTextEditorProps {
-  initialTitle?: string;
-  initialContent?: string;
-  onTitleChange: (content: string) => void;
-  onContentChange: (content: string) => void;
-}
+import ReactQuill from "react-quill";
 
 const DynamicReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-const RichTextEditor: React.FC<RichTextEditorProps> = ({
-  initialContent,
-  initialTitle,
-  onContentChange,
-  onTitleChange,
-}) => {
+const RichTextEditorCreate = ({}) => {
   const router = useRouter();
   const quillRef = useRef<ReactQuill | null>(null);
-  const [title, setTitle] = useState(initialTitle || "");
+  const [title, setTitle] = useState("");
 
-  const [content, setContent] = useState(initialContent || "");
+  const [content, setContent] = useState("");
 
   const modules = useMemo(() => {
     return {
@@ -48,8 +36,6 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.currentTarget.value);
-
-    onTitleChange(e.currentTarget.value);
   };
 
   useEffect(() => {
@@ -111,7 +97,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     }
   }, []);
 
-  /* const handleSubmit = async () => {
+  const handleSubmit = async () => {
     const requestData = {
       content: content,
       title: title,
@@ -131,7 +117,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     } catch (error) {
       console.error("Error submitting data:", error);
     }
-  }; */
+  };
 
   return (
     <Box
@@ -146,7 +132,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         variant="outlined"
         value={title}
         onChange={handleTitleChange}
-        style={{ marginBottom: 16, maxWidth: "715px" }}
+        style={{ marginBottom: 16, maxWidth: "540px" }}
         fullWidth
       />
 
@@ -160,20 +146,15 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         }}
         onChange={(value) => {
           setContent(value);
-          onContentChange(value);
         }}
         modules={modules}
       />
-      {/* <Button
-        onClick={handleSubmit}
-        variant="contained"
-        color="primary"
-        style={{ marginTop: 16 }}
-      >
+
+      <Button onClick={handleSubmit} variant="contained" color="primary">
         Submit
-      </Button> */}
+      </Button>
     </Box>
   );
 };
 
-export default RichTextEditor;
+export default RichTextEditorCreate;

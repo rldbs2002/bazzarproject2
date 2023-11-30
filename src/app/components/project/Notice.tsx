@@ -4,6 +4,9 @@ import { getAllNoticeData } from "@/app/lib/data";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { Paragraph } from "../Typography";
+import { FaTrash, FaEdit } from "react-icons/fa";
+import { Button } from "@mui/material";
+import { useSession } from "next-auth/react";
 
 type NoticeItem = {
   _id: string;
@@ -15,11 +18,35 @@ type NoticeItem = {
 
 const Notice: React.FC = () => {
   const router = useRouter();
+  const { data: session } = useSession();
 
   const [notices, setNotices] = useState<NoticeItem[]>([]);
 
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const noticesPerPage = 5; // Adjust the number of notices per page as needed
+  const handleCreate = () => {
+    router.push("/notice-create");
+  };
+
+  const handleEditClick = (itemId: string) => {
+    router.push(`/notice/${itemId}/edit`);
+  };
+
+  const handleDeleteClick = async (itemId: string) => {
+    // 공지를 삭제하는 로직을 구현합니다
+    try {
+      const response = await fetch(`/api/notice/${itemId}`, {
+        method: "DELETE",
+      });
+
+      if (response.status === 200) {
+        // 선택적으로 삭제 후 다른 페이지로 이동할 수 있습니다
+        router.push("/notice");
+      } else {
+        console.error("공지 삭제 중 오류:", response.statusText);
+      }
+    } catch (error: any) {
+      console.error("공지 삭제 중 오류:", error.message);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,27 +68,65 @@ const Notice: React.FC = () => {
 
   return (
     <>
-      <Paragraph
-        style={{ fontSize: "1.7rem", marginBottom: "1rem", fontWeight: "bold" }}
-      >
-        Notices
-      </Paragraph>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Paragraph
+          style={{
+            fontSize: "1.7rem",
+            marginBottom: "1rem",
+            fontWeight: "bold",
+          }}
+        >
+          Notices
+        </Paragraph>
+        {session?.user.role === "admin" && (
+          <Button
+            variant="outlined"
+            color="error"
+            style={{ width: "70px", height: "40px" }}
+            onClick={handleCreate}
+          >
+            Create
+          </Button>
+        )}
+      </div>
       <div>
         {notices.map((notice) => (
           <div
             key={notice._id}
-            onClick={() => handleCellClick(notice._id)}
-            style={{ marginBottom: "2rem" }}
+            style={{
+              marginBottom: "2rem",
+              cursor: "pointer",
+            }}
           >
-            <h3
+            <div
               style={{
-                fontSize: "1.3em",
-                margin: "10px 0",
-                fontWeight: "bold",
+                display: "flex",
+                gap: "1rem",
               }}
             >
-              {notice.title}
-            </h3>
+              <h3
+                style={{
+                  fontSize: "1.3em",
+                  margin: "10px 0",
+                  fontWeight: "bold",
+                }}
+                onClick={() => handleCellClick(notice._id)}
+              >
+                {notice.title}
+              </h3>
+              {session?.user.role === "admin" && (
+                <>
+                  <FaEdit
+                    onClick={() => handleEditClick(notice._id)}
+                    style={{ cursor: "pointer" }}
+                  />
+                  <FaTrash
+                    onClick={() => handleDeleteClick(notice._id)}
+                    style={{ cursor: "pointer" }}
+                  />
+                </>
+              )}
+            </div>
             <p style={{ marginBottom: "1rem" }}>
               {new Date(notice.date).toLocaleDateString()}
             </p>
