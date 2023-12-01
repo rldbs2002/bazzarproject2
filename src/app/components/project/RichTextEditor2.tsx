@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import React, { useState, ChangeEvent, useEffect, FC } from "react";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef } from "react";
@@ -10,24 +9,26 @@ import { storage } from "@/Firebase";
 import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
 import ReactQuill, { Quill } from "react-quill";
 import QuillNoSSRWriter from "./QuillNoSSRWriter";
+import Grid from "@mui/material";
 
-interface RichTextEditorProps {
-  initialTitle?: string;
-  initialContent?: string;
-  onTitleChange: (content: string) => void;
-  onContentChange: (content: string) => void;
-}
-
-const RichTextEditor2: React.FC<RichTextEditorProps> = ({
-  initialContent,
-  initialTitle,
-  onContentChange,
-  onTitleChange,
-}) => {
+const RichTextEditor2 = ({ data }: any) => {
   const router = useRouter();
   const quillInstance = useRef<ReactQuill>(null);
-  const [title, setTitle] = useState(initialTitle || "");
-  const [content, setContent] = useState(initialContent || "");
+  const [title, setTitle] = useState(data.title);
+  const [content, setContent] = useState(data.content);
+  const [noticeData, setNoticeData] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setNoticeData(data);
+      } catch (error) {
+        console.error("Error fetching notice data:", error);
+      }
+    };
+
+    fetchData();
+  }, [data]);
 
   const modules = useMemo(() => {
     return {
@@ -42,9 +43,8 @@ const RichTextEditor2: React.FC<RichTextEditorProps> = ({
         ],
       },
       imageCompress: {
-        quality: 1,
-        maxWidth: 222,
-        maxHeight: 222,
+        maxWidth: 400,
+        maxHeight: 400,
         debug: true, // default
         suppressErrorLogging: false,
         insertIntoEditor: undefined,
@@ -55,146 +55,86 @@ const RichTextEditor2: React.FC<RichTextEditorProps> = ({
     };
   }, []);
 
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.currentTarget.value);
-
-    onTitleChange(e.currentTarget.value);
-  };
-
-  // useEffect(() => {
-  //   const quill = quillRef.current;
-
-  //   // 이미지 핸들러
-  //   const imageHandler = () => {
-  //     const input = document.createElement("input");
-  //     input.setAttribute("type", "file");
-  //     input.setAttribute("accept", "image/*");
-  //     input.click();
-  //     input.addEventListener("change", async () => {
-  //       const editor = quillRef.current?.getEditor();
-  //       const fileInput = input.files;
-
-  //       // null 체크
-  //       if (fileInput && fileInput.length > 0) {
-  //         const file = fileInput[0];
-  //         const range = editor?.getSelection(true);
-
-  //         // editor와 range가 정의되어 있을 때 실행
-  //         if (editor && range) {
-  //           try {
-  //             // 파일명을 "image/Date.now()"로 저장
-  //             const storageRef = ref(storage, `image/${Date.now()}`);
-  //             // Firebase Method : uploadBytes, getDownloadURL
-  //             await uploadBytes(storageRef, file).then((snapshot) => {
-  //               getDownloadURL(snapshot.ref).then((url) => {
-  //                 // 이미지 URL 에디터에 삽입
-  //                 editor.insertEmbed(range.index, "image", url);
-
-  //                 // 새로운 Range 객체 생성
-  //                 const newPosition = range.index + 1;
-  //                 const newRange = {
-  //                   index: newPosition,
-  //                   length: 0,
-  //                   start: newPosition,
-  //                 };
-
-  //                 // 새로운 Range로 커서 이동
-  //                 editor.setSelection(newRange);
-  //               });
-  //             });
-  //           } catch (error) {
-  //             console.log(error);
-  //           }
-  //         } else {
-  //           console.error("Quill editor or selection range is not available");
-  //         }
-  //       }
-  //     });
-  //   };
-
-  //   if (quill) {
-  //     const toolbar = quill.getEditor().getModule("toolbar");
-  //     if (toolbar) {
-  //       toolbar.addHandler("image", imageHandler);
-  //     }
-  //   }
-  // }, []);
-
-  /* const handleSubmit = async () => {
-    const requestData = {
-      content: content,
-      title: title,
-    };
+  const handleSave = async () => {
     try {
-      const response = await fetch("/api/notice", {
-        method: "POST",
+      // 실제로 서버에 업데이트하는 로직을 여기에 추가
+      const requestData = {
+        title: title,
+        content: content,
+      };
+
+      const response = await fetch(`/api/notice/${data._id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(requestData),
       });
 
-      if (response.status === 200) {
-        router.push("/notice");
+      if (response.ok) {
+        try {
+          // 서버 응답을 JSON으로 파싱
+          const updatedData = await response.json();
+          console.log("updatedData:", updatedData);
+
+          // 서버 응답이 유효한 JSON일 경우에만 실행
+          if (updatedData) {
+            setNoticeData(updatedData);
+          }
+        } catch (jsonError) {
+          // JSON 파싱 에러 처리
+          console.error("Error parsing JSON:", jsonError);
+        }
+      } else {
+        // 서버 응답이 성공이 아닌 경우 에러 처리
+        console.error("Failed to update notice:", response.statusText);
       }
     } catch (error) {
-      console.error("Error submitting data:", error);
+      // 기타 에러 처리
+      console.error("Error saving data:", error);
+    } finally {
+      router.push("/notice");
     }
-  }; */
+  };
+
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.currentTarget.value);
+  };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      p={3}
-    >
-      <TextField
-        label="Title"
-        variant="outlined"
-        value={title}
-        onChange={handleTitleChange}
-        style={{ marginBottom: 16, maxWidth: "715px" }}
-        fullWidth
-      />
-
-      <QuillNoSSRWriter
-        forwardedRef={quillInstance}
-        value={content}
-        onChange={(value) => {
-          setContent(value);
-          onContentChange(value);
-        }}
-        modules={modules}
-        theme="snow"
-        placeholder="내용을 입력해주세요."
-        style={{ width: "auto", height: "600px" }}
-      />
-
-      {/* <ReactQuill
-        style={{ width: "auto", height: "600px" }}
-        placeholder="Quill Content"
-        theme="snow"
-        value={content}
-        ref={(el) => {
-          if (el) quillRef.current = el;
-        }}
-        onChange={(value) => {
-          setContent(value);
-          onContentChange(value);
-        }}
-        modules={modules}
-      /> */}
-      {/* <Button
-        onClick={handleSubmit}
-        variant="contained"
-        color="primary"
-        style={{ marginTop: 16 }}
+    <>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        p={3}
       >
-        Submit
-      </Button> */}
-    </Box>
+        <TextField
+          label="Title"
+          variant="outlined"
+          value={title}
+          style={{ marginBottom: 16, maxWidth: "715px" }}
+          onChange={handleTitleChange}
+          fullWidth
+        />
+
+        <QuillNoSSRWriter
+          forwardedRef={quillInstance}
+          value={content}
+          onChange={(value) => {
+            setContent(value);
+          }}
+          modules={modules}
+          theme="snow"
+          placeholder="내용을 입력해주세요."
+          style={{ width: "auto", height: "600px" }}
+        />
+        <Button variant="outlined" color="primary" onClick={handleSave}>
+          SAVE
+        </Button>
+      </Box>
+    </>
   );
 };
 

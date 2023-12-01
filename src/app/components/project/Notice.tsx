@@ -13,6 +13,7 @@ type NoticeItem = {
   title: string;
   content: string;
   date: string;
+  writer: string;
   // 다른 필요한 속성들도 추가할 수 있습니다.
 };
 
@@ -149,7 +150,8 @@ const Notice: React.FC = () => {
                 )}
               </div>
               <p style={{ marginBottom: "1rem" }}>
-                {new Date(notice.date).toLocaleDateString()}
+                {new Date(notice.date).toLocaleDateString()} | By{" "}
+                {notice.writer}
               </p>
               {/* 여기에 내용 등 필요한 정보 추가 */}
               <hr />

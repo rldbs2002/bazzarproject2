@@ -7,8 +7,10 @@ import { useMemo, useRef } from "react";
 import { Button, TextField, Box } from "@mui/material";
 import ReactQuill from "react-quill";
 import QuillNoSSRWriter from "./QuillNoSSRWriter";
+import { useSession } from "next-auth/react";
 
 const RichTextEditorCreate2 = ({}) => {
+  const { data: session } = useSession();
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -26,9 +28,8 @@ const RichTextEditorCreate2 = ({}) => {
         ],
       },
       imageCompress: {
-        quality: 1,
-        maxWidth: 222,
-        maxHeight: 222,
+        maxWidth: 400,
+        maxHeight: 400,
         debug: true, // default
         suppressErrorLogging: false,
         insertIntoEditor: undefined,
@@ -47,6 +48,7 @@ const RichTextEditorCreate2 = ({}) => {
     const requestData = {
       content: content,
       title: title,
+      writer: session?.user.role,
     };
     try {
       const response = await fetch("/api/notice", {

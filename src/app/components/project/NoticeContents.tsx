@@ -53,8 +53,6 @@ const NoticeContent = ({ data, onEdit }: any) => {
 
 const NoticeContents = ({ data }: any) => {
   const [noticeData, setNoticeData] = useState<any>(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedTitle, setEditedTitle] = useState("");
   const [editedContent, setEditedContent] = useState("");
   const router = useRouter();
 

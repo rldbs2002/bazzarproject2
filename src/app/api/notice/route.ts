@@ -24,6 +24,7 @@ export const POST = async (request: any) => {
     const notice = new Notice({
       title: requestData.title,
       content: requestData.content,
+      writer: requestData.writer,
     });
 
     await notice.save();
