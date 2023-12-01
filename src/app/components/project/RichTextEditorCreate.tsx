@@ -8,7 +8,7 @@ import "react-quill/dist/quill.snow.css";
 import { Button, TextField, Box } from "@mui/material";
 import { storage } from "@/Firebase";
 import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 
 const DynamicReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 

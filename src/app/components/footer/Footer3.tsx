@@ -53,20 +53,34 @@ const Footer3: FC<Props> = ({ sx, id, bgcolor }) => {
 
         <Grid container spacing={6}>
           <Grid item md={4} sm={4} xs={12}>
-            <Paragraph mb={2.5} color="grey.300" maxWidth="370px">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-              libero id et, in gravida. Sit diam duis mauris nulla cursus. Erat
-              et lectus vel ut sollicitudin elit at amet.
-            </Paragraph>
+            <Box
+              mt={-0.6}
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Paragraph mb={2.5} color="grey.300" maxWidth="370px">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
+                libero id et, in gravida. Sit diam duis mauris nulla cursus.
+                Erat et lectus vel ut sollicitudin elit at amet.
+              </Paragraph>
 
-            <Paragraph mb={2.5} color="grey.300" maxWidth="370px">
-              <Copyright />
-              2023 All Rights Reserved.
-            </Paragraph>
+              <Paragraph mb={2.5} color="grey.300" maxWidth="370px">
+                <Copyright />
+                2023 All Rights Reserved.
+              </Paragraph>
+            </Box>
           </Grid>
 
           <Grid item md={4} sm={4} xs={12}>
-            <Box mt={-0.6}>
+            <Box
+              mt={-0.6}
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+            >
               {customerCareLinks.map((item, ind) => (
                 <StyledLink href={item.url} key={ind}>
                   {item.title}
@@ -76,13 +90,21 @@ const Footer3: FC<Props> = ({ sx, id, bgcolor }) => {
           </Grid>
 
           <Grid item md={4} sm={4} xs={12}>
-            <Paragraph mb={2.5} color="grey.300" maxWidth="370px">
-              Address: 14, Yongso-ro, Nam-gu, Busan, Republic of Korea
-            </Paragraph>
+            <Box
+              mt={-0.6}
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Paragraph mb={2.5} color="grey.300" maxWidth="370px">
+                Address: 14, Yongso-ro, Nam-gu, Busan, Republic of Korea
+              </Paragraph>
 
-            <Paragraph mb={2.5} color="grey.300" maxWidth="370px">
-              Tel. 010 1234 5678
-            </Paragraph>
+              <Paragraph mb={2.5} color="grey.300" maxWidth="370px">
+                Tel. 010 1234 5678
+              </Paragraph>
+            </Box>
           </Grid>
         </Grid>
       </Container>

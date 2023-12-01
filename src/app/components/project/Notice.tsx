@@ -95,13 +95,14 @@ const Notice: React.FC = () => {
             key={notice._id}
             style={{
               marginBottom: "2rem",
-              cursor: "pointer",
             }}
           >
             <div
               style={{
                 display: "flex",
-                gap: "1rem",
+                justifyContent: "space-between", // Align items in a row with space between
+                alignItems: "center", // Center items vertically
+                marginBottom: "1rem",
               }}
             >
               <h3
@@ -109,13 +110,19 @@ const Notice: React.FC = () => {
                   fontSize: "1.3em",
                   margin: "10px 0",
                   fontWeight: "bold",
+                  cursor: "pointer",
                 }}
                 onClick={() => handleCellClick(notice._id)}
               >
                 {notice.title}
               </h3>
               {session?.user.role === "admin" && (
-                <>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "0.5rem",
+                  }}
+                >
                   <FaEdit
                     onClick={() => handleEditClick(notice._id)}
                     style={{ cursor: "pointer" }}
@@ -124,7 +131,7 @@ const Notice: React.FC = () => {
                     onClick={() => handleDeleteClick(notice._id)}
                     style={{ cursor: "pointer" }}
                   />
-                </>
+                </div>
               )}
             </div>
             <p style={{ marginBottom: "1rem" }}>

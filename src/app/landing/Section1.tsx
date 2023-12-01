@@ -46,7 +46,7 @@ const Section1 = () => {
               >
                 <Circle
                   color="primary"
-                  sx={{ mr: 0.6, mt: 0.4, fontSize: "14px" }}
+                  sx={{ mr: 0.6, mt: 1, fontSize: "8px" }}
                 />
                 You buy K-culture goods and we send them to you
               </FlexBox>
@@ -64,7 +64,7 @@ const Section1 = () => {
               >
                 <Circle
                   color="primary"
-                  sx={{ mr: 0.6, mt: 0.4, fontSize: "14px" }}
+                  sx={{ mr: 0.6, mt: 1, fontSize: "8px" }}
                 />
                 We will buy and send you the k-culture goods you need
               </FlexBox>
@@ -81,7 +81,7 @@ const Section1 = () => {
               >
                 <Circle
                   color="primary"
-                  sx={{ mr: 0.6, mt: 0.4, fontSize: "14px" }}
+                  sx={{ mr: 0.6, mt: 1, fontSize: "8px" }}
                 />
                 We will make a bulk purchase of the product you want
               </FlexBox>

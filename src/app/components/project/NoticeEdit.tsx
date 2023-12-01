@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import RichTextEditor from "./RichTextEditor";
 import { Grid, Button } from "@mui/material";
+import RichTextEditor2 from "./RichTextEditor2";
 
 const NoticeEdit = ({ data }: any) => {
   const [noticeData, setNoticeData] = useState<any>(null);
@@ -58,7 +58,6 @@ const NoticeEdit = ({ data }: any) => {
           // 서버 응답이 유효한 JSON일 경우에만 실행
           if (updatedData) {
             setNoticeData(updatedData);
-            router.push("/notice");
           }
         } catch (jsonError) {
           // JSON 파싱 에러 처리
@@ -71,13 +70,15 @@ const NoticeEdit = ({ data }: any) => {
     } catch (error) {
       // 기타 에러 처리
       console.error("Error saving data:", error);
+    } finally {
+      router.push("/notice");
     }
   };
 
   return (
     <>
       <div style={{ marginBottom: "3rem" }}>
-        <RichTextEditor
+        <RichTextEditor2
           initialContent={data.content}
           initialTitle={data.title}
           onTitleChange={handleTitleChange}
