@@ -120,7 +120,7 @@ const Checklist = ({ data }: any) => {
 
   return (
     <Card sx={{ mb: 4 }}>
-      <TableContainer component={Paper} sx={{ minWidth: 900 }}>
+      <TableContainer component={Paper} sx={{ overflowX: "auto" }}>
         <div style={{ display: "flex", alignItems: "center" }}>
           <Select
             value={searchField.toLowerCase()} // 소문자로 설정

@@ -124,18 +124,6 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
               </Box>
 
               <Box component={IconButton}>
-                <Link href="/checkout">
-                  <Typography
-                    className="link"
-                    color="grey.600"
-                    p="0.25rem 1.25rem"
-                  >
-                    Checkout
-                  </Typography>
-                </Link>
-              </Box>
-
-              <Box component={IconButton}>
                 <Link href="/account">
                   <Icon.User sx={ICON_STYLE} />
                 </Link>

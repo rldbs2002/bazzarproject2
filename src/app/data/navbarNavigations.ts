@@ -101,10 +101,12 @@ const megaMenus = [
 const navbarNavigations = [
   { title: "Home", url: "/" },
   { title: "Notice", url: "/notice" },
+  { title: "Events", url: "/event" },
   { title: "New Request", url: "/newrequest" },
   { title: "Requests", url: "/mypage" },
   { title: "Cart", url: "/cart" },
   { title: "Checkout", url: "/checkout" },
+  { title: "Introduction", url: "/introduction" },
 ];
 
 export default navbarNavigations;

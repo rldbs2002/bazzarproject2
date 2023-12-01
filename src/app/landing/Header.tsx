@@ -97,6 +97,16 @@ const Header = () => {
               <FlexBox className="right-links" alignItems="center">
                 {session.status === "unauthenticated" && (
                   <Fragment>
+                    <Link href="/introduction">
+                      <Typography
+                        className="link"
+                        color="grey.600"
+                        p="0.25rem 1.25rem"
+                      >
+                        Introduction
+                      </Typography>
+                    </Link>
+
                     <Link href="/notice">
                       <Typography
                         className="link"
@@ -116,22 +126,13 @@ const Header = () => {
                         Events
                       </Typography>
                     </Link>
-
-                    <Link href="/introduction">
-                      <Typography
-                        className="link"
-                        color="grey.600"
-                        p="0.25rem 1.25rem"
-                      >
-                        Intro
-                      </Typography>
-                    </Link>
                   </Fragment>
                 )}
 
                 {session.status === "authenticated" && (
                   <Fragment>
                     {/* You can customize the links based on your requirements */}
+
                     <Link href="/notice">
                       <Typography
                         className="link"
@@ -163,17 +164,6 @@ const Header = () => {
                     </Link>
                   </Fragment>
                 )}
-
-                {/* Common links for both authentication states */}
-                {/* <Link href="/mypage">
-                  <Typography
-                    className="link"
-                    color="grey.600"
-                    p="0.25rem 1.25rem"
-                  >
-                    Requests
-                  </Typography>
-                </Link> */}
               </FlexBox>
 
               {!downSM && (
@@ -227,6 +217,17 @@ const Header = () => {
                   >
                     {session.status === "unauthenticated" ? (
                       <>
+                        <Link href="/introduction">
+                          <Typography
+                            className="link"
+                            py={1}
+                            mb={2}
+                            onClick={toggleSidenav}
+                          >
+                            Introduction
+                          </Typography>
+                        </Link>
+
                         <Link href="/notice">
                           <Typography
                             className="link"
@@ -246,17 +247,6 @@ const Header = () => {
                             onClick={toggleSidenav}
                           >
                             Events
-                          </Typography>
-                        </Link>
-
-                        <Link href="/introduction">
-                          <Typography
-                            className="link"
-                            py={1}
-                            mb={2}
-                            onClick={toggleSidenav}
-                          >
-                            Intro
                           </Typography>
                         </Link>
                       </>
@@ -281,17 +271,6 @@ const Header = () => {
                             onClick={toggleSidenav}
                           >
                             Events
-                          </Typography>
-                        </Link>
-
-                        <Link href="/introduction">
-                          <Typography
-                            className="link"
-                            py={1}
-                            mb={2}
-                            onClick={toggleSidenav}
-                          >
-                            Intro
                           </Typography>
                         </Link>
 
