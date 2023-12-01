@@ -41,6 +41,14 @@ const RichTextEditor2: React.FC<RichTextEditorProps> = ({
           [{ align: [] }, "link", "image"],
         ],
       },
+      imageCompress: {
+        quality: 1,
+        maxWidth: 222,
+        maxHeight: 222,
+        debug: true, // default
+        suppressErrorLogging: false,
+        insertIntoEditor: undefined,
+      },
       ImageResize: {
         modules: ["Resize", "DisplaySize"],
       },

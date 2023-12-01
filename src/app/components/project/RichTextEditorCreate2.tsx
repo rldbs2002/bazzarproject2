@@ -25,14 +25,14 @@ const RichTextEditorCreate2 = ({}) => {
           [{ align: [] }, "link", "image"],
         ],
       },
-      // imageCompress: {
-      //   quality: 0.7,
-      //   maxWidth: 222,
-      //   maxHeight: 222,
-      //   debug: true, // default
-      //   suppressErrorLogging: false,
-      //   insertIntoEditor: undefined,
-      // },
+      imageCompress: {
+        quality: 1,
+        maxWidth: 222,
+        maxHeight: 222,
+        debug: true, // default
+        suppressErrorLogging: false,
+        insertIntoEditor: undefined,
+      },
       ImageResize: {
         modules: ["Resize", "DisplaySize"],
       },

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { Paragraph } from "../Typography";
 import { FaTrash, FaEdit } from "react-icons/fa";
-import { Button } from "@mui/material";
+import { Button, Stack, Pagination } from "@mui/material";
 import { useSession } from "next-auth/react";
 
 type NoticeItem = {
@@ -21,6 +21,13 @@ const Notice: React.FC = () => {
   const { data: session } = useSession();
 
   const [notices, setNotices] = useState<NoticeItem[]>([]);
+
+  const [page, setPage] = useState(0); // Add state for page number
+  const [rowsPerPage, setRowsPerPage] = useState(5); // Add state for rows per page
+
+  const handleChangePage = (event: any, newPage: number) => {
+    setPage(newPage);
+  };
 
   const handleCreate = () => {
     router.push("/notice-create");
@@ -53,7 +60,12 @@ const Notice: React.FC = () => {
       try {
         const result = await getAllNoticeData();
 
-        setNotices(result);
+        const sortedNotices = result.sort(
+          (a: NoticeItem, b: NoticeItem) =>
+            new Date(b.date).getTime() - new Date(a.date).getTime()
+        );
+
+        setNotices(sortedNotices);
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
       }
@@ -90,58 +102,71 @@ const Notice: React.FC = () => {
         )}
       </div>
       <div>
-        {notices.map((notice) => (
-          <div
-            key={notice._id}
-            style={{
-              marginBottom: "2rem",
-            }}
-          >
+        {notices
+          .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+          .map((notice) => (
             <div
+              key={notice._id}
               style={{
-                display: "flex",
-                justifyContent: "space-between", // Align items in a row with space between
-                alignItems: "center", // Center items vertically
-                marginBottom: "1rem",
+                marginBottom: "2rem",
               }}
             >
-              <h3
+              <div
                 style={{
-                  fontSize: "1.3em",
-                  margin: "10px 0",
-                  fontWeight: "bold",
-                  cursor: "pointer",
+                  display: "flex",
+                  justifyContent: "space-between", // Align items in a row with space between
+                  alignItems: "center", // Center items vertically
+                  marginBottom: "1rem",
                 }}
-                onClick={() => handleCellClick(notice._id)}
               >
-                {notice.title}
-              </h3>
-              {session?.user.role === "admin" && (
-                <div
+                <h3
                   style={{
-                    display: "flex",
-                    gap: "0.5rem",
+                    fontSize: "1.3em",
+                    margin: "10px 0",
+                    fontWeight: "bold",
+                    cursor: "pointer",
                   }}
+                  onClick={() => handleCellClick(notice._id)}
                 >
-                  <FaEdit
-                    onClick={() => handleEditClick(notice._id)}
-                    style={{ cursor: "pointer" }}
-                  />
-                  <FaTrash
-                    onClick={() => handleDeleteClick(notice._id)}
-                    style={{ cursor: "pointer" }}
-                  />
-                </div>
-              )}
+                  {notice.title}
+                </h3>
+                {session?.user.role === "admin" && (
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "0.5rem",
+                    }}
+                  >
+                    <FaEdit
+                      onClick={() => handleEditClick(notice._id)}
+                      style={{ cursor: "pointer" }}
+                    />
+                    <FaTrash
+                      onClick={() => handleDeleteClick(notice._id)}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
+                )}
+              </div>
+              <p style={{ marginBottom: "1rem" }}>
+                {new Date(notice.date).toLocaleDateString()}
+              </p>
+              {/* 여기에 내용 등 필요한 정보 추가 */}
+              <hr />
             </div>
-            <p style={{ marginBottom: "1rem" }}>
-              {new Date(notice.date).toLocaleDateString()}
-            </p>
-            {/* 여기에 내용 등 필요한 정보 추가 */}
-            <hr />
-          </div>
-        ))}
+          ))}
       </div>
+
+      <Stack alignItems="center" my={3} margin="1rem">
+        <Pagination
+          count={Math.ceil(notices.length / rowsPerPage)}
+          page={page + 1}
+          color="primary"
+          onChange={(event, newPage) => {
+            handleChangePage(null, newPage - 1);
+          }}
+        />
+      </Stack>
     </>
   );
 };

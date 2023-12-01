@@ -41,6 +41,8 @@ export const PUT = async (request: any, { params }: any) => {
     }
 
     await notice.save();
+
+    console.log(notice);
     return new NextResponse("Notice Edited Completed", {
       status: 200,
     });
