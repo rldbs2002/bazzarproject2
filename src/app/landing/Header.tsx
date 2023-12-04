@@ -83,12 +83,14 @@ const Header = () => {
             <FlexBox height={headerHeight} alignItems="center">
               <Scroll to="top" duration={400} smooth={true} isDynamic>
                 <Box sx={{ cursor: "pointer" }}>
-                  <Image
-                    width="96px"
-                    height="44px"
-                    src="/assets/images/logo2.svg"
-                    alt="logo"
-                  />
+                  <Link href="/">
+                    <Image
+                      width="96px"
+                      height="44px"
+                      src="/assets/images/logo2.svg"
+                      alt="logo"
+                    />
+                  </Link>
                 </Box>
               </Scroll>
 

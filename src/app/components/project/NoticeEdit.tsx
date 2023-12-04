@@ -128,7 +128,7 @@ const NoticeEdit = ({ data }: any) => {
           modules={modules}
           theme="snow"
           placeholder="내용을 입력해주세요."
-          style={{ width: "auto", height: "600px" }}
+          style={{ width: "auto", height: "600px", maxWidth: "715px" }}
         />
         <Button variant="outlined" color="primary" onClick={handleSave}>
           SAVE
