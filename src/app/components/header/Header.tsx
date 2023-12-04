@@ -15,7 +15,6 @@ import { useAppContext } from "@/app/contexts/AppContext";
 import Image from "../BazaarImage";
 import MiniCart from "../MiniCart";
 import Category from "../icons/Category";
-import { Paragraph } from "../Typography";
 import MobileMenu from "../navbar/MobileMenu";
 import { FlexBetween, FlexBox } from "../flex-box";
 import CategoryMenu from "../categories/CategoryMenu";

@@ -3,10 +3,10 @@
 import { FC, Fragment, ReactNode, useCallback, useState } from "react";
 import { Box } from "@mui/material";
 import Sticky from "../Sticky";
-import Header from "../header/Header";
 // import Navbar from "../navbar/Navbar";
 import SearchInput from "../search-box/SearchInput";
 import { Footer3 } from "../footer";
+import Header from "@/app/landing/Header";
 
 /**
  *  Used in:
@@ -36,9 +36,10 @@ const ShopLayout2: FC<ShopLayout2Props> = ({
       {/* {showTopbar && <Topbar />} */}
 
       {/* HEADER */}
-      <Sticky fixedOn={0} onSticky={toggleIsFixed} scrollDistance={70}>
+      {/* <Sticky fixedOn={0} onSticky={toggleIsFixed} scrollDistance={70}>
         <Header isFixed={isFixed} searchInput={<SearchInput />} />
-      </Sticky>
+      </Sticky> */}
+      <Header />
 
       <Box zIndex={4} position="relative" className="section-after-sticky">
         {/* NAVIGATION BAR */}

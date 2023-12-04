@@ -117,7 +117,7 @@ const Header = () => {
                       </Typography>
                     </Link>
 
-                    <Link href="/events">
+                    <Link href="/event">
                       <Typography
                         className="link"
                         color="grey.600"
