@@ -9,19 +9,18 @@ import { storage } from "@/Firebase";
 import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
 import ReactQuill, { Quill } from "react-quill";
 import QuillNoSSRWriter from "./QuillNoSSRWriter";
-import Grid from "@mui/material";
 
-const NoticeEdit = ({ data }: any) => {
+const EventEdit = ({ data }: any) => {
   const router = useRouter();
   const quillInstance = useRef<ReactQuill>(null);
   const [title, setTitle] = useState(data.title);
   const [content, setContent] = useState(data.content);
-  const [noticeData, setNoticeData] = useState<any>(null);
+  const [eventData, setEventData] = useState<any>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setNoticeData(data);
+        setEventData(data);
       } catch (error) {
         console.error("Error fetching notice data:", error);
       }
@@ -63,7 +62,7 @@ const NoticeEdit = ({ data }: any) => {
         content: content,
       };
 
-      const response = await fetch(`/api/notice/${data._id}`, {
+      const response = await fetch(`/api/event/${data._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -79,7 +78,7 @@ const NoticeEdit = ({ data }: any) => {
 
           // 서버 응답이 유효한 JSON일 경우에만 실행
           if (updatedData) {
-            setNoticeData(updatedData);
+            setEventData(updatedData);
           }
         } catch (jsonError) {
           // JSON 파싱 에러 처리
@@ -143,4 +142,4 @@ const NoticeEdit = ({ data }: any) => {
   );
 };
 
-export default NoticeEdit;
+export default EventEdit;

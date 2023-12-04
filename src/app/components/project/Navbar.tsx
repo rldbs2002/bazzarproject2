@@ -110,7 +110,7 @@ export default function Navbar() {
                 session.data?.user.role === "editor" ||
                 session.data?.user.role === "user") && (
                 <li>
-                  <Link href="/mypage">
+                  <Link href="/requests">
                     <Button color="inherit" sx={buttonStyle}>
                       My Page
                     </Button>
@@ -211,7 +211,7 @@ export default function Navbar() {
           session.data?.user.role === "user") && (
           <List>
             <ListItem>
-              <Link href="/mypage">
+              <Link href="/requests">
                 <Button color="inherit" sx={buttonStyle}>
                   My Page
                 </Button>

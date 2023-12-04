@@ -1,5 +1,4 @@
 import React from "react";
-import { notFound } from "next/navigation";
 import Form from "@/app/components/project/Form";
 
 import { Container, Grid } from "@mui/material";
@@ -8,7 +7,7 @@ import SEO from "@/app/components/SEO";
 import { NextPage } from "next";
 import { getRequestData } from "@/app/lib/data";
 
-const UserPage: NextPage = async ({ params }: any) => {
+const RequestsIdPage: NextPage = async ({ params }: any) => {
   const data = await getRequestData(params.id);
 
   return (
@@ -25,4 +24,4 @@ const UserPage: NextPage = async ({ params }: any) => {
   );
 };
 
-export default UserPage;
+export default RequestsIdPage;

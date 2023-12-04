@@ -57,7 +57,7 @@ const RefundRequestRow: FC<RefundRequestRowProps> = ({
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   const handleCellClick = (itemId: string) => {
-    router.push(`/mypage/${itemId}`);
+    router.push(`/requests/${itemId}`);
   };
 
   const handleDeleteClick = () => {

@@ -118,3 +118,23 @@ export async function getNoticeData(id: any) {
   }
   return res.json();
 }
+
+export async function getAllEventData() {
+  const res = await fetch(`${apiUrl}/event`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return res.json();
+}
+
+export async function getEventData(id: any) {
+  const res = await fetch(`${apiUrl}/event/${id}`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return res.json();
+}

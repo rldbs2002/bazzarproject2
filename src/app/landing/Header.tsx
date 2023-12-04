@@ -22,6 +22,7 @@ import Sidenav from "../components/Sidenav";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
+import Icon from "@/app/components/icons";
 
 const headerHeight = 72;
 
@@ -84,10 +85,16 @@ const Header = () => {
               <Scroll to="top" duration={400} smooth={true} isDynamic>
                 <Box sx={{ cursor: "pointer" }}>
                   <Link href="/">
-                    <Image
+                    {/* <Image
                       width="96px"
                       height="44px"
                       src="/assets/images/logo2.svg"
+                      alt="logo"
+                    /> */}
+                    <Image
+                      width="96px"
+                      height="44px"
+                      src="/assets/images/logo3.png"
                       alt="logo"
                     />
                   </Link>
@@ -125,7 +132,7 @@ const Header = () => {
                         color="grey.600"
                         p="0.25rem 1.25rem"
                       >
-                        Events
+                        Event
                       </Typography>
                     </Link>
                   </Fragment>
@@ -134,26 +141,6 @@ const Header = () => {
                 {session.status === "authenticated" && (
                   <Fragment>
                     {/* You can customize the links based on your requirements */}
-
-                    <Link href="/notice">
-                      <Typography
-                        className="link"
-                        color="grey.600"
-                        p="0.25rem 1.25rem"
-                      >
-                        Notice
-                      </Typography>
-                    </Link>
-
-                    <Link href="/event">
-                      <Typography
-                        className="link"
-                        color="grey.600"
-                        p="0.25rem 1.25rem"
-                      >
-                        Events
-                      </Typography>
-                    </Link>
 
                     <Link href="/newrequest">
                       <Typography
@@ -164,6 +151,47 @@ const Header = () => {
                         New Request
                       </Typography>
                     </Link>
+
+                    <Link href="/requests">
+                      <Typography
+                        className="link"
+                        color="grey.600"
+                        p="0.25rem 1.25rem"
+                      >
+                        Requests
+                      </Typography>
+                    </Link>
+
+                    <Link href="/cart">
+                      <Typography
+                        className="link"
+                        color="grey.600"
+                        p="0.25rem 1.25rem"
+                      >
+                        Cart
+                      </Typography>
+                    </Link>
+
+                    <Link href="/checkout">
+                      <Typography
+                        className="link"
+                        color="grey.600"
+                        p="0.25rem 1.25rem"
+                      >
+                        Check out
+                      </Typography>
+                    </Link>
+
+                    <Box component={IconButton}>
+                      <Link href="/mypage">
+                        <Icon.User
+                          sx={{
+                            color: "grey.600",
+                            fontSize: 20,
+                          }}
+                        />
+                      </Link>
+                    </Box>
                   </Fragment>
                 )}
               </FlexBox>
@@ -241,14 +269,14 @@ const Header = () => {
                           </Typography>
                         </Link>
 
-                        <Link href="/events">
+                        <Link href="/event">
                           <Typography
                             className="link"
                             py={1}
                             mb={2}
                             onClick={toggleSidenav}
                           >
-                            Events
+                            Event
                           </Typography>
                         </Link>
                       </>
@@ -265,14 +293,14 @@ const Header = () => {
                           </Typography>
                         </Link>
 
-                        <Link href="/events">
+                        <Link href="/event">
                           <Typography
                             className="link"
                             py={1}
                             mb={2}
                             onClick={toggleSidenav}
                           >
-                            Events
+                            Event
                           </Typography>
                         </Link>
 
@@ -287,7 +315,7 @@ const Header = () => {
                           </Typography>
                         </Link>
 
-                        <Link href="/mypage">
+                        <Link href="/requests">
                           <Typography
                             className="link"
                             py={1}

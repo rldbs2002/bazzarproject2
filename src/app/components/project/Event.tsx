@@ -1,6 +1,6 @@
 "use client";
 
-import { getAllNoticeData } from "@/app/lib/data";
+import { getAllEventData } from "@/app/lib/data";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { Paragraph } from "../Typography";
@@ -8,7 +8,7 @@ import { FaTrash, FaEdit } from "react-icons/fa";
 import { Button, Stack, Pagination } from "@mui/material";
 import { useSession } from "next-auth/react";
 
-type NoticeItem = {
+type EventItem = {
   _id: string;
   title: string;
   content: string;
@@ -17,11 +17,11 @@ type NoticeItem = {
   // 다른 필요한 속성들도 추가할 수 있습니다.
 };
 
-const Notice: React.FC = () => {
+const Event: React.FC = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const [notices, setNotices] = useState<NoticeItem[]>([]);
+  const [events, setEvents] = useState<EventItem[]>([]);
 
   const [page, setPage] = useState(0); // Add state for page number
   const [rowsPerPage, setRowsPerPage] = useState(5); // Add state for rows per page
@@ -31,23 +31,23 @@ const Notice: React.FC = () => {
   };
 
   const handleCreate = () => {
-    router.push("/notice-create");
+    router.push("/event-create");
   };
 
   const handleEditClick = (itemId: string) => {
-    router.push(`/notice/${itemId}/edit`);
+    router.push(`/event/${itemId}/edit`);
   };
 
   const handleDeleteClick = async (itemId: string) => {
     // 공지를 삭제하는 로직을 구현합니다
     try {
-      const response = await fetch(`/api/notice/${itemId}`, {
+      const response = await fetch(`/api/event/${itemId}`, {
         method: "DELETE",
       });
 
       if (response.status === 200) {
         // 선택적으로 삭제 후 다른 페이지로 이동할 수 있습니다
-        router.push("/notice");
+        router.push("/event");
       } else {
         console.error("공지 삭제 중 오류:", response.statusText);
       }
@@ -59,14 +59,14 @@ const Notice: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getAllNoticeData();
+        const result = await getAllEventData();
 
-        const sortedNotices = result.sort(
-          (a: NoticeItem, b: NoticeItem) =>
+        const sortedEvents = result.sort(
+          (a: EventItem, b: EventItem) =>
             new Date(b.date).getTime() - new Date(a.date).getTime()
         );
 
-        setNotices(sortedNotices);
+        setEvents(sortedEvents);
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
       }
@@ -76,7 +76,7 @@ const Notice: React.FC = () => {
   }, []);
 
   const handleCellClick = (itemId: string) => {
-    router.push(`/notice/${itemId}`);
+    router.push(`/event/${itemId}`);
   };
 
   return (
@@ -89,7 +89,7 @@ const Notice: React.FC = () => {
             fontWeight: "bold",
           }}
         >
-          Notices
+          Events
         </Paragraph>
         {session?.user.role === "admin" && (
           <Button
@@ -103,11 +103,11 @@ const Notice: React.FC = () => {
         )}
       </div>
       <div>
-        {notices
+        {events
           .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-          .map((notice) => (
+          .map((event) => (
             <div
-              key={notice._id}
+              key={event._id}
               style={{
                 marginBottom: "2rem",
               }}
@@ -130,9 +130,9 @@ const Notice: React.FC = () => {
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap", // 필요한 경우 한 줄에 표시하도록 설정
                   }}
-                  onClick={() => handleCellClick(notice._id)}
+                  onClick={() => handleCellClick(event._id)}
                 >
-                  {notice.title}
+                  {event.title}
                 </h3>
                 {session?.user.role === "admin" && (
                   <div
@@ -142,19 +142,18 @@ const Notice: React.FC = () => {
                     }}
                   >
                     <FaEdit
-                      onClick={() => handleEditClick(notice._id)}
+                      onClick={() => handleEditClick(event._id)}
                       style={{ cursor: "pointer" }}
                     />
                     <FaTrash
-                      onClick={() => handleDeleteClick(notice._id)}
+                      onClick={() => handleDeleteClick(event._id)}
                       style={{ cursor: "pointer" }}
                     />
                   </div>
                 )}
               </div>
               <p style={{ marginBottom: "1rem" }}>
-                {new Date(notice.date).toLocaleDateString()} | By{" "}
-                {notice.writer}
+                {new Date(event.date).toLocaleDateString()} | By {event.writer}
               </p>
               {/* 여기에 내용 등 필요한 정보 추가 */}
               <hr />
@@ -164,7 +163,7 @@ const Notice: React.FC = () => {
 
       <Stack alignItems="center" my={3} margin="1rem">
         <Pagination
-          count={Math.ceil(notices.length / rowsPerPage)}
+          count={Math.ceil(events.length / rowsPerPage)}
           page={page + 1}
           color="primary"
           onChange={(event, newPage) => {
@@ -176,4 +175,4 @@ const Notice: React.FC = () => {
   );
 };
 
-export default Notice;
+export default Event;

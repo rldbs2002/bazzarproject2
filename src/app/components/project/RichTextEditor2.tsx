@@ -114,7 +114,7 @@ const RichTextEditor2 = ({ data }: any) => {
           label="Title"
           variant="outlined"
           value={title}
-          style={{ marginBottom: 16, maxWidth: "715px" }}
+          style={{ marginBottom: 16, maxWidth: "1000px" }}
           onChange={handleTitleChange}
           fullWidth
         />
@@ -128,7 +128,7 @@ const RichTextEditor2 = ({ data }: any) => {
           modules={modules}
           theme="snow"
           placeholder="내용을 입력해주세요."
-          style={{ width: "auto", height: "600px" }}
+          style={{ maxWidth: "1000px", width: "100%", height: "auto" }}
         />
         <Button variant="outlined" color="primary" onClick={handleSave}>
           SAVE

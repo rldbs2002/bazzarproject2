@@ -103,7 +103,7 @@ const navbarNavigations = [
   { title: "Notice", url: "/notice" },
   { title: "Events", url: "/event" },
   { title: "New Request", url: "/newrequest" },
-  { title: "Requests", url: "/mypage" },
+  { title: "Requests", url: "/requests" },
   { title: "Cart", url: "/cart" },
   { title: "Checkout", url: "/checkout" },
   { title: "Introduction", url: "/introduction" },

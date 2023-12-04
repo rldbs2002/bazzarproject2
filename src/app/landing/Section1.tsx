@@ -89,7 +89,7 @@ const Section1 = () => {
           </Box>
 
           <FlexBox justifyContent="center" mb={3}>
-            <Scroll to="get" duration={400} offset={-72 - 16} smooth={true}>
+            <Link href="/howtouse">
               <Button
                 variant="outlined"
                 color="primary"
@@ -98,7 +98,7 @@ const Section1 = () => {
               >
                 How To Use
               </Button>
-            </Scroll>
+            </Link>
           </FlexBox>
         </Box>
 

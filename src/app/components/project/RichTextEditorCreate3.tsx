@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import React, { useState, ChangeEvent, useEffect, FC } from "react";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef } from "react";
@@ -9,7 +8,7 @@ import ReactQuill from "react-quill";
 import QuillNoSSRWriter from "./QuillNoSSRWriter";
 import { useSession } from "next-auth/react";
 
-const RichTextEditorCreate2 = ({}) => {
+const RichTextEditorCreate3 = ({}) => {
   const { data: session } = useSession();
   const router = useRouter();
   const [title, setTitle] = useState("");
@@ -51,7 +50,7 @@ const RichTextEditorCreate2 = ({}) => {
       writer: session?.user.role,
     };
     try {
-      const response = await fetch("/api/notice", {
+      const response = await fetch("/api/event", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +59,7 @@ const RichTextEditorCreate2 = ({}) => {
       });
 
       if (response.status === 200) {
-        router.push("/notice");
+        router.push("/event");
       }
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -108,4 +107,4 @@ const RichTextEditorCreate2 = ({}) => {
   );
 };
 
-export default RichTextEditorCreate2;
+export default RichTextEditorCreate3;

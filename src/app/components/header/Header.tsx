@@ -111,7 +111,7 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
               </Box>
 
               <Box component={IconButton}>
-                <Link href="/mypage">
+                <Link href="/requests">
                   <Typography
                     className="link"
                     color="grey.600"
@@ -184,7 +184,7 @@ const Header: FC<HeaderProps> = ({ isFixed, className, searchInput }) => {
           </Box>
 
           <Box component={IconButton}>
-            <Link href="/mypage">
+            <Link href="/requests">
               <Typography className="link" color="grey.600" p="0.25rem 1.25rem">
                 Requests
               </Typography>
