@@ -21,6 +21,7 @@ import countryList from "@/app/data/countryList";
 import { Product } from "../../../../type";
 import { useSession } from "next-auth/react";
 import { getRepackingData } from "@/app/lib/data";
+import { Paragraph } from "../Typography";
 
 type HeadingProps = { number: number; title: string };
 
@@ -193,12 +194,15 @@ const Repacking = ({ userdata }: any) => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Container maxWidth="md">
-            <Typography
-              fontSize="40px"
-              style={{ textAlign: "left", marginBottom: "1.5rem" }}
+            <Paragraph
+              style={{
+                fontSize: "1.7rem",
+                marginBottom: "1rem",
+                fontWeight: "bold",
+              }}
             >
               Repacking
-            </Typography>
+            </Paragraph>
             {data.map((item: any, index: number) => (
               <Card1 key={index} sx={{ mb: 4 }}>
                 <Typography

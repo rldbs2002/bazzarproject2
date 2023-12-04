@@ -19,6 +19,7 @@ import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Product } from "../../../../type";
+import { Paragraph } from "../Typography";
 
 type HeadingProps = { number: number; title: string };
 
@@ -197,12 +198,15 @@ const RequestForm: FC = () => {
         }) => (
           <form onSubmit={handleSubmit}>
             <Card1 sx={{ mb: 4 }}>
-              <Typography
-                fontSize="40px"
-                style={{ textAlign: "left", marginBottom: "1.5rem" }}
+              <Paragraph
+                style={{
+                  fontSize: "2rem",
+                  marginBottom: "3rem",
+                  fontWeight: "bold",
+                }}
               >
                 New Request
-              </Typography>
+              </Paragraph>
               <Heading number={1} title="Request Form" />
               <Grid container spacing={2}>
                 <Grid item sm={6} xs={12}>

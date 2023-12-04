@@ -27,6 +27,7 @@ import { FlexBox } from "../flex-box";
 import { useRouter } from "next/navigation";
 import { StyledTableCell } from "./StyledComponents";
 import { getAllRequestData } from "@/app/lib/data";
+import { Paragraph } from "../Typography";
 
 type HeadingProps = { number: number; title: string };
 
@@ -162,12 +163,16 @@ export default function RefundRequest() {
   return (
     <Box py={4}>
       <Card>
-        <Typography
-          fontSize="40px"
-          style={{ textAlign: "left", marginBottom: "1.5rem", margin: "1rem" }}
+        <Paragraph
+          style={{
+            fontSize: "2rem",
+            marginBottom: "2rem",
+            fontWeight: "bold",
+            marginLeft: "2rem",
+          }}
         >
-          My Page
-        </Typography>
+          Requests
+        </Paragraph>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Heading number={1} title="Order List" />

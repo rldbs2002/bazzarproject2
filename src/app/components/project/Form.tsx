@@ -14,11 +14,7 @@ import {
 } from "@mui/material";
 import { FlexBox, FlexBetween } from "../flex-box";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
-import Card from "@mui/material/Card";
-import { useSession } from "next-auth/react";
-import ArrivedUploadButton from "./ArrivedUploadButton";
-import { redirect } from "next/navigation";
-import { Modal, Backdrop, Fade } from "@mui/material";
+import { Paragraph } from "../Typography";
 
 type HeadingProps = { number: number; title: string };
 
@@ -96,12 +92,15 @@ export default function Form({ data }: any) {
         <Container maxWidth="md">
           <form>
             <Card1 sx={{ mb: 4 }}>
-              <Typography
-                fontSize="40px"
-                style={{ textAlign: "left", marginBottom: "1.5rem" }}
+              <Paragraph
+                style={{
+                  fontSize: "2rem",
+                  marginBottom: "3rem",
+                  fontWeight: "bold",
+                }}
               >
                 New Request
-              </Typography>
+              </Paragraph>
               <Heading number={1} title="Request Form" />
               <Grid container spacing={2}>
                 <Grid item sm={6} xs={12}>
