@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { getUserData } from "@/app/lib/data";
 
-const AccountLayer = () => {
+const AccountWrapper = () => {
   const router = useRouter();
   const [userData, setUserData] = useState({});
 
@@ -39,4 +39,4 @@ const AccountLayer = () => {
   );
 };
 
-export default AccountLayer;
+export default AccountWrapper;

@@ -1,16 +1,24 @@
 import { Container, Grid } from "@mui/material";
 import ShopLayout2 from "../components/layouts/ShopLayout2";
 import SEO from "../components/SEO";
-import RefundRequest from "../components/project/RefundRequest";
+import { Paragraph } from "../components/Typography";
+import MypageWrapper from "../components/project/MypageWrapper";
 
 const MyPage = async () => {
   return (
     <ShopLayout2>
       <SEO title="Checkout alternative" />
       <Container sx={{ my: "1.5rem" }}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}></Grid>
-        </Grid>
+        <Paragraph
+          style={{
+            fontSize: "2rem",
+            fontWeight: "bold",
+            margin: "2rem",
+          }}
+        >
+          MyPage
+        </Paragraph>
+        <MypageWrapper />
       </Container>
     </ShopLayout2>
   );

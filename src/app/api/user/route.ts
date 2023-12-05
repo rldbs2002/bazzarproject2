@@ -1,16 +1,14 @@
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import User from "@/models/User";
-import UserRequest from "@/models/UserRequest";
-import { getServerSession } from "next-auth/next";
-import { options } from "../auth/[...nextauth]/options";
+import bcrypt from "bcryptjs";
 
 export const GET = async (request: any) => {
   try {
     await connect();
 
     // 세션에서 사용자 이메일을 가져옴
-    const userEmail = "admin@admin.com";
+    const userEmail = "kiyoonj@naver.com";
 
     // 데이터베이스에서 사용자를 이메일로 찾음
     const user = await User.findOne({ email: userEmail });
@@ -32,19 +30,39 @@ export const PUT = async (request: any) => {
   await connect();
 
   try {
-    const { arrived_info, email } = requestData;
+    const { arrived_info, currentPassword, newPassword, email } = requestData;
 
-    // 기존 사용자 정보를 찾아서 arrived_info 업데이트
-    const user = await User.findOneAndUpdate(
-      { email: email },
-      { $push: { arrived_info: arrived_info } },
-      { new: true } // 업데이트 후의 문서를 반환하도록 설정
-    );
+    // 기존 사용자 정보를 찾음
+    const user = await User.findOne({ email });
 
     if (!user) {
       console.error("사용자를 찾을 수 없음");
       return new NextResponse("사용자를 찾을 수 없음", { status: 404 });
     }
+
+    // Check if the current password matches the stored hashed password
+    const isPasswordMatch = await bcrypt.compare(
+      currentPassword,
+      user.password
+    );
+
+    if (!isPasswordMatch) {
+      console.error("현재 비밀번호가 일치하지 않음");
+      return new NextResponse("현재 비밀번호가 일치하지 않음", { status: 401 });
+    }
+
+    // Hash the new password before updating
+    const hashedNewPassword = await bcrypt.hash(newPassword, 5);
+
+    // Update the user's password and arrived_info
+    const updatedUser = await User.findOneAndUpdate(
+      { email },
+      {
+        password: hashedNewPassword,
+        $push: { arrived_info: arrived_info },
+      },
+      { new: true }
+    );
 
     return new NextResponse("주소가 성공적으로 업데이트되었습니다", {
       status: 200,

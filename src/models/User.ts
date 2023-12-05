@@ -31,6 +31,7 @@ const userSchema = new Schema(
       required: true,
       default: "user",
     },
+    address_info: addressSchema,
 
     arrived_info: { type: [addressSchema], required: false },
   },

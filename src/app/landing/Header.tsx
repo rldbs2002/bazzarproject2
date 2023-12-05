@@ -282,6 +282,17 @@ const Header = () => {
                       </>
                     ) : (
                       <>
+                        <Link href="/mypage">
+                          <Typography
+                            className="link"
+                            py={1}
+                            mb={2}
+                            onClick={toggleSidenav}
+                          >
+                            My page
+                          </Typography>
+                        </Link>
+
                         <Link href="/notice">
                           <Typography
                             className="link"
