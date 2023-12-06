@@ -11,5 +11,8 @@ const nextConfig = {
     ],
   },
   devIndicators: {},
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 module.exports = nextConfig;

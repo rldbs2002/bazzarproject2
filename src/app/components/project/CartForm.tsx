@@ -307,7 +307,6 @@ const CartForm = ({ data }: any) => {
                     label="First Name"
                     variant="outlined"
                     fullWidth
-                    value={data[cartId][0].arrived_info.firstname}
                     margin="normal"
                   />
                   <TextField
@@ -315,7 +314,6 @@ const CartForm = ({ data }: any) => {
                     label="Last Name"
                     variant="outlined"
                     fullWidth
-                    value={data[cartId][0].arrived_info.lastname}
                     margin="normal"
                   />
 
@@ -324,7 +322,6 @@ const CartForm = ({ data }: any) => {
                     label="Address"
                     variant="outlined"
                     fullWidth
-                    value={data[cartId][0].arrived_info.address}
                     margin="normal"
                   />
 
@@ -333,7 +330,6 @@ const CartForm = ({ data }: any) => {
                     margin="normal"
                     variant="outlined"
                     fullWidth
-                    value={data[cartId][0].arrived_info.country.label}
                   />
                 </Grid>
 
@@ -343,7 +339,6 @@ const CartForm = ({ data }: any) => {
                     label="City"
                     variant="outlined"
                     fullWidth
-                    value={data[cartId][0].arrived_info.city}
                     margin="normal"
                   />
                   <TextField
@@ -351,7 +346,6 @@ const CartForm = ({ data }: any) => {
                     label="State"
                     variant="outlined"
                     fullWidth
-                    value={data[cartId][0].arrived_info.state}
                     margin="normal"
                   />
                   <TextField
@@ -359,7 +353,6 @@ const CartForm = ({ data }: any) => {
                     label="Postal Code"
                     variant="outlined"
                     fullWidth
-                    value={data[cartId][0].arrived_info.postal_code}
                     margin="normal"
                   />
                   <TextField
@@ -367,7 +360,6 @@ const CartForm = ({ data }: any) => {
                     label="Phone Number"
                     variant="outlined"
                     fullWidth
-                    value={data[cartId][0].arrived_info.phone}
                     margin="normal"
                   />
                 </Grid>

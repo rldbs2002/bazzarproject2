@@ -8,8 +8,12 @@ import { options } from "../auth/[...nextauth]/options";
 export const GET = async (request: any) => {
   try {
     await connect();
+
+    const session = await getServerSession({ req: request });
+    console.log(session?.user.email);
+
     // 사용자의 이메일 주소 (예: 사용자의 실제 이메일 주소로 변경해야 함)
-    const userEmail = "admin@admin.com";
+    const userEmail = session?.user.email;
 
     // User를 이메일 주소로 찾음
     const user = await User.findOne({ email: userEmail });
@@ -19,7 +23,7 @@ export const GET = async (request: any) => {
     }
 
     // User가 소유한 UserRequest를 찾음
-    const userRequests = await UserRequest.find({ user: user._id });
+    const userRequests = await UserRequest.find({ user: userEmail });
 
     return new NextResponse(JSON.stringify(userRequests), { status: 200 });
   } catch (err) {
@@ -32,7 +36,7 @@ export const POST = async (request: any) => {
   await connect();
 
   try {
-    const userEmail = "admin@admin.com"; // Replace with the user's email
+    const userEmail = requestData.user; // Replace with the user's email
 
     // Find the user based on their email
     const user = await User.findOne({ email: userEmail });
@@ -77,7 +81,7 @@ export const POST = async (request: any) => {
 
     // 서버 스키마에 맞게 데이터를 구성합니다.
     const newUserRequest = new UserRequest({
-      user: user._id, // Link the UserRequest to the user
+      user: userEmail, // Link the UserRequest to the user
       request_info: {
         product_list: requestData.request_info.product_list,
 

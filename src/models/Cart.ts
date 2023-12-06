@@ -17,8 +17,7 @@ const CartSchema = new Schema(
     },
 
     user: {
-      type: Schema.Types.ObjectId,
-      ref: "User", // 사용자 모델을 참조합니다.
+      type: String,
     },
     items: [CartItemSchema], // 각각의 CartItem을 배열로 가집니다.
     status: Number,

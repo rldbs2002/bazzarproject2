@@ -8,7 +8,7 @@ export const GET = async (request: any) => {
     await connect();
 
     // 세션에서 사용자 이메일을 가져옴
-    const userEmail = "kiyoonj@naver.com";
+    const userEmail = "guest";
 
     // 데이터베이스에서 사용자를 이메일로 찾음
     const user = await User.findOne({ email: userEmail });
@@ -59,7 +59,6 @@ export const PUT = async (request: any) => {
       { email },
       {
         password: hashedNewPassword,
-        $push: { arrived_info: arrived_info },
       },
       { new: true }
     );

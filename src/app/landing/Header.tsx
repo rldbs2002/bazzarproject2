@@ -60,6 +60,8 @@ const HeaderWrapper = styled(Box)(({ theme }) => ({
 
 const Header = () => {
   const session = useSession();
+  const { data: login } = useSession();
+  console.log(login?.user.role);
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [isFixed, setFixed] = useState(false);
@@ -140,59 +142,93 @@ const Header = () => {
 
                 {session.status === "authenticated" && (
                   <Fragment>
-                    {/* You can customize the links based on your requirements */}
+                    {login?.user.role === "admin" ? (
+                      <Fragment>
+                        <Link href="/admin/request">
+                          <Typography
+                            className="link"
+                            color="grey.600"
+                            p="0.25rem 1.25rem"
+                          >
+                            Admin Request
+                          </Typography>
+                        </Link>
 
-                    <Link href="/newrequest">
-                      <Typography
-                        className="link"
-                        color="grey.600"
-                        p="0.25rem 1.25rem"
-                      >
-                        New Request
-                      </Typography>
-                    </Link>
+                        <Link href="/admin/cart">
+                          <Typography
+                            className="link"
+                            color="grey.600"
+                            p="0.25rem 1.25rem"
+                          >
+                            Admin Cart
+                          </Typography>
+                        </Link>
 
-                    <Link href="/requests">
-                      <Typography
-                        className="link"
-                        color="grey.600"
-                        p="0.25rem 1.25rem"
-                      >
-                        Requests
-                      </Typography>
-                    </Link>
+                        <Link href="/admin/checkout">
+                          <Typography
+                            className="link"
+                            color="grey.600"
+                            p="0.25rem 1.25rem"
+                          >
+                            Admin Checkout
+                          </Typography>
+                        </Link>
+                      </Fragment>
+                    ) : (
+                      <Fragment>
+                        <Link href="/newrequest">
+                          <Typography
+                            className="link"
+                            color="grey.600"
+                            p="0.25rem 1.25rem"
+                          >
+                            New Request
+                          </Typography>
+                        </Link>
 
-                    <Link href="/cart">
-                      <Typography
-                        className="link"
-                        color="grey.600"
-                        p="0.25rem 1.25rem"
-                      >
-                        Cart
-                      </Typography>
-                    </Link>
+                        <Link href="/requests">
+                          <Typography
+                            className="link"
+                            color="grey.600"
+                            p="0.25rem 1.25rem"
+                          >
+                            Requests
+                          </Typography>
+                        </Link>
 
-                    <Link href="/checkout">
-                      <Typography
-                        className="link"
-                        color="grey.600"
-                        p="0.25rem 1.25rem"
-                      >
-                        Check out
-                      </Typography>
-                    </Link>
+                        <Link href="/cart">
+                          <Typography
+                            className="link"
+                            color="grey.600"
+                            p="0.25rem 1.25rem"
+                          >
+                            Cart
+                          </Typography>
+                        </Link>
 
-                    <Box component={IconButton}>
-                      <Link href="/mypage">
-                        <Icon.User
-                          sx={{
-                            color: "grey.600",
-                            fontSize: 20,
-                            marginRight: "0.3rem",
-                          }}
-                        />
-                      </Link>
-                    </Box>
+                        <Link href="/checkout">
+                          <Typography
+                            className="link"
+                            color="grey.600"
+                            p="0.25rem 1.25rem"
+                          >
+                            Check out
+                          </Typography>
+                        </Link>
+
+                        <Box component={IconButton}>
+                          <Link href="/mypage">
+                            <Icon.User
+                              sx={{
+                                color: "grey.600",
+                                fontSize: 20,
+                                marginRight: "0.3rem",
+                              }}
+                            />
+                          </Link>
+                        </Box>
+                      </Fragment>
+                    )}
                   </Fragment>
                 )}
               </FlexBox>
@@ -283,6 +319,44 @@ const Header = () => {
                       </>
                     ) : (
                       <>
+                        {/* Admin-specific links for authenticated admin users */}
+                        {login?.user.role === "admin" && (
+                          <>
+                            <Link href="/admin/request">
+                              <Typography
+                                className="link"
+                                py={1}
+                                mb={2}
+                                onClick={toggleSidenav}
+                              >
+                                Admin Request
+                              </Typography>
+                            </Link>
+
+                            <Link href="/admin/cart">
+                              <Typography
+                                className="link"
+                                py={1}
+                                mb={2}
+                                onClick={toggleSidenav}
+                              >
+                                Admin Cart
+                              </Typography>
+                            </Link>
+
+                            <Link href="/admin/checkout">
+                              <Typography
+                                className="link"
+                                py={1}
+                                mb={2}
+                                onClick={toggleSidenav}
+                              >
+                                Admin Checkout
+                              </Typography>
+                            </Link>
+                          </>
+                        )}
+
                         <Link href="/mypage">
                           <Typography
                             className="link"

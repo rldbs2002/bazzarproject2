@@ -57,7 +57,7 @@ const UserInfo = () => {
             borderBottomWidth: "2px",
           }}
         />
-        <div>Loading...</div>
+        <div>Loading...</div>4;u]
       </>
     );
   }

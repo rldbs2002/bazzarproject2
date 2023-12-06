@@ -9,15 +9,10 @@ import {
   Container,
   TextField,
   Button,
-  Autocomplete,
-  FormControlLabel,
-  Checkbox,
 } from "@mui/material";
 import Card1 from "@/app/components/Card1";
-import { Formik } from "formik";
 import { useRouter } from "next/navigation";
 import * as yup from "yup";
-import countryList from "@/app/data/countryList";
 import { useSession } from "next-auth/react";
 import { Product } from "../../../../type";
 import { getShippingData } from "@/app/lib/data";
@@ -65,30 +60,6 @@ const Shipping = ({ userdata }: any) => {
   // Add a state variable to track whether the form is being submitted
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Update state to store user's default address
-  const [isDefaultAddress, setIsDefaultAddress] = useState(false);
-  const [defaultAddressData, setDefaultAddressData] = useState({
-    firstname: "",
-    lastname: "",
-    country: countryList[229],
-    address: "",
-    city: "",
-    state: "",
-    postal_code: "",
-    phone: "",
-  });
-
-  const initialValues = {
-    firstname: "",
-    lastname: "",
-    country: countryList[229],
-    address: "",
-    city: "",
-    state: "",
-    postal_code: "",
-    phone: "",
-  };
-
   // Define Yup validation schema
   const checkoutSchema = yup.object().shape({
     // firstname: yup.string().required("First Name is required"),
@@ -101,7 +72,7 @@ const Shipping = ({ userdata }: any) => {
     // phone: yup.string().required("Phone Number is required"),
   });
 
-  const handleFormSubmit = async (values: any) => {
+  const handleFormSubmit = async () => {
     if (isSubmitting) {
       return;
     }
@@ -109,60 +80,24 @@ const Shipping = ({ userdata }: any) => {
     setIsSubmitting(true);
 
     const cartRequestData = {
-      arrived_info: isDefaultAddress
-        ? userdata.arrived_info[0] // 사용자의 첫 번째 주소를 사용
-        : {
-            firstname: values.firstname,
-            lastname: values.lastname,
-            country: values.country,
-            address: values.address,
-            city: values.city,
-            state: values.state,
-            postal_code: values.postal_code,
-            phone: values.phone,
-          },
       status: 2,
       options: "shipping",
+      user: session?.user.email,
       items: data.map((item: any) => ({
         userRequest: item._id,
       })),
     };
 
-    const userRequestData = {
-      arrived_info: isDefaultAddress
-        ? userdata.arrived_info[0]
-        : {
-            firstname: values.firstname,
-            lastname: values.lastname,
-            country: values.country,
-            address: values.address,
-            city: values.city,
-            state: values.state,
-            postal_code: values.postal_code,
-            phone: values.phone,
-          },
-      email: session?.user.email,
-    };
-
     try {
-      const [cartResponse, userResponse] = await Promise.all([
-        fetch("/api/cart", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(cartRequestData),
-        }),
-        fetch("/api/user", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userRequestData),
-        }),
-      ]);
+      const cartResponse = await fetch("/api/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cartRequestData),
+      });
 
-      if (cartResponse.status === 200 && userResponse.status === 200) {
+      if (cartResponse.status === 200) {
         router.push("/cart");
       }
     } catch (error) {
@@ -171,22 +106,6 @@ const Shipping = ({ userdata }: any) => {
       setIsSubmitting(false);
     }
   };
-
-  useEffect(() => {
-    // Update defaultAddressData when isDefaultAddress changes
-    if (isDefaultAddress) {
-      setDefaultAddressData({
-        firstname: userdata.arrived_info[0]?.firstname || "",
-        lastname: userdata.arrived_info[0]?.lastname || "",
-        country: userdata.arrived_info[0]?.country || countryList[229],
-        address: userdata.arrived_info[0]?.address || "",
-        city: userdata.arrived_info[0]?.city || "",
-        state: userdata.arrived_info[0]?.state || "",
-        postal_code: userdata.arrived_info[0]?.postal_code || "",
-        phone: userdata.arrived_info[0]?.phone || "",
-      });
-    }
-  }, [isDefaultAddress, userdata]);
 
   return (
     <>
@@ -331,317 +250,16 @@ const Shipping = ({ userdata }: any) => {
                 )}
               </Card1>
             ))}
+            <Button onClick={handleFormSubmit} variant="outlined">
+              Add to Cart
+            </Button>
           </Container>
         </Grid>
       </Grid>
 
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Container maxWidth="md">
-            <Formik
-              initialValues={initialValues}
-              validationSchema={checkoutSchema}
-              onSubmit={handleFormSubmit}
-            >
-              {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                setFieldValue,
-              }) => (
-                <form onSubmit={handleSubmit}>
-                  <Card1 sx={{ mb: 4 }}>
-                    <Heading number={3} title="Shipping Address" />
-                    <Grid container spacing={3}>
-                      <Grid item sm={4} xs={6}>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={isDefaultAddress}
-                              onChange={() =>
-                                setIsDefaultAddress(!isDefaultAddress)
-                              }
-                              name="isDefaultAddress"
-                            />
-                          }
-                          label="Use default address"
-                        />
-                      </Grid>
-
-                      <Grid item sm={4} xs={6}>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={!isDefaultAddress}
-                              onChange={() =>
-                                setIsDefaultAddress(!isDefaultAddress)
-                              }
-                              name="isNewAddress"
-                            />
-                          }
-                          label="New Address"
-                        />
-                      </Grid>
-
-                      <Grid item sm={4} xs={12}>
-                        <Autocomplete
-                          options={userdata.arrived_info || []}
-                          getOptionLabel={(option) =>
-                            `${option.firstname} ${option.lastname}`
-                          }
-                          value={
-                            isDefaultAddress
-                              ? userdata.arrived_info.find(
-                                  (option: any) =>
-                                    option.firstname ===
-                                      defaultAddressData.firstname &&
-                                    option.lastname ===
-                                      defaultAddressData.lastname &&
-                                    option.country.label ===
-                                      defaultAddressData.country.label &&
-                                    option.address ===
-                                      defaultAddressData.address &&
-                                    option.city === defaultAddressData.city &&
-                                    option.state === defaultAddressData.state &&
-                                    option.postal_code ===
-                                      defaultAddressData.postal_code &&
-                                    option.phone === defaultAddressData.phone
-                                ) || null // 기본 주소를 찾지 못하면 null로 설정
-                              : defaultAddressData // isDefaultAddress가 false인 경우 기본 주소 데이터 사용
-                          }
-                          isOptionEqualToValue={(option, value) =>
-                            option.firstname === value.firstname &&
-                            option.lastname === value.lastname &&
-                            option.country.label === value.country.label &&
-                            option.address === value.address &&
-                            option.city === value.city &&
-                            option.state === value.state &&
-                            option.postal_code === value.postal_code &&
-                            option.phone === value.phone
-                          }
-                          onChange={(_, value) => {
-                            setIsDefaultAddress(!value);
-                            setDefaultAddressData({
-                              firstname: value?.firstname || "",
-                              lastname: value?.lastname || "",
-                              country: value?.country || countryList[229],
-                              address: value?.address || "",
-                              city: value?.city || "",
-                              state: value?.state || "",
-                              postal_code: value?.postal_code || "",
-                              phone: value?.phone || "",
-                            });
-
-                            // 폼 필드 값을 설정합니다.
-                            setFieldValue("firstname", value?.firstname || "");
-                            setFieldValue("lastname", value?.lastname || "");
-                            setFieldValue(
-                              "country",
-                              value?.country || countryList[229]
-                            );
-                            setFieldValue("address", value?.address || "");
-                            setFieldValue("city", value?.city || "");
-                            setFieldValue("state", value?.state || "");
-                            setFieldValue(
-                              "postal_code",
-                              value?.postal_code || ""
-                            );
-                            setFieldValue("phone", value?.phone || "");
-                          }}
-                          renderInput={(params) => (
-                            <TextField
-                              label="Select Address"
-                              margin="normal"
-                              variant="outlined"
-                              placeholder="Select Address"
-                              error={!!touched.address && !!errors.address}
-                              helperText={
-                                (touched.address && errors.address) as string
-                              }
-                              {...params}
-                            />
-                          )}
-                        />
-                      </Grid>
-                    </Grid>
-
-                    <Grid container spacing={2}>
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          name="firstname"
-                          label="First Name"
-                          variant="outlined"
-                          fullWidth
-                          value={
-                            isDefaultAddress
-                              ? defaultAddressData.firstname
-                              : values.firstname
-                          }
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.firstname && !!errors.firstname}
-                          helperText={
-                            (touched.firstname && errors.firstname) as string
-                          }
-                          margin="normal"
-                          // Disable when using default address
-                        />
-                        <TextField
-                          name="lastname"
-                          label="Last Name"
-                          variant="outlined"
-                          fullWidth
-                          value={
-                            isDefaultAddress
-                              ? defaultAddressData.lastname
-                              : values.lastname
-                          }
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.lastname && !!errors.lastname}
-                          helperText={
-                            (touched.lastname && errors.lastname) as string
-                          }
-                          margin="normal"
-                        />
-
-                        <TextField
-                          name="address"
-                          label="Address"
-                          variant="outlined"
-                          fullWidth
-                          value={
-                            isDefaultAddress
-                              ? defaultAddressData.address
-                              : values.address
-                          }
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.address && !!errors.address}
-                          helperText={
-                            (touched.address && errors.address) as string
-                          }
-                          margin="normal"
-                        />
-
-                        <Autocomplete
-                          fullWidth
-                          options={countryList}
-                          value={
-                            isDefaultAddress
-                              ? defaultAddressData.country
-                              : values.country
-                          }
-                          getOptionLabel={(option) => option.label}
-                          onChange={(_, value) =>
-                            setFieldValue("country", value)
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              label="Country"
-                              margin="normal"
-                              variant="outlined"
-                              placeholder="Select Country"
-                              error={!!touched.country && !!errors.country}
-                              helperText={
-                                (touched.country && errors.country) as string
-                              }
-                              {...params}
-                            />
-                          )}
-                        />
-                      </Grid>
-
-                      <Grid item sm={6} xs={12}>
-                        <TextField
-                          name="city"
-                          label="City"
-                          variant="outlined"
-                          fullWidth
-                          value={
-                            isDefaultAddress
-                              ? defaultAddressData.city
-                              : values.city
-                          }
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.city && !!errors.city}
-                          helperText={(touched.city && errors.city) as string}
-                          margin="normal"
-                        />
-                        <TextField
-                          name="state"
-                          label="State"
-                          variant="outlined"
-                          fullWidth
-                          value={
-                            isDefaultAddress
-                              ? defaultAddressData.state
-                              : values.state
-                          }
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.state && !!errors.state}
-                          helperText={(touched.state && errors.state) as string}
-                          margin="normal"
-                        />
-                        <TextField
-                          name="postal_code"
-                          label="Postal Code"
-                          variant="outlined"
-                          fullWidth
-                          value={
-                            isDefaultAddress
-                              ? defaultAddressData.postal_code
-                              : values.postal_code
-                          }
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.postal_code && !!errors.postal_code}
-                          helperText={
-                            (touched.postal_code &&
-                              errors.postal_code) as string
-                          }
-                          margin="normal"
-                        />
-                        <TextField
-                          name="phone"
-                          label="Phone Number"
-                          variant="outlined"
-                          fullWidth
-                          value={
-                            isDefaultAddress
-                              ? defaultAddressData.phone
-                              : values.phone
-                          }
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.phone && !!errors.phone}
-                          helperText={(touched.phone && errors.phone) as string}
-                          margin="normal"
-                        />
-                      </Grid>
-                    </Grid>
-                  </Card1>
-
-                  <Grid item xs={12} style={{ textAlign: "center" }}>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      type="submit"
-                      style={{ marginBottom: "2rem", width: "300px" }}
-                      disabled={isSubmitting} // Disable the button when the form is being submitted
-                    >
-                      {isSubmitting ? "Submitting..." : "Add To Cart"}
-                    </Button>
-                  </Grid>
-                </form>
-              )}
-            </Formik>
-          </Container>
+          <Container maxWidth="md"></Container>
         </Grid>
       </Grid>
     </>
