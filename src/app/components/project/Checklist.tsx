@@ -37,11 +37,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Checklist = ({ data }: any) => {
+  console.log(data);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [searchField, setSearchField] = useState("cartID");
   const [searchValue, setSearchValue] = useState("");
-  const [alignment, setAlignment] = useState("process"); // 기본값은 'process'로 설정
+  const [alignment, setAlignment] = useState("process");
 
   const handleAlignmentChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -117,6 +118,11 @@ const Checklist = ({ data }: any) => {
   const [currentPageItems, setCurrentPageItems] = useState(
     getCurrentPageItems()
   );
+
+  useEffect(() => {
+    // Update the current page items when data or currentPage changes
+    setCurrentPageItems(getCurrentPageItems());
+  }, [data, currentPage]);
 
   return (
     <Card sx={{ mb: 4 }}>

@@ -21,7 +21,6 @@ const ChecklistWrapper = () => {
 
     fetchData();
   }, []);
-  console.log(cartData);
 
   return (
     <Container sx={{ my: "1.5rem" }}>

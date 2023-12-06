@@ -188,6 +188,7 @@ const Header = () => {
                           sx={{
                             color: "grey.600",
                             fontSize: 20,
+                            marginRight: "0.3rem",
                           }}
                         />
                       </Link>

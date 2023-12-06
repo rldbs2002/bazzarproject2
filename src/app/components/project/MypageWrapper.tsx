@@ -28,6 +28,7 @@ const MypageWrapper = () => {
         style={{
           fontSize: "1rem",
           marginTop: "4rem",
+          marginBottom: "4rem",
         }}
       >
         Lastest Loggin Date: {lastLoginDate?.toLocaleString()}
