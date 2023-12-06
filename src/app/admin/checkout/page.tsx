@@ -1,9 +1,8 @@
-import React from 'react'
+import AdminCheckoutWrapper from "@/app/components/project/AdminCheckoutWrapper";
+import React from "react";
 
-const page = () => {
-  return (
-    <div>page</div>
-  )
-}
+const AdminRequestPage = () => {
+  return <AdminCheckoutWrapper />;
+};
 
-export default page
+export default AdminRequestPage;

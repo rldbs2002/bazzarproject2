@@ -1,7 +1,10 @@
+import SEO from "@/app/components/SEO";
+import ShopLayout2 from "@/app/components/layouts/ShopLayout2";
+import AdminCartWrapper from "@/app/components/project/AdminCartWrapper";
 import React from "react";
 
-const page = () => {
-  return <div>page</div>;
+const AdminRequestPage = () => {
+  return <AdminCartWrapper />;
 };
 
-export default page;
+export default AdminRequestPage;

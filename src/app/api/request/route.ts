@@ -3,7 +3,6 @@ import connect from "@/utils/db";
 import User from "@/models/User";
 import UserRequest from "@/models/UserRequest";
 import { getServerSession } from "next-auth";
-import { options } from "../auth/[...nextauth]/options";
 
 export const GET = async (request: any) => {
   try {

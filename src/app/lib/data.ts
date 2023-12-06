@@ -46,6 +46,23 @@ export async function getRequestsData() {
   }
 }
 
+export async function getMyRequestData() {
+  try {
+    const res = await fetch(`${apiUrl}/myrequest`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch data. Status: ${res.status}`);
+    }
+
+    return res.json();
+  } catch (error: any) {
+    console.error("Error fetching data:", error.message);
+    throw error;
+  }
+}
+
 export async function getAllCartData() {
   const res = await fetch(`${apiUrl}/cart`, {
     cache: "no-store",
@@ -68,6 +85,16 @@ export async function getCartData(id: any) {
 
 export async function getCartsData() {
   const res = await fetch(`${apiUrl}/carts`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return res.json();
+}
+
+export async function getMyCartsData() {
+  const res = await fetch(`${apiUrl}/mycart`, {
     cache: "no-store",
   });
   if (!res.ok) {

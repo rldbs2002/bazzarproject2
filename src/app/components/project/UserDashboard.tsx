@@ -6,6 +6,8 @@ import { Divider, Avatar, Typography } from "@mui/material";
 import {
   getAllCheckoutData,
   getCartsData,
+  getMyCartsData,
+  getMyRequestData,
   getRequestsData,
 } from "@/app/lib/data";
 import Link from "next/link";
@@ -20,7 +22,7 @@ const UserDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getCartsData();
+        const result = await getMyCartsData();
 
         setCartData(result);
       } catch (error: any) {
@@ -34,7 +36,7 @@ const UserDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getRequestsData();
+        const result = await getMyRequestData();
 
         setRequestData(result);
       } catch (error: any) {
