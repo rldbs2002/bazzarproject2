@@ -41,7 +41,25 @@ const UserInfo = () => {
 
   if (!userData) {
     // 데이터가 로딩 중일 때의 상태를 표시할 수 있습니다.
-    return <div>Loading...</div>;
+    return (
+      <>
+        <Paragraph
+          style={{
+            fontSize: "1.7rem",
+          }}
+        >
+          User info.
+        </Paragraph>
+        <Divider
+          sx={{
+            mb: 3,
+            borderColor: "primary.400",
+            borderBottomWidth: "2px",
+          }}
+        />
+        <div>Loading...</div>
+      </>
+    );
   }
 
   return (
