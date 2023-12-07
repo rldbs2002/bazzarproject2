@@ -10,6 +10,9 @@ import {
   Paper,
   styled,
   InputBase,
+  Button,
+  ToggleButton,
+  ToggleButtonGroup,
 } from "@mui/material";
 import Link from "next/link";
 import { StyledTableCell } from "./StyledComponents";
@@ -34,11 +37,38 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const AdminRequest = ({ data }: any) => {
   const router = useRouter();
 
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchCriteria, setSearchCriteria] = useState("cartId");
+  const [searchCriteria, setSearchCriteria] = useState("userId");
+  const [filterStatus, setFilterStatus] = useState("1"); // Default: Show Not Arrived
 
   console.log(data);
+
+  // Filter function based on search criteria and status
+  const filteredData = Array.isArray(data)
+    ? data.filter((item: any) => {
+        // Case-insensitive search by user ID or email
+        const searchTermLowerCase = searchTerm.toLowerCase();
+        const userFieldToSearch =
+          searchCriteria === "userId" ? item.user : item.userEmail;
+        const isMatchingUser = userFieldToSearch
+          .toLowerCase()
+          .includes(searchTermLowerCase);
+
+        // Filter by status
+        const isMatchingStatus =
+          filterStatus === "all" || item.status.toString() === filterStatus;
+
+        return isMatchingUser && isMatchingStatus;
+      })
+    : [];
+
+  // Handler for status toggle
+  const handleStatusToggle = (
+    event: React.MouseEvent<HTMLElement>,
+    newFilterStatus: string
+  ) => {
+    setFilterStatus(newFilterStatus);
+  };
 
   return (
     <>
@@ -52,7 +82,9 @@ const AdminRequest = ({ data }: any) => {
         Admin Requests
       </Paragraph>
       <StyledInputBase
-        placeholder="Search by User ID..."
+        placeholder={`Search by ${
+          searchCriteria === "userId" ? "User ID" : "Email"
+        }...`}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         sx={{
@@ -60,6 +92,19 @@ const AdminRequest = ({ data }: any) => {
           margin: "1rem",
         }}
       />
+
+      {/* Status filters */}
+      <ToggleButtonGroup
+        value={filterStatus}
+        exclusive
+        onChange={handleStatusToggle}
+        aria-label="Show Items"
+        sx={{ margin: "1rem", marginLeft: "auto" }}
+      >
+        <ToggleButton value="1">Not Arrived</ToggleButton>
+        <ToggleButton value="2">Arrived</ToggleButton>
+        <ToggleButton value="all">All</ToggleButton>
+      </ToggleButtonGroup>
 
       <TableContainer component={Paper}>
         <Table>
@@ -72,8 +117,8 @@ const AdminRequest = ({ data }: any) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Array.isArray(data) &&
-              data.map((item: any) => (
+            {Array.isArray(filteredData) &&
+              filteredData.map((item: any) => (
                 <TableRow key={item._id}>
                   <StyledTableCell
                     align="left"

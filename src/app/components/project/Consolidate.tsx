@@ -93,7 +93,13 @@ const Consolidate = ({ userdata }: any) => {
       })),
     };
 
+    const userRequestData = {
+      status: 4,
+      requestIds: data.map((item: any) => item._id),
+    };
+
     try {
+      // Send cart request
       const cartResponse = await fetch("/api/cart", {
         method: "POST",
         headers: {
@@ -103,7 +109,30 @@ const Consolidate = ({ userdata }: any) => {
       });
 
       if (cartResponse.status === 200) {
-        router.push("/cart");
+        // Send user request
+        const userResponse = await fetch(`/api/consolidates`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userRequestData),
+        });
+
+        if (userResponse.status === 200) {
+          router.push("/cart");
+        } else {
+          // Handle user request failure
+          console.error(
+            "Error submitting user request:",
+            userResponse.statusText
+          );
+        }
+      } else {
+        // Handle cart request failure
+        console.error(
+          "Error submitting cart request:",
+          cartResponse.statusText
+        );
       }
     } catch (error) {
       console.error("Error submitting data:", error);

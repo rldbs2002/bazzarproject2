@@ -135,6 +135,7 @@ export default function RefundRequest() {
       const requestData = selectedItems.map((itemId) => ({
         options: action,
         requestId: itemId,
+        status: 3,
       }));
 
       try {

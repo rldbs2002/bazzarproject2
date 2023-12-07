@@ -17,6 +17,7 @@ export const GET = async (request: any) => {
     const userRequests = await UserRequest.find({
       user: userEmail,
       options: "shipping",
+      status: 3,
     });
 
     return new NextResponse(JSON.stringify(userRequests), { status: 200 });

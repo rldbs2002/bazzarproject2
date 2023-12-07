@@ -42,6 +42,7 @@ export const PUT = async (request: any) => {
           // 요청한 requestId에 해당하는 데이터가 없으면 새로운 데이터 생성
           const newRequest = new UserRequest({
             options: item.options,
+            status: 3,
           });
 
           return await newRequest.save();

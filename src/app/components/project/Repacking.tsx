@@ -65,18 +65,6 @@ const Repacking = ({ userdata }: any) => {
   // Add a state variable to track whether the form is being submitted
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Define Yup validation schema
-  const checkoutSchema = yup.object().shape({
-    // firstname: yup.string().required("First Name is required"),
-    // lastname: yup.string().required("Last Name is required"),
-    // country: yup.object().required("required"),
-    // address: yup.string().required("Address is required"),
-    // city: yup.string().required("City is required"),
-    // state: yup.string().required("State is required"),
-    // postal_code: yup.string().required("Postal Code is required"),
-    // phone: yup.string().required("Phone Number is required"),
-  });
-
   const handleFormSubmit = async () => {
     if (isSubmitting) {
       return;
@@ -93,7 +81,13 @@ const Repacking = ({ userdata }: any) => {
       })),
     };
 
+    const userRequestData = {
+      status: 4,
+      requestId: data[0]._id,
+    };
+
     try {
+      // Send cart request
       const cartResponse = await fetch("/api/cart", {
         method: "POST",
         headers: {
@@ -103,7 +97,30 @@ const Repacking = ({ userdata }: any) => {
       });
 
       if (cartResponse.status === 200) {
-        router.push("/cart");
+        // Send user request
+        const userResponse = await fetch(`/api/repackings`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userRequestData),
+        });
+
+        if (userResponse.status === 200) {
+          router.push("/cart");
+        } else {
+          // Handle user request failure
+          console.error(
+            "Error submitting user request:",
+            userResponse.statusText
+          );
+        }
+      } else {
+        // Handle cart request failure
+        console.error(
+          "Error submitting cart request:",
+          cartResponse.statusText
+        );
       }
     } catch (error) {
       console.error("Error submitting data:", error);

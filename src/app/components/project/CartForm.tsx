@@ -366,56 +366,6 @@ const CartForm = ({ data }: any) => {
               </Grid>
             </div>
 
-            {/* Arrived 정보 */}
-            <div
-              className="m-5"
-              style={{
-                margin: "2rem",
-                border: "1px solid #ccc",
-                padding: "1rem",
-              }}
-            >
-              <Heading number={4} title={`Arrived Images`} />
-
-              {/* UploadButton과 리스트를 수평으로 정렬 */}
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  width: "100%",
-                }}
-              >
-                {/* 항상 Heading은 보이도록 */}
-                {data[cartId][0].arrived &&
-                data[cartId][0].arrived.arrived_images &&
-                data[cartId][0].arrived.arrived_images.length > 0 ? (
-                  <>
-                    {/* arrived Images가 있을 경우 */}
-                    <div>
-                      {data[cartId][0].arrived.arrived_images.map(
-                        (image: any, imageIndex: number) => (
-                          <div key={imageIndex}>
-                            {/* 클릭 시 모달 열도록 수정 */}
-                            <Button onClick={() => openModal(image)}>
-                              {image}
-                            </Button>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </>
-                ) : (
-                  // No arrived Images
-                  <Typography variant="body2">Empty list</Typography>
-                )}
-
-                {session?.user.role === "admin" && (
-                  // admin인 경우에만 ArrivedUploadButton 보이도록
-                  <ArrivedUploadButton data={firstKey} />
-                )}
-              </div>
-            </div>
-
             {/* Repacking 정보 */}
             <div
               className="m-5"
@@ -425,7 +375,7 @@ const CartForm = ({ data }: any) => {
                 padding: "1rem",
               }}
             >
-              <Heading number={5} title={`Repacking Images`} />
+              <Heading number={4} title={`Repacking Images`} />
 
               {/* UploadButton과 리스트를 수평으로 정렬 */}
               <div
@@ -475,7 +425,7 @@ const CartForm = ({ data }: any) => {
                 padding: "1rem",
               }}
             >
-              <Heading number={6} title={`Shipping Images`} />
+              <Heading number={5} title={`Shipping Images`} />
 
               {/* UploadButton과 리스트를 수평으로 정렬 */}
               <div
@@ -525,7 +475,7 @@ const CartForm = ({ data }: any) => {
                 padding: "1rem",
               }}
             >
-              <Heading number={7} title={`Shipping Information`} />
+              <Heading number={6} title={`Shipping Information`} />
 
               {/* UploadButton과 리스트를 수평으로 정렬 */}
 

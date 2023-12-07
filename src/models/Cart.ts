@@ -22,17 +22,6 @@ const CartSchema = new Schema(
     items: [CartItemSchema], // 각각의 CartItem을 배열로 가집니다.
     status: Number,
 
-    arrived_info: {
-      firstname: String,
-      lastname: String,
-      country: {},
-      address: String,
-      city: String,
-      state: String,
-      postal_code: String,
-      phone: String,
-    },
-
     // 1: Request submit
     // 2: Request Productarrived image
     // 3: Add to Cart( before calculated)
@@ -44,6 +33,17 @@ const CartSchema = new Schema(
     // 7: shipping
     // 8: end
 
+    arrived_info: {
+      firstname: String,
+      lastname: String,
+      country: {},
+      address: String,
+      city: String,
+      state: String,
+      postal_code: String,
+      phone: String,
+    },
+
     options: String,
     cart_total_price: Number,
     pending: Boolean,
@@ -53,11 +53,6 @@ const CartSchema = new Schema(
       repacking_price: Number,
       abroad_shipping_fee: Number,
       total_price: Number, //
-    },
-    arrived: {
-      arrived_images: [],
-      arrived_at: Date,
-      arrived_completed: Boolean, // Boolean flag to indicate if the upload is completed
     },
 
     repacking: {

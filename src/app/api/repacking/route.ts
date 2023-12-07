@@ -17,6 +17,7 @@ export const GET = async (request: any) => {
     const userRequests = await UserRequest.find({
       user: userEmail,
       options: "repacking",
+      status: 3,
     });
 
     return new NextResponse(JSON.stringify(userRequests), { status: 200 });
@@ -31,6 +32,7 @@ export const PUT = async (request: any) => {
   try {
     await connect();
 
+    // Process each item in the requestData
     const updatedRequests = await Promise.all(
       requestData.map(async (item: any) => {
         // requestId로 기존 데이터를 찾음
@@ -42,6 +44,8 @@ export const PUT = async (request: any) => {
           // 요청한 requestId에 해당하는 데이터가 없으면 새로운 데이터 생성
           const newRequest = new UserRequest({
             options: item.options,
+            status: 3, // Set the status to 3 for new requests
+            // Add any additional fields that you want to set for a new request
           });
 
           return await newRequest.save();
@@ -49,7 +53,7 @@ export const PUT = async (request: any) => {
 
         // 이미 존재하는 데이터가 있으면 업데이트
         existingRequest.options = item.options;
-        existingRequest.status = item.status;
+        existingRequest.status = 3; // Update the status to 4
         return await existingRequest.save();
       })
     );
