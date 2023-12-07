@@ -6,9 +6,11 @@ import { Card, Grid, Button } from "@mui/material";
 import { FlexBetween } from "../flex-box";
 import { currency } from "@/lib";
 import { Span } from "../Typography";
+import { useSession } from "next-auth/react";
 
 const Price = ({ data }: any) => {
   const router = useRouter();
+  const { data: session } = useSession();
 
   const [productPrice, setProductPrice] = useState(0);
   const [cartTotalValue, setCartTotalValue] = useState(0);
@@ -144,7 +146,7 @@ const Price = ({ data }: any) => {
             color="primary"
             variant="outlined"
             onClick={handleFormSubmit}
-            disabled={status !== 4} // Disable the button if the price is not confirmed
+            disabled={status !== 4 || session?.user.role === "admin"} // Disable the button if the price is not confirmed
           >
             Checkout Now
           </Button>
