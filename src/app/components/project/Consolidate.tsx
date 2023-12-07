@@ -85,7 +85,7 @@ const Consolidate = ({ userdata }: any) => {
     setIsSubmitting(true);
 
     const cartRequestData = {
-      status: 2,
+      status: 3,
       options: "consolidate",
       user: session?.user.email,
       items: data.map((item: any) => ({

@@ -44,13 +44,13 @@ const requestSchema = new Schema({
   },
 
   status: Number,
-  // 0: 임시저장
-  // 1: request submit
-  // 1.5: request product arrived
-  // 2: Add to Cart
-  // 3: price calculate
-  // 4: check out
-  // 5: arrived
+
+  // 1: Request submit
+  // 2: Request Product arrived image
+  // 3: Add to Cart( before calculated)
+  // 4: price calculate (calculated)
+  // ---yes or no----
+  // 5: check out ( yes )
   // 6. repacking
   // 7: shipping
   // 8: end

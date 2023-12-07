@@ -85,7 +85,7 @@ const Repacking = ({ userdata }: any) => {
     setIsSubmitting(true);
 
     const cartRequestData = {
-      status: 2,
+      status: 3,
       options: "repacking",
       user: session?.user.email,
       items: data.map((item: any) => ({

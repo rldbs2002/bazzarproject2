@@ -139,7 +139,7 @@ export const POST = async (request: any) => {
     // 나머지 코드는 동일하게 유지
     const cart = new Cart({
       cart_id: finalCartId,
-      status: 2,
+      status: 3,
       items: cartItems,
       options,
       user,

@@ -38,6 +38,7 @@ export default function RequestArrivedUploadButton({ data }: any) {
               arrived_images: imageFileUrls,
               arrived_at: new Date(),
             },
+            status: 2,
           }),
         });
 

@@ -34,8 +34,8 @@ const CartSchema = new Schema(
     },
 
     // 1: Request submit
-    // 2: Add to Cart( before calculated)
-    // 3: arrived image
+    // 2: Request Productarrived image
+    // 3: Add to Cart( before calculated)
     // 4: price calculate (calculated)
     // ---yes or no----
     // 5: check out ( yes )

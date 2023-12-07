@@ -80,7 +80,7 @@ const Shipping = ({ userdata }: any) => {
     setIsSubmitting(true);
 
     const cartRequestData = {
-      status: 2,
+      status: 3,
       options: "shipping",
       user: session?.user.email,
       items: data.map((item: any) => ({
