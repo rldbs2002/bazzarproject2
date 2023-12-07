@@ -46,6 +46,7 @@ const requestSchema = new Schema({
   status: Number,
   // 0: 임시저장
   // 1: request submit
+  // 1.5: request product arrived
   // 2: Add to Cart
   // 3: price calculate
   // 4: check out
@@ -89,6 +90,11 @@ const requestSchema = new Schema({
 
   user_confirm: {
     submitted_at: Date, // 사용자의 가격 동의가 제출된 시간
+  },
+
+  arrived: {
+    arrived_images: [],
+    arrived_at: Date,
   },
 });
 

@@ -121,8 +121,6 @@ export const PUT = async (request: any, { params }: any) => {
       if (arrived.arrived_at) {
         userRequest.arrived.arrived_at = new Date(arrived.arrived_at);
       }
-      // Update status to 5
-      userRequest.status = 5;
     }
 
     // 사용자 요청을 저장하고 업데이트된 요청을 반환합니다.
