@@ -33,7 +33,7 @@ const AdminCartWrapper = () => {
     };
 
     fetchData();
-  }, []);
+  }, [requestData]);
 
   console.log(requestData);
 

@@ -31,7 +31,7 @@ const AdminCheckoutWrapper = () => {
     };
 
     fetchData();
-  }, []);
+  }, [requestData]);
 
   console.log(requestData);
 
