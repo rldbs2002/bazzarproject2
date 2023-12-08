@@ -2,11 +2,9 @@
 import { useEffect, useState } from "react";
 
 import { Card, Container, Grid } from "@mui/material";
-import SEO from "../SEO";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
-import ShopLayout2 from "../layouts/ShopLayout2";
 import { getAllCheckoutData } from "@/app/lib/data";
 import AdminCheckout from "./AdminCheckout";
 
@@ -38,19 +36,9 @@ const AdminCheckoutWrapper = () => {
   console.log(requestData);
 
   return (
-    <ShopLayout2>
-      <SEO title="Cart" />
-      <Container sx={{ my: "1.5rem" }}>
-        <Grid container spacing={3}>
-          {/* CART PRODUCT LIST */}
-          <Grid xs={12}>
-            <Card sx={{ mb: 4 }}>
-              <AdminCheckout data={requestData} session={session} />
-            </Card>
-          </Grid>
-        </Grid>
-      </Container>
-    </ShopLayout2>
+    <Container sx={{ my: "1.5rem" }}>
+      <AdminCheckout data={requestData} session={session} />
+    </Container>
   );
 };
 

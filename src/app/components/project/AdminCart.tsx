@@ -13,6 +13,7 @@ import {
   Button,
   ToggleButton,
   ToggleButtonGroup,
+  Card,
 } from "@mui/material";
 import Link from "next/link";
 import { StyledTableCell } from "./StyledComponents";
@@ -75,80 +76,90 @@ const AdminCart = ({ data }: any) => {
       <Paragraph
         style={{
           fontSize: "1.7rem",
-          marginBottom: "1rem",
+          margin: "2rem",
           fontWeight: "bold",
         }}
       >
         Admin Carts
       </Paragraph>
-      <StyledInputBase
-        placeholder={`Search by ${
-          searchCriteria === "userId" ? "User ID" : "Email"
-        }...`}
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        sx={{
-          width: "250px",
-          margin: "1rem",
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
-      />
-
-      {/* Status filters */}
-      <ToggleButtonGroup
-        value={filterStatus}
-        exclusive
-        onChange={handleStatusToggle}
-        aria-label="Show Items"
-        sx={{ margin: "1rem", marginLeft: "auto" }}
       >
-        <ToggleButton value="3">Not Calculated</ToggleButton>
-        <ToggleButton value="4">Calculated</ToggleButton>
-        <ToggleButton value="all">All</ToggleButton>
-      </ToggleButtonGroup>
+        <StyledInputBase
+          placeholder={`Search by ${
+            searchCriteria === "userId" ? "User ID" : "Email"
+          }...`}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          sx={{
+            width: "250px",
+            margin: "1rem",
+          }}
+        />
 
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead sx={{ backgroundColor: "grey.200" }}>
-            <TableRow>
-              <StyledTableCell>User ID</StyledTableCell>
-              <StyledTableCell>Cart ID</StyledTableCell>
-              <StyledTableCell>Options</StyledTableCell>
-              <StyledTableCell>Status</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {Array.isArray(filteredData) &&
-              filteredData.map((item: any) => (
-                <TableRow key={item._id}>
-                  <StyledTableCell
-                    align="left"
-                    sx={{ fontWeight: 400, cursor: "pointer" }}
-                  >
-                    {item.user}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="left"
-                    sx={{ fontWeight: 400, cursor: "pointer" }}
-                  >
-                    <Link href={`/cart/${item._id}`}>{item.cart_id}</Link>
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="left"
-                    sx={{ fontWeight: 400, cursor: "pointer" }}
-                  >
-                    {item.options}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="left"
-                    sx={{ fontWeight: 400, cursor: "pointer" }}
-                  >
-                    {statusNames[item.status]}
-                  </StyledTableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+        {/* Status filters */}
+        <ToggleButtonGroup
+          value={filterStatus}
+          exclusive
+          onChange={handleStatusToggle}
+          aria-label="Show Items"
+          sx={{ margin: "1rem", marginLeft: "auto" }}
+        >
+          <ToggleButton value="3">Not Calculated</ToggleButton>
+          <ToggleButton value="4">Calculated</ToggleButton>
+          <ToggleButton value="all">All</ToggleButton>
+        </ToggleButtonGroup>
+      </div>
+      <Card sx={{ mb: 4 }}>
+        <TableContainer component={Paper} sx={{ overflowX: "auto" }}>
+          <Table>
+            <TableHead sx={{ backgroundColor: "grey.200" }}>
+              <TableRow>
+                <StyledTableCell>User ID</StyledTableCell>
+                <StyledTableCell>Cart ID</StyledTableCell>
+                <StyledTableCell>Options</StyledTableCell>
+                <StyledTableCell>Status</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {Array.isArray(filteredData) &&
+                filteredData.map((item: any) => (
+                  <TableRow key={item._id}>
+                    <StyledTableCell
+                      align="left"
+                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                    >
+                      {item.user}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="left"
+                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                    >
+                      <Link href={`/cart/${item._id}`}>{item.cart_id}</Link>
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="left"
+                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                    >
+                      {item.options}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="left"
+                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                    >
+                      {statusNames[item.status]}
+                    </StyledTableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Card>
     </>
   );
 };

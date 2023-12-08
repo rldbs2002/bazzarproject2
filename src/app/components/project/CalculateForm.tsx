@@ -59,7 +59,7 @@ export default function CalculatorForm({ data, selectedCart }: any) {
 
       if (response.ok) {
         console.log("success");
-        router.push("/cart");
+        router.push("/admin/cart");
       } else {
         console.log("failed");
       }

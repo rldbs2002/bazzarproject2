@@ -47,6 +47,67 @@ const Consolidate = ({ userdata }: any) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [data, setData] = useState([]);
+  console.log(userdata.address_info);
+
+  const [useDefaultAddress, setUseDefaultAddress] = useState(false);
+
+  const initialValues = {
+    arrived_info: {
+      firstname: useDefaultAddress ? userdata.address_info.firstname : "",
+      lastname: useDefaultAddress ? userdata.address_info.lastname : "",
+      country: useDefaultAddress
+        ? userdata.address_info.country
+        : countryList[229],
+      address: useDefaultAddress ? userdata.address_info.address : "",
+      city: useDefaultAddress ? userdata.address_info.city : "",
+      state: useDefaultAddress ? userdata.address_info.state : "",
+      postal_code: useDefaultAddress ? userdata.address_info.postal_code : "",
+      phone: useDefaultAddress ? userdata.address_info.phone : "",
+    },
+  };
+
+  // Define Yup validation schema
+  const checkoutSchema = yup.object().shape({
+    firstname: yup.string().required("First Name is required"),
+    lastname: yup.string().required("Last Name is required"),
+    country: yup.string().required("Country is required"),
+    address: yup.string().required("Address is required"),
+    city: yup.string().required("City is required"),
+    state: yup.string().required("State is required"),
+    postal_code: yup.string().required("Postal Code is required"),
+    phone: yup.string().required("Phone Number is required"),
+  });
+
+  const handleFormikSubmit = async (values: any) => {
+    const requestData = {
+      arrived_info: {
+        firstname: values.firstname,
+        lastname: values.lastname,
+        country: values.country,
+        address: values.address,
+        city: values.city,
+        state: values.state,
+        postal_code: values.postal_code,
+        phone: values.phone,
+      },
+    };
+
+    try {
+      const response = await fetch("/api/user", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      if (response.status === 201) {
+        router.push("/cart");
+      }
+    } catch (error) {
+      console.error("Error submitting data:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,18 +125,6 @@ const Consolidate = ({ userdata }: any) => {
 
   // Add a state variable to track whether the form is being submitted
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Define Yup validation schema
-  const checkoutSchema = yup.object().shape({
-    // firstname: yup.string().required("First Name is required"),
-    // lastname: yup.string().required("Last Name is required"),
-    // country: yup.object().required("required"),
-    // address: yup.string().required("Address is required"),
-    // city: yup.string().required("City is required"),
-    // state: yup.string().required("State is required"),
-    // postal_code: yup.string().required("Postal Code is required"),
-    // phone: yup.string().required("Phone Number is required"),
-  });
 
   const handleFormSubmit = async () => {
     if (isSubmitting) {
@@ -284,16 +333,215 @@ const Consolidate = ({ userdata }: any) => {
                 )}
               </Card1>
             ))}
+            {/* <Card1>
+              <Heading number={3} title="Shipping Address" />
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={useDefaultAddress}
+                    onChange={() => setUseDefaultAddress(!useDefaultAddress)}
+                    name="useDefaultAddress"
+                  />
+                }
+                label="default address"
+              />
+
+              <Formik
+                initialValues={initialValues}
+                validationSchema={checkoutSchema}
+                onSubmit={handleFormSubmit}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  setFieldValue,
+                }) => (
+                  <form onSubmit={handleSubmit}>
+                    <Grid container spacing={6}>
+                      <Grid item sm={6} xs={12}>
+                        <TextField
+                          name="firstname"
+                          label="First Name"
+                          variant="outlined"
+                          fullWidth
+                          value={values.arrived_info.firstname}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={
+                            touched.arrived_info?.firstname &&
+                            !!errors.arrived_info?.firstname
+                          }
+                          helperText={
+                            (touched.arrived_info?.firstname &&
+                              errors.arrived_info?.firstname) as string
+                          }
+                          margin="normal"
+                        />
+                        <TextField
+                          name="lastname"
+                          label="Last Name"
+                          variant="outlined"
+                          fullWidth
+                          value={values.arrived_info.lastname}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={
+                            touched.arrived_info?.lastname &&
+                            !!errors.arrived_info?.lastname
+                          }
+                          helperText={
+                            (touched.arrived_info?.lastname &&
+                              errors.arrived_info?.lastname) as string
+                          }
+                          margin="normal"
+                        />
+                        <Autocomplete
+                          fullWidth
+                          sx={{ mb: 2 }}
+                          options={countryList}
+                          value={values.arrived_info.country}
+                          getOptionLabel={(option) => option.label}
+                          onChange={(_, value) =>
+                            setFieldValue("country", value)
+                          }
+                          renderInput={(params) => (
+                            <TextField
+                              label="Country"
+                              variant="outlined"
+                              placeholder="Select Country"
+                              error={
+                                !!touched.arrived_info?.country &&
+                                !!errors.arrived_info?.country
+                              }
+                              helperText={
+                                (touched.arrived_info?.country &&
+                                  errors.arrived_info?.country) as string
+                              }
+                              {...params}
+                            />
+                          )}
+                        />
+                        <TextField
+                          name="address"
+                          label="Address"
+                          variant="outlined"
+                          fullWidth
+                          value={values.arrived_info.address}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={
+                            touched.arrived_info?.address &&
+                            !!errors.arrived_info?.address
+                          }
+                          helperText={
+                            (touched.arrived_info?.address &&
+                              errors.arrived_info?.address) as string
+                          }
+                          margin="normal"
+                        />
+                      </Grid>
+
+                      <Grid item sm={6} xs={12}>
+                        <TextField
+                          name="city"
+                          label="City"
+                          variant="outlined"
+                          fullWidth
+                          value={values.arrived_info.city}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={
+                            touched.arrived_info?.city &&
+                            !!errors.arrived_info?.city
+                          }
+                          helperText={
+                            (touched.arrived_info?.city &&
+                              errors.arrived_info?.city) as string
+                          }
+                          margin="normal"
+                        />
+                        <TextField
+                          name="state"
+                          label="State"
+                          variant="outlined"
+                          fullWidth
+                          value={values.arrived_info.state}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={
+                            touched.arrived_info?.state &&
+                            !!errors.arrived_info?.state
+                          }
+                          helperText={
+                            (touched.arrived_info?.state &&
+                              errors.arrived_info?.state) as string
+                          }
+                          margin="normal"
+                        />
+                        <TextField
+                          name="postal_code"
+                          label="Postal Code"
+                          variant="outlined"
+                          fullWidth
+                          value={values.arrived_info.postal_code}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={
+                            touched.arrived_info?.postal_code &&
+                            !!errors.arrived_info?.postal_code
+                          }
+                          helperText={
+                            (touched.arrived_info?.postal_code &&
+                              errors.arrived_info?.postal_code) as string
+                          }
+                          margin="normal"
+                        />
+                        <TextField
+                          name="phone"
+                          label="Phone Number"
+                          variant="outlined"
+                          fullWidth
+                          value={values.arrived_info.phone}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={
+                            touched.arrived_info?.phone &&
+                            !!errors.arrived_info?.phone
+                          }
+                          helperText={
+                            (touched.arrived_info?.phone &&
+                              errors.arrived_info?.phone) as string
+                          }
+                          margin="normal"
+                        />
+                      </Grid>
+                    </Grid>
+
+                    <Grid container spacing={6}>
+                      <Grid item sm={12} xs={12}>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          type="submit"
+                          fullWidth
+                        >
+                          Submit
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </form>
+                )}
+              </Formik>
+            </Card1> */}
             <Button onClick={handleFormSubmit} variant="outlined">
               Add to Cart
             </Button>
           </Container>
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Container maxWidth="md"></Container>
         </Grid>
       </Grid>
     </>

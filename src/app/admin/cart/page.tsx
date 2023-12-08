@@ -4,7 +4,11 @@ import AdminCartWrapper from "@/app/components/project/AdminCartWrapper";
 import React from "react";
 
 const AdminRequestPage = () => {
-  return <AdminCartWrapper />;
+  return (
+    <ShopLayout2>
+      <AdminCartWrapper />
+    </ShopLayout2>
+  );
 };
 
 export default AdminRequestPage;

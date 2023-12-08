@@ -18,32 +18,7 @@ const AppStore: FC = () => {
 
   return (
     <FlexBox flexWrap="wrap" m={-1}>
-      {appList.map((item) => (
-        <a href="/" key={item.title} target="_blank" rel="noreferrer noopener">
-          <Box
-            m={1}
-            gap={1}
-            p="10px 16px"
-            color="white"
-            display="flex"
-            bgcolor="#161d2b"
-            borderRadius="5px"
-            alignItems="center"
-          >
-            <item.icon />
-
-            <Box>
-              <Box fontSize="8px" fontWeight="600" lineHeight="1">
-                {item.subtitle}
-              </Box>
-
-              <Box fontSize="14px" fontWeight="700">
-                {item.title}
-              </Box>
-            </Box>
-          </Box>
-        </a>
-      ))}
+      
     </FlexBox>
   );
 };

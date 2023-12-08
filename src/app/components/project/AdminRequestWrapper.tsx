@@ -40,19 +40,9 @@ const AdminRequestWrapper = () => {
   console.log(requestData);
 
   return (
-    <ShopLayout2>
-      <SEO title="Cart" />
-      <Container sx={{ my: "1.5rem" }}>
-        <Grid container spacing={3}>
-          {/* CART PRODUCT LIST */}
-          <Grid xs={12}>
-            <Card sx={{ mb: 4 }}>
-              <AdminRequest data={requestData} session={session} />
-            </Card>
-          </Grid>
-        </Grid>
-      </Container>
-    </ShopLayout2>
+    <Container sx={{ my: "1.5rem" }}>
+      <AdminRequest data={requestData} session={session} />
+    </Container>
   );
 };
 

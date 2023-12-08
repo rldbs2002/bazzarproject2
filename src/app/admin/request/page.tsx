@@ -4,7 +4,11 @@ import AdminRequestWrapper from "@/app/components/project/AdminRequestWrapper";
 import React from "react";
 
 const AdminRequestPage = () => {
-  return <AdminRequestWrapper />;
+  return (
+    <ShopLayout2>
+      <AdminRequestWrapper />
+    </ShopLayout2>
+  );
 };
 
 export default AdminRequestPage;
