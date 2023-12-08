@@ -14,6 +14,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Card,
+  Radio,
 } from "@mui/material";
 import Link from "next/link";
 import { StyledTableCell } from "./StyledComponents";
@@ -63,12 +64,9 @@ const AdminCart = ({ data }: any) => {
       })
     : [];
 
-  // Handler for status toggle
-  const handleStatusToggle = (
-    event: React.MouseEvent<HTMLElement>,
-    newFilterStatus: string
-  ) => {
-    setFilterStatus(newFilterStatus);
+  // Handler for status radio button
+  const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterStatus(event.target.value);
   };
 
   return (
@@ -103,17 +101,32 @@ const AdminCart = ({ data }: any) => {
         />
 
         {/* Status filters */}
-        <ToggleButtonGroup
-          value={filterStatus}
-          exclusive
-          onChange={handleStatusToggle}
-          aria-label="Show Items"
-          sx={{ margin: "1rem", marginLeft: "auto" }}
-        >
-          <ToggleButton value="3">Not Calculated</ToggleButton>
-          <ToggleButton value="4">Calculated</ToggleButton>
-          <ToggleButton value="all">All</ToggleButton>
-        </ToggleButtonGroup>
+        <div style={{ display: "flex" }}>
+          <div style={{ marginRight: "10px" }}>
+            <Radio
+              value="3"
+              checked={filterStatus === "3"}
+              onChange={handleStatusChange}
+            />
+            <label>Not Calculated</label>
+          </div>
+          <div style={{ marginRight: "10px" }}>
+            <Radio
+              value="4"
+              checked={filterStatus === "4"}
+              onChange={handleStatusChange}
+            />
+            <label>Calculated</label>
+          </div>
+          <div>
+            <Radio
+              value="all"
+              checked={filterStatus === "all"}
+              onChange={handleStatusChange}
+            />
+            <label>All</label>
+          </div>
+        </div>
       </div>
       <Card sx={{ mb: 4 }}>
         <TableContainer component={Paper} sx={{ overflowX: "auto" }}>

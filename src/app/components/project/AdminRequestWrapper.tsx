@@ -35,7 +35,7 @@ const AdminRequestWrapper = () => {
     };
 
     fetchData();
-  }, [requestData]);
+  }, []);
 
   console.log(requestData);
 

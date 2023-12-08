@@ -27,6 +27,7 @@ const Price = ({ data }: any) => {
     const requestData = {
       cart_total_price: cartTotalPrice,
       pending: isPending,
+      checkout_submitted_at: new Date().toISOString(),
     };
 
     try {

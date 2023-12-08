@@ -14,6 +14,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Card,
+  Radio,
 } from "@mui/material";
 import Link from "next/link";
 import { StyledTableCell } from "./StyledComponents";
@@ -63,12 +64,9 @@ const AdminCheckout = ({ data }: any) => {
       })
     : [];
 
-  // Handler for status toggle
-  const handleStatusToggle = (
-    event: React.MouseEvent<HTMLElement>,
-    newFilterStatus: string
-  ) => {
-    setFilterStatus(newFilterStatus);
+  // Handler for status radio button
+  const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterStatus(event.target.value);
   };
 
   return (
@@ -102,17 +100,32 @@ const AdminCheckout = ({ data }: any) => {
         />
 
         {/* Status filters */}
-        <ToggleButtonGroup
-          value={filterStatus}
-          exclusive
-          onChange={handleStatusToggle}
-          aria-label="Show Items"
-          sx={{ margin: "1rem", marginLeft: "auto" }}
-        >
-          <ToggleButton value="5">Not Yet</ToggleButton>
-          <ToggleButton value="6">Processing</ToggleButton>
-          <ToggleButton value="7">Done</ToggleButton>
-        </ToggleButtonGroup>
+        <div style={{ display: "flex" }}>
+          <div style={{ marginRight: "10px" }}>
+            <Radio
+              value="5"
+              checked={filterStatus === "5"}
+              onChange={handleStatusChange}
+            />
+            <label>Not Yet</label>
+          </div>
+          <div style={{ marginRight: "10px" }}>
+            <Radio
+              value="6"
+              checked={filterStatus === "6"}
+              onChange={handleStatusChange}
+            />
+            <label>Process</label>
+          </div>
+          <div>
+            <Radio
+              value="7"
+              checked={filterStatus === "7"}
+              onChange={handleStatusChange}
+            />
+            <label>Done</label>
+          </div>
+        </div>
       </div>
 
       <Card sx={{ mb: 4 }}>

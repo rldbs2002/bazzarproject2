@@ -24,7 +24,6 @@ export const GET = async (request: any) => {
     await connect();
 
     const session = await getServerSession({ req: request });
-    console.log(session?.user.email);
 
     // 사용자의 이메일 주소 (예: 사용자의 실제 이메일 주소로 변경해야 함)
     const userEmail = session?.user.email;

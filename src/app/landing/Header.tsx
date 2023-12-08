@@ -144,6 +144,16 @@ const Header = () => {
                   <Fragment>
                     {login?.user.role === "admin" ? (
                       <Fragment>
+                        <Link href="/admin">
+                          <Typography
+                            className="link"
+                            color="grey.600"
+                            p="0.25rem 1.25rem"
+                          >
+                            Admin
+                          </Typography>
+                        </Link>
+
                         <Link href="/admin/request">
                           <Typography
                             className="link"

@@ -14,6 +14,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Grid,
+  Radio,
   Card,
 } from "@mui/material";
 import Link from "next/link";
@@ -45,6 +46,11 @@ const AdminRequest = ({ data }: any) => {
 
   console.log(data);
 
+  // Handler for status radio button
+  const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterStatus(event.target.value);
+  };
+
   // Filter function based on search criteria and status
   const filteredData = Array.isArray(data)
     ? data.filter((item: any) => {
@@ -63,14 +69,6 @@ const AdminRequest = ({ data }: any) => {
         return isMatchingUser && isMatchingStatus;
       })
     : [];
-
-  // Handler for status toggle
-  const handleStatusToggle = (
-    event: React.MouseEvent<HTMLElement>,
-    newFilterStatus: string
-  ) => {
-    setFilterStatus(newFilterStatus);
-  };
 
   return (
     <>
@@ -96,19 +94,39 @@ const AdminRequest = ({ data }: any) => {
           }...`}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          sx={{
+            width: "250px",
+            margin: "1rem",
+          }}
         />
+
         {/* Status filters */}
-        <ToggleButtonGroup
-          value={filterStatus}
-          exclusive
-          onChange={handleStatusToggle}
-          aria-label="Show Items"
-          sx={{ margin: "1rem" }}
-        >
-          <ToggleButton value="1">Not Arrived</ToggleButton>
-          <ToggleButton value="2">Arrived</ToggleButton>
-          <ToggleButton value="all">All</ToggleButton>
-        </ToggleButtonGroup>
+        <div style={{ display: "flex" }}>
+          <div style={{ marginRight: "10px" }}>
+            <Radio
+              value="1"
+              checked={filterStatus === "1"}
+              onChange={handleStatusChange}
+            />
+            <label>Not Arrived</label>
+          </div>
+          <div style={{ marginRight: "10px" }}>
+            <Radio
+              value="2"
+              checked={filterStatus === "2"}
+              onChange={handleStatusChange}
+            />
+            <label>Arrived</label>
+          </div>
+          <div>
+            <Radio
+              value="all"
+              checked={filterStatus === "all"}
+              onChange={handleStatusChange}
+            />
+            <label>All</label>
+          </div>
+        </div>
       </div>
 
       <Card sx={{ mb: 4 }}>

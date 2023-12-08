@@ -116,6 +116,7 @@ export const PUT = async (request: any, { params }: any) => {
     if (requestData.cart_total_price) {
       cartRequest.cart_total_price = requestData.cart_total_price;
       cartRequest.status = 5; // 5는 Checkout 상태를 나타내는 값으로 변경합니다.
+      cartRequest.checkout_submitted_at = requestData.checkout_submitted_at;
     }
 
     if (requestData.pending) {
