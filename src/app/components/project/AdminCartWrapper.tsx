@@ -12,7 +12,7 @@ import AdminCart from "./AdminCart";
 
 const AdminCartWrapper = () => {
   const router = useRouter();
-  const [requestData, setRequestData] = useState({});
+  const [cartData, setCartData] = useState({});
 
   const { data: session } = useSession({
     required: true,
@@ -26,7 +26,7 @@ const AdminCartWrapper = () => {
       try {
         const result = await getCartsData();
 
-        setRequestData(result);
+        setCartData(result);
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
       }
@@ -35,11 +35,11 @@ const AdminCartWrapper = () => {
     fetchData();
   }, []);
 
-  console.log(requestData);
+  console.log(cartData);
 
   return (
     <Container sx={{ my: "1.5rem" }}>
-      <AdminCart data={requestData} session={session} />
+      <AdminCart data={cartData} session={session} />
     </Container>
   );
 };

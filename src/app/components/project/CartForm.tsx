@@ -145,15 +145,27 @@ const CartForm = ({ data }: any) => {
 
   const keys = Object.keys(data);
   const firstKey = keys[0];
+  console.log(data);
 
   return (
     <>
       <Container maxWidth="md">
         {Object.keys(data).map((cartId, index) => (
           <Card1 key={index} sx={{ mb: 4 }}>
+            <Typography
+              fontSize="50px"
+              style={{
+                textAlign: "left",
+                marginBottom: "1.5rem",
+                textTransform: "uppercase",
+                fontWeight: "bold",
+              }}
+            >
+              {data[cartId][0].cartOptions}
+            </Typography>
             {data[cartId].map((userRequest: any, userRequestIndex: number) => (
               <div key={userRequestIndex} style={{ margin: "2rem" }}>
-                <Typography
+                {/* <Typography
                   fontSize="50px"
                   style={{
                     textAlign: "left",
@@ -163,7 +175,7 @@ const CartForm = ({ data }: any) => {
                   }}
                 >
                   {userRequest.userRequest.options}
-                </Typography>
+                </Typography> */}
                 <Typography
                   fontSize="30px"
                   style={{ textAlign: "left", marginBottom: "1.5rem" }}
@@ -306,11 +318,38 @@ const CartForm = ({ data }: any) => {
                     </div>
                   )
                 )}
+
+                <div
+                  style={{
+                    marginTop: "2rem",
+                    border: "1px solid #ccc",
+                    padding: "1rem",
+                  }}
+                >
+                  <Heading number={3} title={`Arrived Images`} />
+
+                  {userRequest.userRequest.arrived.arrived_images.length > 0 ? (
+                    // If there are arrived_images
+                    userRequest.userRequest.arrived.arrived_images.map(
+                      (image: any, imageIndex: number) => (
+                        <div key={imageIndex}>
+                          {/* 클릭 시 모달 열도록 수정 */}
+                          <Button onClick={() => openModal(image)}>
+                            {image}
+                          </Button>
+                        </div>
+                      )
+                    )
+                  ) : (
+                    // If there are no arrived_images
+                    <Typography variant="body2">Empty list</Typography>
+                  )}
+                </div>
               </div>
             ))}
 
             <div className="m-5" style={{ margin: "2rem" }}>
-              <Heading number={3} title="Shipping Address" />
+              <Heading number={4} title="Shipping Address" />
               <Grid container spacing={2}>
                 <Grid item sm={6} xs={12}>
                   <TextField
@@ -386,7 +425,7 @@ const CartForm = ({ data }: any) => {
                 padding: "1rem",
               }}
             >
-              <Heading number={4} title={`Repacking Images`} />
+              <Heading number={5} title={`Repacking Images`} />
 
               {/* UploadButton과 리스트를 수평으로 정렬 */}
               <div
@@ -436,7 +475,7 @@ const CartForm = ({ data }: any) => {
                 padding: "1rem",
               }}
             >
-              <Heading number={5} title={`Shipping Images`} />
+              <Heading number={6} title={`Shipping Images`} />
 
               {/* UploadButton과 리스트를 수평으로 정렬 */}
               <div
@@ -486,7 +525,7 @@ const CartForm = ({ data }: any) => {
                 padding: "1rem",
               }}
             >
-              <Heading number={6} title={`Shipping Information`} />
+              <Heading number={7} title={`Shipping Information`} />
 
               {/* UploadButton과 리스트를 수평으로 정렬 */}
 

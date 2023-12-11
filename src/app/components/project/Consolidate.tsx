@@ -12,6 +12,8 @@ import {
   Autocomplete,
   FormControlLabel,
   Checkbox,
+  Modal,
+  Fade,
 } from "@mui/material";
 import Card1 from "@/app/components/Card1";
 import { Formik, useFormik } from "formik";
@@ -22,6 +24,8 @@ import { useSession } from "next-auth/react";
 import { Product } from "../../../../type";
 import { getConsolidateData } from "@/app/lib/data";
 import { Paragraph } from "../Typography";
+import Image from "next/image";
+import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 
 type HeadingProps = { number: number; title: string };
 
@@ -48,6 +52,9 @@ const Consolidate = ({ userdata }: any) => {
   const { data: session } = useSession();
   const [data, setData] = useState([]);
   console.log(userdata.address_info);
+
+  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImageUrl, setSelectedImageUrl] = useState("");
 
   const [useDefaultAddress, setUseDefaultAddress] = useState(false);
 
@@ -191,6 +198,17 @@ const Consolidate = ({ userdata }: any) => {
     }
   };
 
+  // 모달을 열기 위한 함수
+  const openModal = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
+    setSelectedImageUrl(imageUrl);
+  };
+
+  // 모달을 닫기 위한 함수
+  const closeModal = () => {
+    setSelectedImage("");
+  };
+
   return (
     <>
       <Grid container spacing={3}>
@@ -332,6 +350,33 @@ const Consolidate = ({ userdata }: any) => {
                     </div>
                   )
                 )}
+
+                <div
+                  style={{
+                    marginTop: "2rem",
+                    border: "1px solid #ccc",
+                    padding: "1rem",
+                  }}
+                >
+                  <Heading number={3} title={`Arrived Images`} />
+
+                  {item.arrived.arrived_images.length > 0 ? (
+                    // If there are arrived_images
+                    item.arrived.arrived_images.map(
+                      (image: any, imageIndex: number) => (
+                        <div key={imageIndex}>
+                          {/* 클릭 시 모달 열도록 수정 */}
+                          <Button onClick={() => openModal(image)}>
+                            {image}
+                          </Button>
+                        </div>
+                      )
+                    )
+                  ) : (
+                    // If there are no arrived_images
+                    <Typography variant="body2">Empty list</Typography>
+                  )}
+                </div>
               </Card1>
             ))}
             {/* <Card1>
@@ -543,6 +588,45 @@ const Consolidate = ({ userdata }: any) => {
               Add to Cart
             </Button>
           </Container>
+
+          {/* MUI Modal 컴포넌트 */}
+          <Modal
+            open={!!selectedImage}
+            onClose={closeModal}
+            closeAfterTransition
+          >
+            <Fade in={!!selectedImage}>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  maxWidth: "80vw",
+                  maxHeight: "80vh",
+                  overflow: "auto",
+                }}
+              >
+                <Image
+                  src={selectedImageUrl}
+                  alt="Selected Image"
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  style={{ width: "100%", height: "auto" }}
+                />
+                <HighlightOffOutlinedIcon
+                  style={{
+                    position: "absolute",
+                    top: "10px",
+                    right: "10px",
+                    cursor: "pointer",
+                  }}
+                  onClick={closeModal}
+                />
+              </div>
+            </Fade>
+          </Modal>
         </Grid>
       </Grid>
     </>
