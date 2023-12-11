@@ -93,6 +93,7 @@ const Shipping = ({ userdata }: any) => {
     const userRequestData = {
       status: 4,
       requestIds: data.map((item: any) => item._id),
+      request_completed_at: new Date().toISOString(),
     };
 
     try {

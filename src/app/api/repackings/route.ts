@@ -9,7 +9,7 @@ export const PUT = async (request: any) => {
   try {
     await connect();
 
-    const { requestId, status } = requestData;
+    const { requestId, status, request_completed_at } = requestData;
 
     // Find the existing request by requestId
     const existingRequest = await UserRequest.findOne({
@@ -19,6 +19,8 @@ export const PUT = async (request: any) => {
     if (existingRequest) {
       // Update the status
       existingRequest.status = status;
+      existingRequest.request_completed_at = request_completed_at;
+
       await existingRequest.save();
 
       return new NextResponse(JSON.stringify(existingRequest), {

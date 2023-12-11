@@ -27,6 +27,12 @@ const AdminDashboard = () => {
 
   const [checkoutData, setCheckoutData] = useState([]);
 
+  const [completeRequestData, setCompleteRequestData] = useState([]);
+
+  const [completeCartData, setCompleteCartData] = useState([]);
+
+  const [completeCheckoutData, setCompleteCheckoutData] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {

@@ -9,7 +9,7 @@ export const PUT = async (request: any) => {
   try {
     await connect();
 
-    const { requestIds, status } = requestData;
+    const { requestIds, status, request_completed_at } = requestData;
 
     // Process each requestId in the requestData
     const updatedRequests = await Promise.all(
@@ -22,6 +22,8 @@ export const PUT = async (request: any) => {
         if (existingRequest) {
           // Update the status
           existingRequest.status = status;
+          existingRequest.request_completed_at = request_completed_at;
+
           return await existingRequest.save();
         } else {
           console.error("Request not found for requestId:", requestId);

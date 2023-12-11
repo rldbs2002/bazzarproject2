@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
-import Cart from "@/models/Cart";
+import UserRequest from "@/models/UserRequest";
+import { getServerSession } from "next-auth";
 
 export const GET = async (request: any) => {
   try {
@@ -10,16 +11,15 @@ export const GET = async (request: any) => {
     const today = new Date();
     today.setUTCHours(0, 0, 0, 0); // Set to the beginning of the day
 
-    const checkoutData = await Cart.find({
-      status: { $gte: 5 },
-      checkout_submitted_at: {
+    // User가 소유한 UserRequest를 찾음
+    const userRequests = await UserRequest.find({
+      status: 4,
+      request_completed_at: {
         $gte: today, // Greater than or equal to today
       },
     });
 
-    return new NextResponse(JSON.stringify(checkoutData), {
-      status: 200,
-    });
+    return new NextResponse(JSON.stringify(userRequests), { status: 200 });
   } catch (err) {
     return new NextResponse("Database Error", { status: 500 });
   }

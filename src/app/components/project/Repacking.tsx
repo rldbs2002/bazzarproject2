@@ -84,6 +84,7 @@ const Repacking = ({ userdata }: any) => {
     const userRequestData = {
       status: 4,
       requestId: data[0]._id,
+      request_completed_at: new Date().toISOString(),
     };
 
     try {

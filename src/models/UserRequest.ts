@@ -77,7 +77,8 @@ const requestSchema = new Schema({
     product_list: [productListSchema],
   },
 
-  request_submitted_at: Date, // "request_submit"의 제출 시간
+  request_submitted_at: Date,
+  request_completed_at: Date,
 
   options: String,
 
