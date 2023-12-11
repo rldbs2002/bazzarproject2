@@ -154,7 +154,18 @@ const CartForm = ({ data }: any) => {
             {data[cartId].map((userRequest: any, userRequestIndex: number) => (
               <div key={userRequestIndex} style={{ margin: "2rem" }}>
                 <Typography
-                  fontSize="40px"
+                  fontSize="50px"
+                  style={{
+                    textAlign: "left",
+                    marginBottom: "1.5rem",
+                    textTransform: "uppercase",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {userRequest.userRequest.options}
+                </Typography>
+                <Typography
+                  fontSize="30px"
                   style={{ textAlign: "left", marginBottom: "1.5rem" }}
                 >
                   {userRequest.userRequest.request_id}

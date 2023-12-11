@@ -121,6 +121,12 @@ export const PUT = async (request: any, { params }: any) => {
       if (arrived.arrived_at) {
         userRequest.arrived.arrived_at = new Date(arrived.arrived_at);
       }
+
+      // Update 'arrived_confirm' if it's available in the arrived object
+      if (arrived.arrived_confirm !== undefined) {
+        userRequest.arrived.arrived_confirm = arrived.arrived_confirm;
+      }
+
       userRequest.status = 2;
     }
 

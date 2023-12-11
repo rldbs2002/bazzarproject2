@@ -4,11 +4,9 @@ import React, { useEffect, useState } from "react";
 import { Paragraph } from "../Typography";
 import { Divider, Avatar, Typography } from "@mui/material";
 import {
-  getAllCheckoutData,
-  getCartsData,
   getMyCartsData,
+  getMyCheckoutData,
   getMyRequestData,
-  getRequestsData,
 } from "@/app/lib/data";
 import Link from "next/link";
 
@@ -50,7 +48,7 @@ const UserDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getAllCheckoutData();
+        const result = await getMyCheckoutData();
 
         setCheckoutData(result);
       } catch (error: any) {

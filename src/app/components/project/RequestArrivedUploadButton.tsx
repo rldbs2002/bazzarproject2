@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { UploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "../../api/uploadthing/core";
-import { Button } from "@mui/material";
+import { Checkbox, FormControlLabel } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 export default function RequestArrivedUploadButton({ data }: any) {
@@ -17,6 +17,8 @@ export default function RequestArrivedUploadButton({ data }: any) {
       fileKey: string;
     }[]
   >([]);
+
+  const [arrivedConfirmation, setArrivedConfirmation] = useState(false);
 
   // Function to handle the upload completion
   const handleUploadComplete = async (res: any) => {
@@ -37,6 +39,7 @@ export default function RequestArrivedUploadButton({ data }: any) {
             arrived: {
               arrived_images: imageFileUrls,
               arrived_at: new Date(),
+              arrived_confirm: arrivedConfirmation,
             },
             status: 2,
           }),
@@ -57,6 +60,15 @@ export default function RequestArrivedUploadButton({ data }: any) {
   return (
     <main className="flex flex-col items-end">
       <h1>Arrived Image Upload</h1>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={arrivedConfirmation}
+            onChange={() => setArrivedConfirmation(!arrivedConfirmation)}
+          />
+        }
+        label="Arrived Confirmation"
+      />
       <UploadButton<OurFileRouter>
         endpoint="imageUploader"
         onClientUploadComplete={handleUploadComplete}

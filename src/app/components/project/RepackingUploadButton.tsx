@@ -6,10 +6,10 @@ import Link from "next/link";
 import { UploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { Button } from "@mui/material";
+import { Checkbox, FormControlLabel } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 export default function RepackingUploadButton({ data }: any) {
-  const [submitCompleted, setsubmitCompleted] = useState(false); // State for the completion flag
   const router = useRouter();
   const [images, setImages] = useState<
     {
@@ -17,6 +17,8 @@ export default function RepackingUploadButton({ data }: any) {
       fileKey: string;
     }[]
   >([]);
+
+  const [repackingConfirmation, setRepackingConfirmation] = useState(false);
 
   // Function to handle the upload completion
   const handleUploadComplete = async (res: any) => {
@@ -35,7 +37,7 @@ export default function RepackingUploadButton({ data }: any) {
             repacking: {
               repacking_images: imageFileUrls,
               repacking_at: new Date(),
-              repacking_complete: submitCompleted, // 업로드 완료 여부 업데이트
+              repacking_confirm: repackingConfirmation,
             },
             status: 6,
           }),
@@ -55,7 +57,16 @@ export default function RepackingUploadButton({ data }: any) {
 
   return (
     <main className="flex flex-col items-end">
-      <h1>Repacking Image Upload</h1>
+      {/* <h1>Repacking Image Upload</h1> */}
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={repackingConfirmation}
+            onChange={() => setRepackingConfirmation(!repackingConfirmation)}
+          />
+        }
+        label="Repacking Confirmation"
+      />
       <UploadButton<OurFileRouter>
         endpoint="imageUploader"
         onClientUploadComplete={handleUploadComplete}

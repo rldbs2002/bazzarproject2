@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { UploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "../../api/uploadthing/core";
-import { Button } from "@mui/material";
+import { Checkbox, FormControlLabel } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 export default function ShippingUploadButton({ data }: any) {
@@ -17,6 +17,8 @@ export default function ShippingUploadButton({ data }: any) {
       fileKey: string;
     }[]
   >([]);
+
+  const [shippingConfirmation, setShippingConfirmation] = useState(false);
 
   // Function to handle the upload completion
   const handleUploadComplete = async (res: any) => {
@@ -35,6 +37,7 @@ export default function ShippingUploadButton({ data }: any) {
             shipping: {
               shipping_images: imageFileUrls,
               shipping_at: new Date(),
+              shipping_confirm: shippingConfirmation,
             },
             status: 7,
           }),
@@ -54,7 +57,16 @@ export default function ShippingUploadButton({ data }: any) {
 
   return (
     <main className="flex flex-col items-end">
-      <h1>Shipping Image Upload</h1>
+      {/* <h1>Shipping Image Upload</h1> */}
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={shippingConfirmation}
+            onChange={() => setShippingConfirmation(!shippingConfirmation)}
+          />
+        }
+        label="Shipping Confirmation"
+      />
       <UploadButton<OurFileRouter>
         endpoint="imageUploader"
         onClientUploadComplete={handleUploadComplete}

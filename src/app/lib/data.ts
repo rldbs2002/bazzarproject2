@@ -123,6 +123,16 @@ export async function getCheckoutData(id: any) {
   return res.json();
 }
 
+export async function getMyCheckoutData() {
+  const res = await fetch(`${apiUrl}/mycheckout`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return res.json();
+}
+
 export async function getConsolidateData() {
   const res = await fetch(`${apiUrl}/consolidate`, {
     cache: "no-store",

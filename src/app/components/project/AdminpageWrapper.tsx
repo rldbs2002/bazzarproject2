@@ -4,7 +4,6 @@ import React from "react";
 import { Grid } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { Paragraph } from "../Typography";
-import AdminDashboard from "./AdminDashboard";
 import AdminDailyStatus from "./AdminDailyStatus";
 
 const AdminpageWrapper = () => {
@@ -14,14 +13,7 @@ const AdminpageWrapper = () => {
 
   return (
     <>
-      <Grid container spacing={3}>
-        <Grid item md={6} xs={12}>
-          <AdminDashboard />
-        </Grid>
-        <Grid item md={6} xs={12}>
-          <AdminDailyStatus />
-        </Grid>
-      </Grid>
+      <AdminDailyStatus />
       <Paragraph
         style={{
           fontSize: "1rem",
