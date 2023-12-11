@@ -253,3 +253,54 @@ export async function getDailyCheckoutData() {
     throw error;
   }
 }
+
+export async function getCompleteRequestData() {
+  try {
+    const res = await fetch(`${apiUrl}/completerequest`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch data. Status: ${res.status}`);
+    }
+
+    return res.json();
+  } catch (error: any) {
+    console.error("Error fetching data:", error.message);
+    throw error;
+  }
+}
+
+export async function getCompleteCartData() {
+  try {
+    const res = await fetch(`${apiUrl}/completecart`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch data. Status: ${res.status}`);
+    }
+
+    return res.json();
+  } catch (error: any) {
+    console.error("Error fetching data:", error.message);
+    throw error;
+  }
+}
+
+export async function getCompleteCheckoutData() {
+  try {
+    const res = await fetch(`${apiUrl}/completecheckout`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch data. Status: ${res.status}`);
+    }
+
+    return res.json();
+  } catch (error: any) {
+    console.error("Error fetching data:", error.message);
+    throw error;
+  }
+}

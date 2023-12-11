@@ -14,6 +14,9 @@ import {
   Cell,
 } from "recharts";
 import {
+  getCompleteCartData,
+  getCompleteCheckoutData,
+  getCompleteRequestData,
   getDailyCartData,
   getDailyCheckoutData,
   getDailyRequestData,
@@ -75,10 +78,51 @@ const AdminDashboard = () => {
     fetchData();
   }, []);
 
-  console.log("Request Data:", requestData);
-  console.log("Cart Data:", cartData);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getCompleteRequestData();
 
-  console.log("Checkout Data:", checkoutData);
+        setCompleteRequestData(result);
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getCompleteCartData();
+
+        setCompleteCartData(result);
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getCompleteCheckoutData();
+
+        setCompleteCheckoutData(result);
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log("Complete Request Data:", completeRequestData);
+  console.log("Complete Cart Data:", completeCartData);
+  console.log("Complete Checkout Data:", completeCheckoutData);
 
   const barChartData = [
     { name: "New Request", value: requestData.length, color: "#4BB4B4" },
@@ -87,15 +131,19 @@ const AdminDashboard = () => {
   ];
 
   const completedData = [
-    { name: "Completed Request", value: requestData.length, color: "#4BB4B4" },
+    {
+      name: "Completed Request",
+      value: completeRequestData.length,
+      color: "#4BB4B4",
+    },
     {
       name: "Completed Carts",
-      value: cartData.length,
+      value: completeCartData.length,
       color: "rgb(51, 208, 103)",
     },
     {
       name: "Completed Checkout",
-      value: checkoutData.length,
+      value: completeCheckoutData.length,
       color: "#BE7374",
     },
   ];
@@ -146,7 +194,7 @@ const AdminDashboard = () => {
       </ResponsiveContainer>
 
       {/* Bar Chart for Completed */}
-      {/* <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={300}>
         <BarChart data={completedData} layout="vertical">
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis type="number" />
@@ -169,7 +217,7 @@ const AdminDashboard = () => {
             ))}
           </Bar>
         </BarChart>
-      </ResponsiveContainer> */}
+      </ResponsiveContainer>
     </>
   );
 };
