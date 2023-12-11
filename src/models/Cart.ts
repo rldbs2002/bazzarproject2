@@ -59,13 +59,14 @@ const CartSchema = new Schema(
     repacking: {
       repacking_images: [],
       repacking_at: Date,
-      repacking_completed: Boolean, // Boolean flag to indicate if the upload is completed
+      repacking_confirm: Boolean,
     },
     shipping: {
       shipping_carrier: String,
       shipping_number: String,
       shipping_images: [],
       shipping_completed: Boolean,
+      shipping_confirm: Boolean,
       shipping_at: Date,
     },
   },

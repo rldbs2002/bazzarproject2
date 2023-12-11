@@ -154,6 +154,11 @@ export const PUT = async (request: any, { params }: any) => {
       if (repacking.repacking_at) {
         cartRequest.repacking.repacking_at = new Date(repacking.repacking_at);
       }
+
+      if (repacking.repacking_confirm !== undefined) {
+        cartRequest.repacking.repacking_confirm = repacking.repacking_confirm;
+      }
+
       cartRequest.status = 6;
     }
 
@@ -176,6 +181,10 @@ export const PUT = async (request: any, { params }: any) => {
       // Update 'shipping_at' if it's available in the shipping object
       if (shipping.shipping_at) {
         cartRequest.shipping.shipping_at = new Date(shipping.shipping_at);
+      }
+
+      if (shipping.shipping_confirm !== undefined) {
+        cartRequest.shipping.shipping_confirm = shipping.shipping_confirm;
       }
       cartRequest.status = 7;
     }
