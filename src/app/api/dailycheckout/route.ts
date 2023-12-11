@@ -12,9 +12,10 @@ export const GET = async (request: any) => {
 
     const checkoutData = await Cart.find({
       status: { $gte: 5 },
-      checkout_submitted_at: {
-        $gte: today, // Greater than or equal to today
-      },
+      // checkout_submitted_at: {
+      //   $gte: today, // Greater than or equal to today
+      // },
+      checkout_submitted_at: {},
     });
 
     return new NextResponse(JSON.stringify(checkoutData), {

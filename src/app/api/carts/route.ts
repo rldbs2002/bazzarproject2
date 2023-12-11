@@ -7,7 +7,7 @@ export const GET = async (request: any) => {
     await connect();
 
     // 1. 먼저 모든 Cart 데이터를 가져옵니다.
-    const cartData = await Cart.find({ status: { $gte: 2, $lte: 4 } });
+    const cartData = await Cart.find({ status: { $gte: 3, $lte: 4 } });
 
     return new NextResponse(JSON.stringify(cartData), {
       status: 200,

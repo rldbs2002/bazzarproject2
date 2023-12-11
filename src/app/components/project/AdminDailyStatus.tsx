@@ -69,6 +69,11 @@ const AdminDashboard = () => {
     fetchData();
   }, []);
 
+  console.log("Request Data:", requestData);
+  console.log("Cart Data:", cartData);
+
+  console.log("Checkout Data:", checkoutData);
+
   const barChartData = [
     { name: "New Request", value: requestData.length, color: "#4BB4B4" },
     { name: "New Carts", value: cartData.length, color: "rgb(51, 208, 103)" },

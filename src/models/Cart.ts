@@ -47,7 +47,7 @@ const CartSchema = new Schema(
     options: String,
     cart_total_price: Number,
     pending: Boolean,
-    checkout_submitted_at: String,
+    checkout_submitted_at: Date,
 
     price_calculate: {
       submitted_at: Date, // 가격 확인이 제출된 시간
