@@ -158,7 +158,9 @@ const AdminDashboard = () => {
       <Paragraph
         style={{
           fontSize: "1.7rem",
-          margin: "2rem",
+          marginBottom: "3rem",
+          marginLeft: "7rem",
+          textAlign: "center",
           fontWeight: "bold",
         }}
       >
@@ -168,17 +170,17 @@ const AdminDashboard = () => {
       {/* Bar Chart */}
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={barChartData} layout="vertical">
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis type="number" />
+          <CartesianGrid opacity={0.5} />
+          <XAxis type="number" domain={[0, 100]} />
           <YAxis
             dataKey="name"
             type="category"
-            tick={{ fontSize: 16 }}
+            tick={{ fontSize: 20 }}
             interval={0}
-            width={160}
+            width={170}
+            tickLine={false}
           />
           <Tooltip />
-          <Legend />
           <Bar
             dataKey="value"
             fill="#8884d8"
@@ -187,7 +189,11 @@ const AdminDashboard = () => {
           >
             {/* Display value as percentage based on the 100 units */}
             {barChartData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.color} />
+              <Cell
+                key={`cell-${index}`}
+                fill={entry.color}
+                fillOpacity={(entry.value / barChartData.length) * 100}
+              />
             ))}
           </Bar>
         </BarChart>
@@ -196,24 +202,27 @@ const AdminDashboard = () => {
       {/* Bar Chart for Completed */}
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={completedData} layout="vertical">
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis type="number" />
+          <CartesianGrid opacity={0.5} />
+          <XAxis type="number" domain={[0, 100]} />
           <YAxis
             dataKey="name"
             type="category"
             tick={{ fontSize: 16 }}
             interval={0}
-            width={160}
+            width={170}
           />
           <Tooltip />
-          <Legend />
           <Bar
             dataKey="value"
-            label={{ fontSize: 14, position: "insideTop" }}
+            label={{ fontSize: 20, position: "insideTop" }}
             barSize={20}
           >
             {completedData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.color} />
+              <Cell
+                key={`cell-${index}`}
+                fill={entry.color}
+                fillOpacity={(entry.value / completedData.length) * 100}
+              />
             ))}
           </Bar>
         </BarChart>

@@ -13,8 +13,8 @@ export const GET = async (request: any) => {
 
     // User가 소유한 UserRequest를 찾음
     const userRequests = await UserRequest.find({
-      status: 4,
-      request_completed_at: {
+      status: 2,
+      "arrived.arrived_at": {
         $gte: today, // Greater than or equal to today
       },
     });

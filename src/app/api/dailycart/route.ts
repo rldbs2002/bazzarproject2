@@ -12,7 +12,6 @@ export const GET = async (request: any) => {
 
     // 1. 먼저 모든 Cart 데이터를 가져옵니다.
     const cartData = await Cart.find({
-      status: { $gte: 3, $lte: 4 },
       createdAt: {
         $gte: today, // Greater than or equal to today
       },

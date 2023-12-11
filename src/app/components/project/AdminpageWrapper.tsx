@@ -15,10 +15,10 @@ const AdminpageWrapper = () => {
   return (
     <>
       <Grid container spacing={3}>
-        <Grid item sm={6} xs={12}>
+        <Grid item md={6} xs={12}>
           <AdminDashboard />
         </Grid>
-        <Grid item sm={6} xs={12}>
+        <Grid item md={6} xs={12}>
           <AdminDailyStatus />
         </Grid>
       </Grid>

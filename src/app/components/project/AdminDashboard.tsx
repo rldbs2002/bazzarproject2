@@ -68,6 +68,7 @@ const AdminDashboard = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          marginTop: "15rem",
         }}
       >
         <Paragraph

@@ -12,7 +12,7 @@ export const GET = async (request: any) => {
 
     const checkoutData = await Cart.find({
       status: 7,
-      shipping_at: {
+      "shipping.shipping_at": {
         $gte: today, // Greater than or equal to today
       },
     });
