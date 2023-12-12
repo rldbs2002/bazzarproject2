@@ -4,10 +4,7 @@ const { Schema } = mongoose;
 const addressSchema = new Schema({
   firstname: String,
   lastname: String,
-  country: {
-    label: String,
-    value: String,
-  },
+  country: String,
   address: String,
   city: String,
   state: String,

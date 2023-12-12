@@ -1,3 +1,6 @@
+import { ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
 export const layoutConstant = {
   topbarHeight: 40,
   headerHeight: 80,
@@ -6,3 +9,7 @@ export const layoutConstant = {
   mobileHeaderHeight: 64,
   grocerySidenavWidth: 280,
 };
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}

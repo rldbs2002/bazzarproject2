@@ -16,7 +16,7 @@ const list = [
     category: "homepage",
     buttonText: "Browse Demos",
     date: "2023-11-28",
-    link: "https://newsroom.posco.com/en/why-should-busan-host-the-world-expo-in-2030-feat-posco-group/",
+    link: "http://localhost:3000/blog/post-01",
   },
   {
     title: "2023 K-CON",
@@ -26,7 +26,7 @@ const list = [
     category: "shop",
     buttonText: "Browse Pages",
     date: "2023-11-28",
-    link: "https://www.soompi.com/article/1613903wpp/kcon-saudi-arabia-2023-announces-star-studded-lineup",
+    link: "http://localhost:3000/blog/post-02",
   },
   {
     title: "2023 Christmas in Korea",
@@ -36,7 +36,7 @@ const list = [
     category: "user",
     buttonText: "Browse User Dashboard",
     date: "2023-11-28",
-    link: "https://www.90daykorean.com/christmas-in-korea-what-is-it-like/",
+    link: "http://localhost:3000/blog/post-03",
   },
   {
     title: "BTS Members Are Joining The Military",
@@ -46,7 +46,7 @@ const list = [
     category: "admin",
     buttonText: "Browse Admin Dashboard",
     date: "2023-11-28",
-    link: "https://www.youtube.com/watch?v=lipmfoi-SUk",
+    link: "http://localhost:3000/blog/post-04",
   },
 ];
 

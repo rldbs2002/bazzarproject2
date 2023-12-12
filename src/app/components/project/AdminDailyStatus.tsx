@@ -12,6 +12,7 @@ import {
   Legend,
   ResponsiveContainer,
   Cell,
+  LabelList,
 } from "recharts";
 import {
   getCartsData,
@@ -176,28 +177,28 @@ const AdminDashboard = () => {
   }, []);
 
   const barChartData = [
-    { name: "New Request", value: dailyRequestData.length, color: "#4BB4B4" },
+    { name: "Request", value: dailyRequestData.length, color: "#4BB4B4" },
     {
-      name: "New Carts",
+      name: "Carts",
       value: dailyCartData.length,
       color: "rgb(51, 208, 103)",
     },
-    { name: "New Checkout", value: dailyCheckoutData.length, color: "#BE7374" },
+    { name: "Checkout", value: dailyCheckoutData.length, color: "#BE7374" },
   ];
 
   const completedData = [
     {
-      name: "Completed Request",
+      name: "Request",
       value: completeRequestData.length,
       color: "#4BB4B4",
     },
     {
-      name: "Completed Carts",
+      name: "Carts",
       value: completeCartData.length,
       color: "rgb(51, 208, 103)",
     },
     {
-      name: "Completed Checkout",
+      name: "Checkout",
       value: completeCheckoutData.length,
       color: "#BE7374",
     },
@@ -212,113 +213,136 @@ const AdminDashboard = () => {
     <>
       <Grid container spacing={3}>
         <Grid item md={6} xs={12}>
-          <>
-            <div
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center", // 수평 중앙 정렬
+              textAlign: "center",
+            }}
+          >
+            <Paragraph
               style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginTop: "15rem",
+                fontSize: "1.7rem",
+                marginBottom: "7rem",
+                fontWeight: "bold",
               }}
             >
-              <Paragraph
+              Work To Do
+            </Paragraph>
+            <>
+              <div
                 style={{
-                  fontSize: "1.7rem",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  width: "75%",
                 }}
               >
-                Requests
-              </Paragraph>
-              <Link href="/admin/request">
-                <Avatar
-                  sx={{
-                    width: 32,
-                    height: 32,
-                    color: "primary.text",
-                    backgroundColor: "paste.main",
+                <Paragraph
+                  style={{
+                    fontSize: "1.7rem",
                   }}
                 >
-                  {remainRequestsData.length}
-                </Avatar>
-              </Link>
-            </div>
-            <Divider
-              sx={{
-                mb: 5,
-                borderColor: "paste.400",
-                borderBottomWidth: "5px",
-              }}
-            />
+                  Requests
+                </Paragraph>
+                <Link href="/admin/request">
+                  <Avatar
+                    sx={{
+                      width: 32,
+                      height: 32,
+                      color: "primary.text",
+                      backgroundColor: "paste.main",
+                    }}
+                  >
+                    {remainRequestsData.length}
+                  </Avatar>
+                </Link>
+              </div>
+              <Divider
+                sx={{
+                  mb: 5,
+                  borderColor: "paste.400",
+                  borderBottomWidth: "5px",
+                  width: "75%",
+                }}
+              />
 
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Paragraph
+              <div
                 style={{
-                  fontSize: "1.7rem",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  width: "75%",
                 }}
               >
-                Carts
-              </Paragraph>
-              <Link href="/admin/cart">
-                <Avatar
-                  sx={{
-                    width: 32,
-                    height: 32,
-                    color: "primary.text",
-                    backgroundColor: "success.main",
+                <Paragraph
+                  style={{
+                    fontSize: "1.7rem",
                   }}
                 >
-                  {remainCartsData.length}
-                </Avatar>
-              </Link>
-            </div>
-            <Divider
-              sx={{
-                mb: 5,
-                borderColor: "success.400",
-                borderBottomWidth: "5px",
-              }}
-            />
+                  Carts
+                </Paragraph>
+                <Link href="/admin/cart">
+                  <Avatar
+                    sx={{
+                      width: 32,
+                      height: 32,
+                      color: "primary.text",
+                      backgroundColor: "success.main",
+                    }}
+                  >
+                    {remainCartsData.length}
+                  </Avatar>
+                </Link>
+              </div>
+              <Divider
+                sx={{
+                  mb: 5,
+                  borderColor: "success.400",
+                  borderBottomWidth: "5px",
+                  width: "75%",
+                }}
+              />
 
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Paragraph
+              <div
                 style={{
-                  fontSize: "1.7rem",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  width: "75%",
                 }}
               >
-                Checkout
-              </Paragraph>
-              <Link href="/admin/checkout">
-                <Avatar
-                  sx={{
-                    width: 32,
-                    height: 32,
-                    color: "secondary.text",
-                    backgroundColor: "marron.main",
+                <Paragraph
+                  style={{
+                    fontSize: "1.7rem",
                   }}
                 >
-                  {remainCheckoutsData.length}
-                </Avatar>
-              </Link>
-            </div>
-            <Divider
-              sx={{
-                mb: 3,
-                borderColor: "marron.400",
-                borderBottomWidth: "5px",
-              }}
-            />
-          </>
+                  Checkout
+                </Paragraph>
+                <Link href="/admin/checkout">
+                  <Avatar
+                    sx={{
+                      width: 32,
+                      height: 32,
+                      color: "secondary.text",
+                      backgroundColor: "marron.main",
+                    }}
+                  >
+                    {remainCheckoutsData.length}
+                  </Avatar>
+                </Link>
+              </div>
+              <Divider
+                sx={{
+                  mb: 3,
+                  borderColor: "marron.400",
+                  borderBottomWidth: "5px",
+                  width: "75%",
+                }}
+              />
+            </>
+          </div>
         </Grid>
         <Grid item md={6} xs={12}>
           <Paragraph
@@ -334,65 +358,90 @@ const AdminDashboard = () => {
           </Paragraph>
 
           {/* Bar Chart */}
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={barChartData} layout="vertical">
-              <CartesianGrid opacity={0.5} />
-              <XAxis type="number" domain={[0, 100]} />
-              <YAxis
-                dataKey="name"
-                type="category"
-                tick={{ fontSize: 20 }}
-                interval={0}
-                width={170}
-                tickLine={false}
-              />
-              <Tooltip />
-              <Bar
-                dataKey="value"
-                fill="#8884d8"
-                label={{ fontSize: 14, position: "insideTop" }}
-                barSize={20}
-              >
-                {/* Display value as percentage based on the 100 units */}
-                {barChartData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={entry.color}
-                    fillOpacity={(entry.value / barChartData.length) * 100}
-                  />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <div style={{ marginBottom: "4rem" }}>
+            <Paragraph
+              style={{
+                fontSize: "1.4rem",
+                marginBottom: "3rem",
+                marginLeft: "7rem",
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
+            >
+              New
+            </Paragraph>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={barChartData} layout="vertical">
+                <CartesianGrid opacity={0} />
+                <XAxis type="number" domain={[0, 20]} />
+                <YAxis
+                  dataKey="name"
+                  type="category"
+                  tick={{ fontSize: 20 }}
+                  width={170}
+                  tickLine={false}
+                />
+                <Tooltip />
+                <Bar
+                  dataKey="value"
+                  fill="#8884d8"
+                  label={{ fontSize: 14, position: "insideTop" }}
+                  barSize={20}
+                >
+                  {/* Display value as percentage based on the 100 units */}
+                  {barChartData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={entry.color}
+                      fillOpacity={(entry.value / barChartData.length) * 100}
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
 
           {/* Bar Chart for Completed */}
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={completedData} layout="vertical">
-              <CartesianGrid opacity={0.5} />
-              <XAxis type="number" domain={[0, 100]} />
-              <YAxis
-                dataKey="name"
-                type="category"
-                tick={{ fontSize: 16 }}
-                interval={0}
-                width={170}
-              />
-              <Tooltip />
-              <Bar
-                dataKey="value"
-                label={{ fontSize: 20, position: "insideTop" }}
-                barSize={20}
-              >
-                {completedData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={entry.color}
-                    fillOpacity={(entry.value / completedData.length) * 100}
-                  />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <div>
+            <Paragraph
+              style={{
+                fontSize: "1.4rem",
+                marginBottom: "3rem",
+                marginLeft: "7rem",
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
+            >
+              Complete
+            </Paragraph>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={completedData} layout="vertical">
+                <CartesianGrid opacity={0} />
+                <XAxis type="number" domain={[0, 20]} />
+                <YAxis
+                  dataKey="name"
+                  type="category"
+                  tick={{ fontSize: 20 }}
+                  width={170}
+                  height={20}
+                />
+                <Tooltip />
+                <Bar
+                  dataKey="value"
+                  label={{ fontSize: 20, position: "insideTop" }}
+                  barSize={20}
+                >
+                  {completedData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={entry.color}
+                      fillOpacity={(entry.value / completedData.length) * 100}
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </Grid>
       </Grid>
     </>

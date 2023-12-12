@@ -379,8 +379,8 @@ const Consolidate = ({ userdata }: any) => {
                 </div>
               </Card1>
             ))}
-            {/* <Card1>
-              <Heading number={3} title="Shipping Address" />
+            <Card1>
+              <Heading number={4} title="Shipping Address" />
 
               <FormControlLabel
                 control={
@@ -396,7 +396,7 @@ const Consolidate = ({ userdata }: any) => {
               <Formik
                 initialValues={initialValues}
                 validationSchema={checkoutSchema}
-                onSubmit={handleFormSubmit}
+                onSubmit={handleFormikSubmit}
               >
                 {({
                   values,
@@ -415,7 +415,11 @@ const Consolidate = ({ userdata }: any) => {
                           label="First Name"
                           variant="outlined"
                           fullWidth
-                          value={values.arrived_info.firstname}
+                          value={
+                            useDefaultAddress
+                              ? userdata.address_info.firstname
+                              : ""
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={
@@ -433,7 +437,11 @@ const Consolidate = ({ userdata }: any) => {
                           label="Last Name"
                           variant="outlined"
                           fullWidth
-                          value={values.arrived_info.lastname}
+                          value={
+                            useDefaultAddress
+                              ? userdata.address_info.lastname
+                              : ""
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={
@@ -460,6 +468,7 @@ const Consolidate = ({ userdata }: any) => {
                               label="Country"
                               variant="outlined"
                               placeholder="Select Country"
+                              margin="normal"
                               error={
                                 !!touched.arrived_info?.country &&
                                 !!errors.arrived_info?.country
@@ -477,7 +486,11 @@ const Consolidate = ({ userdata }: any) => {
                           label="Address"
                           variant="outlined"
                           fullWidth
-                          value={values.arrived_info.address}
+                          value={
+                            useDefaultAddress
+                              ? userdata.address_info.address
+                              : ""
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={
@@ -488,7 +501,6 @@ const Consolidate = ({ userdata }: any) => {
                             (touched.arrived_info?.address &&
                               errors.arrived_info?.address) as string
                           }
-                          margin="normal"
                         />
                       </Grid>
 
@@ -498,7 +510,9 @@ const Consolidate = ({ userdata }: any) => {
                           label="City"
                           variant="outlined"
                           fullWidth
-                          value={values.arrived_info.city}
+                          value={
+                            useDefaultAddress ? userdata.address_info.city : ""
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={
@@ -516,7 +530,9 @@ const Consolidate = ({ userdata }: any) => {
                           label="State"
                           variant="outlined"
                           fullWidth
-                          value={values.arrived_info.state}
+                          value={
+                            useDefaultAddress ? userdata.address_info.state : ""
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={
@@ -534,7 +550,11 @@ const Consolidate = ({ userdata }: any) => {
                           label="Postal Code"
                           variant="outlined"
                           fullWidth
-                          value={values.arrived_info.postal_code}
+                          value={
+                            useDefaultAddress
+                              ? userdata.address_info.postal_code
+                              : ""
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={
@@ -552,7 +572,9 @@ const Consolidate = ({ userdata }: any) => {
                           label="Phone Number"
                           variant="outlined"
                           fullWidth
-                          value={values.arrived_info.phone}
+                          value={
+                            useDefaultAddress ? userdata.address_info.phone : ""
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={
@@ -568,8 +590,8 @@ const Consolidate = ({ userdata }: any) => {
                       </Grid>
                     </Grid>
 
-                    <Grid container spacing={6}>
-                      <Grid item sm={12} xs={12}>
+                    <Grid container spacing={4}>
+                      <Grid item xs={12}>
                         <Button
                           variant="contained"
                           color="primary"
@@ -583,7 +605,7 @@ const Consolidate = ({ userdata }: any) => {
                   </form>
                 )}
               </Formik>
-            </Card1> */}
+            </Card1>
             <Button onClick={handleFormSubmit} variant="outlined">
               Add to Cart
             </Button>
