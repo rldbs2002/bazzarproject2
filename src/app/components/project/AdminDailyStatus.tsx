@@ -14,22 +14,34 @@ import {
   Cell,
 } from "recharts";
 import {
+  getCartsData,
+  getCheckoutsData,
   getCompleteCartData,
   getCompleteCheckoutData,
   getCompleteRequestData,
   getDailyCartData,
   getDailyCheckoutData,
   getDailyRequestData,
+  getRemainCartsData,
+  getRemainCheckoutsData,
+  getRemainRequestsData,
+  getRequestsData,
 } from "@/app/lib/data";
 import Link from "next/link";
 import { Paragraph } from "../Typography";
 
 const AdminDashboard = () => {
-  const [requestData, setRequestData] = useState([]);
+  const [remainRequestsData, setRemainRequestsData] = useState([]);
 
-  const [cartData, setCartData] = useState([]);
+  const [remainCartsData, setRemainCartsData] = useState([]);
 
-  const [checkoutData, setCheckoutData] = useState([]);
+  const [remainCheckoutsData, setRemainCheckoutsData] = useState([]);
+
+  const [dailyRequestData, setDailyRequestData] = useState([]);
+
+  const [dailyCartData, setDailyCartData] = useState([]);
+
+  const [dailyCheckoutData, setDailyCheckoutData] = useState([]);
 
   const [completeRequestData, setCompleteRequestData] = useState([]);
 
@@ -37,19 +49,54 @@ const AdminDashboard = () => {
 
   const [completeCheckoutData, setCompleteCheckoutData] = useState([]);
 
-  const pendingRequestCount = requestData.length - completeRequestData.length;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getRemainRequestsData();
 
-  const pendingCartCount = cartData.length - completeCartData.length;
+        setRemainRequestsData(result);
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
 
-  const pendingCheckoutCount =
-    checkoutData.length - completeCheckoutData.length;
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getRemainCartsData();
+
+        setRemainCartsData(result);
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getRemainCheckoutsData();
+
+        setRemainCheckoutsData(result);
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await getDailyRequestData();
 
-        setRequestData(result);
+        setDailyRequestData(result);
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
       }
@@ -63,7 +110,7 @@ const AdminDashboard = () => {
       try {
         const result = await getDailyCartData();
 
-        setCartData(result);
+        setDailyCartData(result);
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
       }
@@ -77,7 +124,7 @@ const AdminDashboard = () => {
       try {
         const result = await getDailyCheckoutData();
 
-        setCheckoutData(result);
+        setDailyCheckoutData(result);
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
       }
@@ -129,9 +176,13 @@ const AdminDashboard = () => {
   }, []);
 
   const barChartData = [
-    { name: "New Request", value: requestData.length, color: "#4BB4B4" },
-    { name: "New Carts", value: cartData.length, color: "rgb(51, 208, 103)" },
-    { name: "New Checkout", value: checkoutData.length, color: "#BE7374" },
+    { name: "New Request", value: dailyRequestData.length, color: "#4BB4B4" },
+    {
+      name: "New Carts",
+      value: dailyCartData.length,
+      color: "rgb(51, 208, 103)",
+    },
+    { name: "New Checkout", value: dailyCheckoutData.length, color: "#BE7374" },
   ];
 
   const completedData = [
@@ -186,7 +237,7 @@ const AdminDashboard = () => {
                     backgroundColor: "paste.main",
                   }}
                 >
-                  {pendingRequestCount}
+                  {remainRequestsData.length}
                 </Avatar>
               </Link>
             </div>
@@ -221,7 +272,7 @@ const AdminDashboard = () => {
                     backgroundColor: "success.main",
                   }}
                 >
-                  {pendingCartCount}
+                  {remainCartsData.length}
                 </Avatar>
               </Link>
             </div>
@@ -256,7 +307,7 @@ const AdminDashboard = () => {
                     backgroundColor: "marron.main",
                   }}
                 >
-                  {pendingCheckoutCount}
+                  {remainCheckoutsData.length}
                 </Avatar>
               </Link>
             </div>
