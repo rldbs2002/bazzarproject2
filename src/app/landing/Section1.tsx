@@ -13,7 +13,10 @@ import { Circle } from "@mui/icons-material";
 const Section1 = () => {
   return (
     <Box bgcolor="white">
-      <Container id="section-1" sx={{ mt: 12, position: "relative" }}>
+      <Container
+        id="section-1"
+        sx={{ mt: 8, position: "relative", maxWidth: "80%", mx: "auto" }}
+      >
         <Box maxWidth="830px" mx="auto" mb={12} textAlign="center">
           <H1 fontSize="40px" mb={3}>
             <Span>send your k-culture product</Span>

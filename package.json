@@ -72,6 +72,7 @@
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.0",
     "remark-html": "^16.0.1",
+    "remark-images": "^4.0.0",
     "shiki": "^0.14.6",
     "simplebar-react": "^3.2.4",
     "styled-components": "^5.3.11",

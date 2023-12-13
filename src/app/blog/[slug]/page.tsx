@@ -34,21 +34,14 @@ const page = async ({ params }: pageProps) => {
     <ShopLayout2>
       <Container sx={{ my: "1.5rem" }}>
         <Card1>
-          <Paragraph
-            style={{
-              fontSize: "1.7rem",
-              marginBottom: "1rem",
-              fontWeight: "bold",
-            }}
-          >
-            BLOGS
-          </Paragraph>
           <h3
             style={{
-              fontSize: "1.3em",
+              fontSize: "2rem",
               margin: "10px 0",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              fontWeight: "bold",
+
               whiteSpace: "nowrap", // 필요한 경우 한 줄에 표시하도록 설정
             }}
           >

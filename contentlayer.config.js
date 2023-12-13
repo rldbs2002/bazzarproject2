@@ -3,6 +3,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
+import remarkImages from "remark-images";
 
 /** @type {import('contentlayer/source-files').ComputedFields} */
 const computedFields = {
@@ -42,7 +43,7 @@ export default makeSource({
   contentDirPath: "src/content",
   documentTypes: [Doc],
   mdx: {
-    remarkPlugins: [remarkGfm],
+    remarkPlugins: [remarkGfm, remarkImages],
     rehypePlugins: [
       rehypeSlug,
       [

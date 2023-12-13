@@ -53,7 +53,7 @@ const Section6: FC<Props> = ({ setFilterDemo }) => {
 
   return (
     <Box id="get" sx={{ backgroundColor: "grey.100" }}>
-      <Container sx={{ py: 18 }}>
+      <Container sx={{ py: 18, maxWidth: "80%", mx: "auto" }}>
         <H2
           fontSize={28}
           textAlign="center"

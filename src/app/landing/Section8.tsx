@@ -9,8 +9,8 @@ import Link from "next/link";
 
 const list = [
   {
-    title: "WORLD EXPO 2023 BUSAN, KOREA",
-    thumbnail: "/assets/images/landing/busan-expo.png",
+    title: "BTS' Jungkook to release 1st solo album 'Golden'",
+    thumbnail: "/assets/images/JungKook.jpg",
     subTitle:
       "If the 2030 World Expo is hosted in Busan, Korea will become the 7th country in the world to host all three major international events: the Olympics, the World Cup, and the Registered Expo.",
     category: "homepage",
@@ -19,8 +19,8 @@ const list = [
     link: "http://localhost:3000/blog/post-01",
   },
   {
-    title: "2023 K-CON",
-    thumbnail: "/assets/images/landing/k-con.png",
+    title: "NewJeans to perform at Billboard Music Awards",
+    thumbnail: "/assets/images/NewJeans.jpg",
     subTitle:
       "KCON Saudi Arabia 2023 will be held at Boulevard Riyadh City on October 6 and 7, and it will feature two nights of concerts with different performing artists.",
     category: "shop",
@@ -29,8 +29,8 @@ const list = [
     link: "http://localhost:3000/blog/post-02",
   },
   {
-    title: "2023 Christmas in Korea",
-    thumbnail: "/assets/images/landing/Christmas-in-Korea.png",
+    title: "OVERWATCH® 2 AND LE SSERAFIM® TEAM UP IN A NEW COLLAB EVENT!",
+    thumbnail: "/assets/images/Overwatch.png",
     subTitle:
       "In just a couple of weeks, billions of people worldwide will be celebrating the most widely celebrated holiday in the world, Christmas – and Korea is no different!",
     category: "user",
@@ -70,7 +70,10 @@ const Section8: FC<Props> = ({ setFilterDemo }) => {
           "url(/assets/images/landing/landing-bg-2.svg) center/contain no-repeat",
       }}
     >
-      <Container id="section-3" sx={{ position: "relative" }}>
+      <Container
+        id="section-3"
+        sx={{ position: "relative", maxWidth: "80%", mx: "auto" }}
+      >
         <Box maxWidth="830px" mx="auto" mb="2.5rem" textAlign="center">
           <H4 color="primary.main" fontSize="45px" fontWeight="700">
             BLOGS
