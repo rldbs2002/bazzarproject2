@@ -39,6 +39,28 @@ export const Doc = defineDocumentType(() => ({
   computedFields,
 }));
 
+export const Cat = defineDocumentType(() => ({
+  name: "Cat",
+  filePathPattern: `benefits/**/*.mdx`,
+  contentType: "mdx",
+  fields: {
+    title: {
+      type: "string",
+      required: true,
+    },
+    date: { type: "date", required: true },
+    description: {
+      type: "string",
+    },
+
+    published: {
+      type: "boolean",
+      default: true,
+    },
+  },
+  computedFields,
+}));
+
 export default makeSource({
   contentDirPath: "src/content",
   documentTypes: [Doc],
