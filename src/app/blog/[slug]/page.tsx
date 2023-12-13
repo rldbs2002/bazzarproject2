@@ -41,7 +41,7 @@ const page = async ({ params }: pageProps) => {
               fontWeight: "bold",
             }}
           >
-            {doc.title}
+            BLOGS
           </Paragraph>
           <h3
             style={{
@@ -52,9 +52,13 @@ const page = async ({ params }: pageProps) => {
               whiteSpace: "nowrap", // 필요한 경우 한 줄에 표시하도록 설정
             }}
           >
-            {formattedDate}
+            {doc.title}
           </h3>
-          <Mdx code={doc.body.code} />
+          <p style={{ marginBottom: "1rem" }}>{formattedDate}</p>
+          <hr></hr>
+          <div style={{ marginTop: "3rem" }}>
+            <Mdx code={doc.body.code} />
+          </div>
         </Card1>
       </Container>
     </ShopLayout2>

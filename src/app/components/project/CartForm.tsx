@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import * as React from "react";
 import Container from "@mui/material/Container";
 import Card1 from "../Card1";
@@ -16,8 +16,26 @@ import ArrivedUploadButton from "./ArrivedUploadButton";
 import ShippingForm from "./ShippingForm";
 import { Product } from "../../../../type";
 import Image from "next/image";
+import { getUserData } from "@/app/lib/data";
 
 type HeadingProps = { number: number; title: string };
+
+type UserData = {
+  address_info: {
+    firstname: string;
+    lastname: string;
+    country: {
+      label: string;
+      value: string;
+    };
+    address: string;
+    city: string;
+    state: string;
+    postal_code: string;
+    phone: string;
+  };
+  // 나머지 필드들도 정의해야 함
+};
 
 const Heading: FC<HeadingProps> = ({ number, title }) => {
   return (
@@ -42,6 +60,7 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
 const CartForm = ({ data }: any) => {
   const router = useRouter();
   const { data: session } = useSession();
+  const [userData, setUserData] = useState<UserData | null>(null);
 
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedImageUrl, setSelectedImageUrl] = useState("");
@@ -146,6 +165,22 @@ const CartForm = ({ data }: any) => {
   const keys = Object.keys(data);
   const firstKey = keys[0];
   console.log(data);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userResult = await getUserData();
+        console.log("사용자 데이터:", userResult);
+        setUserData(userResult);
+      } catch (error: any) {
+        console.error("데이터를 불러오는 중 에러 발생:", error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(userData);
 
   return (
     <>
@@ -357,6 +392,7 @@ const CartForm = ({ data }: any) => {
                     label="First Name"
                     variant="outlined"
                     fullWidth
+                    value={userData ? userData.address_info.firstname : ""}
                     margin="normal"
                   />
                   <TextField
@@ -364,6 +400,7 @@ const CartForm = ({ data }: any) => {
                     label="Last Name"
                     variant="outlined"
                     fullWidth
+                    value={userData ? userData.address_info.lastname : ""}
                     margin="normal"
                   />
 
@@ -372,6 +409,7 @@ const CartForm = ({ data }: any) => {
                     label="Address"
                     variant="outlined"
                     fullWidth
+                    value={userData ? userData.address_info.address : ""}
                     margin="normal"
                   />
 
@@ -380,6 +418,7 @@ const CartForm = ({ data }: any) => {
                     margin="normal"
                     variant="outlined"
                     fullWidth
+                    value={userData ? userData.address_info.country.label : ""}
                   />
                 </Grid>
 
@@ -390,12 +429,14 @@ const CartForm = ({ data }: any) => {
                     variant="outlined"
                     fullWidth
                     margin="normal"
+                    value={userData ? userData.address_info.city : ""}
                   />
                   <TextField
                     name="state"
                     label="State"
                     variant="outlined"
                     fullWidth
+                    value={userData ? userData.address_info.state : ""}
                     margin="normal"
                   />
                   <TextField
@@ -404,6 +445,7 @@ const CartForm = ({ data }: any) => {
                     variant="outlined"
                     fullWidth
                     margin="normal"
+                    value={userData ? userData.address_info.postal_code : ""}
                   />
                   <TextField
                     name="phone"
@@ -411,6 +453,7 @@ const CartForm = ({ data }: any) => {
                     variant="outlined"
                     fullWidth
                     margin="normal"
+                    value={userData ? userData.address_info.phone : ""}
                   />
                 </Grid>
               </Grid>

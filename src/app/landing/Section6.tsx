@@ -79,24 +79,18 @@ const Section6: FC<Props> = ({ setFilterDemo }) => {
                   sx={{
                     boxShadow: 1,
                     borderRadius: "10px",
-                    height: "auto",
+                    height: { sm: 200, xs: "100%" },
                     width: { sm: 250, xs: "100%" },
                   }}
                 />
 
                 <FlexBox flexDirection="column" alignItems="flex-start">
-                  <H2 fontSize={22} mb={1}>
-                    {item.title}
-                  </H2>
-                  <Paragraph mb={2}>{item.subTitle}</Paragraph>
-                  <Box m="auto"></Box>
-                  {/* <Button
-                    onClick={handleNavigate(item.category)}
-                    variant="outlined"
-                    color="primary"
-                  >
-                    {item.buttonText}
-                  </Button> */}
+                  <div style={{ width: "100%", height: "100%" }}>
+                    <H2 fontSize={22} mb={1}>
+                      {item.title}
+                    </H2>
+                    <Paragraph mb={2}>{item.subTitle}</Paragraph>
+                  </div>
                 </FlexBox>
               </FlexBox>
             </Grid>

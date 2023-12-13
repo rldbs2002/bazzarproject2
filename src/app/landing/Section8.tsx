@@ -102,18 +102,20 @@ const Section8: FC<Props> = ({ setFilterDemo }) => {
                   sx={{
                     boxShadow: 1,
                     borderRadius: "10px",
-                    height: "auto",
+                    height: { sm: 200, xs: "100%" },
                     width: { sm: 250, xs: "100%" },
                   }}
                 />
 
                 <FlexBox flexDirection="column" alignItems="flex-start">
                   <Link href={item.link}>
-                    <H2 fontSize={22} mb={1}>
-                      {item.title}
-                    </H2>
-                    <Paragraph mb={2}>{item.subTitle}</Paragraph>
-                    <Paragraph mb={2}>{item.date}</Paragraph>
+                    <div style={{ width: "100%", height: "100%" }}>
+                      <H2 fontSize={22} mb={1}>
+                        {item.title}
+                      </H2>
+                      <Paragraph mb={2}>{item.subTitle}</Paragraph>
+                      <Paragraph mb={2}>{item.date}</Paragraph>
+                    </div>
                   </Link>
                 </FlexBox>
               </FlexBox>

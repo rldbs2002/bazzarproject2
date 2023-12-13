@@ -65,7 +65,7 @@ const Header = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [isFixed, setFixed] = useState(false);
-  const downSM = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
+  const downSM = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
 
   const toggleSidenav = () => setOpen((open) => !open);
 
@@ -144,6 +144,25 @@ const Header = () => {
                   <Fragment>
                     {login?.user.role === "admin" ? (
                       <Fragment>
+                        <Link href="/notice">
+                          <Typography
+                            className="link"
+                            color="grey.600"
+                            p="0.25rem 1.25rem"
+                          >
+                            Notice
+                          </Typography>
+                        </Link>
+                        <Link href="/event">
+                          <Typography
+                            className="link"
+                            color="grey.600"
+                            p="0.25rem 1.25rem"
+                          >
+                            Event
+                          </Typography>
+                        </Link>
+
                         <Link href="/admin">
                           <Typography
                             className="link"
@@ -186,6 +205,25 @@ const Header = () => {
                       </Fragment>
                     ) : (
                       <Fragment>
+                        <Link href="/notice">
+                          <Typography
+                            className="link"
+                            color="grey.600"
+                            p="0.25rem 1.25rem"
+                          >
+                            Notice
+                          </Typography>
+                        </Link>
+                        <Link href="/event">
+                          <Typography
+                            className="link"
+                            color="grey.600"
+                            p="0.25rem 1.25rem"
+                          >
+                            Event
+                          </Typography>
+                        </Link>
+
                         <Link href="/newrequest">
                           <Typography
                             className="link"

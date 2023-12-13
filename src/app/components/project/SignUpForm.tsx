@@ -15,7 +15,7 @@ const SignUpForm = () => {
   const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState(countryList[229]);
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -161,12 +161,16 @@ const SignUpForm = () => {
                 <select
                   id="country"
                   required
-                  value={country}
+                  value={country.label}
                   onChange={(e) => {
                     const selectedCountry = countryList.find(
                       (c) => c.label === e.target.value
                     );
-                    setCountry(e.target.value); // 선택한 국가를 직접 country 상태로 업데이트
+                    if (selectedCountry) {
+                      setCountry(selectedCountry);
+                    } else {
+                      setCountry({ label: "", value: "" }); // 선택한 국가가 없을 경우 빈 객체로 설정
+                    }
                   }}
                   className="mt-2 block w-full rounded-md border bg-white px-4 py-2 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-blue-300"
                 >

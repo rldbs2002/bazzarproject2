@@ -2,13 +2,18 @@ import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
+import { getServerSession } from "next-auth";
 
 export const GET = async (request: any) => {
   try {
     await connect();
 
     // 세션에서 사용자 이메일을 가져옴
-    const userEmail = "guest";
+    const session = await getServerSession({ req: request });
+    console.log(session?.user.email);
+
+    // 사용자의 이메일 주소 (예: 사용자의 실제 이메일 주소로 변경해야 함)
+    const userEmail = session?.user.email;
 
     // 데이터베이스에서 사용자를 이메일로 찾음
     const user = await User.findOne({ email: userEmail });
@@ -30,7 +35,8 @@ export const PUT = async (request: any) => {
   await connect();
 
   try {
-    const { arrived_info, currentPassword, newPassword, email } = requestData;
+    const { arrived_info, email } = requestData;
+    const { currentPassword, newPassword } = requestData.password;
 
     // 기존 사용자 정보를 찾음
     const user = await User.findOne({ email });
@@ -54,21 +60,26 @@ export const PUT = async (request: any) => {
     // Hash the new password before updating
     const hashedNewPassword = await bcrypt.hash(newPassword, 5);
 
-    // Update the user's password and arrived_info
-    const updatedUser = await User.findOneAndUpdate(
-      { email },
-      {
-        password: hashedNewPassword,
-      },
-      { new: true }
-    );
+    // Update the user's password
+    user.password = hashedNewPassword;
 
-    return new NextResponse("주소가 성공적으로 업데이트되었습니다", {
-      status: 200,
-    });
+    // Update arrived_info if needed
+    if (arrived_info) {
+      user.arrived_info = arrived_info;
+    }
+
+    // Save the user object
+    const updatedUser = await user.save();
+
+    return new NextResponse(
+      "주소 또는 비밀번호가 성공적으로 업데이트되었습니다",
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
-    console.error("주소를 업데이트하는 중 오류 발생:", error);
-    return new NextResponse("주소를 업데이트하는 중 오류 발생", {
+    console.error("주소 또는 비밀번호를 업데이트하는 중 오류 발생:", error);
+    return new NextResponse("주소 또는 비밀번호를 업데이트하는 중 오류 발생", {
       status: 500,
     });
   }

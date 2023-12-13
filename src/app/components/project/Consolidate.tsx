@@ -55,7 +55,6 @@ const Consolidate = ({ userdata }: any) => {
 
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedImageUrl, setSelectedImageUrl] = useState("");
-
   const [useDefaultAddress, setUseDefaultAddress] = useState(false);
 
   const initialValues = {
@@ -75,14 +74,14 @@ const Consolidate = ({ userdata }: any) => {
 
   // Define Yup validation schema
   const checkoutSchema = yup.object().shape({
-    firstname: yup.string().required("First Name is required"),
-    lastname: yup.string().required("Last Name is required"),
-    country: yup.string().required("Country is required"),
-    address: yup.string().required("Address is required"),
-    city: yup.string().required("City is required"),
-    state: yup.string().required("State is required"),
-    postal_code: yup.string().required("Postal Code is required"),
-    phone: yup.string().required("Phone Number is required"),
+    // firstname: yup.string().required("First Name is required"),
+    // lastname: yup.string().required("Last Name is required"),
+    // country: yup.string().required("Country is required"),
+    // address: yup.string().required("Address is required"),
+    // city: yup.string().required("City is required"),
+    // state: yup.string().required("State is required"),
+    // postal_code: yup.string().required("Postal Code is required"),
+    // phone: yup.string().required("Phone Number is required"),
   });
 
   const handleFormikSubmit = async (values: any) => {
@@ -97,6 +96,7 @@ const Consolidate = ({ userdata }: any) => {
         postal_code: values.postal_code,
         phone: values.phone,
       },
+      email: session?.user.email,
     };
 
     try {
@@ -396,7 +396,16 @@ const Consolidate = ({ userdata }: any) => {
               <Formik
                 initialValues={initialValues}
                 validationSchema={checkoutSchema}
-                onSubmit={handleFormikSubmit}
+                onSubmit={async (values, { setSubmitting }) => {
+                  // handleFormikSubmit 함수 내에서 Formik의 values를 사용할 수 있습니다.
+                  await handleFormikSubmit(values);
+
+                  // handleFormSubmit 함수를 호출하고, 필요한 값(values)를 전달합니다.
+                  await handleFormSubmit(values);
+
+                  // 모든 작업이 완료된 후, Formik의 submit 상태를 해제합니다.
+                  setSubmitting(false);
+                }}
               >
                 {({
                   values,
@@ -406,6 +415,7 @@ const Consolidate = ({ userdata }: any) => {
                   handleBlur,
                   handleSubmit,
                   setFieldValue,
+                  isSubmitting,
                 }) => (
                   <form onSubmit={handleSubmit}>
                     <Grid container spacing={6}>
@@ -458,7 +468,11 @@ const Consolidate = ({ userdata }: any) => {
                           fullWidth
                           sx={{ mb: 2 }}
                           options={countryList}
-                          value={values.arrived_info.country}
+                          value={
+                            useDefaultAddress
+                              ? userdata.address_info.country
+                              : values.arrived_info.country
+                          }
                           getOptionLabel={(option) => option.label}
                           onChange={(_, value) =>
                             setFieldValue("country", value)
@@ -597,6 +611,7 @@ const Consolidate = ({ userdata }: any) => {
                           color="primary"
                           type="submit"
                           fullWidth
+                          disabled={isSubmitting}
                         >
                           Submit
                         </Button>
@@ -606,9 +621,9 @@ const Consolidate = ({ userdata }: any) => {
                 )}
               </Formik>
             </Card1>
-            <Button onClick={handleFormSubmit} variant="outlined">
+            {/* <Button onClick={handleFormSubmit} variant="outlined">
               Add to Cart
-            </Button>
+            </Button> */}
           </Container>
 
           {/* MUI Modal 컴포넌트 */}
