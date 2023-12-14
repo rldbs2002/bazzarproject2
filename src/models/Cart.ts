@@ -36,7 +36,10 @@ const CartSchema = new Schema(
     arrived_info: {
       firstname: String,
       lastname: String,
-      country: {},
+      country: {
+        label: String,
+        value: String,
+      },
       address: String,
       city: String,
       state: String,

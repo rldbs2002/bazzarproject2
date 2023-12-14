@@ -20,23 +20,6 @@ import { getUserData } from "@/app/lib/data";
 
 type HeadingProps = { number: number; title: string };
 
-type UserData = {
-  address_info: {
-    firstname: string;
-    lastname: string;
-    country: {
-      label: string;
-      value: string;
-    };
-    address: string;
-    city: string;
-    state: string;
-    postal_code: string;
-    phone: string;
-  };
-  // 나머지 필드들도 정의해야 함
-};
-
 const Heading: FC<HeadingProps> = ({ number, title }) => {
   return (
     <FlexBox gap={1.5} alignItems="center" mb={3.5}>
@@ -60,8 +43,6 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
 const CartForm = ({ data }: any) => {
   const router = useRouter();
   const { data: session } = useSession();
-  const [userData, setUserData] = useState<UserData | null>(null);
-
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedImageUrl, setSelectedImageUrl] = useState("");
 
@@ -165,22 +146,6 @@ const CartForm = ({ data }: any) => {
   const keys = Object.keys(data);
   const firstKey = keys[0];
   console.log(data);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userResult = await getUserData();
-        console.log("사용자 데이터:", userResult);
-        setUserData(userResult);
-      } catch (error: any) {
-        console.error("데이터를 불러오는 중 에러 발생:", error.message);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  console.log(userData);
 
   return (
     <>
@@ -392,7 +357,7 @@ const CartForm = ({ data }: any) => {
                     label="First Name"
                     variant="outlined"
                     fullWidth
-                    value={userData ? userData.address_info.firstname : ""}
+                    value={data[cartId][0].arrived_info.firstname}
                     margin="normal"
                   />
                   <TextField
@@ -400,7 +365,7 @@ const CartForm = ({ data }: any) => {
                     label="Last Name"
                     variant="outlined"
                     fullWidth
-                    value={userData ? userData.address_info.lastname : ""}
+                    value={data[cartId][0].arrived_info.lastname}
                     margin="normal"
                   />
 
@@ -409,7 +374,7 @@ const CartForm = ({ data }: any) => {
                     label="Address"
                     variant="outlined"
                     fullWidth
-                    value={userData ? userData.address_info.address : ""}
+                    value={data[cartId][0].arrived_info.address}
                     margin="normal"
                   />
 
@@ -418,7 +383,7 @@ const CartForm = ({ data }: any) => {
                     margin="normal"
                     variant="outlined"
                     fullWidth
-                    value={userData ? userData.address_info.country.label : ""}
+                    value={data[cartId][0].arrived_info.country.label}
                   />
                 </Grid>
 
@@ -429,14 +394,14 @@ const CartForm = ({ data }: any) => {
                     variant="outlined"
                     fullWidth
                     margin="normal"
-                    value={userData ? userData.address_info.city : ""}
+                    value={data[cartId][0].arrived_info.city}
                   />
                   <TextField
                     name="state"
                     label="State"
                     variant="outlined"
                     fullWidth
-                    value={userData ? userData.address_info.state : ""}
+                    value={data[cartId][0].arrived_info.state}
                     margin="normal"
                   />
                   <TextField
@@ -445,7 +410,7 @@ const CartForm = ({ data }: any) => {
                     variant="outlined"
                     fullWidth
                     margin="normal"
-                    value={userData ? userData.address_info.postal_code : ""}
+                    value={data[cartId][0].arrived_info.postal_code}
                   />
                   <TextField
                     name="phone"
@@ -453,7 +418,7 @@ const CartForm = ({ data }: any) => {
                     variant="outlined"
                     fullWidth
                     margin="normal"
-                    value={userData ? userData.address_info.phone : ""}
+                    value={data[cartId][0].arrived_info.phone}
                   />
                 </Grid>
               </Grid>

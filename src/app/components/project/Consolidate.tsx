@@ -55,21 +55,29 @@ const Consolidate = ({ userdata }: any) => {
 
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedImageUrl, setSelectedImageUrl] = useState("");
-  const [useDefaultAddress, setUseDefaultAddress] = useState(false);
+
+  // Update state to store user's default address
+  const [isDefaultAddress, setIsDefaultAddress] = useState(false);
+  const [defaultAddressData, setDefaultAddressData] = useState({
+    firstname: userdata.address_info.firstname || "",
+    lastname: userdata.address_info.lastname || "",
+    country: userdata.address_info.country || countryList[229],
+    address: userdata.address_info.address || "",
+    city: userdata.address_info.city || "",
+    state: userdata.address_info.state || "",
+    postal_code: userdata.address_info.postal_code || "",
+    phone: userdata.address_info.phone || "",
+  });
 
   const initialValues = {
-    arrived_info: {
-      firstname: useDefaultAddress ? userdata.address_info.firstname : "",
-      lastname: useDefaultAddress ? userdata.address_info.lastname : "",
-      country: useDefaultAddress
-        ? userdata.address_info.country
-        : countryList[229],
-      address: useDefaultAddress ? userdata.address_info.address : "",
-      city: useDefaultAddress ? userdata.address_info.city : "",
-      state: useDefaultAddress ? userdata.address_info.state : "",
-      postal_code: useDefaultAddress ? userdata.address_info.postal_code : "",
-      phone: useDefaultAddress ? userdata.address_info.phone : "",
-    },
+    firstname: isDefaultAddress ? userdata.firstname : "",
+    lastname: isDefaultAddress ? userdata.lastname : "",
+    country: isDefaultAddress ? userdata.country : countryList[229],
+    address: isDefaultAddress ? userdata.address : "",
+    city: isDefaultAddress ? userdata.city : "",
+    state: isDefaultAddress ? userdata.state : "",
+    postal_code: isDefaultAddress ? userdata.postal_code : "",
+    phone: isDefaultAddress ? userdata.phone : "",
   };
 
   // Define Yup validation schema
@@ -83,38 +91,6 @@ const Consolidate = ({ userdata }: any) => {
     // postal_code: yup.string().required("Postal Code is required"),
     // phone: yup.string().required("Phone Number is required"),
   });
-
-  const handleFormikSubmit = async (values: any) => {
-    const requestData = {
-      arrived_info: {
-        firstname: values.firstname,
-        lastname: values.lastname,
-        country: values.country,
-        address: values.address,
-        city: values.city,
-        state: values.state,
-        postal_code: values.postal_code,
-        phone: values.phone,
-      },
-      email: session?.user.email,
-    };
-
-    try {
-      const response = await fetch("/api/user", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      });
-
-      if (response.status === 201) {
-        router.push("/cart");
-      }
-    } catch (error) {
-      console.error("Error submitting data:", error);
-    }
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -133,7 +109,7 @@ const Consolidate = ({ userdata }: any) => {
   // Add a state variable to track whether the form is being submitted
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = async (values: any) => {
     if (isSubmitting) {
       return;
     }
@@ -147,6 +123,19 @@ const Consolidate = ({ userdata }: any) => {
       items: data.map((item: any) => ({
         userRequest: item._id,
       })),
+
+      arrived_info: isDefaultAddress
+        ? userdata.arrived_info
+        : {
+            firstname: values.firstname,
+            lastname: values.lastname,
+            country: values.country,
+            address: values.address,
+            city: values.city,
+            state: values.state,
+            postal_code: values.postal_code,
+            phone: values.phone,
+          },
     };
 
     const userRequestData = {
@@ -385,9 +374,9 @@ const Consolidate = ({ userdata }: any) => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={useDefaultAddress}
-                    onChange={() => setUseDefaultAddress(!useDefaultAddress)}
-                    name="useDefaultAddress"
+                    checked={isDefaultAddress}
+                    onChange={() => setIsDefaultAddress(!isDefaultAddress)}
+                    name="isDefaultAddress"
                   />
                 }
                 label="default address"
@@ -396,16 +385,7 @@ const Consolidate = ({ userdata }: any) => {
               <Formik
                 initialValues={initialValues}
                 validationSchema={checkoutSchema}
-                onSubmit={async (values, { setSubmitting }) => {
-                  // handleFormikSubmit 함수 내에서 Formik의 values를 사용할 수 있습니다.
-                  await handleFormikSubmit(values);
-
-                  // handleFormSubmit 함수를 호출하고, 필요한 값(values)를 전달합니다.
-                  await handleFormSubmit(values);
-
-                  // 모든 작업이 완료된 후, Formik의 submit 상태를 해제합니다.
-                  setSubmitting(false);
-                }}
+                onSubmit={handleFormSubmit}
               >
                 {({
                   values,
@@ -415,7 +395,6 @@ const Consolidate = ({ userdata }: any) => {
                   handleBlur,
                   handleSubmit,
                   setFieldValue,
-                  isSubmitting,
                 }) => (
                   <form onSubmit={handleSubmit}>
                     <Grid container spacing={6}>
@@ -426,19 +405,15 @@ const Consolidate = ({ userdata }: any) => {
                           variant="outlined"
                           fullWidth
                           value={
-                            useDefaultAddress
-                              ? userdata.address_info.firstname
-                              : ""
+                            isDefaultAddress
+                              ? defaultAddressData.firstname
+                              : values.firstname
                           }
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={
-                            touched.arrived_info?.firstname &&
-                            !!errors.arrived_info?.firstname
-                          }
+                          error={touched.firstname && !!errors.firstname}
                           helperText={
-                            (touched.arrived_info?.firstname &&
-                              errors.arrived_info?.firstname) as string
+                            (touched.firstname && errors.firstname) as string
                           }
                           margin="normal"
                         />
@@ -448,19 +423,15 @@ const Consolidate = ({ userdata }: any) => {
                           variant="outlined"
                           fullWidth
                           value={
-                            useDefaultAddress
-                              ? userdata.address_info.lastname
-                              : ""
+                            isDefaultAddress
+                              ? defaultAddressData.lastname
+                              : values.lastname
                           }
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={
-                            touched.arrived_info?.lastname &&
-                            !!errors.arrived_info?.lastname
-                          }
+                          error={touched.lastname && !!errors.lastname}
                           helperText={
-                            (touched.arrived_info?.lastname &&
-                              errors.arrived_info?.lastname) as string
+                            (touched.lastname && errors.lastname) as string
                           }
                           margin="normal"
                         />
@@ -469,9 +440,9 @@ const Consolidate = ({ userdata }: any) => {
                           sx={{ mb: 2 }}
                           options={countryList}
                           value={
-                            useDefaultAddress
-                              ? userdata.address_info.country
-                              : values.arrived_info.country
+                            isDefaultAddress
+                              ? defaultAddressData.country
+                              : values.country
                           }
                           getOptionLabel={(option) => option.label}
                           onChange={(_, value) =>
@@ -483,13 +454,9 @@ const Consolidate = ({ userdata }: any) => {
                               variant="outlined"
                               placeholder="Select Country"
                               margin="normal"
-                              error={
-                                !!touched.arrived_info?.country &&
-                                !!errors.arrived_info?.country
-                              }
+                              error={!!touched.country && !!errors.country}
                               helperText={
-                                (touched.arrived_info?.country &&
-                                  errors.arrived_info?.country) as string
+                                (touched.country && errors.country) as string
                               }
                               {...params}
                             />
@@ -501,19 +468,15 @@ const Consolidate = ({ userdata }: any) => {
                           variant="outlined"
                           fullWidth
                           value={
-                            useDefaultAddress
-                              ? userdata.address_info.address
-                              : ""
+                            isDefaultAddress
+                              ? defaultAddressData.address
+                              : values.address
                           }
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={
-                            touched.arrived_info?.address &&
-                            !!errors.arrived_info?.address
-                          }
+                          error={touched.address && !!errors.address}
                           helperText={
-                            (touched.arrived_info?.address &&
-                              errors.arrived_info?.address) as string
+                            (touched.address && errors.address) as string
                           }
                         />
                       </Grid>
@@ -525,18 +488,14 @@ const Consolidate = ({ userdata }: any) => {
                           variant="outlined"
                           fullWidth
                           value={
-                            useDefaultAddress ? userdata.address_info.city : ""
+                            isDefaultAddress
+                              ? defaultAddressData.city
+                              : values.city
                           }
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={
-                            touched.arrived_info?.city &&
-                            !!errors.arrived_info?.city
-                          }
-                          helperText={
-                            (touched.arrived_info?.city &&
-                              errors.arrived_info?.city) as string
-                          }
+                          error={touched.city && !!errors.city}
+                          helperText={(touched.city && errors.city) as string}
                           margin="normal"
                         />
                         <TextField
@@ -545,18 +504,14 @@ const Consolidate = ({ userdata }: any) => {
                           variant="outlined"
                           fullWidth
                           value={
-                            useDefaultAddress ? userdata.address_info.state : ""
+                            isDefaultAddress
+                              ? defaultAddressData.state
+                              : values.state
                           }
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={
-                            touched.arrived_info?.state &&
-                            !!errors.arrived_info?.state
-                          }
-                          helperText={
-                            (touched.arrived_info?.state &&
-                              errors.arrived_info?.state) as string
-                          }
+                          error={touched.state && !!errors.state}
+                          helperText={(touched.state && errors.state) as string}
                           margin="normal"
                         />
                         <TextField
@@ -565,19 +520,16 @@ const Consolidate = ({ userdata }: any) => {
                           variant="outlined"
                           fullWidth
                           value={
-                            useDefaultAddress
-                              ? userdata.address_info.postal_code
-                              : ""
+                            isDefaultAddress
+                              ? defaultAddressData.postal_code
+                              : values.postal_code
                           }
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={
-                            touched.arrived_info?.postal_code &&
-                            !!errors.arrived_info?.postal_code
-                          }
+                          error={touched.postal_code && !!errors.postal_code}
                           helperText={
-                            (touched.arrived_info?.postal_code &&
-                              errors.arrived_info?.postal_code) as string
+                            (touched.postal_code &&
+                              errors.postal_code) as string
                           }
                           margin="normal"
                         />
@@ -587,18 +539,14 @@ const Consolidate = ({ userdata }: any) => {
                           variant="outlined"
                           fullWidth
                           value={
-                            useDefaultAddress ? userdata.address_info.phone : ""
+                            isDefaultAddress
+                              ? defaultAddressData.phone
+                              : values.phone
                           }
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={
-                            touched.arrived_info?.phone &&
-                            !!errors.arrived_info?.phone
-                          }
-                          helperText={
-                            (touched.arrived_info?.phone &&
-                              errors.arrived_info?.phone) as string
-                          }
+                          error={touched.phone && !!errors.phone}
+                          helperText={(touched.phone && errors.phone) as string}
                           margin="normal"
                         />
                       </Grid>
@@ -611,7 +559,6 @@ const Consolidate = ({ userdata }: any) => {
                           color="primary"
                           type="submit"
                           fullWidth
-                          disabled={isSubmitting}
                         >
                           Submit
                         </Button>

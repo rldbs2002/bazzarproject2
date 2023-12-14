@@ -9,11 +9,13 @@ export const PUT = async (request: any) => {
   try {
     await connect();
 
-    const { requestId, status, request_completed_at } = requestData;
+    const { requestIds, status, request_completed_at } = requestData;
+
+    console.log(requestData.requestIds);
 
     // Find the existing request by requestId
     const existingRequest = await UserRequest.findOne({
-      _id: requestId,
+      _id: requestIds,
     });
 
     if (existingRequest) {

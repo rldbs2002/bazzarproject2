@@ -127,7 +127,7 @@ export const POST = async (request: any) => {
 
     const finalCartId = `C${currentDatePart}-${newCartId}`;
 
-    const { items, options, user } = requestData;
+    const { items, options, user, arrived_info } = requestData;
 
     const cartItems = items.map((item: any) => {
       return {
@@ -142,6 +142,7 @@ export const POST = async (request: any) => {
       items: cartItems,
       options,
       user,
+      arrived_info,
     });
 
     await cart.save();

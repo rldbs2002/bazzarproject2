@@ -9,12 +9,17 @@ import {
   Container,
   TextField,
   Button,
+  Autocomplete,
+  FormControlLabel,
+  Checkbox,
   Modal,
   Fade,
 } from "@mui/material";
 import Card1 from "@/app/components/Card1";
+import { Formik, useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import * as yup from "yup";
+import countryList from "@/app/data/countryList";
 import { useSession } from "next-auth/react";
 import { Product } from "../../../../type";
 import { getShippingData } from "@/app/lib/data";
@@ -46,9 +51,46 @@ const Shipping = ({ userdata }: any) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [data, setData] = useState([]);
+  console.log(userdata.address_info);
 
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedImageUrl, setSelectedImageUrl] = useState("");
+
+  // Update state to store user's default address
+  const [isDefaultAddress, setIsDefaultAddress] = useState(false);
+  const [defaultAddressData, setDefaultAddressData] = useState({
+    firstname: userdata.address_info.firstname || "",
+    lastname: userdata.address_info.lastname || "",
+    country: userdata.address_info.country || countryList[229],
+    address: userdata.address_info.address || "",
+    city: userdata.address_info.city || "",
+    state: userdata.address_info.state || "",
+    postal_code: userdata.address_info.postal_code || "",
+    phone: userdata.address_info.phone || "",
+  });
+
+  const initialValues = {
+    firstname: isDefaultAddress ? userdata.firstname : "",
+    lastname: isDefaultAddress ? userdata.lastname : "",
+    country: isDefaultAddress ? userdata.country : countryList[229],
+    address: isDefaultAddress ? userdata.address : "",
+    city: isDefaultAddress ? userdata.city : "",
+    state: isDefaultAddress ? userdata.state : "",
+    postal_code: isDefaultAddress ? userdata.postal_code : "",
+    phone: isDefaultAddress ? userdata.phone : "",
+  };
+
+  // Define Yup validation schema
+  const checkoutSchema = yup.object().shape({
+    // firstname: yup.string().required("First Name is required"),
+    // lastname: yup.string().required("Last Name is required"),
+    // country: yup.string().required("Country is required"),
+    // address: yup.string().required("Address is required"),
+    // city: yup.string().required("City is required"),
+    // state: yup.string().required("State is required"),
+    // postal_code: yup.string().required("Postal Code is required"),
+    // phone: yup.string().required("Phone Number is required"),
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,24 +106,10 @@ const Shipping = ({ userdata }: any) => {
     fetchData();
   }, []);
 
-  console.log(data);
-
   // Add a state variable to track whether the form is being submitted
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Define Yup validation schema
-  const checkoutSchema = yup.object().shape({
-    // firstname: yup.string().required("First Name is required"),
-    // lastname: yup.string().required("Last Name is required"),
-    // country: yup.object().required("required"),
-    // address: yup.string().required("Address is required"),
-    // city: yup.string().required("City is required"),
-    // state: yup.string().required("State is required"),
-    // postal_code: yup.string().required("Postal Code is required"),
-    // phone: yup.string().required("Phone Number is required"),
-  });
-
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = async (values: any) => {
     if (isSubmitting) {
       return;
     }
@@ -95,6 +123,19 @@ const Shipping = ({ userdata }: any) => {
       items: data.map((item: any) => ({
         userRequest: item._id,
       })),
+
+      arrived_info: isDefaultAddress
+        ? userdata.arrived_info
+        : {
+            firstname: values.firstname,
+            lastname: values.lastname,
+            country: values.country,
+            address: values.address,
+            city: values.city,
+            state: values.state,
+            postal_code: values.postal_code,
+            phone: values.phone,
+          },
     };
 
     const userRequestData = {
@@ -327,10 +368,211 @@ const Shipping = ({ userdata }: any) => {
                 </div>
               </Card1>
             ))}
-            <Button onClick={handleFormSubmit} variant="outlined">
+            <Card1>
+              <Heading number={4} title="Shipping Address" />
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isDefaultAddress}
+                    onChange={() => setIsDefaultAddress(!isDefaultAddress)}
+                    name="isDefaultAddress"
+                  />
+                }
+                label="default address"
+              />
+
+              <Formik
+                initialValues={initialValues}
+                validationSchema={checkoutSchema}
+                onSubmit={handleFormSubmit}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  setFieldValue,
+                }) => (
+                  <form onSubmit={handleSubmit}>
+                    <Grid container spacing={6}>
+                      <Grid item sm={6} xs={12}>
+                        <TextField
+                          name="firstname"
+                          label="First Name"
+                          variant="outlined"
+                          fullWidth
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.firstname
+                              : values.firstname
+                          }
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.firstname && !!errors.firstname}
+                          helperText={
+                            (touched.firstname && errors.firstname) as string
+                          }
+                          margin="normal"
+                        />
+                        <TextField
+                          name="lastname"
+                          label="Last Name"
+                          variant="outlined"
+                          fullWidth
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.lastname
+                              : values.lastname
+                          }
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.lastname && !!errors.lastname}
+                          helperText={
+                            (touched.lastname && errors.lastname) as string
+                          }
+                          margin="normal"
+                        />
+                        <Autocomplete
+                          fullWidth
+                          sx={{ mb: 2 }}
+                          options={countryList}
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.country
+                              : values.country
+                          }
+                          getOptionLabel={(option) => option.label}
+                          onChange={(_, value) =>
+                            setFieldValue("country", value)
+                          }
+                          renderInput={(params) => (
+                            <TextField
+                              label="Country"
+                              variant="outlined"
+                              placeholder="Select Country"
+                              margin="normal"
+                              error={!!touched.country && !!errors.country}
+                              helperText={
+                                (touched.country && errors.country) as string
+                              }
+                              {...params}
+                            />
+                          )}
+                        />
+                        <TextField
+                          name="address"
+                          label="Address"
+                          variant="outlined"
+                          fullWidth
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.address
+                              : values.address
+                          }
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.address && !!errors.address}
+                          helperText={
+                            (touched.address && errors.address) as string
+                          }
+                        />
+                      </Grid>
+
+                      <Grid item sm={6} xs={12}>
+                        <TextField
+                          name="city"
+                          label="City"
+                          variant="outlined"
+                          fullWidth
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.city
+                              : values.city
+                          }
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.city && !!errors.city}
+                          helperText={(touched.city && errors.city) as string}
+                          margin="normal"
+                        />
+                        <TextField
+                          name="state"
+                          label="State"
+                          variant="outlined"
+                          fullWidth
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.state
+                              : values.state
+                          }
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.state && !!errors.state}
+                          helperText={(touched.state && errors.state) as string}
+                          margin="normal"
+                        />
+                        <TextField
+                          name="postal_code"
+                          label="Postal Code"
+                          variant="outlined"
+                          fullWidth
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.postal_code
+                              : values.postal_code
+                          }
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.postal_code && !!errors.postal_code}
+                          helperText={
+                            (touched.postal_code &&
+                              errors.postal_code) as string
+                          }
+                          margin="normal"
+                        />
+                        <TextField
+                          name="phone"
+                          label="Phone Number"
+                          variant="outlined"
+                          fullWidth
+                          value={
+                            isDefaultAddress
+                              ? defaultAddressData.phone
+                              : values.phone
+                          }
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.phone && !!errors.phone}
+                          helperText={(touched.phone && errors.phone) as string}
+                          margin="normal"
+                        />
+                      </Grid>
+                    </Grid>
+
+                    <Grid container spacing={4}>
+                      <Grid item xs={12}>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          type="submit"
+                          fullWidth
+                        >
+                          Submit
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </form>
+                )}
+              </Formik>
+            </Card1>
+            {/* <Button onClick={handleFormSubmit} variant="outlined">
               Add to Cart
-            </Button>
+            </Button> */}
           </Container>
+
           {/* MUI Modal 컴포넌트 */}
           <Modal
             open={!!selectedImage}
@@ -369,12 +611,6 @@ const Shipping = ({ userdata }: any) => {
               </div>
             </Fade>
           </Modal>
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Container maxWidth="md"></Container>
         </Grid>
       </Grid>
     </>
