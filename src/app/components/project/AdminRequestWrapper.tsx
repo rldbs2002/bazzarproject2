@@ -15,6 +15,7 @@ import AdminRequest from "./AdminRequest";
 const AdminRequestWrapper = () => {
   const router = useRouter();
   const [requestData, setRequestData] = useState({});
+  console.log(requestData);
 
   const { data: session } = useSession({
     required: true,

@@ -5,38 +5,47 @@ import { FlexBox } from "../components/flex-box";
 import { H2, Paragraph } from "../components/Typography";
 import { useRouter } from "next/navigation";
 import { Dispatch, FC, SetStateAction } from "react";
+import Link from "next/link";
+
+const BenefitsUrl = process.env.NEXT_PUBLIC_VERCEL_URL
+  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  : "http://localhost:3000";
 
 const list = [
   {
-    title: "배송비 절감",
+    title: "Reducing shipping costs",
     thumbnail: "/assets/images/landing/save-money.png",
     subTitle:
       "9 Niche shop demos for online store. Super store, Fashion, Electronic, Grocery and etc",
     category: "homepage",
     buttonText: "Browse Demos",
+    link: `${BenefitsUrl}/benefits/post-01`,
   },
   {
-    title: "빠른 배송",
+    title: "Fast delivery",
     thumbnail: "/assets/images/landing/fast-delivery.png",
     subTitle:
       "Clean Shop inner pages. Vendor shop, Sale/discount pages, checkout, cart and etc.",
     category: "shop",
     buttonText: "Browse Pages",
+    link: `${BenefitsUrl}/benefits/post-02`,
   },
   {
-    title: "안전하고 신속한 배송",
+    title: "Safe and fast delivery",
     thumbnail: "/assets/images/landing/safe-delivery.png",
     subTitle:
       "Structured user dashboard for managing user account, orders, address and etc.",
     category: "user",
     buttonText: "Browse User Dashboard",
+    link: `${BenefitsUrl}/benefits/post-03`,
   },
   {
-    title: "업계 최고의 서비스",
+    title: "Top Service",
     thumbnail: "/assets/images/landing/AdobeStock_604045522_Preview.png",
     subTitle: "30+ Super admin and vendor dashboard interfaces.",
     category: "admin",
     buttonText: "Browse Admin Dashboard",
+    link: `${BenefitsUrl}/benefits/post-04`,
   },
 ];
 
@@ -72,6 +81,7 @@ const Section6: FC<Props> = ({ setFilterDemo }) => {
                 gap={3}
                 sx={{
                   flexDirection: { sm: "row", xs: "column" },
+                  alignItems: "flex-start",
                 }}
               >
                 <Avatar
@@ -85,12 +95,14 @@ const Section6: FC<Props> = ({ setFilterDemo }) => {
                 />
 
                 <FlexBox flexDirection="column" alignItems="flex-start">
-                  <div style={{ width: "100%", height: "100%" }}>
-                    <H2 fontSize={22} mb={1}>
-                      {item.title}
-                    </H2>
-                    <Paragraph mb={2}>{item.subTitle}</Paragraph>
-                  </div>
+                  <Link href={item.link}>
+                    <div style={{ width: "100%", height: "100%" }}>
+                      <H2 fontSize={22} mb={1}>
+                        {item.title}
+                      </H2>
+                      <Paragraph mb={2}>{item.subTitle}</Paragraph>
+                    </div>
+                  </Link>
                 </FlexBox>
               </FlexBox>
             </Grid>

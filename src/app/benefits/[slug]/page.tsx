@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { allDocs } from "contentlayer/generated";
+import { allBenefitsDocs } from "contentlayer/generated";
 import { notFound } from "next/navigation";
 import { Mdx } from "@/app/components/project/Mdx";
 import ShopLayout2 from "@/app/components/layouts/ShopLayout2";
@@ -13,7 +13,7 @@ interface pageProps {
 }
 
 async function getDocFromParams(slug: string) {
-  const doc = allDocs.find((doc) => doc.slugAsParams === slug);
+  const doc = allBenefitsDocs.find((doc) => doc.slugAsParams === slug);
 
   if (!doc) notFound();
 
