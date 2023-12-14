@@ -51,7 +51,6 @@ const Shipping = ({ userdata }: any) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [data, setData] = useState([]);
-  console.log(userdata.address_info);
 
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedImageUrl, setSelectedImageUrl] = useState("");
@@ -59,14 +58,14 @@ const Shipping = ({ userdata }: any) => {
   // Update state to store user's default address
   const [isDefaultAddress, setIsDefaultAddress] = useState(false);
   const [defaultAddressData, setDefaultAddressData] = useState({
-    firstname: userdata.address_info.firstname || "",
-    lastname: userdata.address_info.lastname || "",
-    country: userdata.address_info.country || countryList[229],
-    address: userdata.address_info.address || "",
-    city: userdata.address_info.city || "",
-    state: userdata.address_info.state || "",
-    postal_code: userdata.address_info.postal_code || "",
-    phone: userdata.address_info.phone || "",
+    firstname: userdata?.address_info?.firstname || "",
+    lastname: userdata?.address_info?.lastname || "",
+    country: userdata?.address_info?.country || countryList[229],
+    address: userdata?.address_info?.address || "",
+    city: userdata?.address_info?.city || "",
+    state: userdata?.address_info?.state || "",
+    postal_code: userdata?.address_info?.postal_code || "",
+    phone: userdata?.address_info?.phone || "",
   });
 
   const initialValues = {
@@ -105,6 +104,34 @@ const Shipping = ({ userdata }: any) => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (isDefaultAddress) {
+      // 체크박스가 체크되면 userdata 값을 defaultAddressData에 설정
+      setDefaultAddressData({
+        firstname: userdata?.address_info?.firstname || "",
+        lastname: userdata?.address_info?.lastname || "",
+        country: userdata?.address_info?.country || countryList[229],
+        address: userdata?.address_info?.address || "",
+        city: userdata?.address_info?.city || "",
+        state: userdata?.address_info?.state || "",
+        postal_code: userdata?.address_info?.postal_code || "",
+        phone: userdata?.address_info?.phone || "",
+      });
+    } else {
+      // 체크박스가 해제되면 defaultAddressData를 초기값으로 설정
+      setDefaultAddressData({
+        firstname: "",
+        lastname: "",
+        country: countryList[229],
+        address: "",
+        city: "",
+        state: "",
+        postal_code: "",
+        phone: "",
+      });
+    }
+  }, [isDefaultAddress, userdata]);
 
   // Add a state variable to track whether the form is being submitted
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -552,13 +579,23 @@ const Shipping = ({ userdata }: any) => {
                       </Grid>
                     </Grid>
 
-                    <Grid container spacing={4}>
-                      <Grid item xs={12}>
+                    <Grid
+                      container
+                      spacing={4}
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <Grid
+                        item
+                        xs={12}
+                        sm={6}
+                        sx={{ display: "flex", justifyContent: "center" }}
+                      >
                         <Button
-                          variant="contained"
+                          variant="outlined"
                           color="primary"
                           type="submit"
-                          fullWidth
+                          sx={{ width: "100px", marginTop: "3rem" }}
                         >
                           Submit
                         </Button>
