@@ -14,7 +14,7 @@ const THEMES = {
 const breakpoints = {
   values: {
     xs: 0,
-    sm: 600,
+    sm: 910,
     md: 960,
     lg: 1280,
     xl: 1920,

@@ -65,7 +65,7 @@ const Header = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [isFixed, setFixed] = useState(false);
-  const downSM = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
+  const downSM = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
 
   const toggleSidenav = () => setOpen((open) => !open);
 
@@ -372,6 +372,39 @@ const Header = () => {
                         {/* Admin-specific links for authenticated admin users */}
                         {login?.user.role === "admin" && (
                           <>
+                            <Link href="/notice">
+                              <Typography
+                                className="link"
+                                py={1}
+                                mb={2}
+                                onClick={toggleSidenav}
+                              >
+                                Notice
+                              </Typography>
+                            </Link>
+
+                            <Link href="/event">
+                              <Typography
+                                className="link"
+                                py={1}
+                                mb={2}
+                                onClick={toggleSidenav}
+                              >
+                                Event
+                              </Typography>
+                            </Link>
+
+                            <Link href="/admin">
+                              <Typography
+                                className="link"
+                                py={1}
+                                mb={2}
+                                onClick={toggleSidenav}
+                              >
+                                Admin
+                              </Typography>
+                            </Link>
+
                             <Link href="/admin/request">
                               <Typography
                                 className="link"
@@ -407,82 +440,86 @@ const Header = () => {
                           </>
                         )}
 
-                        <Link href="/mypage">
-                          <Typography
-                            className="link"
-                            py={1}
-                            mb={2}
-                            onClick={toggleSidenav}
-                          >
-                            My page
-                          </Typography>
-                        </Link>
+                        {login?.user.role === "user" && (
+                          <>
+                            <Link href="/notice">
+                              <Typography
+                                className="link"
+                                py={1}
+                                mb={2}
+                                onClick={toggleSidenav}
+                              >
+                                Notice
+                              </Typography>
+                            </Link>
 
-                        <Link href="/notice">
-                          <Typography
-                            className="link"
-                            py={1}
-                            mb={2}
-                            onClick={toggleSidenav}
-                          >
-                            Notice
-                          </Typography>
-                        </Link>
+                            <Link href="/event">
+                              <Typography
+                                className="link"
+                                py={1}
+                                mb={2}
+                                onClick={toggleSidenav}
+                              >
+                                Event
+                              </Typography>
+                            </Link>
 
-                        <Link href="/event">
-                          <Typography
-                            className="link"
-                            py={1}
-                            mb={2}
-                            onClick={toggleSidenav}
-                          >
-                            Event
-                          </Typography>
-                        </Link>
+                            <Link href="/newrequest">
+                              <Typography
+                                className="link"
+                                py={1}
+                                mb={2}
+                                onClick={toggleSidenav}
+                              >
+                                New Request
+                              </Typography>
+                            </Link>
 
-                        <Link href="/newrequest">
-                          <Typography
-                            className="link"
-                            py={1}
-                            mb={2}
-                            onClick={toggleSidenav}
-                          >
-                            New Request
-                          </Typography>
-                        </Link>
+                            <Link href="/requests">
+                              <Typography
+                                className="link"
+                                py={1}
+                                mb={2}
+                                onClick={toggleSidenav}
+                              >
+                                Requests
+                              </Typography>
+                            </Link>
 
-                        <Link href="/requests">
-                          <Typography
-                            className="link"
-                            py={1}
-                            mb={2}
-                            onClick={toggleSidenav}
-                          >
-                            Requests
-                          </Typography>
-                        </Link>
+                            <Link href="/cart">
+                              <Typography
+                                className="link"
+                                py={1}
+                                mb={2}
+                                onClick={toggleSidenav}
+                              >
+                                Cart
+                              </Typography>
+                            </Link>
 
-                        <Link href="/cart">
-                          <Typography
-                            className="link"
-                            py={1}
-                            mb={2}
-                            onClick={toggleSidenav}
-                          >
-                            Cart
-                          </Typography>
-                        </Link>
+                            <Link href="/checkout">
+                              <Typography
+                                className="link"
+                                py={1}
+                                mb={2}
+                                onClick={toggleSidenav}
+                              >
+                                Checkout
+                              </Typography>
+                            </Link>
 
-                        <Link href="/checkout">
-                          <Typography
-                            className="link"
-                            py={1}
-                            mb={2}
-                            onClick={toggleSidenav}
-                          >
-                            Checkout
-                          </Typography>
-                        </Link>
+                            <Link href="/mypage">
+                              <Typography
+                                className="link"
+                                py={1}
+                                mb={2}
+                                onClick={toggleSidenav}
+                              >
+                                My page
+                              </Typography>
+                            </Link>
+                          </>
+                        )}
                       </>
                     )}
 
