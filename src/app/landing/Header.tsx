@@ -283,26 +283,28 @@ const Header = () => {
 
               {!downSM && (
                 <>
-                  <Link
-                    href={
-                      session.status === "unauthenticated"
-                        ? "/signin"
-                        : "/signout"
-                    }
-                  >
-                    <Button variant="outlined" sx={{ mr: 1 }}>
-                      {session.status === "unauthenticated"
-                        ? "Sign In"
-                        : "Sign Out"}
-                    </Button>
-                  </Link>
+                  {session.status === "unauthenticated" ? (
+                    <>
+                      <Link href="/signin">
+                        <Button variant="outlined" sx={{ mr: 1 }}>
+                          Sign In
+                        </Button>
+                      </Link>
 
-                  {session.status === "unauthenticated" && (
-                    <Link href={"/signup"}>
-                      <Button variant="contained" color="primary">
-                        Sign up
-                      </Button>
-                    </Link>
+                      <Link href="/signup">
+                        <Button variant="contained" color="primary">
+                          Sign up
+                        </Button>
+                      </Link>
+                    </>
+                  ) : (
+                    <Button
+                      variant="outlined"
+                      sx={{ mr: 1 }}
+                      onClick={handleSignOut} // SignOut 버튼을 클릭할 때 로그아웃 함수 실행
+                    >
+                      Sign Out
+                    </Button>
                   )}
                 </>
               )}
@@ -484,24 +486,37 @@ const Header = () => {
                       </>
                     )}
 
-                    <Link
-                      href={
-                        session.status === "unauthenticated"
-                          ? "/api/auth/signin"
-                          : "/signout"
-                      }
-                    >
-                      <Typography
-                        className="link"
-                        py={1}
-                        mb={2}
-                        onClick={toggleSidenav}
-                      >
-                        {session.status === "unauthenticated"
-                          ? "Sign In"
-                          : "Sign Out"}
-                      </Typography>
-                    </Link>
+                    <>
+                      {session.status === "unauthenticated" ? (
+                        <>
+                          <Link href="/signin">
+                            <Typography
+                              className="link"
+                              py={1}
+                              mb={2}
+                              onClick={toggleSidenav}
+                            >
+                              Sign In
+                            </Typography>
+                          </Link>
+                        </>
+                      ) : (
+                        <Typography
+                          variant="button"
+                          className="link"
+                          sx={{
+                            cursor: "pointer",
+                            marginRight: "1rem",
+                            display: "inline-block",
+                          }}
+                          onClick={() => {
+                            handleSignOut(); // SignOut을 클릭할 때 로그아웃 함수 실행
+                          }}
+                        >
+                          Sign Out
+                        </Typography>
+                      )}
+                    </>
                   </Box>
                 </Sidenav>
               )}

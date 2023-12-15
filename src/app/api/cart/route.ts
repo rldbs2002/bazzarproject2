@@ -145,6 +145,8 @@ export const POST = async (request: any) => {
       arrived_info,
     });
 
+    console.log(cart);
+
     await cart.save();
 
     return new NextResponse("항목이 장바구니에 추가되었습니다", {

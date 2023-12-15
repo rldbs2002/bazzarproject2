@@ -57,6 +57,8 @@ const Shipping = ({ userdata }: any) => {
 
   // Update state to store user's default address
   const [isDefaultAddress, setIsDefaultAddress] = useState(false);
+
+  console.log("isDefaultAddress:", isDefaultAddress);
   const [defaultAddressData, setDefaultAddressData] = useState({
     firstname: userdata?.address_info?.firstname || "",
     lastname: userdata?.address_info?.lastname || "",
