@@ -231,7 +231,7 @@ const Shipping = ({ userdata }: any) => {
     <>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Container maxWidth="md">
+          <Container sx={{ maxWidth: "80%", mx: "auto" }}>
             <Paragraph
               style={{
                 fontSize: "1.7rem",

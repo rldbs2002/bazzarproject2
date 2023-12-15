@@ -78,7 +78,7 @@ const AdminCart = ({ data }: any) => {
           fontWeight: "bold",
         }}
       >
-        Admin Carts
+        Admin Cart
       </Paragraph>
 
       <div

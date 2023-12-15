@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Footer1, Footer2, Footer3 } from "./components/footer";
 import Section1 from "./landing/Section1";
-import Section3 from "./landing/Section3";
 import Section6 from "./landing/Section6";
 
 import { Box } from "@mui/material";

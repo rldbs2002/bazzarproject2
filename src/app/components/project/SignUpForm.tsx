@@ -73,10 +73,7 @@ const SignUpForm = () => {
           <Grid container spacing={1}>
             <Grid item sm={6} xs={12}>
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm text-gray-800 dark:text-gray-200"
-                >
+                <label htmlFor="email" className="block text-sm text-gray-800">
                   Email
                 </label>
                 <input
@@ -93,7 +90,7 @@ const SignUpForm = () => {
               <div>
                 <label
                   htmlFor="password"
-                  className="block text-sm text-gray-800 dark:text-gray-200"
+                  className="block text-sm text-gray-800"
                 >
                   Password
                 </label>
@@ -114,7 +111,7 @@ const SignUpForm = () => {
               <div>
                 <label
                   htmlFor="firstname"
-                  className="block text-sm text-gray-800 dark:text-gray-200"
+                  className="block text-sm text-gray-800"
                 >
                   firstname
                 </label>
@@ -133,7 +130,7 @@ const SignUpForm = () => {
               <div>
                 <label
                   htmlFor="lastname"
-                  className="block text-sm text-gray-800 dark:text-gray-200"
+                  className="block text-sm text-gray-800"
                 >
                   lastname
                 </label>
@@ -154,7 +151,7 @@ const SignUpForm = () => {
               <div>
                 <label
                   htmlFor="country"
-                  className="block text-sm text-gray-800 dark:text-gray-200"
+                  className="block text-sm text-gray-800"
                 >
                   Country
                 </label>
@@ -190,7 +187,7 @@ const SignUpForm = () => {
               <div>
                 <label
                   htmlFor="address"
-                  className="block text-sm text-gray-800 dark:text-gray-200"
+                  className="block text-sm text-gray-800"
                 >
                   address
                 </label>
@@ -209,10 +206,7 @@ const SignUpForm = () => {
           <Grid container spacing={1}>
             <Grid item sm={6} xs={12}>
               <div>
-                <label
-                  htmlFor="city"
-                  className="block text-sm text-gray-800 dark:text-gray-200"
-                >
+                <label htmlFor="city" className="block text-sm text-gray-800">
                   city
                 </label>
                 <input
@@ -228,10 +222,7 @@ const SignUpForm = () => {
 
             <Grid item sm={6} xs={12}>
               <div>
-                <label
-                  htmlFor="state"
-                  className="block text-sm text-gray-800 dark:text-gray-200"
-                >
+                <label htmlFor="state" className="block text-sm text-gray-800">
                   state
                 </label>
                 <input
@@ -251,7 +242,7 @@ const SignUpForm = () => {
               <div>
                 <label
                   htmlFor="postal_code"
-                  className="block text-sm text-gray-800 dark:text-gray-200"
+                  className="block text-sm text-gray-800"
                 >
                   postal_code
                 </label>
@@ -268,10 +259,7 @@ const SignUpForm = () => {
 
             <Grid item sm={6} xs={12}>
               <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm text-gray-800 dark:text-gray-200"
-                >
+                <label htmlFor="phone" className="block text-sm text-gray-800">
                   phone
                 </label>
                 <input
@@ -294,7 +282,7 @@ const SignUpForm = () => {
           </button>
         </form>
 
-        <div className="mt-4 text-gray-800 dark:text-gray-200">
+        <div className="mt-4 text-gray-800">
           <Link href="/signin">Already have an account? Sign in</Link>
         </div>
       </div>

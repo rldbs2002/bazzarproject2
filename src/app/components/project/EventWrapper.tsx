@@ -13,7 +13,7 @@ const EventWrapper = () => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12}>
-        <Container sx={{ my: "1.5rem" }}>
+        <Container sx={{ my: "1.5rem", maxWidth: "80%", mx: "auto" }}>
           <Card1>
             <Event />
           </Card1>

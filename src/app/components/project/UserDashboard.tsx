@@ -64,107 +64,122 @@ const UserDashboard = () => {
       <div
         style={{
           display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          flexDirection: "column",
+          alignItems: "center", // 수평 중앙 정렬
+          textAlign: "center",
         }}
       >
-        <Paragraph
+        <div
           style={{
-            fontSize: "1.7rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "75%",
           }}
         >
-          Requests
-        </Paragraph>
-        <Link href="/requests">
-          <Avatar
-            sx={{
-              width: 32,
-              height: 32,
-              color: "primary.text",
-              backgroundColor: "paste.main",
+          <Paragraph
+            style={{
+              fontSize: "1.7rem",
             }}
           >
-            {requestData.length}
-          </Avatar>
-        </Link>
-      </div>
-      <Divider
-        sx={{
-          mb: 5,
-          borderColor: "paste.400",
-          borderBottomWidth: "5px",
-        }}
-      />
+            Requests
+          </Paragraph>
+          <Link href="/requests">
+            <Avatar
+              sx={{
+                width: 32,
+                height: 32,
+                color: "primary.text",
+                backgroundColor: "paste.main",
+              }}
+            >
+              {requestData.length}
+            </Avatar>
+          </Link>
+        </div>
+        <Divider
+          sx={{
+            mb: 5,
+            borderColor: "paste.400",
+            borderBottomWidth: "5px",
+            width: "75%",
+          }}
+        />
 
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Paragraph
+        <div
           style={{
-            fontSize: "1.7rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "75%",
           }}
         >
-          Carts
-        </Paragraph>
-        <Link href="/cart">
-          <Avatar
-            sx={{
-              width: 32,
-              height: 32,
-              color: "primary.text",
-              backgroundColor: "success.main",
+          <Paragraph
+            style={{
+              fontSize: "1.7rem",
             }}
           >
-            {cartData.length}
-          </Avatar>
-        </Link>
-      </div>
-      <Divider
-        sx={{
-          mb: 5,
-          borderColor: "success.400",
-          borderBottomWidth: "5px",
-        }}
-      />
+            Carts
+          </Paragraph>
+          <Link href="/cart">
+            <Avatar
+              sx={{
+                width: 32,
+                height: 32,
+                color: "primary.text",
+                backgroundColor: "success.main",
+              }}
+            >
+              {cartData.length}
+            </Avatar>
+          </Link>
+        </div>
+        <Divider
+          sx={{
+            mb: 5,
+            borderColor: "success.400",
+            borderBottomWidth: "5px",
+            width: "75%",
+          }}
+        />
 
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Paragraph
+        <div
           style={{
-            fontSize: "1.7rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "75%",
           }}
         >
-          Checkout
-        </Paragraph>
-        <Link href="/checkout">
-          <Avatar
-            sx={{
-              width: 32,
-              height: 32,
-              color: "secondary.text",
-              backgroundColor: "marron.main",
+          <Paragraph
+            style={{
+              fontSize: "1.7rem",
             }}
           >
-            {checkoutData.length}
-          </Avatar>
-        </Link>
+            Checkout
+          </Paragraph>
+          <Link href="/checkout">
+            <Avatar
+              sx={{
+                width: 32,
+                height: 32,
+                color: "secondary.text",
+                backgroundColor: "marron.main",
+              }}
+            >
+              {checkoutData.length}
+            </Avatar>
+          </Link>
+        </div>
+        <Divider
+          sx={{
+            mb: 3,
+            borderColor: "marron.400",
+            borderBottomWidth: "5px",
+            width: "75%",
+          }}
+        />
       </div>
-      <Divider
-        sx={{
-          mb: 3,
-          borderColor: "marron.400",
-          borderBottomWidth: "5px",
-        }}
-      />
     </>
   );
 };

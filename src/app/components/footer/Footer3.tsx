@@ -120,8 +120,8 @@ const customerCareLinks = [
     url: "/",
   },
   {
-    title: "Returns & Refunds",
-    url: "/",
+    title: "Event",
+    url: "/event",
   },
 ];
 

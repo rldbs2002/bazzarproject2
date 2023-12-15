@@ -49,7 +49,7 @@ function SignIn() {
         <div>
           <label
             htmlFor="email"
-            className="block text-sm text-gray-800 dark:text-gray-200"
+            className="block text-sm text-gray-800"
           >
             Email
           </label>
@@ -73,7 +73,7 @@ function SignIn() {
         <div className="mt-4">
           <label
             htmlFor="password"
-            className="block text-sm text-gray-800 dark:text-gray-200"
+            className="block text-sm text-gray-800"
           >
             Password
           </label>
@@ -98,7 +98,7 @@ function SignIn() {
           </button>
         </div>
 
-        <div className="mt-4 text-gray-800 dark:text-gray-200">
+        <div className="mt-4 text-gray-800">
           <Link href="/signup">
             <Typography>Want to sign up?</Typography>
           </Link>

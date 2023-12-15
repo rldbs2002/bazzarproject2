@@ -28,6 +28,7 @@ import { useRouter } from "next/navigation";
 import { StyledTableCell } from "./StyledComponents";
 import { getAllRequestData } from "@/app/lib/data";
 import { Paragraph } from "../Typography";
+import Card1 from "../Card1";
 
 type HeadingProps = { number: number; title: string };
 
@@ -162,13 +163,12 @@ export default function RefundRequest() {
 
   return (
     <Box py={4}>
-      <Card>
+      <Card1 sx={{ mb: 4 }}>
         <Paragraph
           style={{
-            fontSize: "2rem",
-            marginBottom: "2rem",
+            margin: "2rem",
             fontWeight: "bold",
-            marginLeft: "2rem",
+            fontSize: "2rem",
           }}
         >
           Requests
@@ -293,7 +293,7 @@ export default function RefundRequest() {
             </div>
           </Grid>
         </Grid>
-      </Card>
+      </Card1>
     </Box>
   );
 }

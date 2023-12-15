@@ -21,6 +21,8 @@ import {
 import Link from "next/link";
 import { StyledTableCell, StyledTableRow } from "./StyledComponents";
 import { statusNames } from "@/constants";
+import Card1 from "../Card1";
+import { Paragraph } from "../Typography";
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   height: 44,
@@ -125,7 +127,16 @@ const Checklist = ({ data }: any) => {
   }, [data, currentPage]);
 
   return (
-    <Card sx={{ mb: 4 }}>
+    <Card1 sx={{ mb: 4 }}>
+      <Paragraph
+        style={{
+          margin: "2rem",
+          fontWeight: "bold",
+          fontSize: "2rem",
+        }}
+      >
+        Checkout
+      </Paragraph>
       <TableContainer component={Paper} sx={{ overflowX: "auto" }}>
         <div style={{ display: "flex", alignItems: "center" }}>
           <Select
@@ -221,7 +232,7 @@ const Checklist = ({ data }: any) => {
           onChange={handlePageClick}
         />
       </Stack>
-    </Card>
+    </Card1>
   );
 };
 

@@ -26,6 +26,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import { useRouter } from "next/navigation";
 import { statusNames } from "@/constants";
+import { Paragraph } from "../Typography";
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   height: 44,
@@ -119,6 +120,15 @@ const CartListItems = ({ data }: any) => {
 
   return (
     <>
+      <Paragraph
+        style={{
+          margin: "2rem",
+          fontWeight: "bold",
+          fontSize: "2rem",
+        }}
+      >
+        Cart
+      </Paragraph>
       <Select
         value={searchCriteria}
         onChange={(e) => setSearchCriteria(e.target.value)}

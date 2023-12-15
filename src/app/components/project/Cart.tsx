@@ -10,6 +10,7 @@ import CartListItems from "./CartListItems";
 import { useRouter } from "next/navigation";
 import ShopLayout2 from "../layouts/ShopLayout2";
 import { getAllCartData } from "@/app/lib/data";
+import Card1 from "../Card1";
 
 const Cart = () => {
   const router = useRouter();
@@ -45,9 +46,9 @@ const Cart = () => {
         <Grid container spacing={3}>
           {/* CART PRODUCT LIST */}
           <Grid xs={12}>
-            <Card sx={{ mb: 4 }}>
+            <Card1 sx={{ mb: 4 }}>
               <CartListItems data={cartData} session={session} />
-            </Card>
+            </Card1>
           </Grid>
         </Grid>
       </Container>

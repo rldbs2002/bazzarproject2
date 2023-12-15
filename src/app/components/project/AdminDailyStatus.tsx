@@ -224,7 +224,7 @@ const AdminDashboard = () => {
             <Paragraph
               style={{
                 fontSize: "1.7rem",
-                marginBottom: "7rem",
+                marginBottom: "6rem",
                 fontWeight: "bold",
               }}
             >

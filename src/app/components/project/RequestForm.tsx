@@ -578,13 +578,23 @@ const RequestForm: FC = () => {
               </FieldArray>
             </Card1>
 
-            <Grid container spacing={6}>
-              <Grid item sm={12} xs={12}>
+            <Grid
+              container
+              spacing={6}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
                 <Button
                   variant="outlined"
                   color="primary"
                   type="submit"
-                  fullWidth
+                  sx={{ width: "100px", marginTop: "2rem" }}
                   disabled={isSubmitting} // Disable the button when the form is being submitted
                 >
                   {isSubmitting ? "Submitting..." : "Submit"}

@@ -89,7 +89,7 @@ const Event: React.FC = () => {
             fontWeight: "bold",
           }}
         >
-          Events
+          Event
         </Paragraph>
         {session?.user.role === "admin" && (
           <Button
