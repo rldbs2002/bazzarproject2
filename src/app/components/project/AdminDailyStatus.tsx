@@ -348,7 +348,7 @@ const AdminDashboard = () => {
           <Paragraph
             style={{
               fontSize: "1.7rem",
-              marginBottom: "3rem",
+              marginBottom: "2rem",
               marginLeft: "7rem",
               textAlign: "center",
               fontWeight: "bold",
@@ -362,7 +362,7 @@ const AdminDashboard = () => {
             <Paragraph
               style={{
                 fontSize: "1.4rem",
-                marginBottom: "3rem",
+                marginBottom: "2rem",
                 marginLeft: "7rem",
                 textAlign: "center",
                 fontWeight: "bold",
@@ -370,7 +370,7 @@ const AdminDashboard = () => {
             >
               New
             </Paragraph>
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={200}>
               <BarChart data={barChartData} layout="vertical">
                 <CartesianGrid opacity={0} />
                 <XAxis type="number" domain={[0, 20]} />
@@ -406,7 +406,7 @@ const AdminDashboard = () => {
             <Paragraph
               style={{
                 fontSize: "1.4rem",
-                marginBottom: "3rem",
+                marginBottom: "2rem",
                 marginLeft: "7rem",
                 textAlign: "center",
                 fontWeight: "bold",
@@ -414,7 +414,7 @@ const AdminDashboard = () => {
             >
               Complete
             </Paragraph>
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={200}>
               <BarChart data={completedData} layout="vertical">
                 <CartesianGrid opacity={0} />
                 <XAxis type="number" domain={[0, 20]} />

@@ -8,15 +8,6 @@ const AdminPage = () => {
   return (
     <ShopLayout2>
       <Container sx={{ my: "1.5rem" }}>
-        <Paragraph
-          style={{
-            fontSize: "2rem",
-            fontWeight: "bold",
-            margin: "2rem",
-          }}
-        >
-          Admin Page
-        </Paragraph>
         <AdminpageWrapper />
       </Container>
     </ShopLayout2>

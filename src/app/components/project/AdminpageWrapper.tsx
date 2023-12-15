@@ -10,6 +10,9 @@ const AdminpageWrapper = () => {
   const { data: session } = useSession();
   console.log(session);
   const lastLoginDate = session?.expires ? new Date(session.expires) : null;
+  if (lastLoginDate) {
+    lastLoginDate.setDate(lastLoginDate.getDate() - 1);
+  }
 
   return (
     <>

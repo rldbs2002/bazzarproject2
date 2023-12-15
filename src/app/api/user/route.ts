@@ -35,8 +35,7 @@ export const PUT = async (request: any) => {
   await connect();
 
   try {
-    const { arrived_info, email } = requestData;
-    const { currentPassword, newPassword } = requestData.password;
+    const { currentPassword, newPassword, email } = requestData;
 
     // 기존 사용자 정보를 찾음
     const user = await User.findOne({ email });
@@ -63,13 +62,8 @@ export const PUT = async (request: any) => {
     // Update the user's password
     user.password = hashedNewPassword;
 
-    // Update arrived_info if needed
-    if (arrived_info) {
-      user.arrived_info = arrived_info;
-    }
-
     // Save the user object
-    const updatedUser = await user.save();
+    await user.save(); // 변경사항을 데이터베이스에 저장
 
     return new NextResponse(
       "주소 또는 비밀번호가 성공적으로 업데이트되었습니다",
