@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import ShopLayout2 from "../layouts/ShopLayout2";
 import { getRequestsData } from "@/app/lib/data";
 import AdminRequest from "./AdminRequest";
+import AdminRequest2 from "./AdminRequest2";
 
 const AdminRequestWrapper = () => {
   const router = useRouter();
@@ -40,7 +41,8 @@ const AdminRequestWrapper = () => {
 
   return (
     <Container sx={{ my: "1.5rem", maxWidth: "80%", mx: "auto" }}>
-      <AdminRequest data={requestData} session={session} />
+      {/* <AdminRequest data={requestData} session={session} /> */}
+      <AdminRequest2 />
     </Container>
   );
 };

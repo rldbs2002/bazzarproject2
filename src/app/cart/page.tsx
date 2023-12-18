@@ -1,7 +1,7 @@
 import React from "react";
 import Cart from "../components/project/Cart";
 
-const CartPage = async () => {
+const CartPage = () => {
   return <Cart />;
 };
 

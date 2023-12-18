@@ -4,7 +4,7 @@ import React from "react";
 import { Grid } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { Paragraph } from "../Typography";
-import AdminDailyStatus from "./AdminDailyStatus";
+import AdminDashboard from "./AdminDashboard";
 
 const AdminpageWrapper = () => {
   const { data: session } = useSession();
@@ -16,7 +16,7 @@ const AdminpageWrapper = () => {
 
   return (
     <>
-      <AdminDailyStatus />
+      <AdminDashboard />
       <Paragraph
         style={{
           fontSize: "1rem",
