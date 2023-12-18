@@ -32,7 +32,7 @@ export async function getRequestData(id: any) {
 export async function getRequestsData() {
   try {
     const res = await fetch(`${apiUrl}/requests`, {
-      cache: "no-store",
+      next: { revalidate: 10 },
     });
 
     if (!res.ok) {
