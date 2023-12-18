@@ -154,7 +154,7 @@ const Shipping = ({ userdata }: any) => {
       })),
 
       arrived_info: isDefaultAddress
-        ? userdata.arrived_info
+        ? userdata.address_info
         : {
             firstname: values.firstname,
             lastname: values.lastname,

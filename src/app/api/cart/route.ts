@@ -128,6 +128,7 @@ export const POST = async (request: any) => {
     const finalCartId = `C${currentDatePart}-${newCartId}`;
 
     const { items, options, user, arrived_info } = requestData;
+    console.log(arrived_info);
 
     const cartItems = items.map((item: any) => {
       return {
