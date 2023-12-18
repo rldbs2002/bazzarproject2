@@ -39,7 +39,7 @@ const AdminCartWrapper = () => {
 
   return (
     <Container sx={{ my: "1.5rem", maxWidth: "80%", mx: "auto" }}>
-      <AdminCart data={cartData} session={session} />
+      <AdminCart data={cartData} />
     </Container>
   );
 };

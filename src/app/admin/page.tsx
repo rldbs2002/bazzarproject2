@@ -4,7 +4,7 @@ import { Container } from "@mui/material";
 import { Paragraph } from "../components/Typography";
 import AdminpageWrapper from "../components/project/AdminpageWrapper";
 
-const AdminPage = () => {
+const AdminPage = async () => {
   return (
     <ShopLayout2>
       <Container sx={{ my: "1.5rem", maxWidth: "80%", mx: "auto" }}>
