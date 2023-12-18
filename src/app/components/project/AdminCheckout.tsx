@@ -10,9 +10,6 @@ import {
   Paper,
   styled,
   InputBase,
-  Button,
-  ToggleButton,
-  ToggleButtonGroup,
   Card,
   Radio,
 } from "@mui/material";
@@ -43,26 +40,22 @@ const AdminCheckout = ({ data }: any) => {
   const [searchCriteria, setSearchCriteria] = useState("userId");
   const [filterStatus, setFilterStatus] = useState("5");
 
-  console.log(data);
-
   // Filter function based on search criteria and status
-  const filteredData = Array.isArray(data)
-    ? data.filter((item: any) => {
-        // Case-insensitive search by user ID or email
-        const searchTermLowerCase = searchTerm.toLowerCase();
-        const userFieldToSearch =
-          searchCriteria === "userId" ? item.user : item.userEmail;
-        const isMatchingUser = userFieldToSearch
-          .toLowerCase()
-          .includes(searchTermLowerCase);
+  const filteredData = data.filter((item: any) => {
+    // Case-insensitive search by user ID or email
+    const searchTermLowerCase = searchTerm.toLowerCase();
+    const userFieldToSearch =
+      searchCriteria === "userId" ? item.user : item.userEmail;
+    const isMatchingUser = userFieldToSearch
+      .toLowerCase()
+      .includes(searchTermLowerCase);
 
-        // Filter by status
-        const isMatchingStatus =
-          filterStatus === "all" || item.status.toString() === filterStatus;
+    // Filter by status
+    const isMatchingStatus =
+      filterStatus === "all" || item.status.toString() === filterStatus;
 
-        return isMatchingUser && isMatchingStatus;
-      })
-    : [];
+    return isMatchingUser && isMatchingStatus;
+  });
 
   // Handler for status radio button
   const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -140,35 +133,34 @@ const AdminCheckout = ({ data }: any) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {Array.isArray(filteredData) &&
-                filteredData.map((item: any) => (
-                  <TableRow key={item._id}>
-                    <StyledTableCell
-                      align="left"
-                      sx={{ fontWeight: 400, cursor: "pointer" }}
-                    >
-                      {item.user}
-                    </StyledTableCell>
-                    <StyledTableCell
-                      align="left"
-                      sx={{ fontWeight: 400, cursor: "pointer" }}
-                    >
-                      <Link href={`/checkout/${item._id}`}>{item.cart_id}</Link>
-                    </StyledTableCell>
-                    <StyledTableCell
-                      align="left"
-                      sx={{ fontWeight: 400, cursor: "pointer" }}
-                    >
-                      {item.options}
-                    </StyledTableCell>
-                    <StyledTableCell
-                      align="left"
-                      sx={{ fontWeight: 400, cursor: "pointer" }}
-                    >
-                      {statusNames[item.status]}
-                    </StyledTableCell>
-                  </TableRow>
-                ))}
+              {filteredData.map((item: any) => (
+                <TableRow key={item._id}>
+                  <StyledTableCell
+                    align="left"
+                    sx={{ fontWeight: 400, cursor: "pointer" }}
+                  >
+                    {item.user}
+                  </StyledTableCell>
+                  <StyledTableCell
+                    align="left"
+                    sx={{ fontWeight: 400, cursor: "pointer" }}
+                  >
+                    <Link href={`/checkout/${item._id}`}>{item.cart_id}</Link>
+                  </StyledTableCell>
+                  <StyledTableCell
+                    align="left"
+                    sx={{ fontWeight: 400, cursor: "pointer" }}
+                  >
+                    {item.options}
+                  </StyledTableCell>
+                  <StyledTableCell
+                    align="left"
+                    sx={{ fontWeight: 400, cursor: "pointer" }}
+                  >
+                    {statusNames[item.status]}
+                  </StyledTableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>

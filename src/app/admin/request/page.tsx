@@ -3,7 +3,7 @@ import ShopLayout2 from "@/app/components/layouts/ShopLayout2";
 import AdminRequestWrapper from "@/app/components/project/AdminRequestWrapper";
 import React from "react";
 
-const AdminRequestPage = async () => {
+const AdminRequestPage = () => {
   return (
     <ShopLayout2>
       <AdminRequestWrapper />

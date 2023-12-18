@@ -12,7 +12,7 @@ import AdminCart from "./AdminCart";
 
 const AdminCartWrapper = () => {
   const router = useRouter();
-  const [cartData, setCartData] = useState({});
+  const [cartData, setCartData] = useState([]);
 
   const { data: session } = useSession({
     required: true,

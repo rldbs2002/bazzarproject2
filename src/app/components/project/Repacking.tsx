@@ -47,20 +47,6 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
   );
 };
 
-type AddressData = {
-  firstname: string;
-  lastname: string;
-  country: {
-    label: string;
-    value: string;
-  };
-  address: string;
-  city: string;
-  state: string;
-  postal_code: string;
-  phone: string;
-};
-
 const Repacking = ({ userdata }: any) => {
   const router = useRouter();
   const { data: session } = useSession();
@@ -71,7 +57,7 @@ const Repacking = ({ userdata }: any) => {
 
   // Update state to store user's default address
   const [isDefaultAddress, setIsDefaultAddress] = useState(false);
-  const [defaultAddressData, setDefaultAddressData] = useState<AddressData>({
+  const [defaultAddressData, setDefaultAddressData] = useState({
     firstname: userdata?.address_info?.firstname || "",
     lastname: userdata?.address_info?.lastname || "",
     country: userdata?.address_info?.country || countryList[229],

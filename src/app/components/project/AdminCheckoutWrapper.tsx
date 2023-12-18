@@ -10,7 +10,7 @@ import AdminCheckout from "./AdminCheckout";
 
 const AdminCheckoutWrapper = () => {
   const router = useRouter();
-  const [requestData, setRequestData] = useState({});
+  const [requestData, setRequestData] = useState([]);
 
   const { data: session } = useSession({
     required: true,
