@@ -1,13 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Container, Autocomplete, Grid, TextField } from "@mui/material";
-import { Formik } from "formik";
-import Card1 from "../Card1";
-import * as yup from "yup";
 import countryList from "@/app/data/countryList";
+import { useSession } from "next-auth/react";
 
 // Functional component for SignUpForm
 const SignUpForm = () => {
@@ -23,6 +21,16 @@ const SignUpForm = () => {
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    // 로그인 상태 확인
+    if (status === "authenticated") {
+      // 이미 로그인 되어 있으면 홈페이지로 리디렉트
+      router.push("/");
+    }
+  }, [session, status, router]);
 
   // Function to handle form submission
   const handleSubmit = async (event: any) => {
@@ -274,15 +282,17 @@ const SignUpForm = () => {
             </Grid>
           </Grid>
 
-          <button
-            type="submit"
-            className="w-full transform rounded-md bg-gray-700 px-4 py-2 tracking-wide text-white transition-colors duration-200 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none"
-          >
-            Sign Up
-          </button>
+          <div className="mt-4 text-gray-800 flex justify-center items-center">
+            <button
+              type="submit"
+              className="transform rounded-md bg-gray-700 px-4 py-2 tracking-wide text-white transition-colors duration-200 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none"
+            >
+              Sign Up
+            </button>
+          </div>
         </form>
 
-        <div className="mt-4 text-gray-800">
+        <div className="mt-4 text-gray-800 flex justify-center items-center">
           <Link href="/signin">Already have an account? Sign in</Link>
         </div>
       </div>

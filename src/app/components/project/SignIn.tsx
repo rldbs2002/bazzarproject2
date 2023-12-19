@@ -4,10 +4,12 @@ import React, { useRef, useState, useEffect } from "react";
 import { signIn, getProviders } from "next-auth/react";
 import Link from "next/link";
 import { Typography } from "@mui/material";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 function SignIn() {
-  // 추가된 부분
   const [providers, setProviders] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -16,7 +18,6 @@ function SignIn() {
       setProviders(res);
     })();
   }, []);
-  // 추가된 부분
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -33,24 +34,31 @@ function SignIn() {
     });
   };
 
-  // 추가된 부분
   const handleGoogle = async () => {
     const result = await signIn("google", {
       redirect: true,
       callbackUrl: "/",
     });
   };
-  // 추가된 부분
+
+  const apiUrl = process.env.NEXT_PUBLIC_VERCEL_URL
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api`
+    : "http://localhost:3000/api";
+
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/");
+    }
+  }, [session, status, router]);
 
   return (
     <main className="flex min-h-screen flex-col items-center space-y-10 p-24">
       <h1 className="text-4xl font-semibold">Sign In</h1>
       <div>
         <div>
-          <label
-            htmlFor="email"
-            className="block text-sm text-gray-800"
-          >
+          <label htmlFor="email" className="block text-sm text-gray-800">
             Email
           </label>
 
@@ -71,10 +79,7 @@ function SignIn() {
         </div>
 
         <div className="mt-4">
-          <label
-            htmlFor="password"
-            className="block text-sm text-gray-800"
-          >
+          <label htmlFor="password" className="block text-sm text-gray-800">
             Password
           </label>
           <div className="mt-1">
@@ -110,8 +115,7 @@ function SignIn() {
           onClick={() =>
             signIn("google", {
               redirect: true,
-              callbackUrl:
-                "https://bazzarproject2.vercel.app/api/auth/callback/google",
+              callbackUrl: `${apiUrl}/auth/callback/google`,
             })
           }
         >

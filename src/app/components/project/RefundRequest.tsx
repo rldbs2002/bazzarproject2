@@ -261,16 +261,6 @@ export default function RefundRequest() {
             <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
               <Button
                 variant="outlined"
-                color="secondary"
-                onClick={() => handleAction("repacking")}
-                disabled={selectedItems.length !== 1}
-                style={{ marginRight: "0.5rem", width: "120px" }}
-              >
-                Repacking
-              </Button>
-
-              <Button
-                variant="outlined"
                 color="primary"
                 onClick={() => handleAction("shipping")}
                 disabled={
@@ -279,6 +269,16 @@ export default function RefundRequest() {
                 style={{ marginRight: "0.5rem", width: "120px" }}
               >
                 Shipping
+              </Button>
+
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => handleAction("repacking")}
+                disabled={selectedItems.length !== 1}
+                style={{ marginRight: "0.5rem", width: "120px" }}
+              >
+                Repacking
               </Button>
 
               <Button

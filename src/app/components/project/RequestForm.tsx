@@ -110,30 +110,20 @@ const RequestForm: FC = () => {
   const checkoutSchema = yup.object().shape({
     tracking_number: yup.string().required("Tracking number is required"),
     tracking_carrier: yup.string().required("Carrier is required"),
-    order_number: yup.string().required("Order Number is required"),
-    store: yup.string().required("Merchant / Store is required"),
+    order_number: yup.string(),
+    store: yup.string(),
 
     product_list: yup.array().of(
       yup.object().shape({
         name: yup.string().required("Product Name is required"),
-        type: yup.string().required("Product Type is required"),
-        priceKRW: yup
-          .number()
-          .typeError("Price must be a number")
-          .required("KRW is required"),
-        priceUSD: yup
-          .number()
-          .typeError("Price must be a number")
-          .required("USD is required"),
+        type: yup.string(),
+        priceKRW: yup.number().typeError("Price must be a number"),
+        priceUSD: yup.number().typeError("Price must be a number"),
         quantity: yup
           .number()
           .typeError("Quantity must be a number")
-          .required("Product Quantity is required")
           .min(0, "Quantity must be at least 0"),
-        totalValueUSD: yup
-          .number()
-          .typeError("Price must be a number")
-          .required("USD is required"),
+        totalValueUSD: yup.number().typeError("Price must be a number"),
         url: yup.string().required("Product url is required"),
       })
     ),

@@ -15,7 +15,7 @@ const Section1 = () => {
     <Box bgcolor="white">
       <Container
         id="section-1"
-        sx={{ mt: 7, position: "relative", maxWidth: "80%", mx: "auto" }}
+        sx={{ mt: 7, position: "relative", maxWidth: "80%" }}
       >
         <Box maxWidth="830px" mx="auto" mb={12} textAlign="center">
           <H1 fontSize="40px" mb={3}>
@@ -45,18 +45,17 @@ const Section1 = () => {
               <FlexBox
                 key={index}
                 sx={{
-                  justifyContent: "center",
+                  justifyContent: "flex-start",
                   my: 2,
+                  maxWidth: "540px",
+                  mx: "auto",
+                  paddingLeft: "5rem",
                 }}
               >
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <Box sx={{ minWidth: "20px", mr: "0.5rem" }}>
-                    {" "}
-                    {/* 고정 너비 */}
-                    <Circle color="primary" sx={{ fontSize: "8px" }} />
-                  </Box>
-                  {text}
+                <Box sx={{ minWidth: "20px", mr: "0.5rem" }}>
+                  <Circle color="primary" sx={{ fontSize: "8px" }} />
                 </Box>
+                <Box sx={{ textAlign: "left" }}>{text}</Box>
               </FlexBox>
             ))}
           </Box>
