@@ -29,14 +29,14 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
 const HowToUse = () => {
   return (
     <>
-      <Box id="get" sx={{ backgroundColor: "grey.100" }}>
+      <Box sx={{ backgroundColor: "grey.100" }}>
         <Container sx={{ py: 8, maxWidth: "80%" }}>
           <H2
             fontSize={36}
             textAlign="center"
             fontWeight="700"
             color="secondary.main"
-            mb={8}
+            mb={7}
             textTransform="uppercase"
           >
             how to use?

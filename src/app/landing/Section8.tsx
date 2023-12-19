@@ -45,7 +45,7 @@ const list = [
   },
   {
     title: "BTS Members Are Joining The Military",
-    thumbnail: "/assets/images/landing/BTS-military.png",
+    thumbnail: "/assets/images/BTS-military.png",
     subTitle: "The biggest boy band in the world is joining the military.",
     category: "admin",
     buttonText: "Browse Admin Dashboard",
@@ -103,35 +103,62 @@ const Section8: FC<Props> = ({ setFilterDemo }) => {
 
         <Grid container spacing={6}>
           {list.map((item, index) => (
-            <Grid item md={6} xs={12} key={index}>
+            <Grid item lg={3} md={6} xs={12} key={index}>
               <FlexBox
-                gap={3}
+                gap={1}
                 sx={{
-                  flexDirection: { sm: "row", xs: "column" },
-                  alignItems: "flex-start",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  maxWidth: { xs: "100%" },
+                  margin: "auto",
                 }}
               >
-                <Avatar
-                  src={item.thumbnail}
+                <Box
                   sx={{
+                    position: "relative",
+                    height: "100",
+                    width: "100",
+                    mb: 1,
                     boxShadow: 1,
                     borderRadius: "10px",
-                    height: { sm: 200, xs: "100%" },
-                    width: { sm: 250, xs: "100%" },
+                    overflow: "hidden",
                   }}
-                />
+                >
+                  <Image
+                    src={item.thumbnail}
+                    alt={item.title}
+                    width={300}
+                    height={200}
+                    layout="fixed"
+                    objectFit="contain"
+                  />
+                </Box>
 
-                <FlexBox flexDirection="column" alignItems="flex-start">
-                  <Link href={item.link}>
-                    <div style={{ width: "100%", minHeight: "200px" }}>
-                      <H2 fontSize={16} mb={1}>
-                        {item.title}
-                      </H2>
-                      <Paragraph mb={2}>{item.date}</Paragraph>
-                      <Paragraph mb={2}>{item.subTitle}</Paragraph>
-                    </div>
-                  </Link>
-                </FlexBox>
+                <Link href={item.link}>
+                  <H2 fontSize={18} mb={1} textAlign="center">
+                    {item.title}
+                  </H2>
+                  <Paragraph
+                    mb={2}
+                    textAlign="center"
+                    sx={{
+                      letterSpacing: "0.1em",
+                      width: { xs: "100%", sm: "auto" },
+                    }}
+                  >
+                    {item.date}
+                  </Paragraph>
+                  <Paragraph
+                    mb={2}
+                    textAlign="center"
+                    sx={{
+                      letterSpacing: "0.1em",
+                      width: { xs: "100%", sm: "auto" },
+                    }}
+                  >
+                    {item.subTitle}
+                  </Paragraph>
+                </Link>
               </FlexBox>
             </Grid>
           ))}

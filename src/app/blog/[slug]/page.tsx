@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import { Mdx } from "@/app/components/project/Mdx";
 import ShopLayout2 from "@/app/components/layouts/ShopLayout2";
 import Card1 from "@/app/components/Card1";
-import { Container } from "@mui/material";
+import { Container, Box } from "@mui/material";
+import { H2 } from "@/app/components/Typography";
 
 interface pageProps {
   params: {
@@ -31,6 +32,20 @@ const page = async ({ params }: pageProps) => {
 
   return (
     <ShopLayout2>
+      <Box sx={{ backgroundColor: "grey.100" }}>
+        <Container sx={{ py: 8, maxWidth: "80%" }}>
+          <H2
+            fontSize={36}
+            textAlign="center"
+            fontWeight="700"
+            color="secondary.main"
+            mb={5}
+            textTransform="uppercase"
+          >
+            BLOGS
+          </H2>
+        </Container>
+      </Box>
       <Container sx={{ my: "1.5rem" }}>
         <Card1>
           <h3
@@ -38,7 +53,6 @@ const page = async ({ params }: pageProps) => {
               fontSize: "2rem",
               margin: "10px 0",
               overflow: "hidden",
-              textOverflow: "ellipsis",
               fontWeight: "bold",
 
               whiteSpace: "nowrap", // 필요한 경우 한 줄에 표시하도록 설정
