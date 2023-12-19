@@ -6,6 +6,7 @@ import { H2, H4, Paragraph } from "../components/Typography";
 import { useRouter } from "next/navigation";
 import { Dispatch, FC, SetStateAction } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const BlogUrl = process.env.NEXT_PUBLIC_VERCEL_URL
   ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
@@ -77,7 +78,13 @@ const Section8: FC<Props> = ({ setFilterDemo }) => {
         id="section-3"
         sx={{ position: "relative", maxWidth: "80%", mx: "auto" }}
       >
-        <Box maxWidth="830px" mx="auto" mb="2.5rem" textAlign="center">
+        <Box
+          maxWidth="830px"
+          mx="auto"
+          mb="2.5rem"
+          textAlign="center"
+          mt="2.5rem"
+        >
           <H4 color="primary.main" fontSize="45px" fontWeight="700">
             BLOGS
           </H4>

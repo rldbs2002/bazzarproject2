@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Container, Tooltip } from "@mui/material";
+import { Box, Button, Container, Grid } from "@mui/material";
 import { Link as Scroll } from "react-scroll";
 import HelpIcon from "@mui/icons-material/Help";
 import DoneIcon from "@mui/icons-material/Done";
@@ -15,7 +15,7 @@ const Section1 = () => {
     <Box bgcolor="white">
       <Container
         id="section-1"
-        sx={{ mt: 8, position: "relative", maxWidth: "80%", mx: "auto" }}
+        sx={{ mt: 7, position: "relative", maxWidth: "80%", mx: "auto" }}
       >
         <Box maxWidth="830px" mx="auto" mb={12} textAlign="center">
           <H1 fontSize="40px" mb={3}>
@@ -36,59 +36,29 @@ const Section1 = () => {
             anywhere in the world you want.
           </Paragraph>
 
-          <Box>
-            <FlexRowCenter
-              sx={{ mb: 2, flexDirection: { md: "row", xs: "column" } }}
-            >
+          <Box mx="auto" textAlign="center" mb="3rem">
+            {[
+              "You buy K-culture goods and we send them to you",
+              "We will buy and send you the k-culture goods you need",
+              "We will make a bulk purchase of the product you want",
+            ].map((text, index) => (
               <FlexBox
-                my={1}
-                mr={2}
-                alignItems="flex-start" // Adjusted alignment here
-                fontWeight={500}
-                color="grey.900"
+                key={index}
+                sx={{
+                  justifyContent: "center",
+                  my: 2,
+                }}
               >
-                <Circle
-                  color="primary"
-                  sx={{ mr: 0.6, mt: 1, fontSize: "8px" }}
-                />
-                You buy K-culture goods and we send them to you
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Box sx={{ minWidth: "20px", mr: "0.5rem" }}>
+                    {" "}
+                    {/* 고정 너비 */}
+                    <Circle color="primary" sx={{ fontSize: "8px" }} />
+                  </Box>
+                  {text}
+                </Box>
               </FlexBox>
-            </FlexRowCenter>
-
-            <FlexRowCenter
-              sx={{ mb: 2, flexDirection: { md: "row", xs: "column" } }}
-            >
-              <FlexBox
-                my={1}
-                mr={2}
-                alignItems="flex-start" // Adjusted alignment here
-                fontWeight={500}
-                color="grey.900"
-              >
-                <Circle
-                  color="primary"
-                  sx={{ mr: 0.6, mt: 1, fontSize: "8px" }}
-                />
-                We will buy and send you the k-culture goods you need
-              </FlexBox>
-            </FlexRowCenter>
-
-            <FlexRowCenter
-              sx={{ mb: 2, flexDirection: { md: "row", xs: "column" } }}
-            >
-              <FlexBox
-                my={1}
-                alignItems="flex-start" // Adjusted alignment here
-                fontWeight={500}
-                color="grey.900"
-              >
-                <Circle
-                  color="primary"
-                  sx={{ mr: 0.6, mt: 1, fontSize: "8px" }}
-                />
-                We will make a bulk purchase of the product you want
-              </FlexBox>
-            </FlexRowCenter>
+            ))}
           </Box>
 
           <FlexBox justifyContent="center" mb={3}>
@@ -104,16 +74,6 @@ const Section1 = () => {
             </Link>
           </FlexBox>
         </Box>
-
-        {/* <LazyImage
-          priority
-          alt="cover"
-          width={2600}
-          height={566}
-          quality={100}
-          src="/assets/images/landing/page-group-2.png"
-          sx={{ display: "grid" }}
-        /> */}
       </Container>
     </Box>
   );

@@ -108,16 +108,6 @@ const Header = () => {
               <FlexBox className="right-links" alignItems="center">
                 {session.status === "unauthenticated" && (
                   <Fragment>
-                    <Link href="/introduction">
-                      <Typography
-                        className="link"
-                        color="grey.600"
-                        p="0.25rem 1.25rem"
-                      >
-                        Introduction
-                      </Typography>
-                    </Link>
-
                     <Link href="/notice">
                       <Typography
                         className="link"
@@ -334,17 +324,6 @@ const Header = () => {
                   >
                     {session.status === "unauthenticated" ? (
                       <>
-                        <Link href="/introduction">
-                          <Typography
-                            className="link"
-                            py={1}
-                            mb={2}
-                            onClick={toggleSidenav}
-                          >
-                            Introduction
-                          </Typography>
-                        </Link>
-
                         <Link href="/notice">
                           <Typography
                             className="link"

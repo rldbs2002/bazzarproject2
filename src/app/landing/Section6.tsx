@@ -6,6 +6,7 @@ import { H2, Paragraph } from "../components/Typography";
 import { useRouter } from "next/navigation";
 import { Dispatch, FC, SetStateAction } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const BenefitsUrl = process.env.NEXT_PUBLIC_VERCEL_URL
   ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
@@ -13,36 +14,37 @@ const BenefitsUrl = process.env.NEXT_PUBLIC_VERCEL_URL
 
 const list = [
   {
-    title: "Reducing shipping costs",
-    thumbnail: "/assets/images/landing/save-money.png",
+    title: "Reduce shipping costs",
+    thumbnail: "/assets/images/landing/reduce.png",
     subTitle:
-      "9 Niche shop demos for online store. Super store, Fashion, Electronic, Grocery and etc",
+      "Use Kgoods to dramatically reduce shipping costs With Repacking, Consolidate service, you can reduce your shipping cost.",
     category: "homepage",
     buttonText: "Browse Demos",
     link: `${BenefitsUrl}/benefits/post-01`,
   },
   {
-    title: "Fast delivery",
-    thumbnail: "/assets/images/landing/fast-delivery.png",
+    title: "Safe and Fast delivery",
+    thumbnail: "/assets/images/landing/courier.png",
     subTitle:
-      "Clean Shop inner pages. Vendor shop, Sale/discount pages, checkout, cart and etc.",
+      "Where you want the items you purchased To ensure that you receive it safely and quickly, Kgoods provides a reliable service.",
     category: "shop",
     buttonText: "Browse Pages",
     link: `${BenefitsUrl}/benefits/post-02`,
   },
   {
-    title: "Safe and fast delivery",
-    thumbnail: "/assets/images/landing/safe-delivery.png",
+    title: "customer satisfaction",
+    thumbnail: "/assets/images/landing/top-service.png",
     subTitle:
-      "Structured user dashboard for managing user account, orders, address and etc.",
+      "Kgoods Always strives to continue communicating with you in a variety of smooth ways to provide satisfactory service.",
     category: "user",
     buttonText: "Browse User Dashboard",
     link: `${BenefitsUrl}/benefits/post-03`,
   },
   {
-    title: "Top Service",
-    thumbnail: "/assets/images/landing/AdobeStock_604045522_Preview.png",
-    subTitle: "30+ Super admin and vendor dashboard interfaces.",
+    title: "The Best Service",
+    thumbnail: "/assets/images/landing/box.png",
+    subTitle:
+      "We will promptly inform you of the detailed progress of all procedures until you purchase and receive the goods.",
     category: "admin",
     buttonText: "Browse Admin Dashboard",
     link: `${BenefitsUrl}/benefits/post-04`,
@@ -62,7 +64,7 @@ const Section6: FC<Props> = ({ setFilterDemo }) => {
 
   return (
     <Box id="get" sx={{ backgroundColor: "grey.100" }}>
-      <Container sx={{ py: 18, maxWidth: "80%", mx: "auto" }}>
+      <Container sx={{ py: 18, maxWidth: "80%" }}>
         <H2
           fontSize={28}
           textAlign="center"
@@ -76,34 +78,46 @@ const Section6: FC<Props> = ({ setFilterDemo }) => {
 
         <Grid container spacing={6}>
           {list.map((item, index) => (
-            <Grid item md={6} xs={12} key={index}>
+            <Grid item lg={3} md={6} xs={12} key={index}>
               <FlexBox
-                gap={3}
+                gap={1}
                 sx={{
-                  flexDirection: { sm: "row", xs: "column" },
-                  alignItems: "flex-start",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  maxWidth: { xs: "100%" },
+                  margin: "auto",
                 }}
               >
-                <Avatar
-                  src={item.thumbnail}
+                <Box
                   sx={{
-                    boxShadow: 1,
-                    borderRadius: "10px",
-                    height: { sm: 200, xs: "100%" },
-                    width: { sm: 250, xs: "100%" },
+                    position: "relative",
+                    height: "100",
+                    width: "100",
+                    mb: 1,
                   }}
-                />
-
-                <FlexBox flexDirection="column" alignItems="flex-start">
-                  <Link href={item.link}>
-                    <div style={{ width: "100%", height: "100%" }}>
-                      <H2 fontSize={22} mb={1}>
-                        {item.title}
-                      </H2>
-                      <Paragraph mb={2}>{item.subTitle}</Paragraph>
-                    </div>
-                  </Link>
-                </FlexBox>
+                >
+                  <Image
+                    src={item.thumbnail}
+                    alt={item.title}
+                    width={150}
+                    height={100}
+                    layout="fixed"
+                    objectFit="contain"
+                  />
+                </Box>
+                <H2 fontSize={22} mb={1} textAlign="center">
+                  {item.title}
+                </H2>
+                <Paragraph
+                  mb={2}
+                  textAlign="center"
+                  sx={{
+                    letterSpacing: "0.1em",
+                    width: { xs: "100%", sm: "auto" },
+                  }}
+                >
+                  {item.subTitle}
+                </Paragraph>
               </FlexBox>
             </Grid>
           ))}
