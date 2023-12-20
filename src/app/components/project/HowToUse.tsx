@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Box, Container, Avatar, Typography } from "@mui/material";
+import { Box, Container, Avatar, Typography, Grid } from "@mui/material";
 import { FlexBox } from "../flex-box";
 import Card1 from "../Card1";
 import { Paragraph, H2 } from "../Typography";
@@ -19,7 +19,7 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
       >
         {number}
       </Avatar>
-      <Typography fontSize="20px" sx={{ fontWeight: "bold" }}>
+      <Typography fontSize="2rem" sx={{ fontWeight: "bold" }}>
         {title}
       </Typography>
     </FlexBox>
@@ -28,27 +28,24 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
 
 const HowToUse = () => {
   return (
-    <>
-      <Box sx={{ backgroundColor: "grey.100" }}>
-        <Container sx={{ py: 8, maxWidth: "80%" }}>
-          <H2
-            fontSize={36}
-            textAlign="center"
-            fontWeight="700"
-            color="secondary.main"
-            mb={7}
-            textTransform="uppercase"
-          >
-            how to use?
-          </H2>
-        </Container>
-      </Box>
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Box sx={{ backgroundColor: "grey.100" }}>
+          <Container sx={{ py: 6, maxWidth: "80%" }}>
+            <H2
+              fontSize={36}
+              textAlign="center"
+              fontWeight="700"
+              color="secondary.main"
+              mb={5}
+              textTransform="uppercase"
+            >
+              how to use
+            </H2>
+          </Container>
+        </Box>
 
-      <Box bgcolor="white">
-        <Container
-          id="section-1"
-          sx={{ mt: 7, position: "relative", maxWidth: "80%", mx: "auto" }}
-        >
+        <Container sx={{ my: "5rem", maxWidth: "80%", mx: "auto" }}>
           <Card1 sx={{ mb: 4 }}>
             <Box
               sx={{
@@ -199,8 +196,8 @@ const HowToUse = () => {
             </Box>
           </Card1>
         </Container>
-      </Box>
-    </>
+      </Grid>
+    </Grid>
   );
 };
 

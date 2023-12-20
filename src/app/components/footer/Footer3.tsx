@@ -1,22 +1,7 @@
 import { FC } from "react";
 import Link from "next/link";
-import {
-  Box,
-  Container,
-  Grid,
-  IconButton,
-  styled,
-  SxProps,
-} from "@mui/material";
-import AppStore from "../../components/AppStore";
-import { FlexBox } from "../../components/flex-box";
-import BazaarImage from "../../components/BazaarImage";
+import { Box, Container, Grid, styled, SxProps } from "@mui/material";
 import { Paragraph } from "../../components/Typography";
-import Google from "../../components/icons/Google";
-import Twitter from "../../components/icons/Twitter";
-import Youtube from "../../components/icons/Youtube";
-import Facebook from "../../components/icons/Facebook";
-import Instagram from "../../components/icons/Instagram";
 import { Copyright } from "@mui/icons-material";
 import Image from "next/image";
 
@@ -54,7 +39,7 @@ const Footer3: FC<Props> = ({ sx, id, bgcolor }) => {
             height={45}
             src="/assets/images/kgoodslogo.png"
             alt="logo"
-            style={{ margin: "0.5rem" }}
+            style={{ marginLeft: "0.5rem" }}
           />
         </Link>
 
@@ -120,27 +105,16 @@ const Footer3: FC<Props> = ({ sx, id, bgcolor }) => {
 };
 
 const customerCareLinks = [
-  { title: "Howtouse", url: "/howtouse" },
   { title: "Notice", url: "/notice" },
-  {
-    title: "Blog",
-    url: "/",
-  },
   {
     title: "Event",
     url: "/event",
   },
-];
-
-const iconList = [
-  { icon: Facebook, url: "https://www.facebook.com/UILibOfficial" },
-  { icon: Twitter, url: "https://twitter.com/uilibofficial" },
+  { title: "About", url: "/howtouse" },
   {
-    icon: Youtube,
-    url: "https://www.youtube.com/channel/UCsIyD-TSO1wQFz-n2Y4i3Rg",
+    title: "Blog",
+    url: "/",
   },
-  { icon: Google, url: "https://www.google.com/search?q=ui-lib.com" },
-  { icon: Instagram, url: "https://www.instagram.com/uilibofficial/" },
 ];
 
 export default Footer3;

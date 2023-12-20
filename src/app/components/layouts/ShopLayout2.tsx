@@ -2,9 +2,6 @@
 
 import { FC, Fragment, ReactNode, useCallback, useState } from "react";
 import { Box } from "@mui/material";
-import Sticky from "../Sticky";
-// import Navbar from "../navbar/Navbar";
-import SearchInput from "../search-box/SearchInput";
 import { Footer3 } from "../footer";
 import Header from "@/app/landing/Header";
 
@@ -30,26 +27,26 @@ const ShopLayout2: FC<ShopLayout2Props> = ({
   const [isFixed, setIsFixed] = useState(false);
   const toggleIsFixed = useCallback((fixed: boolean) => setIsFixed(fixed), []);
 
+  const layoutStyle = {
+    position: "relative",
+    zIndex: 4,
+    ...(children ? {} : { paddingBottom: "100px" }), // FOOTER와의 간격을 조절합니다.
+  };
+
   return (
     <Fragment>
       {/* TOPBAR */}
       {/* {showTopbar && <Topbar />} */}
 
       {/* HEADER */}
-      {/* <Sticky fixedOn={0} onSticky={toggleIsFixed} scrollDistance={70}>
-        <Header isFixed={isFixed} searchInput={<SearchInput />} />
-      </Sticky> */}
       <Header />
 
       <Box zIndex={4} position="relative" className="section-after-sticky">
-        {/* NAVIGATION BAR */}
-        {/* {showNavbar && <Navbar elevation={0} />} */}
-
         {/* BODY CONTENT */}
         {children}
 
         {/* FOOTER CONTENT */}
-        <Footer3 />
+        <Footer3 sx={{ marginTop: "3rem" }} />
       </Box>
     </Fragment>
   );

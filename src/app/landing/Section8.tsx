@@ -67,7 +67,7 @@ const Section8: FC<Props> = ({ setFilterDemo }) => {
 
   return (
     <Box
-      mb={14}
+      mb={8}
       id="demos"
       sx={{
         background:

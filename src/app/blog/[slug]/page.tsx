@@ -33,7 +33,7 @@ const page = async ({ params }: pageProps) => {
   return (
     <ShopLayout2>
       <Box sx={{ backgroundColor: "grey.100" }}>
-        <Container sx={{ py: 8, maxWidth: "80%" }}>
+        <Container sx={{ py: 6, maxWidth: "80%" }}>
           <H2
             fontSize={36}
             textAlign="center"
@@ -46,7 +46,7 @@ const page = async ({ params }: pageProps) => {
           </H2>
         </Container>
       </Box>
-      <Container sx={{ my: "1.5rem" }}>
+      <Container sx={{ my: "5rem", maxWidth: "80%", mx: "auto" }}>
         <Card1>
           <h3
             style={{
@@ -54,8 +54,6 @@ const page = async ({ params }: pageProps) => {
               margin: "10px 0",
               overflow: "hidden",
               fontWeight: "bold",
-
-              whiteSpace: "nowrap", // 필요한 경우 한 줄에 표시하도록 설정
             }}
           >
             {doc.title}

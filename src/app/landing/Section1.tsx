@@ -17,8 +17,8 @@ const Section1 = () => {
         id="section-1"
         sx={{ mt: 7, position: "relative", maxWidth: "80%" }}
       >
-        <Box maxWidth="830px" mx="auto" mb={12} textAlign="center">
-          <H1 fontSize="40px" mb={3}>
+        <Box maxWidth="830px" mx="auto" mb={8} textAlign="center">
+          <H1 fontSize="2.5rem" mb={3}>
             <Span>send your k-culture product</Span>
             <Box color="primary.main" lineHeight={1.2}>
               quickly and safely
@@ -26,7 +26,7 @@ const Section1 = () => {
           </H1>
 
           <Paragraph
-            fontSize="18px"
+            fontSize="1.3rem"
             fontWeight={500}
             maxWidth="540px"
             mx="auto"
@@ -36,7 +36,7 @@ const Section1 = () => {
             anywhere in the world you want.
           </Paragraph>
 
-          <Box mx="auto" textAlign="center" mb="3rem">
+          <Box mx="auto" textAlign="center" mb="2.3rem">
             {[
               "You buy K-culture goods and we send them to you",
               "We will buy and send you the k-culture goods you need",
@@ -49,18 +49,18 @@ const Section1 = () => {
                   my: 2,
                   maxWidth: "540px",
                   mx: "auto",
-                  paddingLeft: "5rem",
+                  paddingLeft: "4rem",
                 }}
               >
                 <Box sx={{ minWidth: "20px", mr: "0.5rem" }}>
                   <Circle color="primary" sx={{ fontSize: "8px" }} />
                 </Box>
-                <Box sx={{ textAlign: "left" }}>{text}</Box>
+                <Box sx={{ textAlign: "left", fontSize: "1rem" }}>{text}</Box>
               </FlexBox>
             ))}
           </Box>
 
-          <FlexBox justifyContent="center" mb={3}>
+          <FlexBox justifyContent="center" mb={2}>
             <Link href="/howtouse">
               <Button
                 variant="outlined"

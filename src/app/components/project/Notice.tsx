@@ -82,20 +82,11 @@ const Notice: React.FC = () => {
   return (
     <>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Paragraph
-          style={{
-            fontSize: "1.7rem",
-            marginBottom: "1rem",
-            fontWeight: "bold",
-          }}
-        >
-          Notices
-        </Paragraph>
         {session?.user.role === "admin" && (
           <Button
             variant="outlined"
             color="error"
-            style={{ width: "70px", height: "40px" }}
+            style={{ width: "70px", height: "40px", marginLeft: "auto" }}
             onClick={handleCreate}
           >
             Create
