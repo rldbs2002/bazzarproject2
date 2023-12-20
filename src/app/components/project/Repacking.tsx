@@ -81,14 +81,16 @@ const Repacking = ({ userdata }: any) => {
 
   // Define Yup validation schema
   const checkoutSchema = yup.object().shape({
-    // firstname: yup.string().required("First Name is required"),
-    // lastname: yup.string().required("Last Name is required"),
-    // country: yup.string().required("Country is required"),
-    // address: yup.string().required("Address is required"),
-    // city: yup.string().required("City is required"),
-    // state: yup.string().required("State is required"),
-    // postal_code: yup.string().required("Postal Code is required"),
-    // phone: yup.string().required("Phone Number is required"),
+    firstname: yup.string().required("First Name is required"),
+    lastname: yup.string().required("Last Name is required"),
+    country: yup.object().shape({
+      label: yup.string().required("Country label is required"),
+    }),
+    address: yup.string().required("Address is required"),
+    city: yup.string().required("City is required"),
+    state: yup.string().required("State is required"),
+    postal_code: yup.string().required("Postal Code is required"),
+    phone: yup.string().required("Phone Number is required"),
   });
 
   useEffect(() => {
@@ -104,34 +106,6 @@ const Repacking = ({ userdata }: any) => {
 
     fetchData();
   }, []);
-
-  useEffect(() => {
-    if (isDefaultAddress) {
-      // 체크박스가 체크되면 userdata 값을 defaultAddressData에 설정
-      setDefaultAddressData({
-        firstname: userdata?.address_info?.firstname || "",
-        lastname: userdata?.address_info?.lastname || "",
-        country: userdata?.address_info?.country || countryList[229],
-        address: userdata?.address_info?.address || "",
-        city: userdata?.address_info?.city || "",
-        state: userdata?.address_info?.state || "",
-        postal_code: userdata?.address_info?.postal_code || "",
-        phone: userdata?.address_info?.phone || "",
-      });
-    } else {
-      // 체크박스가 해제되면 defaultAddressData를 초기값으로 설정
-      setDefaultAddressData({
-        firstname: "",
-        lastname: "",
-        country: countryList[229],
-        address: "",
-        city: "",
-        state: "",
-        postal_code: "",
-        phone: "",
-      });
-    }
-  }, [isDefaultAddress, userdata]);
 
   // Add a state variable to track whether the form is being submitted
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -224,6 +198,55 @@ const Repacking = ({ userdata }: any) => {
   const closeModal = () => {
     setSelectedImage("");
   };
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: checkoutSchema,
+    onSubmit: handleFormSubmit,
+  });
+
+  useEffect(() => {
+    if (isDefaultAddress) {
+      // 체크박스가 체크되면 userdata 값을 defaultAddressData에 설정
+      setDefaultAddressData({
+        firstname: userdata?.address_info?.firstname || "",
+        lastname: userdata?.address_info?.lastname || "",
+        country: userdata?.address_info?.country || countryList[229],
+        address: userdata?.address_info?.address || "",
+        city: userdata?.address_info?.city || "",
+        state: userdata?.address_info?.state || "",
+        postal_code: userdata?.address_info?.postal_code || "",
+        phone: userdata?.address_info?.phone || "",
+      });
+    } else {
+      // 체크박스가 해제되면 defaultAddressData를 초기값으로 설정
+      setDefaultAddressData({
+        firstname: "",
+        lastname: "",
+        country: countryList[229],
+        address: "",
+        city: "",
+        state: "",
+        postal_code: "",
+        phone: "",
+      });
+    }
+  }, [isDefaultAddress, userdata]);
+
+  useEffect(() => {
+    // defaultAddressData가 변경될 때 Formik의 값을 업데이트
+    formik.setValues({
+      ...formik.values,
+      firstname: defaultAddressData.firstname,
+      lastname: defaultAddressData.lastname,
+      country: defaultAddressData.country,
+      address: defaultAddressData.address,
+      city: defaultAddressData.city,
+      state: defaultAddressData.state,
+      postal_code: defaultAddressData.postal_code,
+      phone: defaultAddressData.phone,
+    });
+  }, [defaultAddressData, formik.setValues]);
 
   return (
     <>

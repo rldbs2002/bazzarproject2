@@ -49,9 +49,9 @@ const EventWrapper = () => {
             </Typography>
             <Typography variant="body1" sx={{ mb: 2, fontSize: "1.3rem" }}>
               <strong>How to Participate:</strong> Spin the wheel for a chance
-              to win an exclusive $10 DK Point promo code. Use it on your next
-              shipment and make your holiday shopping even more delightful!
-              Everyone has a chance to win, so don’t miss out!
+              to win an exclusive 10% Discount Coupont promo code. Use it on
+              your next shipment and make your holiday shopping even more
+              delightful! Everyone has a chance to win, so don’t miss out!
             </Typography>
             <Typography variant="body1" sx={{ mb: 2, fontSize: "1.3rem" }}>
               <strong>Limited Time Only! ⏰</strong> This festive event is

@@ -13,7 +13,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import * as yup from "yup";
-import { Formik, FieldArray } from "formik";
+import { Formik, FieldArray, FormikErrors } from "formik";
 import { FlexBox } from "../flex-box";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { useRouter } from "next/navigation";
@@ -326,14 +326,26 @@ const RequestForm: FC = () => {
                                 value={product.name}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                /* error={
+                                error={
                                   touched.product_list?.[index]?.name &&
-                                  !!errors.product_list?.[index]?.name
+                                  !!(
+                                    errors.product_list?.[
+                                      index
+                                    ] as FormikErrors<
+                                      (typeof initialValues.product_list)[number]
+                                    >
+                                  ).name
                                 }
                                 helperText={
                                   touched.product_list?.[index]?.name &&
-                                  errors.product_list?.[index]?.name
-                                } */
+                                  (
+                                    errors.product_list?.[
+                                      index
+                                    ] as FormikErrors<
+                                      (typeof initialValues.product_list)[number]
+                                    >
+                                  ).name
+                                }
                                 margin="normal"
                               />
                             </Grid>
@@ -346,14 +358,26 @@ const RequestForm: FC = () => {
                                 value={product.type}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                /* error={
+                                error={
                                   touched.product_list?.[index]?.type &&
-                                  !!errors.product_list?.[index]?.type
+                                  !!(
+                                    errors.product_list?.[
+                                      index
+                                    ] as FormikErrors<
+                                      (typeof initialValues.product_list)[number]
+                                    >
+                                  ).type
                                 }
                                 helperText={
                                   touched.product_list?.[index]?.type &&
-                                  errors.product_list?.[index]?.type
-                                } */
+                                  (
+                                    errors.product_list?.[
+                                      index
+                                    ] as FormikErrors<
+                                      (typeof initialValues.product_list)[number]
+                                    >
+                                  ).type
+                                }
                                 margin="normal"
                               />
                             </Grid>
@@ -384,14 +408,26 @@ const RequestForm: FC = () => {
                                 }}
                                 onBlur={handleBlur}
                                 placeholder="Type Number"
-                                /* error={
+                                error={
                                   touched.product_list?.[index]?.priceKRW &&
-                                  !!errors.product_list?.[index]?.priceKRW
+                                  !!(
+                                    errors.product_list?.[
+                                      index
+                                    ] as FormikErrors<
+                                      (typeof initialValues.product_list)[number]
+                                    >
+                                  ).priceKRW
                                 }
                                 helperText={
                                   touched.product_list?.[index]?.priceKRW &&
-                                  errors.product_list?.[index]?.priceKRW
-                                } */
+                                  (
+                                    errors.product_list?.[
+                                      index
+                                    ] as FormikErrors<
+                                      (typeof initialValues.product_list)[number]
+                                    >
+                                  ).priceKRW
+                                }
                                 margin="normal"
                               />
                             </Grid>
@@ -429,14 +465,26 @@ const RequestForm: FC = () => {
                                 }}
                                 margin="normal"
                                 onBlur={handleBlur} // onBlur 추가
-                                /* error={
-                                  touched.product_list?.[index]?.priceUSD && // error 추가
-                                  !!errors.product_list?.[index]?.priceUSD
+                                error={
+                                  touched.product_list?.[index]?.priceUSD &&
+                                  !!(
+                                    errors.product_list?.[
+                                      index
+                                    ] as FormikErrors<
+                                      (typeof initialValues.product_list)[number]
+                                    >
+                                  ).priceUSD
                                 }
                                 helperText={
-                                  touched.product_list?.[index]?.priceUSD && // helperText 추가
-                                  errors.product_list?.[index]?.priceUSD
-                                } */
+                                  touched.product_list?.[index]?.priceUSD &&
+                                  (
+                                    errors.product_list?.[
+                                      index
+                                    ] as FormikErrors<
+                                      (typeof initialValues.product_list)[number]
+                                    >
+                                  ).priceUSD
+                                }
                               />
                             </Grid>
                           </Grid>
@@ -489,14 +537,26 @@ const RequestForm: FC = () => {
                                 }}
                                 onBlur={handleBlur}
                                 placeholder="Type Number"
-                                /* error={
+                                error={
                                   touched.product_list?.[index]?.quantity &&
-                                  !!errors.product_list?.[index]?.quantity
+                                  !!(
+                                    errors.product_list?.[
+                                      index
+                                    ] as FormikErrors<
+                                      (typeof initialValues.product_list)[number]
+                                    >
+                                  ).quantity
                                 }
                                 helperText={
                                   touched.product_list?.[index]?.quantity &&
-                                  errors.product_list?.[index]?.quantity
-                                } */
+                                  (
+                                    errors.product_list?.[
+                                      index
+                                    ] as FormikErrors<
+                                      (typeof initialValues.product_list)[number]
+                                    >
+                                  ).quantity
+                                }
                                 margin="normal"
                               />
                             </Grid>
@@ -511,16 +571,28 @@ const RequestForm: FC = () => {
                                   Number(product.quantity)
                                 ).toFixed(2)}
                                 onBlur={handleBlur}
-                                /* error={
+                                error={
                                   touched.product_list?.[index]
                                     ?.totalValueUSD &&
-                                  !!errors.product_list?.[index]?.totalValueUSD
+                                  !!(
+                                    errors.product_list?.[
+                                      index
+                                    ] as FormikErrors<
+                                      (typeof initialValues.product_list)[number]
+                                    >
+                                  ).totalValueUSD
                                 }
                                 helperText={
                                   touched.product_list?.[index]
                                     ?.totalValueUSD &&
-                                  errors.product_list?.[index]?.totalValueUSD
-                                } */
+                                  (
+                                    errors.product_list?.[
+                                      index
+                                    ] as FormikErrors<
+                                      (typeof initialValues.product_list)[number]
+                                    >
+                                  ).totalValueUSD
+                                }
                                 margin="normal"
                                 onChange={(e) => {
                                   // Total Value (USD) 자동 계산
@@ -548,14 +620,26 @@ const RequestForm: FC = () => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 placeholder="Type Number"
-                                // error={
-                                //   touched.product_list?.[index]?.url &&
-                                //   !!errors.product_list?.[index]?.url
-                                // }
-                                // helperText={
-                                //   touched.product_list?.[index]?.url &&
-                                //   errors.product_list?.[index]?.url
-                                // }
+                                error={
+                                  touched.product_list?.[index]?.url &&
+                                  !!(
+                                    errors.product_list?.[
+                                      index
+                                    ] as FormikErrors<
+                                      (typeof initialValues.product_list)[number]
+                                    >
+                                  ).url
+                                }
+                                helperText={
+                                  touched.product_list?.[index]?.url &&
+                                  (
+                                    errors.product_list?.[
+                                      index
+                                    ] as FormikErrors<
+                                      (typeof initialValues.product_list)[number]
+                                    >
+                                  ).url
+                                }
                                 margin="normal"
                               />
                             </Grid>

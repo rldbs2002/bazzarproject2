@@ -58,7 +58,9 @@ const page = async ({ params }: pageProps) => {
           >
             {doc.title}
           </h3>
-          <p style={{ marginBottom: "1rem" }}>{formattedDate}</p>
+          <p style={{ marginBottom: "1rem", fontSize: "1.1rem" }}>
+            {formattedDate}
+          </p>
           <hr></hr>
           <div style={{ marginTop: "3rem" }}>
             <Mdx code={doc.body.code} />
