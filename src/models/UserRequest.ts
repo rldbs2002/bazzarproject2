@@ -8,7 +8,6 @@ const productListSchema = new Schema({
   },
   type: {
     type: String,
-    required: true,
   },
   priceKRW: {
     type: Number,
@@ -70,7 +69,6 @@ const requestSchema = new Schema({
       },
       store: {
         type: String,
-        required: true,
       },
     },
 

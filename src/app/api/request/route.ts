@@ -89,8 +89,9 @@ export const POST = async (request: any) => {
             requestData.request_info.tracking_info.tracking_number,
           tracking_carrier:
             requestData.request_info.tracking_info.tracking_carrier,
-          order_number: requestData.request_info.tracking_info.order_number,
-          store: requestData.request_info.tracking_info.store,
+          order_number:
+            requestData.request_info.tracking_info.order_number || "",
+          store: requestData.request_info.tracking_info.store || "",
         },
       },
       request_id: finalRequestId, // 새로운 request_id 설정
@@ -98,6 +99,8 @@ export const POST = async (request: any) => {
       request_submitted_at: new Date().toISOString(), // "request_submit" 상태의 제출 시간 업데이트
       // 다른 상태 필드도 필요에 따라 추가합니다.
     });
+
+    console.log(newUserRequest);
 
     await newUserRequest.save();
     return new NextResponse("User has been created", {

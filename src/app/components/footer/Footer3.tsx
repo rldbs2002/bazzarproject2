@@ -18,6 +18,7 @@ import Youtube from "../../components/icons/Youtube";
 import Facebook from "../../components/icons/Facebook";
 import Instagram from "../../components/icons/Instagram";
 import { Copyright } from "@mui/icons-material";
+import Image from "next/image";
 
 // styled components
 const StyledFooter = styled("footer")<{ bgcolor?: string }>(
@@ -48,7 +49,13 @@ const Footer3: FC<Props> = ({ sx, id, bgcolor }) => {
     <StyledFooter id={id} sx={sx} bgcolor={bgcolor}>
       <Container>
         <Link href="/">
-          <BazaarImage mb={2.5} src="/assets/images/logo.svg" alt="logo" />
+          <Image
+            width={105}
+            height={45}
+            src="/assets/images/kgoodslogo.png"
+            alt="logo"
+            style={{ margin: "0.5rem" }}
+          />
         </Link>
 
         <Grid container spacing={6}>
@@ -113,7 +120,7 @@ const Footer3: FC<Props> = ({ sx, id, bgcolor }) => {
 };
 
 const customerCareLinks = [
-  { title: "Introduction", url: "/introduction" },
+  { title: "Howtouse", url: "/howtouse" },
   { title: "Notice", url: "/notice" },
   {
     title: "Blog",

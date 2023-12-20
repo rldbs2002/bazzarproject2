@@ -101,8 +101,7 @@ const Section6: FC<Props> = ({ setFilterDemo }) => {
                     alt={item.title}
                     width={150}
                     height={100}
-                    layout="fixed"
-                    objectFit="contain"
+                    style={{ objectFit: "contain" }}
                   />
                 </Box>
                 <H2 fontSize={22} mb={1} textAlign="center">

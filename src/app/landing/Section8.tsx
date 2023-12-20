@@ -129,8 +129,7 @@ const Section8: FC<Props> = ({ setFilterDemo }) => {
                     alt={item.title}
                     width={300}
                     height={200}
-                    layout="fixed"
-                    objectFit="contain"
+                    style={{ objectFit: "contain" }}
                   />
                 </Box>
 
