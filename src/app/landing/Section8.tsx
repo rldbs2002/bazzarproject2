@@ -15,7 +15,7 @@ const BlogUrl = process.env.NEXT_PUBLIC_VERCEL_URL
 const list = [
   {
     title: "BTS' Jungkook to release 1st solo album 'Golden'",
-    thumbnail: "/assets/images/JungKook.jpg",
+    thumbnail: "/assets/images/BTS.jpg",
     subTitle:
       "Jungkook of K-pop juggernaut BTS will put out his first solo album 'Golden'",
     category: "homepage",
@@ -34,10 +34,10 @@ const list = [
     link: `${BlogUrl}/blog/post-02`,
   },
   {
-    title: "OVERWATCH® 2 AND LE SSERAFIM® TEAM UP IN A NEW COLLAB EVENT!",
+    title: "OVERWATCH® 2 & LE SSERAFIM® NEW COLLAB EVENT!",
     thumbnail: "/assets/images/Overwatch.png",
     subTitle:
-      "Overwatch 2's first-ever in-game musical artist collaboration. We’re teaming up with K-pop sensation, LE SSERAFIM.",
+      "Overwatch 2's first-ever in-game musical artist collaboration with K-pop sensation, LE SSERAFIM.",
     category: "user",
     buttonText: "Browse User Dashboard",
     date: "2023-11-28",
@@ -124,13 +124,15 @@ const Section8: FC<Props> = ({ setFilterDemo }) => {
                     overflow: "hidden",
                   }}
                 >
-                  <Image
-                    src={item.thumbnail}
-                    alt={item.title}
-                    width={300}
-                    height={200}
-                    style={{ objectFit: "contain" }}
-                  />
+                  <Link href={item.link}>
+                    <Image
+                      src={item.thumbnail}
+                      alt={item.title}
+                      width={240}
+                      height={140}
+                      style={{ objectFit: "contain" }}
+                    />
+                  </Link>
                 </Box>
 
                 <Link href={item.link}>

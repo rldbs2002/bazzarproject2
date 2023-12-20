@@ -47,6 +47,19 @@ const HowToUse = () => {
 
         <Container sx={{ my: "5rem", maxWidth: "80%", mx: "auto" }}>
           <Card1 sx={{ mb: 4 }}>
+            <Typography
+              sx={{
+                fontSize: "1.8rem",
+                textAlign: "center",
+                fontWeight: 700,
+                color: "secondary.main",
+                mb: 5,
+                textTransform: "uppercase",
+              }}
+            >
+              Use kgoods to purchase goods from Korea. <br></br> Receive them
+              safely and quickly to your address.
+            </Typography>
             <Box
               sx={{
                 backgroundColor: "#f8f8f8",
@@ -67,30 +80,11 @@ const HowToUse = () => {
               <Paragraph fontSize="1.2rem" fontWeight={300} mb={5}>
                 -Korean Address: 부산광역시 남구 용소로 14
               </Paragraph>
-            </Box>
-
-            <Box
-              sx={{
-                backgroundColor: "#f8f8f8",
-                p: 2,
-                borderRadius: "8px",
-                marginBottom: "2rem",
-              }}
-            >
               <Heading number={2} title="Sign up for Kgoods membership" />
               <Paragraph fontSize="1.2rem" fontWeight={300} mb={5}>
                 Create a new account to use Kgoods.
               </Paragraph>
-            </Box>
 
-            <Box
-              sx={{
-                backgroundColor: "#f8f8f8",
-                p: 2,
-                borderRadius: "8px",
-                marginBottom: "2rem",
-              }}
-            >
               <Heading number={3} title="Please fill out the NewRequest" />
               <Paragraph fontSize="1.2rem" fontWeight={300} mb={5}>
                 Sign in to Kgoods and fill out a request for the purchased item
@@ -109,16 +103,7 @@ const HowToUse = () => {
               <Paragraph fontSize="1.2rem" fontWeight={300} mb={5}>
                 - Product URL
               </Paragraph>
-            </Box>
 
-            <Box
-              sx={{
-                backgroundColor: "#f8f8f8",
-                p: 2,
-                borderRadius: "8px",
-                marginBottom: "2rem",
-              }}
-            >
               <Heading
                 number={4}
                 title="Please check if the item has arrived"
@@ -127,16 +112,7 @@ const HowToUse = () => {
                 Please check the arrival of the Request item you wrote When the
                 request item arrives at our company, a picture will be attached.
               </Paragraph>
-            </Box>
 
-            <Box
-              sx={{
-                backgroundColor: "#f8f8f8",
-                p: 2,
-                borderRadius: "8px",
-                marginBottom: "2rem",
-              }}
-            >
               <Heading number={5} title="Add the Request item to Cart" />
               <Paragraph fontSize="1.2rem" fontWeight={300} mb={5}>
                 Select a service such as shipping, Repacking, and solidate for
@@ -151,16 +127,7 @@ const HowToUse = () => {
               <Paragraph fontSize="1.2rem" fontWeight={300} mb={5}>
                 - Consolidate: repackaging multiple items into one
               </Paragraph>
-            </Box>
 
-            <Box
-              sx={{
-                backgroundColor: "#f8f8f8",
-                p: 2,
-                borderRadius: "8px",
-                marginBottom: "2rem",
-              }}
-            >
               <Heading number={6} title="Check the price on Cart list" />
               <Paragraph fontSize="1.2rem" fontWeight={300} mb={5}>
                 We offer prices for the service you choose, depending on the
@@ -168,16 +135,7 @@ const HowToUse = () => {
                 receive it from. After checking the price, check out for
                 payment.
               </Paragraph>
-            </Box>
 
-            <Box
-              sx={{
-                backgroundColor: "#f8f8f8",
-                p: 2,
-                borderRadius: "8px",
-                marginBottom: "2rem",
-              }}
-            >
               <Heading
                 number={7}
                 title="Check out the delivery progress on the Checkout list"

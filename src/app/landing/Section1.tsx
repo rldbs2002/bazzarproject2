@@ -1,10 +1,7 @@
 "use client";
 
 import { Box, Button, Container, Grid } from "@mui/material";
-import { Link as Scroll } from "react-scroll";
-import HelpIcon from "@mui/icons-material/Help";
-import DoneIcon from "@mui/icons-material/Done";
-import LazyImage from "../components/LazyImage";
+import Image from "next/image";
 import { FlexBox, FlexRowCenter } from "../components/flex-box";
 import { H1, Paragraph, Span } from "../components/Typography";
 import Link from "next/link";
@@ -13,10 +10,15 @@ import { Circle } from "@mui/icons-material";
 const Section1 = () => {
   return (
     <Box bgcolor="white">
-      <Container
-        id="section-1"
-        sx={{ mt: 7, position: "relative", maxWidth: "80%" }}
-      >
+      <Container id="section-1" sx={{ position: "relative", maxWidth: "80%" }}>
+        <Link href="https://github.com/rldbs2002">
+          <Image
+            src="/assets/images/github.png"
+            width={280}
+            height={80}
+            alt="github"
+          />
+        </Link>
         <Box maxWidth="830px" mx="auto" mb={8} textAlign="center">
           <H1 fontSize="2.5rem" mb={3}>
             <Span>send your k-culture product</Span>

@@ -81,16 +81,16 @@ const Repacking = ({ userdata }: any) => {
 
   // Define Yup validation schema
   const checkoutSchema = yup.object().shape({
-    firstname: yup.string().required("First Name is required"),
-    lastname: yup.string().required("Last Name is required"),
-    country: yup.object().shape({
-      label: yup.string().required("Country label is required"),
-    }),
-    address: yup.string().required("Address is required"),
-    city: yup.string().required("City is required"),
-    state: yup.string().required("State is required"),
-    postal_code: yup.string().required("Postal Code is required"),
-    phone: yup.string().required("Phone Number is required"),
+    // firstname: yup.string().required("First Name is required"),
+    // lastname: yup.string().required("Last Name is required"),
+    // country: yup.object().shape({
+    //   label: yup.string().required("Country label is required"),
+    // }),
+    // address: yup.string().required("Address is required"),
+    // city: yup.string().required("City is required"),
+    // state: yup.string().required("State is required"),
+    // postal_code: yup.string().required("Postal Code is required"),
+    // phone: yup.string().required("Phone Number is required"),
   });
 
   useEffect(() => {
@@ -199,11 +199,11 @@ const Repacking = ({ userdata }: any) => {
     setSelectedImage("");
   };
 
-  const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema: checkoutSchema,
-    onSubmit: handleFormSubmit,
-  });
+  // const formik = useFormik({
+  //   initialValues: initialValues,
+  //   validationSchema: checkoutSchema,
+  //   onSubmit: handleFormSubmit,
+  // });
 
   useEffect(() => {
     if (isDefaultAddress) {
@@ -233,20 +233,20 @@ const Repacking = ({ userdata }: any) => {
     }
   }, [isDefaultAddress, userdata]);
 
-  useEffect(() => {
-    // defaultAddressData가 변경될 때 Formik의 값을 업데이트
-    formik.setValues({
-      ...formik.values,
-      firstname: defaultAddressData.firstname,
-      lastname: defaultAddressData.lastname,
-      country: defaultAddressData.country,
-      address: defaultAddressData.address,
-      city: defaultAddressData.city,
-      state: defaultAddressData.state,
-      postal_code: defaultAddressData.postal_code,
-      phone: defaultAddressData.phone,
-    });
-  }, [defaultAddressData, formik.setValues]);
+  // useEffect(() => {
+  //   // defaultAddressData가 변경될 때 Formik의 값을 업데이트
+  //   formik.setValues({
+  //     ...formik.values,
+  //     firstname: defaultAddressData.firstname,
+  //     lastname: defaultAddressData.lastname,
+  //     country: defaultAddressData.country,
+  //     address: defaultAddressData.address,
+  //     city: defaultAddressData.city,
+  //     state: defaultAddressData.state,
+  //     postal_code: defaultAddressData.postal_code,
+  //     phone: defaultAddressData.phone,
+  //   });
+  // }, [defaultAddressData, formik.setValues]);
 
   return (
     <>

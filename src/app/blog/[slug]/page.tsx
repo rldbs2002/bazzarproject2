@@ -62,7 +62,14 @@ const page = async ({ params }: pageProps) => {
             {formattedDate}
           </p>
           <hr></hr>
-          <div style={{ marginTop: "3rem" }}>
+          <div
+            style={{
+              marginTop: "3rem",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <Mdx code={doc.body.code} />
           </div>
         </Card1>
