@@ -1,5 +1,4 @@
 import NextAuth from "next-auth";
-import { getToken } from "next-auth/jwt";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";

@@ -18,8 +18,17 @@ import { FlexBox } from "../flex-box";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { Product } from "../../../../type";
 import { Paragraph } from "../Typography";
+
+type Product = {
+  name: string;
+  type: string;
+  priceKRW: number;
+  priceUSD: number;
+  quantity: number;
+  totalValueUSD: number;
+  url: string;
+};
 
 type HeadingProps = { number: number; title: string };
 
@@ -161,7 +170,7 @@ const RequestForm: FC = () => {
       });
 
       if (response.status === 201) {
-        router.push("/order-confirmation");
+        router.push("/newrequest-confirmation");
       }
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -334,7 +343,7 @@ const RequestForm: FC = () => {
                                     ] as FormikErrors<
                                       (typeof initialValues.product_list)[number]
                                     >
-                                  ).name
+                                  )?.name
                                 }
                                 helperText={
                                   touched.product_list?.[index]?.name &&
@@ -344,7 +353,7 @@ const RequestForm: FC = () => {
                                     ] as FormikErrors<
                                       (typeof initialValues.product_list)[number]
                                     >
-                                  ).name
+                                  )?.name
                                 }
                                 margin="normal"
                               />
@@ -366,7 +375,7 @@ const RequestForm: FC = () => {
                                     ] as FormikErrors<
                                       (typeof initialValues.product_list)[number]
                                     >
-                                  ).type
+                                  )?.type
                                 }
                                 helperText={
                                   touched.product_list?.[index]?.type &&
@@ -376,7 +385,7 @@ const RequestForm: FC = () => {
                                     ] as FormikErrors<
                                       (typeof initialValues.product_list)[number]
                                     >
-                                  ).type
+                                  )?.type
                                 }
                                 margin="normal"
                               />
@@ -416,7 +425,7 @@ const RequestForm: FC = () => {
                                     ] as FormikErrors<
                                       (typeof initialValues.product_list)[number]
                                     >
-                                  ).priceKRW
+                                  )?.priceKRW
                                 }
                                 helperText={
                                   touched.product_list?.[index]?.priceKRW &&
@@ -426,7 +435,7 @@ const RequestForm: FC = () => {
                                     ] as FormikErrors<
                                       (typeof initialValues.product_list)[number]
                                     >
-                                  ).priceKRW
+                                  )?.priceKRW
                                 }
                                 margin="normal"
                               />
@@ -473,7 +482,7 @@ const RequestForm: FC = () => {
                                     ] as FormikErrors<
                                       (typeof initialValues.product_list)[number]
                                     >
-                                  ).priceUSD
+                                  )?.priceUSD
                                 }
                                 helperText={
                                   touched.product_list?.[index]?.priceUSD &&
@@ -483,7 +492,7 @@ const RequestForm: FC = () => {
                                     ] as FormikErrors<
                                       (typeof initialValues.product_list)[number]
                                     >
-                                  ).priceUSD
+                                  )?.priceUSD
                                 }
                               />
                             </Grid>
@@ -545,7 +554,7 @@ const RequestForm: FC = () => {
                                     ] as FormikErrors<
                                       (typeof initialValues.product_list)[number]
                                     >
-                                  ).quantity
+                                  )?.quantity
                                 }
                                 helperText={
                                   touched.product_list?.[index]?.quantity &&
@@ -555,7 +564,7 @@ const RequestForm: FC = () => {
                                     ] as FormikErrors<
                                       (typeof initialValues.product_list)[number]
                                     >
-                                  ).quantity
+                                  )?.quantity
                                 }
                                 margin="normal"
                               />
@@ -580,7 +589,7 @@ const RequestForm: FC = () => {
                                     ] as FormikErrors<
                                       (typeof initialValues.product_list)[number]
                                     >
-                                  ).totalValueUSD
+                                  )?.totalValueUSD
                                 }
                                 helperText={
                                   touched.product_list?.[index]
@@ -591,7 +600,7 @@ const RequestForm: FC = () => {
                                     ] as FormikErrors<
                                       (typeof initialValues.product_list)[number]
                                     >
-                                  ).totalValueUSD
+                                  )?.totalValueUSD
                                 }
                                 margin="normal"
                                 onChange={(e) => {
@@ -628,7 +637,7 @@ const RequestForm: FC = () => {
                                     ] as FormikErrors<
                                       (typeof initialValues.product_list)[number]
                                     >
-                                  ).url
+                                  )?.url
                                 }
                                 helperText={
                                   touched.product_list?.[index]?.url &&
@@ -638,7 +647,7 @@ const RequestForm: FC = () => {
                                     ] as FormikErrors<
                                       (typeof initialValues.product_list)[number]
                                     >
-                                  ).url
+                                  )?.url
                                 }
                                 margin="normal"
                               />
