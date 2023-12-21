@@ -13,7 +13,7 @@ const Section1 = () => {
       <Container id="section-1" sx={{ position: "relative", maxWidth: "80%" }}>
         <Link href="https://github.com/rldbs2002">
           <Image
-            src="/assets/images/github.png"
+            src="/assets/images/github.PNG"
             width={280}
             height={80}
             alt="github"
