@@ -46,9 +46,7 @@ const Cart = () => {
         <Grid container spacing={3}>
           {/* CART PRODUCT LIST */}
           <Grid xs={12}>
-            <Card1 sx={{ mb: 4 }}>
-              <CartListItems data={cartData} session={session} />
-            </Card1>
+            <CartListItems data={cartData} session={session} />
           </Grid>
         </Grid>
       </Container>

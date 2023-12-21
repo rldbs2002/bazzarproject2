@@ -20,6 +20,7 @@ import {
   TableRow,
   TableCell,
   TableHead,
+  Tooltip,
 } from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import RefundRequestRow from "./RefundRequestRow";
@@ -259,37 +260,56 @@ export default function RefundRequest() {
             <Divider />
             <Heading number={2} title="Choose Service" />
             <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={() => handleAction("shipping")}
-                disabled={
-                  selectedItems.length !== 1 && selectedItems.length <= 1
-                }
-                style={{ marginRight: "0.5rem", width: "120px" }}
-              >
-                Shipping
-              </Button>
+              <Tooltip title="Shipping is to deliver the product as it was received.">
+                <span>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => handleAction("shipping")}
+                    disabled={
+                      selectedItems.length !== 1 && selectedItems.length <= 1
+                    }
+                    style={{ marginRight: "0.5rem", width: "120px" }}
+                  >
+                    Shipping
+                  </Button>
+                </span>
+              </Tooltip>
 
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() => handleAction("repacking")}
-                disabled={selectedItems.length !== 1}
-                style={{ marginRight: "0.5rem", width: "120px" }}
+              <Tooltip
+                title="Repacking is packing your items from one single package into smaller box
+or bubble-mailer. This may reduce shipping costs if the original box is too
+large for the product it contains."
               >
-                Repacking
-              </Button>
+                <span>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => handleAction("repacking")}
+                    disabled={selectedItems.length !== 1}
+                    style={{ marginRight: "0.5rem", width: "120px" }}
+                  >
+                    Repacking
+                  </Button>
+                </span>
+              </Tooltip>
 
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={() => handleAction("consolidate")}
-                disabled={selectedItems.length <= 1}
-                style={{ marginRight: "0.5rem", width: "120px" }}
+              <Tooltip
+                title="Consolidation is combining multiple packages into one box, 
+so you can ship your items together and save money."
               >
-                Consolidate
-              </Button>
+                <span>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => handleAction("consolidate")}
+                    disabled={selectedItems.length <= 1}
+                    style={{ marginRight: "0.5rem", width: "120px" }}
+                  >
+                    Consolidate
+                  </Button>
+                </span>
+              </Tooltip>
             </div>
           </Grid>
         </Grid>

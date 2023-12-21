@@ -16,6 +16,7 @@ import {
   styled,
   InputBase,
   Button,
+  Box,
 } from "@mui/material";
 import Link from "next/link";
 import { StyledTableCell, StyledIconButton } from "./StyledComponents";
@@ -27,6 +28,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import { useRouter } from "next/navigation";
 import { statusNames } from "@/constants";
 import { Paragraph } from "../Typography";
+import Card1 from "../Card1";
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   height: 44,
@@ -119,157 +121,159 @@ const CartListItems = ({ data }: any) => {
   };
 
   return (
-    <>
-      <Paragraph
-        style={{
-          margin: "2rem",
-          fontWeight: "bold",
-          fontSize: "2rem",
-        }}
-      >
-        Cart
-      </Paragraph>
-      <Select
-        value={searchCriteria}
-        onChange={(e) => setSearchCriteria(e.target.value)}
-        sx={{
-          height: 44,
-          fontSize: 14,
-          width: "100%",
-          maxWidth: 120,
-          fontWeight: 500,
-          borderRadius: "8px",
-          margin: "1rem",
-        }}
-        variant="outlined"
-      >
-        <MenuItem value="cartId">Cart ID</MenuItem>
-        <MenuItem value="status">Status</MenuItem>
-        <MenuItem value="requestId">Request ID</MenuItem>
-      </Select>
+    <Box py={4}>
+      <Card1 sx={{ mb: 4 }}>
+        <Paragraph
+          style={{
+            margin: "2rem",
+            fontWeight: "bold",
+            fontSize: "2rem",
+          }}
+        >
+          Cart
+        </Paragraph>
+        <Select
+          value={searchCriteria}
+          onChange={(e) => setSearchCriteria(e.target.value)}
+          sx={{
+            height: 44,
+            fontSize: 14,
+            width: "100%",
+            maxWidth: 120,
+            fontWeight: 500,
+            borderRadius: "8px",
+            margin: "1rem",
+          }}
+          variant="outlined"
+        >
+          <MenuItem value="cartId">Cart ID</MenuItem>
+          <MenuItem value="status">Status</MenuItem>
+          <MenuItem value="requestId">Request ID</MenuItem>
+        </Select>
 
-      <StyledInputBase
-        placeholder="Search..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        sx={{
-          width: "250px",
-        }}
-      />
-
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead sx={{ backgroundColor: "grey.200" }}>
-            <TableRow>
-              <StyledTableCell>Cart ID</StyledTableCell>
-              <StyledTableCell>Options</StyledTableCell>
-              <StyledTableCell>Request ID</StyledTableCell>
-              <StyledTableCell>Status</StyledTableCell>
-              <StyledTableCell>Actions</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {getCurrentPageItems()
-              .filter((cartId) => {
-                const cartData = data[cartId][0];
-                const status = cartData.status;
-                return status === 2 || status === 3 || status === 4;
-              })
-              .map((cartId) => {
-                const cartData = data[cartId][0];
-                const status = cartData.status;
-                const cart_id = cartData.cart_id;
-                console.log(cartData);
-                const cartOptions = cartData.cartOptions;
-
-                return (
-                  <TableRow key={cartId}>
-                    <StyledTableCell
-                      align="left"
-                      sx={{ fontWeight: 400, cursor: "pointer" }}
-                    >
-                      <Link href={`/cart/${cartId}`}>{cart_id}</Link>
-                    </StyledTableCell>
-                    <StyledTableCell
-                      align="left"
-                      sx={{ fontWeight: 400, cursor: "pointer" }}
-                    >
-                      {cartOptions}
-                    </StyledTableCell>
-                    <StyledTableCell
-                      align="left"
-                      sx={{ fontWeight: 400, cursor: "pointer" }}
-                    >
-                      {data[cartId].map((userRequest: any) => (
-                        <div key={userRequest.userRequest._id}>
-                          {userRequest.userRequest.request_id}
-                        </div>
-                      ))}
-                    </StyledTableCell>
-                    <StyledTableCell
-                      align="left"
-                      sx={{ fontWeight: 400, cursor: "pointer" }}
-                    >
-                      {statusNames[status]}
-                    </StyledTableCell>
-                    <StyledTableCell
-                      align="left"
-                      sx={{ fontWeight: 400, cursor: "pointer" }}
-                    >
-                      <StyledIconButton>
-                        <Delete onClick={() => handleDeleteClick(cartId)} />
-                      </StyledIconButton>
-                    </StyledTableCell>
-                  </TableRow>
-                );
-              })}
-
-            {/* Delete Confirmation Modal */}
-            <Dialog open={isDeleteModalOpen} onClose={handleDeleteCancel}>
-              <DialogContent>
-                <DialogContentText>
-                  Are you sure you want to delete this item?
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleDeleteCancel} color="primary">
-                  Cancel
-                </Button>
-                <Button onClick={handleDeleteConfirm} color="primary">
-                  Delete
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </TableBody>
-        </Table>
-      </TableContainer>
-      {getCurrentPageItems().filter((cartId) => {
-        const cartData = data[cartId][0];
-        const status = cartData.status;
-        return status === 2 || status === 3 || status === 4;
-      }).length === 0 && (
-        <div style={{ textAlign: "center", margin: "1rem" }}>
-          Cart Data is Empty
-        </div>
-      )}
-
-      <Stack
-        direction="row"
-        spacing={1}
-        sx={{
-          marginTop: 2,
-          justifyContent: "center",
-          margin: "1rem",
-        }}
-      >
-        <Pagination
-          count={numPages}
-          page={currentPage}
-          color="primary"
-          onChange={handlePageChange}
+        <StyledInputBase
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          sx={{
+            width: "250px",
+          }}
         />
-      </Stack>
-    </>
+
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead sx={{ backgroundColor: "grey.200" }}>
+              <TableRow>
+                <StyledTableCell>Cart ID</StyledTableCell>
+                <StyledTableCell>Options</StyledTableCell>
+                <StyledTableCell>Request ID</StyledTableCell>
+                <StyledTableCell>Status</StyledTableCell>
+                <StyledTableCell>Actions</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {getCurrentPageItems()
+                .filter((cartId) => {
+                  const cartData = data[cartId][0];
+                  const status = cartData.status;
+                  return status === 2 || status === 3 || status === 4;
+                })
+                .map((cartId) => {
+                  const cartData = data[cartId][0];
+                  const status = cartData.status;
+                  const cart_id = cartData.cart_id;
+                  console.log(cartData);
+                  const cartOptions = cartData.cartOptions;
+
+                  return (
+                    <TableRow key={cartId}>
+                      <StyledTableCell
+                        align="left"
+                        sx={{ fontWeight: 400, cursor: "pointer" }}
+                      >
+                        <Link href={`/cart/${cartId}`}>{cart_id}</Link>
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="left"
+                        sx={{ fontWeight: 400, cursor: "pointer" }}
+                      >
+                        {cartOptions}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="left"
+                        sx={{ fontWeight: 400, cursor: "pointer" }}
+                      >
+                        {data[cartId].map((userRequest: any) => (
+                          <div key={userRequest.userRequest._id}>
+                            {userRequest.userRequest.request_id}
+                          </div>
+                        ))}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="left"
+                        sx={{ fontWeight: 400, cursor: "pointer" }}
+                      >
+                        {statusNames[status]}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="left"
+                        sx={{ fontWeight: 400, cursor: "pointer" }}
+                      >
+                        <StyledIconButton>
+                          <Delete onClick={() => handleDeleteClick(cartId)} />
+                        </StyledIconButton>
+                      </StyledTableCell>
+                    </TableRow>
+                  );
+                })}
+
+              {/* Delete Confirmation Modal */}
+              <Dialog open={isDeleteModalOpen} onClose={handleDeleteCancel}>
+                <DialogContent>
+                  <DialogContentText>
+                    Are you sure you want to delete this item?
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleDeleteCancel} color="primary">
+                    Cancel
+                  </Button>
+                  <Button onClick={handleDeleteConfirm} color="primary">
+                    Delete
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </TableBody>
+          </Table>
+        </TableContainer>
+        {getCurrentPageItems().filter((cartId) => {
+          const cartData = data[cartId][0];
+          const status = cartData.status;
+          return status === 2 || status === 3 || status === 4;
+        }).length === 0 && (
+          <div style={{ textAlign: "center", margin: "1rem" }}>
+            Cart Data is Empty
+          </div>
+        )}
+
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            marginTop: 2,
+            justifyContent: "center",
+            margin: "1rem",
+          }}
+        >
+          <Pagination
+            count={numPages}
+            page={currentPage}
+            color="primary"
+            onChange={handlePageChange}
+          />
+        </Stack>
+      </Card1>
+    </Box>
   );
 };
 

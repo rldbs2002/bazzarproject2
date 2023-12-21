@@ -17,6 +17,7 @@ import {
   Card,
   ToggleButton,
   ToggleButtonGroup,
+  Box,
 } from "@mui/material";
 import Link from "next/link";
 import { StyledTableCell, StyledTableRow } from "./StyledComponents";
@@ -127,112 +128,114 @@ const Checklist = ({ data }: any) => {
   }, [data, currentPage]);
 
   return (
-    <Card1 sx={{ mb: 4 }}>
-      <Paragraph
-        style={{
-          margin: "2rem",
-          fontWeight: "bold",
-          fontSize: "2rem",
-        }}
-      >
-        Checkout
-      </Paragraph>
-      <TableContainer component={Paper} sx={{ overflowX: "auto" }}>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <Select
-            value={searchField.toLowerCase()} // 소문자로 설정
-            variant="outlined"
-            onChange={(event: any) => handleSearchFieldChange(event)}
-            sx={{
-              height: 44,
-              fontSize: 14,
-              width: "100%",
-              maxWidth: 100,
-              fontWeight: 500,
-              borderRadius: "8px",
-              margin: "1rem",
-            }}
-          >
-            <MenuItem value="cartid">Cart ID</MenuItem>
-            <MenuItem value="options">Options</MenuItem>
-          </Select>
+    <Box py={4}>
+      <Card1 sx={{ mb: 4 }}>
+        <Paragraph
+          style={{
+            margin: "2rem",
+            fontWeight: "bold",
+            fontSize: "2rem",
+          }}
+        >
+          Checkout
+        </Paragraph>
+        <TableContainer component={Paper} sx={{ overflowX: "auto" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Select
+              value={searchField.toLowerCase()} // 소문자로 설정
+              variant="outlined"
+              onChange={(event: any) => handleSearchFieldChange(event)}
+              sx={{
+                height: 44,
+                fontSize: 14,
+                width: "100%",
+                maxWidth: 100,
+                fontWeight: 500,
+                borderRadius: "8px",
+                margin: "1rem",
+              }}
+            >
+              <MenuItem value="cartid">Cart ID</MenuItem>
+              <MenuItem value="options">Options</MenuItem>
+            </Select>
 
-          <StyledInputBase
-            placeholder="Search..."
-            value={searchValue}
-            onChange={handleSearchValueChange}
-            style={{ width: "250px", marginRight: "1rem" }}
+            <StyledInputBase
+              placeholder="Search..."
+              value={searchValue}
+              onChange={handleSearchValueChange}
+              style={{ width: "250px", marginRight: "1rem" }}
+            />
+
+            {/* ToggleButtonGroup으로 process과 complete 버튼을 표시합니다. */}
+            <ToggleButtonGroup
+              value={alignment}
+              exclusive
+              onChange={handleAlignmentChange}
+              aria-label="Show Items"
+              sx={{ margin: "1rem", marginLeft: "auto" }}
+            >
+              <ToggleButton value="process">process</ToggleButton>
+              <ToggleButton value="complete">complete</ToggleButton>
+            </ToggleButtonGroup>
+          </div>
+
+          <Table>
+            <TableHead sx={{ backgroundColor: "grey.200" }}>
+              <TableRow>
+                <StyledTableCell>Cart ID</StyledTableCell>
+                <StyledTableCell>Options</StyledTableCell>
+                <StyledTableCell>Status</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {currentPageItems.map((cartId) => {
+                const cartData = data[cartId][0];
+                const status = cartData.status;
+                const cart_id = cartData.cart_id;
+
+                // Check the alignment value and show items accordingly
+                if (
+                  (!alignment && cartData.status >= 5) ||
+                  (alignment === "complete" && status > 6) ||
+                  (alignment === "process" && (status === 5 || status === 6))
+                ) {
+                  return (
+                    <StyledTableRow key={cartId}>
+                      <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
+                        <Link href={`/checkout/${cartId}`}>{cart_id}</Link>
+                      </StyledTableCell>
+                      <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
+                        {cartData.cartOptions}
+                      </StyledTableCell>
+                      <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
+                        {statusNames[status]}
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  );
+                }
+                return null; // Don't render if conditions are not met
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            margin: "1rem",
+            justifyContent: "center",
+          }}
+        >
+          <Pagination
+            count={numPages}
+            page={currentPage}
+            color="primary"
+            onChange={handlePageClick}
           />
-
-          {/* ToggleButtonGroup으로 process과 complete 버튼을 표시합니다. */}
-          <ToggleButtonGroup
-            value={alignment}
-            exclusive
-            onChange={handleAlignmentChange}
-            aria-label="Show Items"
-            sx={{ margin: "1rem", marginLeft: "auto" }}
-          >
-            <ToggleButton value="process">process</ToggleButton>
-            <ToggleButton value="complete">complete</ToggleButton>
-          </ToggleButtonGroup>
-        </div>
-
-        <Table>
-          <TableHead sx={{ backgroundColor: "grey.200" }}>
-            <TableRow>
-              <StyledTableCell>Cart ID</StyledTableCell>
-              <StyledTableCell>Options</StyledTableCell>
-              <StyledTableCell>Status</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {currentPageItems.map((cartId) => {
-              const cartData = data[cartId][0];
-              const status = cartData.status;
-              const cart_id = cartData.cart_id;
-
-              // Check the alignment value and show items accordingly
-              if (
-                (!alignment && cartData.status >= 5) ||
-                (alignment === "complete" && status > 6) ||
-                (alignment === "process" && (status === 5 || status === 6))
-              ) {
-                return (
-                  <StyledTableRow key={cartId}>
-                    <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
-                      <Link href={`/checkout/${cartId}`}>{cart_id}</Link>
-                    </StyledTableCell>
-                    <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
-                      {cartData.cartOptions}
-                    </StyledTableCell>
-                    <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
-                      {statusNames[status]}
-                    </StyledTableCell>
-                  </StyledTableRow>
-                );
-              }
-              return null; // Don't render if conditions are not met
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <Stack
-        direction="row"
-        spacing={1}
-        sx={{
-          margin: "1rem",
-          justifyContent: "center",
-        }}
-      >
-        <Pagination
-          count={numPages}
-          page={currentPage}
-          color="primary"
-          onChange={handlePageClick}
-        />
-      </Stack>
-    </Card1>
+        </Stack>
+      </Card1>
+    </Box>
   );
 };
 

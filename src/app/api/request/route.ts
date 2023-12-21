@@ -38,7 +38,7 @@ export const POST = async (request: any) => {
     const userEmail = requestData.user; // Replace with the user's email
 
     // Find the user based on their email
-    const user = await User.findOne({ email: userEmail });
+    const user = await Users.findOne({ email: userEmail });
 
     if (!user) {
       return new NextResponse("User not found", { status: 404 });
