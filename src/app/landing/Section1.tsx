@@ -20,7 +20,7 @@ const Section1 = () => {
           />
         </Link>
         <Box maxWidth="830px" mx="auto" mb={8} textAlign="center">
-          <H1 fontSize="2.5rem" mb={3}>
+          <H1 fontSize="2.8rem" mb={3}>
             <Span>send your k-culture product</Span>
             <Box color="primary.main" lineHeight={1.2}>
               quickly and safely
@@ -28,7 +28,7 @@ const Section1 = () => {
           </H1>
 
           <Paragraph
-            fontSize="1.3rem"
+            fontSize="1.6rem"
             fontWeight={500}
             maxWidth="540px"
             mx="auto"

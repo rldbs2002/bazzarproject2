@@ -34,7 +34,7 @@ const list = [
     link: `${BlogUrl}/blog/post-02`,
   },
   {
-    title: "OVERWATCH® 2 & LE SSERAFIM® NEW COLLAB EVENT!",
+    title: "OVERWATCH2 & LE SSERAFIM NEW COLLAB EVENT!",
     thumbnail: "/assets/images/Overwatch.png",
     subTitle:
       "Overwatch 2's first-ever in-game musical artist collaboration with K-pop sensation, LE SSERAFIM.",
