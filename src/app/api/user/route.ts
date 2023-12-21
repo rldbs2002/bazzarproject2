@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
-import User from "@/models/User";
+import Users from "@/models/Users";
 import bcrypt from "bcryptjs";
 import { getServerSession } from "next-auth";
 
@@ -16,7 +16,7 @@ export const GET = async (request: any) => {
     const userEmail = session?.user.email;
 
     // 데이터베이스에서 사용자를 이메일로 찾음
-    const user = await User.findOne({ email: userEmail });
+    const user = await Users.findOne({ email: userEmail });
 
     if (!user) {
       return new NextResponse("사용자를 찾을 수 없습니다", { status: 404 });
@@ -38,7 +38,7 @@ export const PUT = async (request: any) => {
     const { currentPassword, newPassword, email } = requestData;
 
     // 기존 사용자 정보를 찾음
-    const user = await User.findOne({ email });
+    const user = await Users.findOne({ email });
 
     if (!user) {
       console.error("사용자를 찾을 수 없음");
@@ -87,7 +87,7 @@ export const DELETE = async (request: any) => {
     const { addressId, email } = requestData;
 
     // 기존 사용자 정보를 찾아서 arrived_info에서 해당 주소를 삭제
-    const user = await User.findOneAndUpdate(
+    const user = await Users.findOneAndUpdate(
       { email: email },
       { $pull: { arrived_info: { _id: addressId } } },
       { new: true } // 업데이트 후의 문서를 반환하도록 설정

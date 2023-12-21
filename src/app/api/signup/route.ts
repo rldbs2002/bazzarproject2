@@ -1,4 +1,4 @@
-import User from "@/models/User";
+import Users from "@/models/Users";
 import connect from "@/utils/db";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
@@ -16,7 +16,7 @@ export const POST = async (request: any) => {
 
     const hashedPassword = await bcrypt.hash(password, 5);
 
-    const newUser = new User({
+    const newUser = new Users({
       email,
       password: hashedPassword,
       address_info: address_info,

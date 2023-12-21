@@ -35,8 +35,6 @@ const NoticeWrapper = () => {
           </Card1>
         </Container>
       </Grid>
-
-      {session?.user.role === "admin" && <></>}
     </Grid>
   );
 };

@@ -3,7 +3,6 @@
 import { getAllNoticeData } from "@/app/lib/data";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import { Paragraph } from "../Typography";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { Button, Stack, Pagination } from "@mui/material";
 import { useSession } from "next-auth/react";

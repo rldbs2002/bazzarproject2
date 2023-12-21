@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
-import User from "@/models/User";
+import Users from "@/models/Users";
 
 export const DELETE = async (request: any) => {
   const requestData = await request.json();
@@ -12,7 +12,7 @@ export const DELETE = async (request: any) => {
     console.log(session);
 
     // 기존 사용자 정보를 찾아서 arrived_info 업데이트
-    const user = await User.findOneAndUpdate(
+    const user = await Users.findOneAndUpdate(
       { email: session },
       { $push: { arrived_info: arrived_info } },
       { new: true } // 업데이트 후의 문서를 반환하도록 설정

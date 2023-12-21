@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
-import User from "@/models/User";
+import Users from "@/models/Users";
 import UserRequest from "@/models/UserRequest";
 import { getServerSession } from "next-auth";
 
@@ -15,7 +15,7 @@ export const GET = async (request: any) => {
     const userEmail = session?.user.email;
 
     // User를 이메일 주소로 찾음
-    const user = await User.findOne({ email: userEmail });
+    const user = await Users.findOne({ email: userEmail });
 
     if (!user) {
       return new NextResponse("User not found", { status: 404 });

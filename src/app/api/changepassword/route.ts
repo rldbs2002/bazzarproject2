@@ -1,5 +1,5 @@
 import connect from "@/utils/db";
-import User from "@/models/User";
+import Users from "@/models/Users";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 
@@ -14,7 +14,7 @@ export const POST = async (request: any) => {
 
   try {
     // 현재 사용자 정보를 가져옴
-    const user = await User.findOne({ email });
+    const user = await Users.findOne({ email });
 
     // 현재 패스워드의 유효성을 검사
     const isPasswordValid = await bcrypt.compare(

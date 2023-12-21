@@ -4,9 +4,12 @@ import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { GoogleProfile } from "next-auth/providers/google";
-import User from "@/models/User";
+import Users from "@/models/Users";
 import connect from "@/utils/db";
 import bcrypt from "bcryptjs";
+import { JWT } from "next-auth/jwt";
+import { User } from "next-auth";
+import { Session } from "next-auth";
 
 export const options: NextAuthOptions = {
   providers: [
@@ -51,7 +54,7 @@ export const options: NextAuthOptions = {
         await connect();
 
         try {
-          const user = await User.findOne({ email: credentials?.email });
+          const user = await Users.findOne({ email: credentials?.email });
 
           if (user) {
             const isPasswordCorrect = await bcrypt.compare(
@@ -81,12 +84,12 @@ export const options: NextAuthOptions = {
 
   callbacks: {
     // Ref: https://authjs.dev/guides/basics/role-based-access-control#persisting-the-role
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: JWT; user?: User }) {
       if (user) token.role = user.role;
       return token;
     },
     // If you want to use the role in client components
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       if (session?.user) session.user.role = token.role;
       return session;
     },

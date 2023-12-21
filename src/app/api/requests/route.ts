@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
-import User from "@/models/User";
+import User from "@/models/Users";
 import UserRequest from "@/models/UserRequest";
 import { getServerSession } from "next-auth";
 

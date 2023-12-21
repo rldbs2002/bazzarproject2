@@ -1,10 +1,9 @@
 "use client";
 
-import { Avatar, Box, Container, Button, Grid } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 import { FlexBox } from "../components/flex-box";
 import { H2, H4, Paragraph } from "../components/Typography";
 import { useRouter } from "next/navigation";
-import { Dispatch, FC, SetStateAction } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -54,17 +53,8 @@ const list = [
   },
 ];
 
-// ==================================================================
-type Props = { setFilterDemo: Dispatch<SetStateAction<string>> };
-// ==================================================================
-
-const Section8: FC<Props> = ({ setFilterDemo }) => {
+const Section8 = () => {
   const router = useRouter();
-  const handleNavigate = (active: string) => () => {
-    router.push("#section-3");
-    setFilterDemo(active);
-  };
-
   return (
     <Box
       mb={8}

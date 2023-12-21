@@ -1,30 +1,21 @@
-"use client";
+"client";
 
-import { useState } from "react";
-import { Footer1, Footer2, Footer3 } from "./components/footer";
+import Header from "./landing/Header";
 import Section1 from "./landing/Section1";
 import Section6 from "./landing/Section6";
-
-import { Box } from "@mui/material";
 import Section8 from "./landing/Section8";
-import Header from "./landing/Header";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { Footer3 } from "./components/footer";
+import { Box } from "@mui/material";
 
 const Home = () => {
-  const [filterDemo, setFilterDemo] = useState("");
-  const { data: session } = useSession();
-
-  console.log(session?.user);
-
   return (
     <>
       <Box id="top" overflow="hidden" bgcolor="background.paper">
         <Header />
         <Section1 />
-        <Section6 setFilterDemo={setFilterDemo} />
-        {/* <Section3 filterDemo={filterDemo} setFilterDemo={setFilterDemo} /> */}
-        <Section8 setFilterDemo={setFilterDemo} />
+        <Section6 />
+
+        <Section8 />
         <Footer3 />
       </Box>
     </>
