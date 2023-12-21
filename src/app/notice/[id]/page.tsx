@@ -1,5 +1,6 @@
-import { Container, Grid } from "@mui/material";
+import { Container, Grid, Box } from "@mui/material";
 import ShopLayout2 from "@/app/components/layouts/ShopLayout2";
+import { H2 } from "@/app/components/Typography";
 import SEO from "@/app/components/SEO";
 import Card1 from "@/app/components/Card1";
 import { getNoticeData } from "@/app/lib/data";
@@ -13,6 +14,20 @@ const NoticeIdPage = async ({ params }: any) => {
       <SEO title="Checkout alternative" />
       <Grid container spacing={3}>
         <Grid item xs={12}>
+          <Box sx={{ backgroundColor: "grey.100" }}>
+            <Container sx={{ py: 6, maxWidth: "80%" }}>
+              <H2
+                fontSize={36}
+                textAlign="center"
+                fontWeight="700"
+                color="secondary.main"
+                mb={5}
+                textTransform="uppercase"
+              >
+                notice
+              </H2>
+            </Container>
+          </Box>
           <Container sx={{ my: "1.5rem" }}>
             <Card1>
               <NoticeContents data={data} />
