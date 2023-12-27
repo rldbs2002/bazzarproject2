@@ -15,8 +15,6 @@ import {
   LabelList,
 } from "recharts";
 import {
-  getCartsData,
-  getCheckoutsData,
   getCompleteCartData,
   getCompleteCheckoutData,
   getCompleteRequestData,
@@ -26,7 +24,6 @@ import {
   getRemainCartsData,
   getRemainCheckoutsData,
   getRemainRequestsData,
-  getRequestsData,
 } from "@/app/lib/data";
 import Link from "next/link";
 import { Paragraph } from "../Typography";

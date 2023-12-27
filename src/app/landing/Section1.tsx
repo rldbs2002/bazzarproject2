@@ -51,7 +51,7 @@ const Section1 = () => {
                   my: 2,
                   maxWidth: "540px",
                   mx: "auto",
-                  paddingLeft: "4rem",
+                  paddingLeft: { xs: "0", sm: "4rem" },
                 }}
               >
                 <Box sx={{ minWidth: "20px", mr: "0.5rem" }}>

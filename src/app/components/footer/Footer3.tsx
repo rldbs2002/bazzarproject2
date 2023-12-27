@@ -11,7 +11,7 @@ import Image from "next/image";
 const StyledFooter = styled("footer")<{ bgcolor?: string }>(
   ({ theme, bgcolor }) => ({
     color: "white",
-    padding: "40px",
+    padding: "20px",
     background: bgcolor ? bgcolor : theme.palette.primary.main,
     // [theme.breakpoints.down("md")]: { marginBottom: "4rem" },
   })
