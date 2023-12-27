@@ -19,7 +19,7 @@ const Section1 = () => {
             alt="github"
           />
         </Link>
-        <Box maxWidth="830px" mx="auto" mb={8} textAlign="center">
+        <Box maxWidth="830px" mx="auto" mb={8} textAlign="center" mt={6}>
           <H1 fontSize="2.8rem" mb={3}>
             <Span>send your k-culture product</Span>
             <Box color="primary.main" lineHeight={1.2}>
