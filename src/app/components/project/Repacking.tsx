@@ -623,7 +623,7 @@ const Repacking = ({ userdata }: any) => {
                             variant="outlined"
                             color="primary"
                             type="submit"
-                            sx={{ width: "100px", marginTop: "3rem" }}
+                            sx={{ width: "120px", marginTop: "3rem" }}
                           >
                             Add to Cart
                           </Button>
