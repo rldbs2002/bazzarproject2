@@ -599,7 +599,7 @@ const Shipping = ({ userdata }: any) => {
                           type="submit"
                           sx={{ width: "100px", marginTop: "3rem" }}
                         >
-                          Submit
+                          Add to Cart
                         </Button>
                       </Grid>
                     </Grid>

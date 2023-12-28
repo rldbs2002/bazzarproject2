@@ -36,7 +36,9 @@ const AdminCheckoutWrapper = () => {
   console.log(requestData);
 
   return (
-    <Container sx={{ my: "1.5rem", maxWidth: "80%", mx: "auto" }}>
+    <Container
+      sx={{ my: "1.5rem", maxWidth: "80%", mx: "auto", minHeight: "520px" }}
+    >
       <AdminCheckout data={requestData} session={session} />
     </Container>
   );

@@ -38,7 +38,9 @@ const AdminCartWrapper = () => {
   console.log(cartData);
 
   return (
-    <Container sx={{ my: "1.5rem", maxWidth: "80%", mx: "auto" }}>
+    <Container
+      sx={{ my: "1.5rem", maxWidth: "80%", mx: "auto", minHeight: "520px" }}
+    >
       <AdminCart data={cartData} />
     </Container>
   );
