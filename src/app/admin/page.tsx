@@ -2,6 +2,7 @@ import React from "react";
 import ShopLayout2 from "../components/layouts/ShopLayout2";
 import { Container } from "@mui/material";
 import AdminpageWrapper from "../components/project/AdminpageWrapper";
+export const dynamic = "force-dynamic";
 
 const AdminPage = () => {
   return (
