@@ -277,7 +277,11 @@ export default function RefundRequest() {
                     disabled={
                       selectedItems.length !== 1 && selectedItems.length <= 1
                     }
-                    style={{ marginRight: "0.5rem", width: "120px" }}
+                    sx={{
+                      marginRight: "0.5rem",
+                      width: { xs: "40%", sm: "120px" }, // 모바일 환경에서는 너비 100%
+                      marginBottom: { xs: 2, sm: 0 }, // 모바일 환경에서는 하단 마진 추가
+                    }}
                   >
                     Shipping
                   </Button>
@@ -295,7 +299,11 @@ large for the product it contains."
                     color="secondary"
                     onClick={() => handleAction("repacking")}
                     disabled={selectedItems.length !== 1}
-                    style={{ marginRight: "0.5rem", width: "120px" }}
+                    sx={{
+                      marginRight: "0.5rem",
+                      width: { xs: "40%", sm: "120px" }, // 모바일 환경에서는 너비 100%
+                      marginBottom: { xs: 2, sm: 0 }, // 모바일 환경에서는 하단 마진 추가
+                    }}
                   >
                     Repacking
                   </Button>
@@ -312,7 +320,11 @@ so you can ship your items together and save money."
                     color="primary"
                     onClick={() => handleAction("consolidate")}
                     disabled={selectedItems.length <= 1}
-                    style={{ marginRight: "0.5rem", width: "120px" }}
+                    sx={{
+                      marginRight: "0.5rem",
+                      width: { xs: "40%", sm: "120px" }, // 모바일 환경에서는 너비 100%
+                      marginBottom: { xs: 2, sm: 0 }, // 모바일 환경에서는 하단 마진 추가
+                    }}
                   >
                     Consolidate
                   </Button>
