@@ -2,12 +2,9 @@
 
 import { FC, useState } from "react";
 import { Delete, Edit } from "@mui/icons-material";
-import {
-  StatusWrapper,
-  StyledIconButton,
-  StyledTableCell,
-  StyledTableRow,
-} from "./StyledComponents";
+import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
+import { StatusWrapper, StyledIconButton } from "./StyledComponents";
 import {
   Checkbox,
   Dialog,
@@ -88,35 +85,37 @@ const RefundRequestRow: FC<RefundRequestRowProps> = ({
   };
 
   return isDeleted ? null : (
-    <StyledTableRow tabIndex={-1} role="checkbox" selected={isSelected}>
-      <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
+    <Tr tabIndex={-1} role="checkbox" selected={isSelected}>
+      <Td align="center" sx={{ fontWeight: 400 }} className="custom-td">
         <Checkbox
           checked={isSelected}
           onChange={() => handleCheckboxChange(_id)}
         />
-      </StyledTableCell>
+      </Td>
 
-      <StyledTableCell
-        align="left"
-        sx={{ fontWeight: 400, cursor: "pointer" }}
+      <Td
+        align="center"
+        style={{ cursor: "pointer" }}
+        sx={{ fontWeight: 400 }}
         onClick={() => handleCellClick(_id)}
+        className="custom-td"
       >
         #{request_id}
-      </StyledTableCell>
+      </Td>
 
-      <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
+      <Td align="center" sx={{ fontWeight: 400 }} className="custom-td">
         {product_name || "No Data"}
-      </StyledTableCell>
+      </Td>
 
-      <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
+      <Td align="center" sx={{ fontWeight: 400 }} className="custom-td">
         $ {product_price}
-      </StyledTableCell>
+      </Td>
 
-      <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
+      <Td align="center" sx={{ fontWeight: 400 }} className="custom-td">
         <StatusWrapper status={status}>{statusNames[status]}</StatusWrapper>
-      </StyledTableCell>
+      </Td>
 
-      <StyledTableCell align="left">
+      <Td align="center" className="custom-td">
         <StyledIconButton>
           <Edit onClick={() => handleCellClick(_id)} />
         </StyledIconButton>
@@ -145,8 +144,8 @@ const RefundRequestRow: FC<RefundRequestRowProps> = ({
             </Button>
           </DialogActions>
         </Dialog>
-      </StyledTableCell>
-    </StyledTableRow>
+      </Td>
+    </Tr>
   );
 };
 

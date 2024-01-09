@@ -1,22 +1,20 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import {
-  Table,
-  TableBody,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
   Stack,
-  Pagination, // Pagination 컴포넌트 불러오기
+  Pagination,
   Select,
   MenuItem,
   styled,
   InputBase,
   Card,
-  ToggleButton,
-  ToggleButtonGroup,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
   Box,
 } from "@mui/material";
 import Link from "next/link";
@@ -48,7 +46,7 @@ const Checklist = ({ data }: any) => {
   const [alignment, setAlignment] = useState("process");
 
   const handleAlignmentChange = (
-    event: React.MouseEvent<HTMLElement>,
+    event: React.ChangeEvent<HTMLInputElement>,
     newAlignment: string
   ) => {
     setAlignment(newAlignment);
@@ -139,85 +137,123 @@ const Checklist = ({ data }: any) => {
         >
           Checkout
         </Paragraph>
-        <TableContainer component={Paper} sx={{ overflowX: "auto" }}>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Select
-              value={searchField.toLowerCase()} // 소문자로 설정
-              variant="outlined"
-              onChange={(event: any) => handleSearchFieldChange(event)}
-              sx={{
-                height: 44,
-                fontSize: 14,
-                width: "100%",
-                maxWidth: 100,
-                fontWeight: 500,
-                borderRadius: "8px",
-                margin: "1rem",
-              }}
-            >
-              <MenuItem value="cartid">Cart ID</MenuItem>
-              <MenuItem value="options">Options</MenuItem>
-            </Select>
 
-            <StyledInputBase
-              placeholder="Search..."
-              value={searchValue}
-              onChange={handleSearchValueChange}
-              style={{ width: "250px", marginRight: "1rem" }}
-            />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+          }}
+        >
+          <Select
+            value={searchField.toLowerCase()} // 소문자로 설정
+            variant="outlined"
+            onChange={(event: any) => handleSearchFieldChange(event)}
+            sx={{
+              height: 44,
+              fontSize: 14,
+              width: "100%",
+              maxWidth: 100,
+              fontWeight: 500,
+              borderRadius: "8px",
+              margin: "1rem",
+            }}
+          >
+            <MenuItem value="cartid">Cart ID</MenuItem>
+            <MenuItem value="options">Options</MenuItem>
+          </Select>
 
-            {/* ToggleButtonGroup으로 process과 complete 버튼을 표시합니다. */}
-            <ToggleButtonGroup
+          <StyledInputBase
+            placeholder="Search..."
+            value={searchValue}
+            onChange={handleSearchValueChange}
+            sx={{
+              width: { xs: "100%", sm: 250 }, // 반응형 width
+              margin: { xs: "1rem", sm: 0 },
+              marginBottom: { xs: "1rem", sm: 0 }, // 작은 화면에서는 아래에 마진 추가
+            }}
+          />
+
+          {/* ToggleButtonGroup으로 process과 complete 버튼을 표시합니다. */}
+          <FormControl
+            component="fieldset"
+            sx={{
+              margin: "1rem",
+              marginLeft: { xs: "auto" },
+            }}
+          >
+            <RadioGroup
+              row
+              aria-label="show-items"
+              name="show-items"
               value={alignment}
-              exclusive
               onChange={handleAlignmentChange}
-              aria-label="Show Items"
-              sx={{ margin: "1rem", marginLeft: "auto" }}
             >
-              <ToggleButton value="process">process</ToggleButton>
-              <ToggleButton value="complete">complete</ToggleButton>
-            </ToggleButtonGroup>
-          </div>
+              <FormControlLabel
+                value="process"
+                control={<Radio />}
+                label="Process"
+              />
+              <FormControlLabel
+                value="complete"
+                control={<Radio />}
+                label="Complete"
+              />
+            </RadioGroup>
+          </FormControl>
+        </div>
 
-          <Table>
-            <TableHead sx={{ backgroundColor: "grey.200" }}>
-              <TableRow>
-                <StyledTableCell>Cart ID</StyledTableCell>
-                <StyledTableCell>Options</StyledTableCell>
-                <StyledTableCell>Status</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {currentPageItems.map((cartId) => {
-                const cartData = data[cartId][0];
-                const status = cartData.status;
-                const cart_id = cartData.cart_id;
+        <Table>
+          <Thead className="thead-style">
+            <Tr>
+              <Th>Cart ID</Th>
+              <Th>Options</Th>
+              <Th>Status</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {currentPageItems.map((cartId) => {
+              const cartData = data[cartId][0];
+              const status = cartData.status;
+              const cart_id = cartData.cart_id;
 
-                // Check the alignment value and show items accordingly
-                if (
-                  (!alignment && cartData.status >= 5) ||
-                  (alignment === "complete" && status > 6) ||
-                  (alignment === "process" && (status === 5 || status === 6))
-                ) {
-                  return (
-                    <StyledTableRow key={cartId}>
-                      <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
-                        <Link href={`/checkout/${cartId}`}>{cart_id}</Link>
-                      </StyledTableCell>
-                      <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
-                        {cartData.cartOptions}
-                      </StyledTableCell>
-                      <StyledTableCell align="left" sx={{ fontWeight: 400 }}>
-                        {statusNames[status]}
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  );
-                }
-                return null; // Don't render if conditions are not met
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              // Check the alignment value and show items accordingly
+              if (
+                (!alignment && cartData.status >= 5) ||
+                (alignment === "complete" && status > 6) ||
+                (alignment === "process" && (status === 5 || status === 6))
+              ) {
+                return (
+                  <Tr key={cartId}>
+                    <Td
+                      align="center"
+                      sx={{ fontWeight: 400 }}
+                      className="custom-td"
+                    >
+                      <Link href={`/checkout/${cartId}`}>{cart_id}</Link>
+                    </Td>
+                    <Td
+                      align="center"
+                      sx={{ fontWeight: 400 }}
+                      className="custom-td"
+                    >
+                      {cartData.cartOptions}
+                    </Td>
+                    <Td
+                      align="center"
+                      sx={{ fontWeight: 400 }}
+                      className="custom-td"
+                    >
+                      {statusNames[status]}
+                    </Td>
+                  </Tr>
+                );
+              }
+              return null; // Don't render if conditions are not met
+            })}
+          </Tbody>
+        </Table>
 
         <Stack
           direction="row"

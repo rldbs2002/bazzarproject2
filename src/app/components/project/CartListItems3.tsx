@@ -1,24 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
+import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
+
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
   Stack,
   Select,
   MenuItem,
-  Pagination, // MUI Pagination 불러오기
+  Pagination,
   styled,
   InputBase,
   Button,
   Box,
 } from "@mui/material";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import Link from "next/link";
 import { StyledTableCell, StyledIconButton } from "./StyledComponents";
 import { Delete } from "@mui/icons-material";
@@ -45,7 +40,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   "::placeholder": { color: theme.palette.text.disabled },
 }));
 
-const CartListItems = ({ data }: any) => {
+const CartListItems3 = ({ data }: any) => {
   const router = useRouter();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -167,92 +162,96 @@ const CartListItems = ({ data }: any) => {
           }}
         />
 
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead sx={{ backgroundColor: "grey.200" }}>
-              <TableRow>
-                <StyledTableCell>Cart ID</StyledTableCell>
-                <StyledTableCell>Options</StyledTableCell>
-                <StyledTableCell>Request ID</StyledTableCell>
-                <StyledTableCell>Status</StyledTableCell>
-                <StyledTableCell>Actions</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {getCurrentPageItems()
-                .filter((cartId) => {
-                  const cartData = data[cartId][0];
-                  const status = cartData.status;
-                  return status === 2 || status === 3 || status === 4;
-                })
-                .map((cartId) => {
-                  const cartData = data[cartId][0];
-                  const status = cartData.status;
-                  const cart_id = cartData.cart_id;
-                  console.log(cartData);
-                  const cartOptions = cartData.cartOptions;
+        <Table>
+          <Thead className="thead-style">
+            <Tr>
+              <Th>Cart ID</Th>
+              <Th>Options</Th>
+              <Th>Request ID</Th>
+              <Th>Status</Th>
+              <Th>Actions</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {getCurrentPageItems()
+              .filter((cartId) => {
+                const cartData = data[cartId][0];
+                const status = cartData.status;
+                return status === 2 || status === 3 || status === 4;
+              })
+              .map((cartId) => {
+                const cartData = data[cartId][0];
+                const status = cartData.status;
+                const cart_id = cartData.cart_id;
+                console.log(cartData);
+                const cartOptions = cartData.cartOptions;
 
-                  return (
-                    <TableRow key={cartId}>
-                      <StyledTableCell
-                        align="left"
-                        sx={{ fontWeight: 400, cursor: "pointer" }}
-                      >
-                        <Link href={`/cart/${cartId}`}>{cart_id}</Link>
-                      </StyledTableCell>
-                      <StyledTableCell
-                        align="left"
-                        sx={{ fontWeight: 400, cursor: "pointer" }}
-                      >
-                        {cartOptions}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        align="left"
-                        sx={{ fontWeight: 400, cursor: "pointer" }}
-                      >
-                        {data[cartId].map((userRequest: any) => (
-                          <div key={userRequest.userRequest._id}>
-                            {userRequest.userRequest.request_id}
-                          </div>
-                        ))}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        align="left"
-                        sx={{ fontWeight: 400, cursor: "pointer" }}
-                      >
-                        {statusNames[status]}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        align="left"
-                        sx={{ fontWeight: 400, cursor: "pointer" }}
-                      >
-                        <StyledIconButton>
-                          <Delete onClick={() => handleDeleteClick(cartId)} />
-                        </StyledIconButton>
-                      </StyledTableCell>
-                    </TableRow>
-                  );
-                })}
+                return (
+                  <Tr key={cartId}>
+                    <Td
+                      align="center"
+                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                      className="custom-td"
+                    >
+                      <Link href={`/cart/${cartId}`}>{cart_id}</Link>
+                    </Td>
+                    <Td
+                      align="center"
+                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                      className="custom-td"
+                    >
+                      {cartOptions}
+                    </Td>
+                    <Td
+                      align="center"
+                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                      className="custom-td"
+                    >
+                      {data[cartId].map((userRequest: any) => (
+                        <div key={userRequest.userRequest._id}>
+                          {userRequest.userRequest.request_id}
+                        </div>
+                      ))}
+                    </Td>
+                    <Td
+                      align="center"
+                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                      className="custom-td"
+                    >
+                      {statusNames[status]}
+                    </Td>
+                    <Td
+                      align="center"
+                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                      className="custom-td"
+                    >
+                      <StyledIconButton>
+                        <Delete onClick={() => handleDeleteClick(cartId)} />
+                      </StyledIconButton>
+                    </Td>
+                  </Tr>
+                );
+              })}
 
-              {/* Delete Confirmation Modal */}
-              <Dialog open={isDeleteModalOpen} onClose={handleDeleteCancel}>
-                <DialogContent>
-                  <DialogContentText>
-                    Are you sure you want to delete this item?
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleDeleteCancel} color="primary">
-                    Cancel
-                  </Button>
-                  <Button onClick={handleDeleteConfirm} color="primary">
-                    Delete
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            </TableBody>
-          </Table>
-        </TableContainer>
+            {/* Delete Confirmation Modal */}
+            <Dialog open={isDeleteModalOpen} onClose={handleDeleteCancel}>
+              <DialogContent>
+                <DialogContentText>
+                  Are you sure you want to delete this item?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleDeleteCancel} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={handleDeleteConfirm} color="primary">
+                  Delete
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </Tbody>
+        </Table>
+
         {getCurrentPageItems().filter((cartId) => {
           const cartData = data[cartId][0];
           const status = cartData.status;
@@ -284,4 +283,4 @@ const CartListItems = ({ data }: any) => {
   );
 };
 
-export default CartListItems;
+export default CartListItems3;

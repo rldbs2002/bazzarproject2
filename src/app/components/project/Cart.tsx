@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 import ShopLayout2 from "../layouts/ShopLayout2";
 import { getAllCartData } from "@/app/lib/data";
 import Card1 from "../Card1";
+import CartListItems2 from "./CartListItems2";
+import CartListItems3 from "./CartListItems3";
 
 const Cart = () => {
   const router = useRouter();
@@ -42,11 +44,13 @@ const Cart = () => {
   return (
     <ShopLayout2>
       <SEO title="Cart" />
-      <Container sx={{ my: "1.5rem" }}>
+      <Container sx={{ my: "1.5rem", maxWidth: "80%", mx: "auto" }}>
         <Grid container spacing={3}>
           {/* CART PRODUCT LIST */}
           <Grid xs={12}>
-            <CartListItems data={cartData} session={session} />
+            {/* <CartListItems data={cartData} /> */}
+            {/* <CartListItems2 data={cartData} /> */}
+            <CartListItems3 data={cartData} />
           </Grid>
         </Grid>
       </Container>

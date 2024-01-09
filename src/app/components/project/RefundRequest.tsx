@@ -1,18 +1,20 @@
 "use client";
 
+import styles from "@/app/requests/page.module.css";
 import { FC, useState, useEffect } from "react";
+import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import {
   Box,
   Card,
   Stack,
-  Table,
   TableContainer,
   Avatar,
   Typography,
   Grid,
   Button,
   Divider,
-  Pagination, // Import TablePagination
+  Pagination,
   Select,
   MenuItem,
   InputBase,
@@ -178,7 +180,6 @@ export default function RefundRequest() {
           <Grid item xs={12}>
             <Heading number={1} title="Order List" />
 
-            {/* 검색 카테고리를 선택할 수 있는 드롭다운 메뉴 추가 */}
             <Select
               value={searchCategory}
               onChange={(e) => setSearchCategory(e.target.value)}
@@ -191,6 +192,7 @@ export default function RefundRequest() {
                 fontWeight: 500,
                 borderRadius: "8px",
                 margin: "1rem",
+                mb: 2,
               }}
             >
               <MenuItem value="requestId">Request ID</MenuItem>
@@ -202,45 +204,51 @@ export default function RefundRequest() {
               placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ width: "250px" }}
+              sx={{
+                height: 44,
+                fontSize: 14,
+                padding: "0 1rem",
+                borderRadius: "8px",
+                width: { xs: "100%", sm: 250 },
+                mb: { xs: 3, sm: 0 },
+                mx: { xs: "auto", sm: 0 },
+              }}
             />
 
-            <TableContainer>
-              <Table>
-                <TableHead sx={{ backgroundColor: "grey.200" }}>
-                  <TableRow>
-                    <StyledTableCell>Check</StyledTableCell>
-                    <StyledTableCell>Request ID</StyledTableCell>
-                    <StyledTableCell>Product Name</StyledTableCell>
-                    <StyledTableCell>Price</StyledTableCell>
-                    <StyledTableCell>Status</StyledTableCell>
-                    <StyledTableCell>Actions</StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {filteredData.length === 0 ? (
-                    <TableRow>
-                      <TableCell align="center">Data가 없습니다.</TableCell>
-                    </TableRow>
-                  ) : (
-                    filteredData
-                      .filter((item: any) => !item.options) // options가 없는 항목만 필터링
-                      .sort((a: any, b: any) =>
-                        b.request_id.localeCompare(a.request_id)
-                      )
-                      .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-                      .map((request: any, index: any) => (
-                        <RefundRequestRow
-                          data={request}
-                          key={index}
-                          handleCheckboxChange={handleCheckboxChange}
-                          isSelected={selectedItems.includes(request._id)}
-                        />
-                      ))
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <Table>
+              <Thead className="thead-style">
+                <Tr>
+                  <Th>Check</Th>
+                  <Th>Request ID</Th>
+                  <Th>Product Name</Th>
+                  <Th>Price</Th>
+                  <Th>Status</Th>
+                  <Th>Actions</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {filteredData.length === 0 ? (
+                  <Tr>
+                    <Td align="center">Data가 없습니다.</Td>
+                  </Tr>
+                ) : (
+                  filteredData
+                    .filter((item: any) => !item.options) // options가 없는 항목만 필터링
+                    .sort((a: any, b: any) =>
+                      b.request_id.localeCompare(a.request_id)
+                    )
+                    .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+                    .map((request: any, index: any) => (
+                      <RefundRequestRow
+                        data={request}
+                        key={index}
+                        handleCheckboxChange={handleCheckboxChange}
+                        isSelected={selectedItems.includes(request._id)}
+                      />
+                    ))
+                )}
+              </Tbody>
+            </Table>
 
             <Stack alignItems="center" my={3} margin="1rem">
               <Pagination

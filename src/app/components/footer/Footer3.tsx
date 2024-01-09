@@ -62,7 +62,7 @@ const Footer3: FC<Props> = ({ sx, id, bgcolor }) => {
 
               <Paragraph mb={2.5} color="grey.300" maxWidth="370px">
                 <Copyright />
-                2023 All Rights Reserved.
+                2024 All Rights Reserved.
               </Paragraph>
             </Box>
           </Grid>
