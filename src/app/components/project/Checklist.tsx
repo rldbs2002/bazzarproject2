@@ -179,7 +179,7 @@ const Checklist = ({ data }: any) => {
           <FormControl
             component="fieldset"
             sx={{
-              margin: "1rem",
+              margin: "0.5rem",
               marginLeft: { xs: "auto" },
             }}
           >
