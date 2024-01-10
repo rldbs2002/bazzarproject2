@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import UserRequest from "@/models/UserRequest";
-import { getServerSession } from "next-auth";
+export const dynamic = "force-dynamic";
 
 export const GET = async (request: any) => {
   try {
