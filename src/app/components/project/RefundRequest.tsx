@@ -113,7 +113,7 @@ export default function RefundRequest() {
   const [selectedAction, setSelectedAction] = useState("");
 
   const [page, setPage] = useState(0); // Add state for page number
-  const [rowsPerPage, setRowsPerPage] = useState(10); // Add state for rows per page
+  const [rowsPerPage, setRowsPerPage] = useState(5); // Add state for rows per page
 
   const handleChangePage = (event: any, newPage: number) => {
     setPage(newPage);

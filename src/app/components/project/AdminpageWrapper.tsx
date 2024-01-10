@@ -25,162 +25,162 @@ const AdminpageWrapper = () => {
     lastLoginDate.setDate(lastLoginDate.getDate() - 1);
   }
 
-  const [remainRequestsData, setRemainRequestsData] = useState([]);
+  // const [remainRequestsData, setRemainRequestsData] = useState([]);
 
-  const [remainCartsData, setRemainCartsData] = useState([]);
+  // const [remainCartsData, setRemainCartsData] = useState([]);
 
-  const [remainCheckoutsData, setRemainCheckoutsData] = useState([]);
+  // const [remainCheckoutsData, setRemainCheckoutsData] = useState([]);
 
-  const [dailyRequestData, setDailyRequestData] = useState([]);
+  // const [dailyRequestData, setDailyRequestData] = useState([]);
 
-  const [dailyCartData, setDailyCartData] = useState([]);
+  // const [dailyCartData, setDailyCartData] = useState([]);
 
-  const [dailyCheckoutData, setDailyCheckoutData] = useState([]);
+  // const [dailyCheckoutData, setDailyCheckoutData] = useState([]);
 
-  const [completeRequestData, setCompleteRequestData] = useState([]);
+  // const [completeRequestData, setCompleteRequestData] = useState([]);
 
-  const [completeCartData, setCompleteCartData] = useState([]);
+  // const [completeCartData, setCompleteCartData] = useState([]);
 
-  const [completeCheckoutData, setCompleteCheckoutData] = useState([]);
+  // const [completeCheckoutData, setCompleteCheckoutData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getRemainRequestsData();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const result = await getRemainRequestsData();
 
-        setRemainRequestsData(result);
-      } catch (error: any) {
-        console.error("Error fetching data:", error.message);
-      }
-    };
+  //       setRemainRequestsData(result);
+  //     } catch (error: any) {
+  //       console.error("Error fetching data:", error.message);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getRemainCartsData();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const result = await getRemainCartsData();
 
-        setRemainCartsData(result);
-      } catch (error: any) {
-        console.error("Error fetching data:", error.message);
-      }
-    };
+  //       setRemainCartsData(result);
+  //     } catch (error: any) {
+  //       console.error("Error fetching data:", error.message);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getRemainCheckoutsData();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const result = await getRemainCheckoutsData();
 
-        setRemainCheckoutsData(result);
-      } catch (error: any) {
-        console.error("Error fetching data:", error.message);
-      }
-    };
+  //       setRemainCheckoutsData(result);
+  //     } catch (error: any) {
+  //       console.error("Error fetching data:", error.message);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getDailyRequestData();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const result = await getDailyRequestData();
 
-        setDailyRequestData(result);
-      } catch (error: any) {
-        console.error("Error fetching data:", error.message);
-      }
-    };
+  //       setDailyRequestData(result);
+  //     } catch (error: any) {
+  //       console.error("Error fetching data:", error.message);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getDailyCartData();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const result = await getDailyCartData();
 
-        setDailyCartData(result);
-      } catch (error: any) {
-        console.error("Error fetching data:", error.message);
-      }
-    };
+  //       setDailyCartData(result);
+  //     } catch (error: any) {
+  //       console.error("Error fetching data:", error.message);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getDailyCheckoutData();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const result = await getDailyCheckoutData();
 
-        setDailyCheckoutData(result);
-      } catch (error: any) {
-        console.error("Error fetching data:", error.message);
-      }
-    };
+  //       setDailyCheckoutData(result);
+  //     } catch (error: any) {
+  //       console.error("Error fetching data:", error.message);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getCompleteRequestData();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const result = await getCompleteRequestData();
 
-        setCompleteRequestData(result);
-      } catch (error: any) {
-        console.error("Error fetching data:", error.message);
-      }
-    };
+  //       setCompleteRequestData(result);
+  //     } catch (error: any) {
+  //       console.error("Error fetching data:", error.message);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getCompleteCartData();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const result = await getCompleteCartData();
 
-        setCompleteCartData(result);
-      } catch (error: any) {
-        console.error("Error fetching data:", error.message);
-      }
-    };
+  //       setCompleteCartData(result);
+  //     } catch (error: any) {
+  //       console.error("Error fetching data:", error.message);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getCompleteCheckoutData();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const result = await getCompleteCheckoutData();
 
-        setCompleteCheckoutData(result);
-      } catch (error: any) {
-        console.error("Error fetching data:", error.message);
-      }
-    };
+  //       setCompleteCheckoutData(result);
+  //     } catch (error: any) {
+  //       console.error("Error fetching data:", error.message);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   return (
     <>
       <AdminDashboard
-        remainRequestsData={remainRequestsData}
-        remainCartsData={remainCartsData}
-        remainCheckoutsData={remainCheckoutsData}
-        dailyRequestData={dailyRequestData}
-        dailyCartData={dailyCartData}
-        dailyCheckoutData={dailyCheckoutData}
-        completeRequestData={completeRequestData}
-        completeCartData={completeCartData}
-        completeCheckoutData={completeCheckoutData}
+      // remainRequestsData={remainRequestsData}
+      // remainCartsData={remainCartsData}
+      // remainCheckoutsData={remainCheckoutsData}
+      // dailyRequestData={dailyRequestData}
+      // dailyCartData={dailyCartData}
+      // dailyCheckoutData={dailyCheckoutData}
+      // completeRequestData={completeRequestData}
+      // completeCartData={completeCartData}
+      // completeCheckoutData={completeCheckoutData}
       />
       <Paragraph
         style={{
