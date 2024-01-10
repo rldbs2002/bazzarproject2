@@ -10,12 +10,10 @@ import {
   Paper,
   styled,
   InputBase,
-  Button,
-  ToggleButton,
-  ToggleButtonGroup,
-  Grid,
   Radio,
   Card,
+  Pagination,
+  Stack,
 } from "@mui/material";
 import Link from "next/link";
 import { StyledTableCell } from "./StyledComponents";
@@ -41,6 +39,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const AdminRequest2 = () => {
   const router = useRouter();
 
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 10;
   const [searchTerm, setSearchTerm] = useState("");
   const [searchCriteria, setSearchCriteria] = useState("userId");
   const [filterStatus, setFilterStatus] = useState("1"); // Default: Show Not Arrived
@@ -85,6 +85,14 @@ const AdminRequest2 = () => {
         return isMatchingUser && isMatchingStatus;
       })
     : [];
+
+  // 페이지 변경 핸들러
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value);
+  };
 
   return (
     <>
@@ -185,6 +193,23 @@ const AdminRequest2 = () => {
           </Table>
         </TableContainer>
       </Card>
+
+      {/* 페이지네이션 컨트롤 */}
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{
+          margin: "1rem",
+          justifyContent: "center",
+        }}
+      >
+        <Pagination
+          count={Math.ceil(filteredData.length / itemsPerPage)}
+          page={page}
+          onChange={handlePageChange}
+          color="primary"
+        />
+      </Stack>
     </>
   );
 };

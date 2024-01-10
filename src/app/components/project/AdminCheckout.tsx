@@ -12,6 +12,8 @@ import {
   InputBase,
   Card,
   Radio,
+  Pagination,
+  Stack,
 } from "@mui/material";
 import Link from "next/link";
 import { StyledTableCell } from "./StyledComponents";
@@ -36,6 +38,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const AdminCheckout = ({ data }: any) => {
   const router = useRouter();
 
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 10;
   const [searchTerm, setSearchTerm] = useState("");
   const [searchCriteria, setSearchCriteria] = useState("userId");
   const [filterStatus, setFilterStatus] = useState("5");
@@ -60,6 +64,13 @@ const AdminCheckout = ({ data }: any) => {
   // Handler for status radio button
   const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterStatus(event.target.value);
+  };
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value);
   };
 
   return (
@@ -165,6 +176,23 @@ const AdminCheckout = ({ data }: any) => {
           </Table>
         </TableContainer>
       </Card>
+
+      {/* 페이지네이션 컨트롤 */}
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{
+          margin: "1rem",
+          justifyContent: "center",
+        }}
+      >
+        <Pagination
+          count={Math.ceil(filteredData.length / itemsPerPage)}
+          page={page}
+          onChange={handlePageChange}
+          color="primary"
+        />
+      </Stack>
     </>
   );
 };
