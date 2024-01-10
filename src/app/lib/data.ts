@@ -32,7 +32,7 @@ export async function getRequestData(id: any) {
 export async function getRequestsData() {
   try {
     const res = await fetch(`${apiUrl}/requests`, {
-      cache: "no-store",
+      next: { revalidate: 20 },
     });
 
     if (!res.ok) {
@@ -49,7 +49,7 @@ export async function getRequestsData() {
 export async function getRemainRequestsData() {
   try {
     const res = await fetch(`${apiUrl}/remainrequests`, {
-      cache: "no-store",
+      next: { revalidate: 20 },
     });
 
     if (!res.ok) {
@@ -102,7 +102,7 @@ export async function getCartData(id: any) {
 
 export async function getCartsData() {
   const res = await fetch(`${apiUrl}/carts`, {
-    cache: "no-store",
+    next: { revalidate: 20 },
   });
   if (!res.ok) {
     throw new Error("Failed to fetch data");
@@ -113,7 +113,7 @@ export async function getCartsData() {
 export async function getRemainCartsData() {
   try {
     const res = await fetch(`${apiUrl}/remaincarts`, {
-      cache: "no-store",
+      next: { revalidate: 20 },
     });
 
     if (!res.ok) {
@@ -139,7 +139,7 @@ export async function getMyCartsData() {
 
 export async function getAllCheckoutData() {
   const res = await fetch(`${apiUrl}/checkout`, {
-    cache: "no-store",
+    next: { revalidate: 20 },
   });
   if (!res.ok) {
     throw new Error("Failed to fetch data");
@@ -170,7 +170,7 @@ export async function getCheckoutData(id: any) {
 export async function getRemainCheckoutsData() {
   try {
     const res = await fetch(`${apiUrl}/remaincheckouts`, {
-      cache: "no-store",
+      next: { revalidate: 20 },
     });
 
     if (!res.ok) {
@@ -277,7 +277,7 @@ export async function getEventData(id: any) {
 export async function getDailyRequestData() {
   try {
     const res = await fetch(`${apiUrl}/dailyrequest`, {
-      cache: "no-store",
+      next: { revalidate: 20 },
     });
 
     if (!res.ok) {
@@ -294,7 +294,7 @@ export async function getDailyRequestData() {
 export async function getDailyCartData() {
   try {
     const res = await fetch(`${apiUrl}/dailycart`, {
-      cache: "no-store",
+      next: { revalidate: 20 },
     });
 
     if (!res.ok) {
@@ -311,7 +311,7 @@ export async function getDailyCartData() {
 export async function getDailyCheckoutData() {
   try {
     const res = await fetch(`${apiUrl}/dailycheckout`, {
-      cache: "no-store",
+      next: { revalidate: 20 },
     });
 
     if (!res.ok) {
@@ -328,7 +328,7 @@ export async function getDailyCheckoutData() {
 export async function getCompleteRequestData() {
   try {
     const res = await fetch(`${apiUrl}/completerequest`, {
-      cache: "no-store",
+      next: { revalidate: 20 },
     });
 
     if (!res.ok) {
@@ -345,7 +345,7 @@ export async function getCompleteRequestData() {
 export async function getCompleteCartData() {
   try {
     const res = await fetch(`${apiUrl}/completecart`, {
-      cache: "no-store",
+      next: { revalidate: 20 },
     });
 
     if (!res.ok) {
@@ -362,7 +362,7 @@ export async function getCompleteCartData() {
 export async function getCompleteCheckoutData() {
   try {
     const res = await fetch(`${apiUrl}/completecheckout`, {
-      cache: "no-store",
+      next: { revalidate: 20 },
     });
 
     if (!res.ok) {

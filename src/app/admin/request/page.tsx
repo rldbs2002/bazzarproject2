@@ -4,7 +4,7 @@ import AdminRequestWrapper from "@/app/components/project/AdminRequestWrapper";
 import React from "react";
 export const dynamic = "force-dynamic";
 
-const AdminRequestPage = () => {
+const AdminRequestPage = async () => {
   return (
     <ShopLayout2>
       <AdminRequestWrapper />
