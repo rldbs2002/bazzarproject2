@@ -4,8 +4,6 @@ import Image from "next/image";
 import { useMDXComponent } from "next-contentlayer/hooks";
 
 import { cn } from "@/utils/constants";
-import { Callout } from "./Callout";
-import { MdxCard } from "./Mdx-card";
 
 interface OlProps extends HTMLProps<HTMLOListElement> {
   type?: "1" | "a" | "i" | "A" | "I" | undefined;
