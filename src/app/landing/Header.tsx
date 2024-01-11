@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
-import debounce from "lodash/debounce";
-import { Link as Scroll } from "react-scroll";
 import {
   Box,
   Button,
@@ -87,18 +85,16 @@ const Header = () => {
         <Box className={clsx({ fixedHeader: isFixed })}>
           <Container>
             <FlexBox height={headerHeight} alignItems="center">
-              <Scroll to="top" duration={400} smooth={true} isDynamic>
-                <Box sx={{ cursor: "pointer" }}>
-                  <Link href="/">
-                    <Image
-                      width="96px"
-                      height="44px"
-                      src="/assets/images/logo3.png"
-                      alt="logo"
-                    />
-                  </Link>
-                </Box>
-              </Scroll>
+              <Box sx={{ cursor: "pointer" }}>
+                <Link href="/">
+                  <Image
+                    width="96px"
+                    height="44px"
+                    src="/assets/images/logo3.png"
+                    alt="logo"
+                  />
+                </Link>
+              </Box>
 
               <Box sx={{ mx: "auto" }}></Box>
 
@@ -279,7 +275,7 @@ const Header = () => {
                       </Link>
 
                       <Link href="/signup">
-                        <Button variant="contained" color="primary">
+                        <Button variant="outlined" color="primary">
                           Sign up
                         </Button>
                       </Link>
