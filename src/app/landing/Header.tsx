@@ -59,6 +59,8 @@ const HeaderWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const Header = () => {
+  const [isMounted, setMounted] = useState(false);
+
   const session = useSession();
   const { data: login } = useSession();
   console.log(login?.user.role);
@@ -73,10 +75,11 @@ const Header = () => {
     signOut({ callbackUrl: "/" }); // 로그아웃 후 리다이렉트할 URL 설정
   };
 
-  const scrollListener = debounce(() => {
-    if (window?.pageYOffset >= headerHeight) setFixed(true);
-    else setFixed(false);
-  }, 50);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
 
   return (
     <Fragment>
@@ -87,12 +90,6 @@ const Header = () => {
               <Scroll to="top" duration={400} smooth={true} isDynamic>
                 <Box sx={{ cursor: "pointer" }}>
                   <Link href="/">
-                    {/* <Image
-                      width="96px"
-                      height="44px"
-                      src="/assets/images/logo2.svg"
-                      alt="logo"
-                    /> */}
                     <Image
                       width="96px"
                       height="44px"

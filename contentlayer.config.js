@@ -39,31 +39,9 @@ export const Doc = defineDocumentType(() => ({
   computedFields,
 }));
 
-// "benefits" 폴더의 .mdx 파일을 처리하는 document type을 정의합니다.
-export const BenefitsDoc = defineDocumentType(() => ({
-  name: "BenefitsDoc", // 다른 이름을 선택하세요.
-  filePathPattern: `benefits/**/*.mdx`, // "benefits" 폴더에 맞게 설정
-  contentType: "mdx",
-  fields: {
-    title: {
-      type: "string",
-      required: true,
-    },
-    date: { type: "date", required: true },
-    description: {
-      type: "string",
-    },
-    published: {
-      type: "boolean",
-      default: true,
-    },
-  },
-  computedFields,
-}));
-
 export default makeSource({
   contentDirPath: "src/content",
-  documentTypes: [Doc, BenefitsDoc],
+  documentTypes: [Doc],
   mdx: {
     remarkPlugins: [remarkGfm, remarkImages],
     rehypePlugins: [
