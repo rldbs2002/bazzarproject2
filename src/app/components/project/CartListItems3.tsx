@@ -42,6 +42,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const CartListItems3 = ({ data }: any) => {
   const router = useRouter();
+  console.log(data);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");

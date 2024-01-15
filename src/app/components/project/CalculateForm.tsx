@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import { useRouter } from "next/navigation";
 import Card1 from "../Card1";
 
-export default function CalculatorForm({ data, selectedCart }: any) {
+export default function CalculatorForm({ data }: any) {
   const [repackingPrice, setRepackingPrice] = useState("");
   const [abroadShippingFee, setAbroadShippingFee] = useState("");
 

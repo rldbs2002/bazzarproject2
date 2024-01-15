@@ -4,11 +4,21 @@ import React from "react";
 import { Container, Grid } from "@mui/material";
 import CartForm from "./CartForm";
 import CalculatorForm from "./CalculateForm";
-import { useRouter, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Price from "./Price";
+import { AddressType, PriceCalculate, UserRequestInfo } from "type";
 
-const CartLayer = ({ data }: any) => {
+interface CartItem {
+  cartId: string;
+  userRequest: UserRequestInfo;
+  cartOptions: string;
+  price_calculate: PriceCalculate;
+  status: number;
+  arrived_info: AddressType;
+}
+
+const CartWrapper = ({ data }: { data: Record<string, CartItem[]> }) => {
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
@@ -37,4 +47,4 @@ const CartLayer = ({ data }: any) => {
   );
 };
 
-export default CartLayer;
+export default CartWrapper;

@@ -2,12 +2,13 @@ import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import Cart from "@/models/Cart";
 import { getServerSession } from "next-auth";
+import { NextApiRequest } from "next";
 
-export const GET = async (request: any) => {
+export const GET = async (request: NextApiRequest) => {
   try {
     await connect();
 
-    const session = await getServerSession({ req: request });
+    const session = await getServerSession(request);
     console.log(session?.user.email);
 
     // 사용자의 이메일 주소 (예: 사용자의 실제 이메일 주소로 변경해야 함)

@@ -3,13 +3,17 @@ import connect from "@/utils/db";
 import Users from "@/models/Users";
 import bcrypt from "bcryptjs";
 import { getServerSession } from "next-auth";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export const GET = async (request: any) => {
+export const GET = async (
+  request: NextApiRequest,
+  response: NextApiResponse
+) => {
   try {
     await connect();
 
     // 세션에서 사용자 이메일을 가져옴
-    const session = await getServerSession({ req: request });
+    const session = await getServerSession(request);
     console.log(session?.user.email);
 
     // 사용자의 이메일 주소 (예: 사용자의 실제 이메일 주소로 변경해야 함)
@@ -30,7 +34,7 @@ export const GET = async (request: any) => {
   }
 };
 
-export const PUT = async (request: any) => {
+export const PUT = async (request: { json: () => Promise<any> }) => {
   const requestData = await request.json();
   await connect();
 
@@ -79,7 +83,7 @@ export const PUT = async (request: any) => {
   }
 };
 
-export const DELETE = async (request: any) => {
+export const DELETE = async (request: { json: () => Promise<any> }) => {
   const requestData = await request.json();
   await connect();
 

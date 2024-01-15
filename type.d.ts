@@ -9,6 +9,11 @@ type Product = {
   url: string;
 };
 
+type ArrivedData = {
+  arrived_images: string[];
+  arrived_at: string;
+};
+
 // Define the tracking information type
 type TrackingInfo = {
   tracking_number: string;
@@ -47,12 +52,20 @@ type AddressType = {
   _id: string;
   firstname: string;
   lastname: string;
+  country: {
+    label: string;
+    value: string;
+  };
   address: string;
   city: string;
   state: string;
   postal_code: string;
   phone: string;
 };
+
+interface Params {
+  id: string;
+}
 
 // Export the types
 export {
@@ -62,4 +75,5 @@ export {
   PriceCalculate,
   UserRequest,
   AddressType,
+  Params,
 };

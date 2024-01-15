@@ -17,9 +17,9 @@ import { FlexBox, FlexBetween } from "../flex-box";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { Paragraph } from "../Typography";
 import { useSession } from "next-auth/react";
-import ArrivedUploadButton from "./ArrivedUploadButton";
 import RequestArrivedUploadButton from "./RequestArrivedUploadButton";
 import Image from "next/image";
+import { ArrivedData, Product } from "type";
 
 type HeadingProps = { number: number; title: string };
 
@@ -57,7 +57,26 @@ const getExchangeRateAndDate = async () => {
   }
 };
 
-export default function Form({ data }: any) {
+interface RequestData {
+  request_info: {
+    tracking_info: {
+      tracking_number: string;
+      tracking_carrier: string;
+      order_number: string;
+      store: string;
+    };
+    product_list: Product[];
+  };
+  arrived: ArrivedData;
+  _id: string;
+  user: string;
+  request_id: string;
+  status: number;
+  request_submitted_at: string;
+  __v: number;
+}
+
+export default function Form({ data }: { data: RequestData }) {
   const [currentExchangeRate, setCurrentExchangeRate] = useState(""); // 환율 정보를 저장할 상태 변수
   const [currentDate, setCurrentDate] = useState(""); // 오늘 날짜를 저장할 상태 변수
   const { data: session } = useSession();

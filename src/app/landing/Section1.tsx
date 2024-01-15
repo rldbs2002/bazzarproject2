@@ -11,7 +11,7 @@ const Section1 = () => {
   return (
     <Box bgcolor="white">
       <Container id="section-1" sx={{ position: "relative", maxWidth: "80%" }}>
-        <Link href="https://github.com/rldbs2002">
+        <Link href="https://github.com/rldbs2002/bazzarproject2">
           <Image
             src="/assets/images/github.PNG"
             width={280}

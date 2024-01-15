@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import Users from "@/models/Users";
 
-export const DELETE = async (request: any) => {
+export const DELETE = async (request: { json: () => Promise<any> }) => {
   const requestData = await request.json();
   await connect();
 

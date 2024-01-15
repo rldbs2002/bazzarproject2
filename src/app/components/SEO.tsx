@@ -9,11 +9,7 @@ type SEOProps = {
 };
 // ====================================================================
 
-const SEO: FC<SEOProps> = ({
-  title,
-  description,
-  sitename = "Bazaar Next.js Ecommerce",
-}) => {
+const SEO: FC<SEOProps> = ({ title, description, sitename = "Kgoods" }) => {
   return (
     <Head>
       <title>{`${title} | ${sitename}`}</title>

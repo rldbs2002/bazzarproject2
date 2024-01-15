@@ -6,7 +6,6 @@ import { Card, Container, Grid } from "@mui/material";
 import SEO from "../SEO";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import CartListItems from "./CartListItems";
 import { useRouter } from "next/navigation";
 import ShopLayout2 from "../layouts/ShopLayout2";
 import { getRequestsData } from "@/app/lib/data";

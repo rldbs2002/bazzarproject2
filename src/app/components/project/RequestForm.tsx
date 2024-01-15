@@ -19,16 +19,7 @@ import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Paragraph } from "../Typography";
-
-type Product = {
-  name: string;
-  type: string;
-  priceKRW: number;
-  priceUSD: number;
-  quantity: number;
-  totalValueUSD: number;
-  url: string;
-};
+import { Product } from "type";
 
 type HeadingProps = { number: number; title: string };
 
@@ -66,9 +57,19 @@ const getExchangeRateAndDate = async () => {
   }
 };
 
-const RequestForm: FC = () => {
+const RequestForm = () => {
   const router = useRouter();
   const { data: session } = useSession();
+
+  // Step 1: Guard Clause for Session
+  const user = session?.user;
+  if (!user) {
+    // Handle the case where user is undefined or null
+    return null; // or handle appropriately
+  }
+
+  // Step 2: Access User Email Safely
+  const userEmail = user.email;
 
   const [currentExchangeRate, setCurrentExchangeRate] = useState(""); // 환율 정보를 저장할 상태 변수
   const [currentDate, setCurrentDate] = useState(""); // 오늘 날짜를 저장할 상태 변수
@@ -157,7 +158,7 @@ const RequestForm: FC = () => {
         },
       },
       status: 1,
-      user: session?.user.email,
+      user: userEmail,
     };
 
     try {

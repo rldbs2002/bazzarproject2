@@ -1,14 +1,11 @@
 "use client";
 
-import styles from "@/app/requests/page.module.css";
 import { FC, useState, useEffect } from "react";
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import {
   Box,
-  Card,
   Stack,
-  TableContainer,
   Avatar,
   Typography,
   Grid,
@@ -19,16 +16,11 @@ import {
   MenuItem,
   InputBase,
   styled,
-  TableRow,
-  TableCell,
-  TableHead,
   Tooltip,
 } from "@mui/material";
-import TableBody from "@mui/material/TableBody";
 import RefundRequestRow from "./RefundRequestRow";
 import { FlexBox } from "../flex-box";
 import { useRouter } from "next/navigation";
-import { StyledTableCell } from "./StyledComponents";
 import { getAllRequestData } from "@/app/lib/data";
 import { Paragraph } from "../Typography";
 import Card1 from "../Card1";
@@ -86,6 +78,8 @@ export default function RefundRequest() {
 
     fetchData();
   }, []);
+
+  console.log(data);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState("requestId"); // 검색 카테고리 추가 (기본값: productName)

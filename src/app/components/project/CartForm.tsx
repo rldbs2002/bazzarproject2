@@ -12,11 +12,9 @@ import { useRouter } from "next/navigation";
 import RepackingUploadButton from "./RepackingUploadButton";
 import { useSession } from "next-auth/react";
 import ShippingUploadButton from "./ShippingUploadButton";
-import ArrivedUploadButton from "./ArrivedUploadButton";
 import ShippingForm from "./ShippingForm";
-import { Product } from "../../../../type";
 import Image from "next/image";
-import { getUserData } from "@/app/lib/data";
+import { Product } from "type";
 
 type HeadingProps = { number: number; title: string };
 
@@ -37,8 +35,6 @@ const Heading: FC<HeadingProps> = ({ number, title }) => {
     </FlexBox>
   );
 };
-
-// 환율과 날짜를 가져오는 함수
 
 const CartForm = ({ data }: any) => {
   const router = useRouter();

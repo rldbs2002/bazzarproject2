@@ -3,12 +3,17 @@ import connect from "@/utils/db";
 import Users from "@/models/Users";
 import UserRequest from "@/models/UserRequest";
 import { getServerSession } from "next-auth";
+import { NextApiRequest, NextApiResponse } from "next";
+import { Product } from "type";
 
-export const GET = async (request: any) => {
+export const GET = async (
+  request: NextApiRequest,
+  response: NextApiResponse
+) => {
   try {
     await connect();
 
-    const session = await getServerSession({ req: request });
+    const session = await getServerSession(request);
     console.log(session?.user.email);
 
     // 사용자의 이메일 주소 (예: 사용자의 실제 이메일 주소로 변경해야 함)
@@ -30,7 +35,7 @@ export const GET = async (request: any) => {
   }
 };
 
-export const POST = async (request: any) => {
+export const POST = async (request: { json: () => Promise<any> }) => {
   const requestData = await request.json();
   await connect();
 
@@ -82,7 +87,7 @@ export const POST = async (request: any) => {
     const newUserRequest = new UserRequest({
       user: userEmail, // Link the UserRequest to the user
       request_info: {
-        product_list: requestData.request_info.product_list,
+        product_list: requestData.request_info.product_list as Product[],
 
         tracking_info: {
           tracking_number:
@@ -113,7 +118,7 @@ export const POST = async (request: any) => {
   }
 };
 
-export const PUT = async (request: any) => {
+export const PUT = async (request: { json: () => Promise<any> }) => {
   const requestData = await request.json();
   await connect();
 
@@ -141,7 +146,7 @@ export const PUT = async (request: any) => {
   }
 };
 
-export const DELETE = async (request: any) => {
+export const DELETE = async (request: { json: () => Promise<any> }) => {
   const requestData = await request.json();
   await connect();
 

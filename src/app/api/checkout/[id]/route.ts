@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import UserRequest from "@/models/UserRequest";
 import Cart from "@/models/Cart";
+import { Params } from "type";
 
 // Type for an individual entry
 type UserRequestDataEntry = {
@@ -91,7 +92,10 @@ export const GET = async (request: any) => {
   }
 };
 
-export const PUT = async (request: any, { params }: any) => {
+export const PUT = async (
+  request: { json: () => Promise<any> },
+  { params }: { params: Params }
+) => {
   const { id } = params;
 
   const requestData = await request.json();

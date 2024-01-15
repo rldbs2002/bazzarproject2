@@ -4,10 +4,10 @@ import Form from "@/app/components/project/Form";
 import { Container, Grid } from "@mui/material";
 import ShopLayout2 from "@/app/components/layouts/ShopLayout2";
 import SEO from "@/app/components/SEO";
-import { NextPage } from "next";
 import { getRequestData } from "@/app/lib/data";
+import { Params } from "type";
 
-const RequestsIdPage: NextPage = async ({ params }: any) => {
+const RequestsIdPage = async ({ params }: { params: Params }) => {
   const data = await getRequestData(params.id);
 
   return (

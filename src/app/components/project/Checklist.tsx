@@ -10,7 +10,6 @@ import {
   MenuItem,
   styled,
   InputBase,
-  Card,
   Radio,
   RadioGroup,
   FormControlLabel,
@@ -18,7 +17,6 @@ import {
   Box,
 } from "@mui/material";
 import Link from "next/link";
-import { StyledTableCell, StyledTableRow } from "./StyledComponents";
 import { statusNames } from "@/constants";
 import Card1 from "../Card1";
 import { Paragraph } from "../Typography";
@@ -37,7 +35,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   "::placeholder": { color: theme.palette.text.disabled },
 }));
 
-const Checklist = ({ data }: any) => {
+import { AddressType, PriceCalculate, UserRequestInfo } from "type";
+
+interface CheckoutList {
+  cartId: string;
+  cart_id: string;
+  userRequest: UserRequestInfo;
+  cartOptions: string;
+  price_calculate: PriceCalculate;
+  status: number;
+  arrived_info: AddressType;
+}
+
+const Checklist = ({ data }: { data: Record<string, CheckoutList[]> }) => {
   console.log(data);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;

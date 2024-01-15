@@ -1,9 +1,8 @@
 import UserRequest from "@/models/UserRequest";
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
-import { getServerSession } from "next-auth";
 
-export const PUT = async (request: any) => {
+export const PUT = async (request: { json: () => Promise<any> }) => {
   const requestData = await request.json();
 
   try {

@@ -3,22 +3,31 @@
 import React from "react";
 import { Container } from "@mui/material";
 import CartForm from "./CartForm";
-import RepackingUploadButton from "./RepackingUploadButton";
-import ShippingForm from "./ShippingForm";
-import ShippingUploadButton from "./ShippingUploadButton";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
-import Card1 from "../Card1";
 
-const CheckoutLayer = ({ data }: any) => {
+import { AddressType, PriceCalculate, UserRequestInfo } from "type";
+
+interface CheckoutItem {
+  cartId: string;
+  userRequest: UserRequestInfo;
+  cartOptions: string;
+  price_calculate: PriceCalculate;
+  status: number;
+  arrived_info: AddressType;
+}
+
+const CheckoutWrapper = ({
+  data,
+}: {
+  data: Record<string, CheckoutItem[]>;
+}) => {
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
       redirect("/api/auth/signin?callbackUrl=/");
     },
   });
-  const keys = Object.keys(data);
-  const firstKey = keys[0];
 
   return (
     <Container sx={{ my: "1.5rem" }}>
@@ -27,4 +36,4 @@ const CheckoutLayer = ({ data }: any) => {
   );
 };
 
-export default CheckoutLayer;
+export default CheckoutWrapper;
