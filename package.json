@@ -38,6 +38,7 @@
     "currency.js": "^2.0.4",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.9",
+    "dompurify": "^3.0.8",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
     "firebase": "^10.7.0",
@@ -86,6 +87,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.3",
+    "@types/dompurify": "^3.0.5",
     "@types/lodash": "^4.14.199",
     "@types/mongoose": "^5.11.97",
     "@types/next-auth": "^3.15.0",

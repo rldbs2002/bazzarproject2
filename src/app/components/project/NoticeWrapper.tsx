@@ -5,7 +5,6 @@ import { Grid, Container, Box } from "@mui/material";
 import Card1 from "../Card1";
 import Notice from "./Notice";
 import { useSession } from "next-auth/react";
-import Event from "./Event";
 import { H2 } from "../Typography";
 
 const NoticeWrapper = () => {

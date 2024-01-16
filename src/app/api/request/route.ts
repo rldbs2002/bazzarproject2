@@ -82,7 +82,7 @@ export const POST = async (request: any) => {
     const newUserRequest = new UserRequest({
       user: userEmail, // Link the UserRequest to the user
       request_info: {
-        product_list: requestData.request_info.product_list as Product[],
+        product_list: requestData.request_info.product_list,
 
         tracking_info: {
           tracking_number:

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import * as DOMPurify from "dompurify";
 
 const NoticeContent = ({ data, onEdit }: any) => {
   const router = useRouter();
@@ -39,7 +40,9 @@ const NoticeContent = ({ data, onEdit }: any) => {
           <hr />
           <p
             style={{ marginTop: "2rem", marginBottom: "2rem" }}
-            dangerouslySetInnerHTML={{ __html: data.content }}
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(String(data?.content)),
+            }}
           ></p>
         </>
       )}
