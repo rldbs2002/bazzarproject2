@@ -1,7 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
 
-import { Card, Container, Grid } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Container } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";

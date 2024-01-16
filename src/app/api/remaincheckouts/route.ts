@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import Cart from "@/models/Cart";
-import { NextApiRequest, NextApiResponse } from "next";
 export const dynamic = "force-dynamic";
 
-export const GET = async (request: NextApiRequest) => {
+export const GET = async (request: any) => {
   try {
     await connect();
 

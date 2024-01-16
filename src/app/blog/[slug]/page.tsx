@@ -1,4 +1,3 @@
-import { FC } from "react";
 import { allDocs } from "contentlayer/generated";
 import { notFound } from "next/navigation";
 import { Mdx } from "@/app/components/project/Mdx";

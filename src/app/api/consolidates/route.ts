@@ -2,7 +2,7 @@ import UserRequest from "@/models/UserRequest";
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 
-export const PUT = async (request: { json: () => Promise<any> }) => {
+export const PUT = async (request: any) => {
   const requestData = await request.json();
 
   try {

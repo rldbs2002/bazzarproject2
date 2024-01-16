@@ -14,9 +14,9 @@ const nextConfig = {
       },
     ],
   },
-  devIndicators: {},
   typescript: {
     ignoreBuildErrors: true,
   },
+  devIndicators: {},
 };
 module.exports = withContentlayer(nextConfig);

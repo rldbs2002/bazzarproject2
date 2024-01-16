@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Paragraph } from "../Typography";
-import { Divider, Avatar, Typography } from "@mui/material";
+import { Divider, Avatar } from "@mui/material";
 import {
   getMyCartsData,
   getMyCheckoutData,

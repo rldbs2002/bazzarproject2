@@ -1,13 +1,8 @@
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import Notice from "@/models/Notice";
-import { NextApiRequest } from "next";
-import { Params } from "type";
 
-export const GET = async (
-  request: NextApiRequest,
-  { params }: { params: Params }
-) => {
+export const GET = async (request: any, { params }: any) => {
   const { id } = params;
   try {
     await connect();
@@ -18,10 +13,7 @@ export const GET = async (
   }
 };
 
-export const PUT = async (
-  request: { json: () => Promise<any> },
-  { params }: { params: Params }
-) => {
+export const PUT = async (request: any, { params }: any) => {
   const { id } = params;
 
   const requestData = await request.json();
@@ -61,10 +53,7 @@ export const PUT = async (
   }
 };
 
-export const DELETE = async (
-  request: NextApiRequest,
-  { params }: { params: Params }
-) => {
+export const DELETE = async (request: any, { params }: any) => {
   const { id } = params;
   try {
     await connect();

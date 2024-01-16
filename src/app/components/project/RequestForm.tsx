@@ -61,18 +61,11 @@ const RequestForm = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  // Step 1: Guard Clause for Session
-  const user = session?.user;
-  if (!user) {
-    // Handle the case where user is undefined or null
-    return null; // or handle appropriately
-  }
-
-  // Step 2: Access User Email Safely
-  const userEmail = user.email;
-
   const [currentExchangeRate, setCurrentExchangeRate] = useState(""); // 환율 정보를 저장할 상태 변수
   const [currentDate, setCurrentDate] = useState(""); // 오늘 날짜를 저장할 상태 변수
+
+  // Add a state variable to track whether the form is being submitted
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     // 컴포넌트가 마운트될 때 환율 정보와 오늘 날짜를 가져옴
@@ -94,9 +87,6 @@ const RequestForm = () => {
   const usdToKrw = (usdValue: number) => {
     return usdValue / Number(currentExchangeRate);
   };
-
-  // Add a state variable to track whether the form is being submitted
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const initialValues = {
     tracking_number: "",
@@ -158,7 +148,7 @@ const RequestForm = () => {
         },
       },
       status: 1,
-      user: userEmail,
+      user: session?.user.email,
     };
 
     try {

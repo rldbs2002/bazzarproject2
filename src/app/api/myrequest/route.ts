@@ -3,13 +3,12 @@ import connect from "@/utils/db";
 import User from "@/models/Users";
 import UserRequest from "@/models/UserRequest";
 import { getServerSession } from "next-auth";
-import { NextApiRequest } from "next";
 
-export const GET = async (request: NextApiRequest) => {
+export const GET = async (request: any) => {
   try {
     await connect();
 
-    const session = await getServerSession(request);
+    const session = await getServerSession({ req: request });
 
     // 사용자의 이메일 주소 (예: 사용자의 실제 이메일 주소로 변경해야 함)
     const userEmail = session?.user.email;

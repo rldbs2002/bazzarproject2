@@ -1,7 +1,6 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import React, { useState, ChangeEvent, useEffect, FC } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef } from "react";
 import { Button, TextField, Box } from "@mui/material";
@@ -9,7 +8,7 @@ import ReactQuill from "react-quill";
 import QuillNoSSRWriter from "./QuillNoSSRWriter";
 import { useSession } from "next-auth/react";
 
-const RichTextEditorCreate2 = ({}) => {
+const RichTextEditorCreate2 = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const [title, setTitle] = useState("");

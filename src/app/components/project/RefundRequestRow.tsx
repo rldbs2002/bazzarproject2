@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import { Delete, Edit } from "@mui/icons-material";
-import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import {  Tr, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import { StatusWrapper, StyledIconButton } from "./StyledComponents";
 import {

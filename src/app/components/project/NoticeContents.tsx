@@ -1,16 +1,10 @@
-// NoticeIdPage.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
-import RichTextEditor from "@/app/components/project/RichTextEditor";
-import { getNoticeData } from "@/app/lib/data";
 import { useRouter } from "next/navigation";
-import { Button, Grid } from "@mui/material";
-import { useSession } from "next-auth/react";
 
 const NoticeContent = ({ data, onEdit }: any) => {
   const router = useRouter();
-  const { data: session } = useSession();
 
   const handleEdit = () => {
     onEdit();

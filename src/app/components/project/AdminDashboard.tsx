@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Divider, Avatar, Typography, Grid } from "@mui/material";
+import { Divider, Avatar, Grid } from "@mui/material";
 import {
   BarChart,
   Bar,
@@ -9,10 +9,8 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   Cell,
-  LabelList,
 } from "recharts";
 import {
   getCompleteCartData,
@@ -28,16 +26,7 @@ import {
 import Link from "next/link";
 import { Paragraph } from "../Typography";
 
-const AdminDashboard = ({}: // remainRequestsData,
-// remainCartsData,
-// remainCheckoutsData,
-// dailyRequestData,
-// dailyCartData,
-// dailyCheckoutData,
-// completeRequestData,
-// completeCartData,
-// completeCheckoutData,
-any) => {
+const AdminDashboard = () => {
   const [remainRequestsData, setRemainRequestsData] = useState([]);
 
   const [remainCartsData, setRemainCartsData] = useState([]);

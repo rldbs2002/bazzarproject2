@@ -3,13 +3,7 @@ import connect from "@/utils/db";
 import UserRequest from "@/models/UserRequest";
 import Cart from "@/models/Cart";
 
-import { Params } from "type";
-import { NextApiRequest } from "next";
-
-export const GET = async (
-  request: NextApiRequest,
-  { params }: { params: Params }
-) => {
+export const GET = async (request: any, { params }: any) => {
   const { id } = params;
   try {
     await connect();
@@ -20,10 +14,7 @@ export const GET = async (
   }
 };
 
-export const POST = async (
-  request: { json: () => Promise<any> },
-  { params }: { params: Params }
-) => {
+export const POST = async (request: any, { params }: any) => {
   const { id } = params;
 
   const requestData = await request.json();
@@ -70,10 +61,7 @@ export const POST = async (
   }
 };
 
-export const PUT = async (
-  request: { json: () => Promise<any> },
-  { params }: { params: Params }
-) => {
+export const PUT = async (request: any, { params }: any) => {
   const { id } = params;
 
   const requestData = await request.json();
@@ -154,10 +142,7 @@ export const PUT = async (
   }
 };
 
-export const DELETE = async (
-  request: NextApiRequest,
-  { params }: { params: Params }
-) => {
+export const DELETE = async (request: any, { params }: any) => {
   const { id } = params;
   try {
     await connect();

@@ -63,10 +63,6 @@ type AddressType = {
   phone: string;
 };
 
-interface Params {
-  id: string;
-}
-
 // Export the types
 export {
   Product,
@@ -75,5 +71,4 @@ export {
   PriceCalculate,
   UserRequest,
   AddressType,
-  Params,
 };

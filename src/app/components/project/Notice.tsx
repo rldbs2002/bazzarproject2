@@ -13,7 +13,6 @@ type NoticeItem = {
   content: string;
   date: string;
   writer: string;
-  // 다른 필요한 속성들도 추가할 수 있습니다.
 };
 
 const Notice: React.FC = () => {

@@ -1,8 +1,7 @@
 "use client";
 
 import "@uploadthing/react/styles.css";
-import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useState } from "react";
 import { UploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "../../api/uploadthing/core";
 import { Checkbox, FormControlLabel } from "@mui/material";

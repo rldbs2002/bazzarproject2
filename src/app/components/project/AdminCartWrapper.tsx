@@ -1,13 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 
-import { Card, Container, Grid } from "@mui/material";
-import SEO from "../SEO";
+import {Container } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
-import ShopLayout2 from "../layouts/ShopLayout2";
-import { getCartsData, getRequestsData } from "@/app/lib/data";
+import { getCartsData } from "@/app/lib/data";
 import AdminCart from "./AdminCart";
 
 const AdminCartWrapper = () => {

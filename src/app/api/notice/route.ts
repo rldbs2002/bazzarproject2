@@ -1,9 +1,8 @@
 import connect from "@/utils/db";
 import { NextResponse } from "next/server";
 import Notice from "@/models/Notice";
-import { NextApiRequest } from "next";
 
-export const GET = async (request: NextApiRequest) => {
+export const GET = async (request: any) => {
   try {
     await connect();
 
@@ -16,7 +15,7 @@ export const GET = async (request: NextApiRequest) => {
   }
 };
 
-export const POST = async (request: { json: () => Promise<any> }) => {
+export const POST = async (request: any) => {
   const requestData = await request.json();
   await connect();
 

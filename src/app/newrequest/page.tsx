@@ -1,10 +1,9 @@
 import { Container, Grid } from "@mui/material";
 import ShopLayout2 from "../components/layouts/ShopLayout2";
 import SEO from "../components/SEO";
-import { NextPage } from "next";
 import RequestForm from "../components/project/RequestForm";
 
-const NewRequestPage: NextPage = () => {
+const NewRequestPage = () => {
   return (
     <ShopLayout2>
       <SEO title="Checkout alternative" />

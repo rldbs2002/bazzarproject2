@@ -3,7 +3,6 @@ import connect from "@/utils/db";
 import Cart from "@/models/Cart";
 import UserRequest from "@/models/UserRequest";
 import { getServerSession } from "next-auth";
-import { NextApiRequest, NextApiResponse } from "next";
 
 // Type for an individual entry
 type UserRequestDataEntry = {
@@ -20,14 +19,11 @@ type UserRequestDataEntry = {
 // Type for the groupedData object
 type GroupedData = Record<string, UserRequestDataEntry[]>;
 
-export const GET = async (
-  request: NextApiRequest,
-  response: NextApiResponse
-) => {
+export const GET = async (request: any) => {
   try {
     await connect();
 
-    const session = await getServerSession(request);
+    const session = await getServerSession({ req: request });
 
     // 사용자의 이메일 주소 (예: 사용자의 실제 이메일 주소로 변경해야 함)
     const userEmail = session?.user.email;
@@ -94,7 +90,7 @@ export const GET = async (
   }
 };
 
-export const POST = async (request: { json: () => Promise<any> }) => {
+export const POST = async (request: any) => {
   const requestData = await request.json();
 
   try {
@@ -165,7 +161,7 @@ export const POST = async (request: { json: () => Promise<any> }) => {
   }
 };
 
-export const DELETE = async (request: { json: () => Promise<any> }) => {
+export const DELETE = async (request: any) => {
   const requestData = await request.json();
   await connect();
 
