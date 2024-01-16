@@ -2,7 +2,7 @@ import ShopLayout2 from "../components/layouts/ShopLayout2";
 import SEO from "../components/SEO";
 import { Grid, Container } from "@mui/material";
 import Card1 from "../components/Card1";
-import RichTextEditorCreate2 from "../components/project/RichTextEditorCreate2";
+import RichTextEditorCreate from "../components/project/RichTextEditorCreate";
 
 const NoticeCreatePage = () => {
   return (
@@ -12,7 +12,7 @@ const NoticeCreatePage = () => {
         <Grid item xs={12}>
           <Container sx={{ my: "1.5rem" }}>
             <Card1>
-              <RichTextEditorCreate2 />
+              <RichTextEditorCreate />
             </Card1>
           </Container>
         </Grid>

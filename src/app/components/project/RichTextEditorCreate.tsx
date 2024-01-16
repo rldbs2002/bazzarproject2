@@ -8,7 +8,7 @@ import ReactQuill from "react-quill";
 import QuillNoSSRWriter from "./QuillNoSSRWriter";
 import { useSession } from "next-auth/react";
 
-const RichTextEditorCreate2 = () => {
+const RichTextEditorCreate = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const [title, setTitle] = useState("");
@@ -107,4 +107,4 @@ const RichTextEditorCreate2 = () => {
   );
 };
 
-export default RichTextEditorCreate2;
+export default RichTextEditorCreate;
