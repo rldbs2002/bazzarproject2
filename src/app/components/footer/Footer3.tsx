@@ -39,7 +39,7 @@ const Footer3: FC<Props> = ({ sx, id, bgcolor }) => {
           <Image
             width={105}
             height={45}
-            src="/assets/images/kgoodslogo.png"
+            src="/kgoods-footer-logo.svg"
             alt="logo"
             style={{ marginLeft: "0.5rem" }}
           />

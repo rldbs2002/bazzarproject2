@@ -11,6 +11,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Menu from "@mui/icons-material/Menu";
+import debounce from "lodash/debounce";
 import { styled, Theme } from "@mui/material/styles";
 import { keyframes } from "@mui/styled-engine";
 import clsx from "clsx";
@@ -61,7 +62,6 @@ const Header = () => {
 
   const session = useSession();
   const { data: login } = useSession();
-  console.log(login?.user.role);
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [isFixed, setFixed] = useState(false);
@@ -73,11 +73,25 @@ const Header = () => {
     signOut({ callbackUrl: "/" }); // 로그아웃 후 리다이렉트할 URL 설정
   };
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   setMounted(true);
+  // }, []);
 
-  if (!isMounted) return null;
+  // if (!isMounted) return null;
+
+  const scrollListener: () => void = debounce(() => {
+    if (window?.pageYOffset >= headerHeight) setFixed(true);
+    else setFixed(false);
+  }, 50);
+
+  useEffect(() => {
+    if (!window) return;
+
+    const handleScroll = () => scrollListener(); // Wrap the call in another function
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [scrollListener]);
 
   return (
     <Fragment>
@@ -90,7 +104,7 @@ const Header = () => {
                   <Image
                     width="96px"
                     height="44px"
-                    src="/assets/images/logo3.png"
+                    src="kgoods-logo.svg"
                     alt="logo"
                   />
                 </Link>
