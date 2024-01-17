@@ -1,5 +1,4 @@
 import { FC, ReactNode } from "react";
-import { usePathname } from "next/navigation";
 import merge from "lodash/merge";
 import { CssBaseline } from "@mui/material";
 import {
@@ -8,7 +7,6 @@ import {
   ThemeProvider,
 } from "@mui/material/styles";
 import useSettings from "../hooks/useSettings";
-import customThemeOptions from "./themeOptions";
 import themeOptions from "./themeOptions";
 
 // =======================================================
@@ -17,7 +15,6 @@ type MuiThemeProps = { children?: ReactNode };
 
 const MuiTheme: FC<MuiThemeProps> = ({ children }) => {
   const { settings } = useSettings();
-  const pathname = usePathname();
 
   // 환경 변수 사용
 
