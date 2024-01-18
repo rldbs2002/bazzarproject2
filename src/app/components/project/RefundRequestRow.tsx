@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import { Delete, Edit } from "@mui/icons-material";
-import {  Tr, Td } from "react-super-responsive-table";
+import { Tr, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import { StatusWrapper, StyledIconButton } from "./StyledComponents";
 import {
@@ -44,17 +44,16 @@ const RefundRequestRow: FC<RefundRequestRowProps> = ({
     }
   }
 
-  const product_price = data.request_info.product_list.reduce(
-    (total: number, product: any) => total + product.totalValueUSD,
-    0
-  );
+  const product_price = data.request_info.product_list
+    .reduce((total: number, product: any) => total + product.totalValueUSD, 0)
+    .toFixed(2);
 
   const router = useRouter();
   const [isDeleted, setIsDeleted] = useState(false);
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   const handleCellClick = (itemId: string) => {
-    router.push(`/requests/${itemId}`);
+    router.push(`/request/${itemId}`);
   };
 
   const handleDeleteClick = () => {

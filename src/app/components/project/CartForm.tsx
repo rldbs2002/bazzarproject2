@@ -141,7 +141,6 @@ const CartForm = ({ data }: any) => {
 
   const keys = Object.keys(data);
   const firstKey = keys[0];
-  console.log(data);
 
   return (
     <>

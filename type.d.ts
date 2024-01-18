@@ -71,4 +71,5 @@ export {
   PriceCalculate,
   UserRequest,
   AddressType,
+  ArrivedData,
 };

@@ -19,7 +19,7 @@ export async function getAllRequestData() {
   }
 }
 
-export async function getRequestData(id: any) {
+export async function getRequestData(id: string) {
   const res = await fetch(`${apiUrl}/request/${id}`, {
     cache: "no-store",
   });
@@ -31,7 +31,7 @@ export async function getRequestData(id: any) {
 
 export async function getRequestsData() {
   try {
-    const res = await fetch(`${apiUrl}/requests`, {
+    const res = await fetch(`${apiUrl}/request`, {
       next: { revalidate: 20 },
     });
 

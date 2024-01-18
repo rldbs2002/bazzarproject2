@@ -2,7 +2,7 @@ import ShopLayout2 from "@/app/components/layouts/ShopLayout2";
 import CheckoutWrapper from "@/app/components/project/CheckoutWrapper";
 import { getCheckoutData } from "@/app/lib/data";
 
-const CheckoutIdPage = async ({ params }: { params: { id: string } }) => {
+const CheckoutIdPage = async ({ params }: any) => {
   const data = await getCheckoutData(params.id);
 
   return (

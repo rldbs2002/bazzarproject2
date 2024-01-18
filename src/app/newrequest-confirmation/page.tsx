@@ -61,10 +61,10 @@ const OrderConfirmation: NextPage = () => {
             variant="contained"
             className="button-link"
             LinkComponent={Link}
-            href="/requests"
+            href="/request"
             style={{ marginLeft: "2.5rem" }}
           >
-            Requests
+            Request
           </StyledButton>
         </Wrapper>
       </Container>

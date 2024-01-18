@@ -239,7 +239,7 @@ const AdminDashboard = () => {
                     fontSize: "1.7rem",
                   }}
                 >
-                  Requests
+                  Request
                 </Paragraph>
                 <Link href="/admin/request">
                   <Avatar

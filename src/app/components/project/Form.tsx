@@ -106,8 +106,6 @@ export default function Form({ data }: { data: RequestData }) {
     fetchData();
   }, []); // 빈 배열을 전달하여 한 번만 실행되도록 설정
 
-  console.log(data);
-
   return (
     <Grid
       container

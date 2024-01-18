@@ -82,9 +82,9 @@ const UserDashboard = () => {
               fontSize: "1.7rem",
             }}
           >
-            Requests
+            Request
           </Paragraph>
-          <Link href="/requests">
+          <Link href="/request">
             <Avatar
               sx={{
                 width: 32,

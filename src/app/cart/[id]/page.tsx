@@ -4,10 +4,8 @@ import SEO from "@/app/components/SEO";
 import { getCartData } from "@/app/lib/data";
 import CartWrapper from "@/app/components/project/CartWrapper";
 
-const CartIdPage = async ({ params }: { params: { id: string } }) => {
+const CartIdPage = async ({ params }: any) => {
   const data = await getCartData(params.id);
-
-  console.log(data);
 
   return (
     <ShopLayout2>

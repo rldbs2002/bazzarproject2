@@ -40,9 +40,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   "::placeholder": { color: theme.palette.text.disabled },
 }));
 
-const CartListItems3 = ({ data }: any) => {
+const CartListItems = ({ data }: any) => {
   const router = useRouter();
-  console.log(data);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -284,4 +283,4 @@ const CartListItems3 = ({ data }: any) => {
   );
 };
 
-export default CartListItems3;
+export default CartListItems;

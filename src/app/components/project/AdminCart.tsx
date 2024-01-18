@@ -44,8 +44,6 @@ const AdminCart = ({ data }: any) => {
   const [searchCriteria, setSearchCriteria] = useState("userId");
   const [filterStatus, setFilterStatus] = useState("3");
 
-  console.log(data);
-
   // Filter function based on search criteria and status
   const filteredData = data.filter((item: any) => {
     // Case-insensitive search by user ID or email

@@ -79,8 +79,6 @@ export default function RefundRequest() {
     fetchData();
   }, []);
 
-  console.log(data);
-
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState("requestId"); // 검색 카테고리 추가 (기본값: productName)
 
@@ -168,7 +166,7 @@ export default function RefundRequest() {
             fontSize: "2rem",
           }}
         >
-          Requests
+          Request
         </Paragraph>
         <Grid container spacing={3}>
           <Grid item xs={12}>

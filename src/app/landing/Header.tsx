@@ -104,7 +104,7 @@ const Header = () => {
                   <Image
                     width="96px"
                     height="44px"
-                    src="kgoods-logo.svg"
+                    src="/assets/kgoods-logo.svg"
                     alt="logo"
                   />
                 </Link>
@@ -231,13 +231,13 @@ const Header = () => {
                           </Typography>
                         </Link>
 
-                        <Link href="/requests">
+                        <Link href="/request">
                           <Typography
                             className="link"
                             color="grey.600"
                             p="0.25rem 1.25rem"
                           >
-                            Requests
+                            Request
                           </Typography>
                         </Link>
 
@@ -461,14 +461,14 @@ const Header = () => {
                               </Typography>
                             </Link>
 
-                            <Link href="/requests">
+                            <Link href="/request">
                               <Typography
                                 className="link"
                                 py={1}
                                 mb={2}
                                 onClick={toggleSidenav}
                               >
-                                Requests
+                                Request
                               </Typography>
                             </Link>
 

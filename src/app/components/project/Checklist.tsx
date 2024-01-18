@@ -48,7 +48,6 @@ interface CheckoutList {
 }
 
 const Checklist = ({ data }: { data: Record<string, CheckoutList[]> }) => {
-  console.log(data);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [searchField, setSearchField] = useState("cartID");

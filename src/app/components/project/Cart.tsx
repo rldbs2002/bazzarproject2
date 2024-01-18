@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import ShopLayout2 from "../layouts/ShopLayout2";
 import { getAllCartData } from "@/app/lib/data";
-import CartListItems3 from "./CartListItems3";
+import CartListItems from "./CartListItems";
 
 const Cart = () => {
   const [cartData, setCartData] = useState({});
@@ -42,7 +42,7 @@ const Cart = () => {
         <Grid container spacing={3}>
           {/* CART PRODUCT LIST */}
           <Grid xs={12}>
-            <CartListItems3 data={cartData} />
+            <CartListItems data={cartData} />
           </Grid>
         </Grid>
       </Container>

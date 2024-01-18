@@ -103,7 +103,7 @@ const AdminRequest2 = () => {
           fontWeight: "bold",
         }}
       >
-        Admin Requests
+        Admin Request
       </Paragraph>
       <div
         style={{
@@ -177,7 +177,7 @@ const AdminRequest2 = () => {
                       align="left"
                       sx={{ fontWeight: 400, cursor: "pointer" }}
                     >
-                      <Link href={`/requests/${item._id}`}>
+                      <Link href={`/request/${item._id}`}>
                         {item.request_id}
                       </Link>
                     </StyledTableCell>
