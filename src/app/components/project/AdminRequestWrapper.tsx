@@ -1,11 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Container } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { useRouter } from "next/navigation";
-import { getRequestsData } from "@/app/lib/data";
 import AdminRequest2 from "./AdminRequest2";
 
 const AdminRequestWrapper = () => {

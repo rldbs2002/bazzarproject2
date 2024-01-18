@@ -31,7 +31,7 @@ export async function getRequestData(id: string) {
 
 export async function getRequestsData() {
   try {
-    const res = await fetch(`${apiUrl}/request`, {
+    const res = await fetch(`${apiUrl}/requests`, {
       next: { revalidate: 20 },
     });
 
