@@ -344,7 +344,7 @@ const AdminDashboard = () => {
             style={{
               fontSize: "1.7rem",
               marginBottom: "2rem",
-              marginLeft: "7rem",
+              marginLeft: "2rem",
               textAlign: "center",
               fontWeight: "bold",
             }}
@@ -358,7 +358,6 @@ const AdminDashboard = () => {
               style={{
                 fontSize: "1.4rem",
                 marginBottom: "2rem",
-                marginLeft: "7rem",
                 textAlign: "center",
                 fontWeight: "bold",
               }}
@@ -402,7 +401,6 @@ const AdminDashboard = () => {
               style={{
                 fontSize: "1.4rem",
                 marginBottom: "2rem",
-                marginLeft: "7rem",
                 textAlign: "center",
                 fontWeight: "bold",
               }}

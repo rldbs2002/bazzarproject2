@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 const AdminPage = async () => {
   return (
     <ShopLayout2>
-      <Container sx={{ my: "1.5rem", maxWidth: "80%", mx: "auto" }}>
+      <Container sx={{ my: "1.5rem", maxWidth: ["100%", "80%"], mx: "auto" }}>
         <AdminpageWrapper />
       </Container>
     </ShopLayout2>
