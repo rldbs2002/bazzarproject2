@@ -144,23 +144,22 @@ const CartForm = ({ data }: any) => {
 
   return (
     <>
-      <Container>
-        {Object.keys(data).map((cartId, index) => (
-          <Card1 key={index} sx={{ mb: 4 }}>
-            <Typography
-              fontSize="50px"
-              style={{
-                textAlign: "left",
-                marginBottom: "1.5rem",
-                textTransform: "uppercase",
-                fontWeight: "bold",
-              }}
-            >
-              {data[cartId][0].cartOptions}
-            </Typography>
-            {data[cartId].map((userRequest: any, userRequestIndex: number) => (
-              <div key={userRequestIndex} style={{ margin: "2rem" }}>
-                {/* <Typography
+      {Object.keys(data).map((cartId, index) => (
+        <Card1 key={index} sx={{ mb: 4 }}>
+          <Typography
+            fontSize="50px"
+            style={{
+              textAlign: "left",
+              marginBottom: "1.5rem",
+              textTransform: "uppercase",
+              fontWeight: "bold",
+            }}
+          >
+            {data[cartId][0].cartOptions}
+          </Typography>
+          {data[cartId].map((userRequest: any, userRequestIndex: number) => (
+            <div key={userRequestIndex} style={{ margin: "2rem" }}>
+              {/* <Typography
                   fontSize="50px"
                   style={{
                     textAlign: "left",
@@ -171,161 +170,280 @@ const CartForm = ({ data }: any) => {
                 >
                   {userRequest.userRequest.options}
                 </Typography> */}
-                <Typography
-                  fontSize="30px"
-                  style={{ textAlign: "left", marginBottom: "1.5rem" }}
-                >
-                  {userRequest.userRequest.request_id}
-                </Typography>
-                <Heading number={1} title={`Tracking Info`} />
-                <Grid container spacing={2}>
-                  <Grid item sm={6} xs={12}>
-                    <TextField
-                      label="Tracking number"
-                      variant="outlined"
-                      fullWidth
-                      value={
-                        userRequest.userRequest.request_info.tracking_info
-                          .tracking_number
-                      }
-                      margin="normal"
-                    />
-                    <TextField
-                      label="Carrier"
-                      variant="outlined"
-                      fullWidth
-                      value={
-                        userRequest.userRequest.request_info.tracking_info
-                          .tracking_carrier
-                      }
-                      margin="normal"
-                    />
-                  </Grid>
-                  <Grid item sm={6} xs={12}>
-                    <TextField
-                      label="Order Number"
-                      variant="outlined"
-                      fullWidth
-                      value={
-                        userRequest.userRequest.request_info.tracking_info
-                          .order_number
-                      }
-                      margin="normal"
-                    />
-                    <TextField
-                      label="Merchant / Store"
-                      variant="outlined"
-                      fullWidth
-                      value={
-                        userRequest.userRequest.request_info.tracking_info.store
-                      }
-                      margin="normal"
-                      sx={{ mb: 4 }}
-                    />
-                  </Grid>
+              <Typography
+                fontSize="30px"
+                style={{ textAlign: "left", marginBottom: "1.5rem" }}
+              >
+                {userRequest.userRequest.request_id}
+              </Typography>
+              <Heading number={1} title={`Tracking Info`} />
+              <Grid container spacing={2}>
+                <Grid item sm={6} xs={12}>
+                  <TextField
+                    label="Tracking number"
+                    variant="outlined"
+                    fullWidth
+                    value={
+                      userRequest.userRequest.request_info.tracking_info
+                        .tracking_number
+                    }
+                    margin="normal"
+                  />
+                  <TextField
+                    label="Carrier"
+                    variant="outlined"
+                    fullWidth
+                    value={
+                      userRequest.userRequest.request_info.tracking_info
+                        .tracking_carrier
+                    }
+                    margin="normal"
+                  />
                 </Grid>
+                <Grid item sm={6} xs={12}>
+                  <TextField
+                    label="Order Number"
+                    variant="outlined"
+                    fullWidth
+                    value={
+                      userRequest.userRequest.request_info.tracking_info
+                        .order_number
+                    }
+                    margin="normal"
+                  />
+                  <TextField
+                    label="Merchant / Store"
+                    variant="outlined"
+                    fullWidth
+                    value={
+                      userRequest.userRequest.request_info.tracking_info.store
+                    }
+                    margin="normal"
+                    sx={{ mb: 4 }}
+                  />
+                </Grid>
+              </Grid>
 
-                <Heading number={2} title="Product List" />
+              <Heading number={2} title="Product List" />
 
-                {userRequest.userRequest.request_info.product_list.map(
-                  (product: Product, productIndex: number) => (
-                    <div key={productIndex}>
-                      <Typography variant="h6">
-                        ITEM #{productIndex + 1}
-                      </Typography>
-                      <Grid container spacing={2}>
-                        <Grid item sm={6} xs={12}>
-                          <TextField
-                            label="Product Name"
-                            variant="outlined"
-                            fullWidth
-                            value={product.name}
-                            margin="normal"
-                          />
-                        </Grid>
-                        <Grid item sm={6} xs={12}>
-                          <TextField
-                            label="Product Type"
-                            variant="outlined"
-                            fullWidth
-                            value={product.type}
-                            margin="normal"
-                          />
-                        </Grid>
+              {userRequest.userRequest.request_info.product_list.map(
+                (product: Product, productIndex: number) => (
+                  <div key={productIndex}>
+                    <Typography variant="h6">
+                      ITEM #{productIndex + 1}
+                    </Typography>
+                    <Grid container spacing={2}>
+                      <Grid item sm={6} xs={12}>
+                        <TextField
+                          label="Product Name"
+                          variant="outlined"
+                          fullWidth
+                          value={product.name}
+                          margin="normal"
+                        />
                       </Grid>
-                      <Typography variant="subtitle2">PRICE / UNIT</Typography>
-                      <Grid container spacing={2}>
-                        <Grid item sm={6} xs={12}>
-                          <TextField
-                            label="Price (KRW)"
-                            variant="outlined"
-                            fullWidth
-                            value={product.priceKRW}
-                            margin="normal"
-                          />
-                        </Grid>
-                        <Grid item sm={6} xs={12}>
-                          <TextField
-                            label="Price (USD)"
-                            variant="outlined"
-                            fullWidth
-                            value={product.priceUSD}
-                            margin="normal"
-                          />
-                        </Grid>
+                      <Grid item sm={6} xs={12}>
+                        <TextField
+                          label="Product Type"
+                          variant="outlined"
+                          fullWidth
+                          value={product.type}
+                          margin="normal"
+                        />
                       </Grid>
+                    </Grid>
+                    <Typography variant="subtitle2">PRICE / UNIT</Typography>
+                    <Grid container spacing={2}>
+                      <Grid item sm={6} xs={12}>
+                        <TextField
+                          label="Price (KRW)"
+                          variant="outlined"
+                          fullWidth
+                          value={product.priceKRW}
+                          margin="normal"
+                        />
+                      </Grid>
+                      <Grid item sm={6} xs={12}>
+                        <TextField
+                          label="Price (USD)"
+                          variant="outlined"
+                          fullWidth
+                          value={product.priceUSD}
+                          margin="normal"
+                        />
+                      </Grid>
+                    </Grid>
 
-                      <Grid container spacing={2}>
-                        <Grid item sm={6} xs={12}>
-                          <TextField
-                            label="Product Quantity"
-                            type="number"
-                            variant="outlined"
-                            fullWidth
-                            value={product.quantity}
-                            margin="normal"
-                          />
-                        </Grid>
-                        <Grid item sm={6} xs={12}>
-                          <TextField
-                            label="Total Value (USD)"
-                            variant="outlined"
-                            fullWidth
-                            value={(
-                              Number(product.priceUSD) *
-                              Number(product.quantity)
-                            ).toFixed(2)}
-                            margin="normal"
-                          />
-                        </Grid>
+                    <Grid container spacing={2}>
+                      <Grid item sm={6} xs={12}>
+                        <TextField
+                          label="Product Quantity"
+                          type="number"
+                          variant="outlined"
+                          fullWidth
+                          value={product.quantity}
+                          margin="normal"
+                        />
                       </Grid>
-                      <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                          <TextField
-                            label="Product URL"
-                            variant="outlined"
-                            fullWidth
-                            value={product.url}
-                            margin="normal"
-                          />
-                        </Grid>
+                      <Grid item sm={6} xs={12}>
+                        <TextField
+                          label="Total Value (USD)"
+                          variant="outlined"
+                          fullWidth
+                          value={(
+                            Number(product.priceUSD) * Number(product.quantity)
+                          ).toFixed(2)}
+                          margin="normal"
+                        />
                       </Grid>
-                    </div>
+                    </Grid>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                        <TextField
+                          label="Product URL"
+                          variant="outlined"
+                          fullWidth
+                          value={product.url}
+                          margin="normal"
+                        />
+                      </Grid>
+                    </Grid>
+                  </div>
+                )
+              )}
+
+              <div
+                style={{
+                  marginTop: "2rem",
+                  border: "1px solid #ccc",
+                  padding: "1rem",
+                }}
+              >
+                <Heading number={3} title={`Arrived Images`} />
+
+                {userRequest.userRequest.arrived.arrived_images.length > 0 ? (
+                  // If there are arrived_images
+                  userRequest.userRequest.arrived.arrived_images.map(
+                    (image: any, imageIndex: number) => (
+                      <div key={imageIndex}>
+                        {/* 클릭 시 모달 열도록 수정 */}
+                        <Button onClick={() => openModal(image)}>
+                          {image}
+                        </Button>
+                      </div>
+                    )
                   )
+                ) : (
+                  // If there are no arrived_images
+                  <Typography variant="body2">Empty list</Typography>
                 )}
+              </div>
+            </div>
+          ))}
 
-                <div
-                  style={{
-                    marginTop: "2rem",
-                    border: "1px solid #ccc",
-                    padding: "1rem",
-                  }}
-                >
-                  <Heading number={3} title={`Arrived Images`} />
+          <div className="m-5" style={{ margin: "2rem" }}>
+            <Heading number={4} title="Shipping Address" />
+            <Grid container spacing={2}>
+              <Grid item sm={6} xs={12}>
+                <TextField
+                  name="firstname"
+                  label="First Name"
+                  variant="outlined"
+                  fullWidth
+                  value={data[cartId][0].arrived_info.firstname}
+                  margin="normal"
+                />
+                <TextField
+                  name="lastname"
+                  label="Last Name"
+                  variant="outlined"
+                  fullWidth
+                  value={data[cartId][0].arrived_info.lastname}
+                  margin="normal"
+                />
 
-                  {userRequest.userRequest.arrived.arrived_images.length > 0 ? (
-                    // If there are arrived_images
-                    userRequest.userRequest.arrived.arrived_images.map(
+                <TextField
+                  name="address"
+                  label="Address"
+                  variant="outlined"
+                  fullWidth
+                  value={data[cartId][0].arrived_info.address}
+                  margin="normal"
+                />
+
+                <TextField
+                  label="Country"
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                  value={data[cartId][0].arrived_info.country.label}
+                />
+              </Grid>
+
+              <Grid item sm={6} xs={12}>
+                <TextField
+                  name="city"
+                  label="City"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  value={data[cartId][0].arrived_info.city}
+                />
+                <TextField
+                  name="state"
+                  label="State"
+                  variant="outlined"
+                  fullWidth
+                  value={data[cartId][0].arrived_info.state}
+                  margin="normal"
+                />
+                <TextField
+                  name="postal_code"
+                  label="Postal Code"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  value={data[cartId][0].arrived_info.postal_code}
+                />
+                <TextField
+                  name="phone"
+                  label="Phone Number"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  value={data[cartId][0].arrived_info.phone}
+                />
+              </Grid>
+            </Grid>
+          </div>
+
+          {/* Repacking 정보 */}
+          <div
+            className="m-5"
+            style={{
+              margin: "2rem",
+              border: "1px solid #ccc",
+              padding: "1rem",
+            }}
+          >
+            <Heading number={5} title={`Repacking Images`} />
+
+            {/* UploadButton과 리스트를 수평으로 정렬 */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+              }}
+            >
+              {/* 항상 Heading은 보이도록 */}
+              {data[cartId][0].repacking &&
+              data[cartId][0].repacking.repacking_images &&
+              data[cartId][0].repacking.repacking_images.length > 0 ? (
+                <>
+                  {/* repacking Images가 있을 경우 */}
+                  <div>
+                    {data[cartId][0].repacking.repacking_images.map(
                       (image: any, imageIndex: number) => (
                         <div key={imageIndex}>
                           {/* 클릭 시 모달 열도록 수정 */}
@@ -334,242 +452,117 @@ const CartForm = ({ data }: any) => {
                           </Button>
                         </div>
                       )
-                    )
-                  ) : (
-                    // If there are no arrived_images
-                    <Typography variant="body2">Empty list</Typography>
-                  )}
-                </div>
-              </div>
-            ))}
+                    )}
+                  </div>
+                </>
+              ) : (
+                // No repacking Images
+                <Typography variant="body2">Empty list</Typography>
+              )}
 
-            <div className="m-5" style={{ margin: "2rem" }}>
-              <Heading number={4} title="Shipping Address" />
-              <Grid container spacing={2}>
-                <Grid item sm={6} xs={12}>
-                  <TextField
-                    name="firstname"
-                    label="First Name"
-                    variant="outlined"
-                    fullWidth
-                    value={data[cartId][0].arrived_info.firstname}
-                    margin="normal"
-                  />
-                  <TextField
-                    name="lastname"
-                    label="Last Name"
-                    variant="outlined"
-                    fullWidth
-                    value={data[cartId][0].arrived_info.lastname}
-                    margin="normal"
-                  />
-
-                  <TextField
-                    name="address"
-                    label="Address"
-                    variant="outlined"
-                    fullWidth
-                    value={data[cartId][0].arrived_info.address}
-                    margin="normal"
-                  />
-
-                  <TextField
-                    label="Country"
-                    margin="normal"
-                    variant="outlined"
-                    fullWidth
-                    value={data[cartId][0].arrived_info.country.label}
-                  />
-                </Grid>
-
-                <Grid item sm={6} xs={12}>
-                  <TextField
-                    name="city"
-                    label="City"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={data[cartId][0].arrived_info.city}
-                  />
-                  <TextField
-                    name="state"
-                    label="State"
-                    variant="outlined"
-                    fullWidth
-                    value={data[cartId][0].arrived_info.state}
-                    margin="normal"
-                  />
-                  <TextField
-                    name="postal_code"
-                    label="Postal Code"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={data[cartId][0].arrived_info.postal_code}
-                  />
-                  <TextField
-                    name="phone"
-                    label="Phone Number"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={data[cartId][0].arrived_info.phone}
-                  />
-                </Grid>
-              </Grid>
+              {session?.user.role === "admin" && (
+                // admin인 경우에만 RepackingUploadButton 보이도록
+                <RepackingUploadButton data={firstKey} />
+              )}
             </div>
+          </div>
 
-            {/* Repacking 정보 */}
+          {/* Shipping 정보 */}
+          <div
+            className="m-5"
+            style={{
+              margin: "2rem",
+              border: "1px solid #ccc",
+              padding: "1rem",
+            }}
+          >
+            <Heading number={6} title={`Shipping Images`} />
+
+            {/* UploadButton과 리스트를 수평으로 정렬 */}
             <div
-              className="m-5"
               style={{
-                margin: "2rem",
-                border: "1px solid #ccc",
-                padding: "1rem",
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
               }}
             >
-              <Heading number={5} title={`Repacking Images`} />
+              {/* 항상 Heading은 보이도록 */}
+              {data[cartId][0].shipping &&
+              data[cartId][0].shipping.shipping_images &&
+              data[cartId][0].shipping.shipping_images.length > 0 ? (
+                <>
+                  {/* shipping Images가 있을 경우 */}
+                  <div>
+                    {data[cartId][0].shipping.shipping_images.map(
+                      (image: any, imageIndex: number) => (
+                        <div key={imageIndex}>
+                          {/* 클릭 시 모달 열도록 수정 */}
+                          <Button onClick={() => openModal(image)}>
+                            {image}
+                          </Button>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </>
+              ) : (
+                // No shipping Images
+                <Typography variant="body2">Empty list</Typography>
+              )}
 
-              {/* UploadButton과 리스트를 수평으로 정렬 */}
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  width: "100%",
-                }}
-              >
-                {/* 항상 Heading은 보이도록 */}
-                {data[cartId][0].repacking &&
-                data[cartId][0].repacking.repacking_images &&
-                data[cartId][0].repacking.repacking_images.length > 0 ? (
-                  <>
-                    {/* repacking Images가 있을 경우 */}
-                    <div>
-                      {data[cartId][0].repacking.repacking_images.map(
-                        (image: any, imageIndex: number) => (
-                          <div key={imageIndex}>
-                            {/* 클릭 시 모달 열도록 수정 */}
-                            <Button onClick={() => openModal(image)}>
-                              {image}
-                            </Button>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </>
-                ) : (
-                  // No repacking Images
-                  <Typography variant="body2">Empty list</Typography>
-                )}
-
-                {session?.user.role === "admin" && (
-                  // admin인 경우에만 RepackingUploadButton 보이도록
-                  <RepackingUploadButton data={firstKey} />
-                )}
-              </div>
+              {session?.user.role === "admin" && (
+                // admin인 경우에만 ShippingUploadButton 보이도록
+                <ShippingUploadButton data={firstKey} />
+              )}
             </div>
+          </div>
 
-            {/* Shipping 정보 */}
+          {/* Shipping Information 정보 */}
+          <div
+            className="m-5"
+            style={{
+              margin: "2rem",
+              border: "1px solid #ccc",
+              padding: "1rem",
+            }}
+          >
+            <Heading number={7} title={`Shipping Information`} />
+
+            {/* UploadButton과 리스트를 수평으로 정렬 */}
+
             <div
-              className="m-5"
               style={{
-                margin: "2rem",
-                border: "1px solid #ccc",
-                padding: "1rem",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start", // 왼쪽 정렬
+                width: "100%",
               }}
             >
-              <Heading number={6} title={`Shipping Images`} />
-
-              {/* UploadButton과 리스트를 수평으로 정렬 */}
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  width: "100%",
-                }}
-              >
-                {/* 항상 Heading은 보이도록 */}
-                {data[cartId][0].shipping &&
-                data[cartId][0].shipping.shipping_images &&
-                data[cartId][0].shipping.shipping_images.length > 0 ? (
-                  <>
-                    {/* shipping Images가 있을 경우 */}
-                    <div>
-                      {data[cartId][0].shipping.shipping_images.map(
-                        (image: any, imageIndex: number) => (
-                          <div key={imageIndex}>
-                            {/* 클릭 시 모달 열도록 수정 */}
-                            <Button onClick={() => openModal(image)}>
-                              {image}
-                            </Button>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </>
-                ) : (
-                  // No shipping Images
-                  <Typography variant="body2">Empty list</Typography>
-                )}
-
-                {session?.user.role === "admin" && (
-                  // admin인 경우에만 ShippingUploadButton 보이도록
-                  <ShippingUploadButton data={firstKey} />
-                )}
-              </div>
+              {/* 항상 Heading은 보이도록 */}
+              {data[cartId][0].shipping &&
+              data[cartId][0].shipping.shipping_carrier &&
+              data[cartId][0].shipping.shipping_number ? (
+                <>
+                  {/* shipping이 있을 경우 */}
+                  {/* shipping Images가 있을 경우 */}
+                  <Typography variant="subtitle2">
+                    Carrier: {data[cartId][0].shipping.shipping_carrier}
+                  </Typography>
+                  <Typography variant="subtitle2">
+                    Tracking Number: {data[cartId][0].shipping.shipping_number}
+                  </Typography>
+                </>
+              ) : (
+                <Typography variant="body2">Empty list</Typography>
+              )}
+              {session?.user.role === "admin" && (
+                // admin인 경우에만 ShippingUploadButton 보이도록
+                <ShippingForm data={firstKey} style={{ marginTop: "0.5rem" }} />
+              )}
             </div>
-
-            {/* Shipping Information 정보 */}
-            <div
-              className="m-5"
-              style={{
-                margin: "2rem",
-                border: "1px solid #ccc",
-                padding: "1rem",
-              }}
-            >
-              <Heading number={7} title={`Shipping Information`} />
-
-              {/* UploadButton과 리스트를 수평으로 정렬 */}
-
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start", // 왼쪽 정렬
-                  width: "100%",
-                }}
-              >
-                {/* 항상 Heading은 보이도록 */}
-                {data[cartId][0].shipping &&
-                data[cartId][0].shipping.shipping_carrier &&
-                data[cartId][0].shipping.shipping_number ? (
-                  <>
-                    {/* shipping이 있을 경우 */}
-                    {/* shipping Images가 있을 경우 */}
-                    <Typography variant="subtitle2">
-                      Carrier: {data[cartId][0].shipping.shipping_carrier}
-                    </Typography>
-                    <Typography variant="subtitle2">
-                      Tracking Number:{" "}
-                      {data[cartId][0].shipping.shipping_number}
-                    </Typography>
-                  </>
-                ) : (
-                  <Typography variant="body2">Empty list</Typography>
-                )}
-                {session?.user.role === "admin" && (
-                  // admin인 경우에만 ShippingUploadButton 보이도록
-                  <ShippingForm
-                    data={firstKey}
-                    style={{ marginTop: "0.5rem" }}
-                  />
-                )}
-              </div>
-            </div>
-          </Card1>
-        ))}
-      </Container>
+          </div>
+        </Card1>
+      ))}
 
       {/* MUI Modal 컴포넌트 */}
       <Modal open={!!selectedImage} onClose={closeModal} closeAfterTransition>

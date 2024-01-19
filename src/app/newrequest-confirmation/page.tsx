@@ -27,7 +27,7 @@ const OrderConfirmation: NextPage = () => {
     <ShopLayout2>
       <SEO title="Order Confirmation" />
 
-      <Container sx={{ mt: 4, mb: 20 }}>
+      <Container sx={{ mt: 20, mb: 20 }}>
         <Wrapper>
           <Image
             width={116}

@@ -24,7 +24,7 @@ const EventWrapper = () => {
             </H2>
           </Container>
         </Box>
-        <Container sx={{ my: "5rem", maxWidth: "80%", mx: "auto" }}>
+        <Container sx={{ my: "5rem", maxWidth: ["100%", "80%"], mx: "auto" }}>
           <Card1>
             <Typography
               sx={{
