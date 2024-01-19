@@ -247,14 +247,18 @@ const Checklist = ({ data }: { data: Record<string, CheckoutList[]> }) => {
                       sx={{ fontWeight: 400 }}
                       className="custom-td"
                     >
-                      {cartData.cartOptions}
+                      <Link href={`/checkout/${cartId}`}>
+                        {cartData.cartOptions}
+                      </Link>
                     </Td>
                     <Td
                       align="center"
                       sx={{ fontWeight: 400 }}
                       className="custom-td"
                     >
-                      {statusNames[status]}
+                      <Link href={`/checkout/${cartId}`}>
+                        {statusNames[status]}
+                      </Link>
                     </Td>
                   </Tr>
                 );

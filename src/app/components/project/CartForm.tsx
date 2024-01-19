@@ -144,7 +144,7 @@ const CartForm = ({ data }: any) => {
 
   return (
     <>
-      <Container maxWidth="md">
+      <Container>
         {Object.keys(data).map((cartId, index) => (
           <Card1 key={index} sx={{ mb: 4 }}>
             <Typography

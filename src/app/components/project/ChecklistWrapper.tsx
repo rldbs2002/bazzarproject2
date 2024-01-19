@@ -23,7 +23,7 @@ const ChecklistWrapper = () => {
   }, []);
 
   return (
-    <Container sx={{ my: "1.5rem", maxWidth: "80%", mx: "auto" }}>
+    <Container sx={{ my: "1.5rem", maxWidth: ["100%", "80%"], mx: "auto" }}>
       <Checklist data={cartData} />
     </Container>
   );

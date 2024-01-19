@@ -200,25 +200,29 @@ const CartListItems = ({ data }: any) => {
                       sx={{ fontWeight: 400, cursor: "pointer" }}
                       className="custom-td"
                     >
-                      {cartOptions}
+                      <Link href={`/cart/${cartId}`}>{cartOptions}</Link>
                     </Td>
                     <Td
                       align="center"
                       sx={{ fontWeight: 400, cursor: "pointer" }}
                       className="custom-td"
                     >
-                      {data[cartId].map((userRequest: any) => (
-                        <div key={userRequest.userRequest._id}>
-                          {userRequest.userRequest.request_id}
-                        </div>
-                      ))}
+                      <Link href={`/cart/${cartId}`}>
+                        {data[cartId].map((userRequest: any) => (
+                          <div key={userRequest.userRequest._id}>
+                            {userRequest.userRequest.request_id}
+                          </div>
+                        ))}
+                      </Link>
                     </Td>
                     <Td
                       align="center"
                       sx={{ fontWeight: 400, cursor: "pointer" }}
                       className="custom-td"
                     >
-                      {statusNames[status]}
+                      <Link href={`/cart/${cartId}`}>
+                        {statusNames[status]}
+                      </Link>
                     </Td>
                     <Td
                       align="center"

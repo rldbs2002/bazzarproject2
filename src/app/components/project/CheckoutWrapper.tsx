@@ -30,7 +30,7 @@ const CheckoutWrapper = ({
   });
 
   return (
-    <Container sx={{ my: "1.5rem" }}>
+    <Container sx={{ my: "1.5rem", maxWidth: ["100%", "80%"], mx: "auto" }}>
       <CartForm data={data} />
     </Container>
   );

@@ -14,7 +14,6 @@ function SignIn() {
   useEffect(() => {
     (async () => {
       const res: any = await getProviders();
-      console.log(res);
       setProviders(res);
     })();
   }, []);
@@ -23,9 +22,6 @@ function SignIn() {
   const passwordRef = useRef(null);
 
   const handleSubmit = async () => {
-    // console.log(emailRef.current);
-    // console.log(passwordRef.current);
-
     const result = await signIn("credentials", {
       email: emailRef.current,
       password: passwordRef.current,

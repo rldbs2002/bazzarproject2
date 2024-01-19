@@ -27,7 +27,7 @@ const CartWrapper = ({ data }: { data: Record<string, CartItem[]> }) => {
   });
 
   return (
-    <Container sx={{ my: "1.5rem" }}>
+    <Container sx={{ my: "1.5rem", maxWidth: ["100%", "80%"], mx: "auto" }}>
       <Grid container spacing={3}>
         <Grid item md={9} xs={12}>
           <CartForm data={data} />

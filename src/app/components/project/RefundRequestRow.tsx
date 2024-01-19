@@ -102,19 +102,42 @@ const RefundRequestRow: FC<RefundRequestRowProps> = ({
         #{request_id}
       </Td>
 
-      <Td align="center" sx={{ fontWeight: 400 }} className="custom-td">
+      <Td
+        align="center"
+        sx={{ fontWeight: 400 }}
+        className="custom-td"
+        style={{ cursor: "pointer" }}
+        onClick={() => handleCellClick(_id)}
+      >
         {product_name || "No Data"}
       </Td>
 
-      <Td align="center" sx={{ fontWeight: 400 }} className="custom-td">
+      <Td
+        align="center"
+        sx={{ fontWeight: 400 }}
+        className="custom-td"
+        style={{ cursor: "pointer" }}
+        onClick={() => handleCellClick(_id)}
+      >
         $ {product_price}
       </Td>
 
-      <Td align="center" sx={{ fontWeight: 400 }} className="custom-td">
+      <Td
+        align="center"
+        sx={{ fontWeight: 400 }}
+        className="custom-td"
+        style={{ cursor: "pointer" }}
+        onClick={() => handleCellClick(_id)}
+      >
         <StatusWrapper status={status}>{statusNames[status]}</StatusWrapper>
       </Td>
 
-      <Td align="center" className="custom-td">
+      <Td
+        align="center"
+        className="custom-td"
+        style={{ cursor: "pointer" }}
+        onClick={() => handleCellClick(_id)}
+      >
         <StyledIconButton>
           <Edit onClick={() => handleCellClick(_id)} />
         </StyledIconButton>
