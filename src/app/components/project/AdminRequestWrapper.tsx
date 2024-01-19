@@ -15,7 +15,12 @@ const AdminRequestWrapper = () => {
 
   return (
     <Container
-      sx={{ my: "1.5rem", maxWidth: "80%", mx: "auto", minHeight: "520px" }}
+      sx={{
+        my: "1.5rem",
+        maxWidth: ["100%", "80%"],
+        mx: "auto",
+        minHeight: "520px",
+      }}
     >
       <AdminRequest2 />
     </Container>

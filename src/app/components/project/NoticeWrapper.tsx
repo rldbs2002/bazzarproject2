@@ -15,7 +15,7 @@ const NoticeWrapper = () => {
     <Grid container spacing={3}>
       <Grid item xs={12}>
         <Box sx={{ backgroundColor: "grey.100" }}>
-          <Container sx={{ py: 6, maxWidth: "80%" }}>
+          <Container sx={{ py: 6, maxWidth: ["100%", "80%"] }}>
             <H2
               fontSize={36}
               textAlign="center"
@@ -28,7 +28,7 @@ const NoticeWrapper = () => {
             </H2>
           </Container>
         </Box>
-        <Container sx={{ my: "5rem", maxWidth: "80%", mx: "auto" }}>
+        <Container sx={{ my: "5rem", maxWidth: ["100%", "80%"], mx: "auto" }}>
           <Card1>
             <Notice />
           </Card1>

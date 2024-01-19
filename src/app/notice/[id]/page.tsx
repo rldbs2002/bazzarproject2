@@ -15,7 +15,7 @@ const NoticeIdPage = async ({ params }: any) => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Box sx={{ backgroundColor: "grey.100" }}>
-            <Container sx={{ py: 6, maxWidth: "80%" }}>
+            <Container sx={{ py: 6, maxWidth: ["100%", "80%"] }}>
               <H2
                 fontSize={36}
                 textAlign="center"
@@ -28,7 +28,7 @@ const NoticeIdPage = async ({ params }: any) => {
               </H2>
             </Container>
           </Box>
-          <Container sx={{ my: "1.5rem" }}>
+          <Container sx={{ my: "1.5rem", maxWidth: ["100%", "80%"] }}>
             <Card1>
               <NoticeContents data={data} />
             </Card1>

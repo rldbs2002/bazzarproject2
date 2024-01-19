@@ -10,7 +10,7 @@ const NoticeCreatePage = () => {
       <SEO title="Checkout alternative" />
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Container sx={{ my: "1.5rem" }}>
+          <Container sx={{ my: "1.5rem", maxWidth: ["100%", "80%"] }}>
             <Card1>
               <RichTextEditorCreate />
             </Card1>

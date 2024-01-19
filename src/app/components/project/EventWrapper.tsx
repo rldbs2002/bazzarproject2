@@ -11,7 +11,7 @@ const EventWrapper = () => {
     <Grid container spacing={3}>
       <Grid item xs={12}>
         <Box sx={{ backgroundColor: "grey.100" }}>
-          <Container sx={{ py: 6, maxWidth: "80%" }}>
+          <Container sx={{ py: 6, maxWidth: ["100%", "80%"] }}>
             <H2
               fontSize={36}
               textAlign="center"

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-import {Container } from "@mui/material";
+import { Container } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -37,7 +37,12 @@ const AdminCartWrapper = () => {
 
   return (
     <Container
-      sx={{ my: "1.5rem", maxWidth: "80%", mx: "auto", minHeight: "520px" }}
+      sx={{
+        my: "1.5rem",
+        maxWidth: ["100%", "80%"],
+        mx: "auto",
+        minHeight: "520px",
+      }}
     >
       <AdminCart data={cartData} />
     </Container>
