@@ -36,6 +36,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 import { AddressType, PriceCalculate, UserRequestInfo } from "type";
+import { useRouter } from "next/navigation";
 
 interface CheckoutList {
   cartId: string;
@@ -48,11 +49,17 @@ interface CheckoutList {
 }
 
 const Checklist = ({ data }: { data: Record<string, CheckoutList[]> }) => {
+  const router = useRouter();
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [searchField, setSearchField] = useState("cartID");
   const [searchValue, setSearchValue] = useState("");
   const [alignment, setAlignment] = useState("process");
+
+  const handleCellClick = (itemId: string) => {
+    router.push(`/checkout/${itemId}`);
+  };
 
   const handleAlignmentChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -238,27 +245,29 @@ const Checklist = ({ data }: { data: Record<string, CheckoutList[]> }) => {
                     <Td
                       align="center"
                       sx={{ fontWeight: 400 }}
+                      style={{ cursor: "pointer" }}
                       className="custom-td"
+                      onClick={() => handleCellClick(cartId)}
                     >
-                      <Link href={`/checkout/${cartId}`}>{cart_id}</Link>
+                      {cart_id}
                     </Td>
                     <Td
                       align="center"
                       sx={{ fontWeight: 400 }}
+                      style={{ cursor: "pointer" }}
                       className="custom-td"
+                      onClick={() => handleCellClick(cartId)}
                     >
-                      <Link href={`/checkout/${cartId}`}>
-                        {cartData.cartOptions}
-                      </Link>
+                      {cartData.cartOptions}
                     </Td>
                     <Td
                       align="center"
                       sx={{ fontWeight: 400 }}
+                      style={{ cursor: "pointer" }}
                       className="custom-td"
+                      onClick={() => handleCellClick(cartId)}
                     >
-                      <Link href={`/checkout/${cartId}`}>
-                        {statusNames[status]}
-                      </Link>
+                      {statusNames[status]}
                     </Td>
                   </Tr>
                 );

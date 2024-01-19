@@ -85,6 +85,10 @@ const CartListItems = ({ data }: any) => {
     setCurrentPage(newPage);
   };
 
+  const handleCellClick = (itemId: string) => {
+    router.push(`/cart/${itemId}`);
+  };
+
   const handleDeleteClick = (cartId: string) => {
     setDeleteTarget(cartId);
     setDeleteModalOpen(true);
@@ -190,39 +194,43 @@ const CartListItems = ({ data }: any) => {
                   <Tr key={cartId}>
                     <Td
                       align="center"
-                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                      sx={{ fontWeight: 400 }}
+                      style={{ cursor: "pointer" }}
                       className="custom-td"
+                      onClick={() => handleCellClick(cartId)}
                     >
-                      <Link href={`/cart/${cartId}`}>{cart_id}</Link>
+                      {cart_id}
                     </Td>
                     <Td
                       align="center"
-                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                      sx={{ fontWeight: 400 }}
+                      style={{ cursor: "pointer" }}
                       className="custom-td"
+                      onClick={() => handleCellClick(cartId)}
                     >
-                      <Link href={`/cart/${cartId}`}>{cartOptions}</Link>
+                      {cartOptions}
                     </Td>
                     <Td
                       align="center"
-                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                      sx={{ fontWeight: 400 }}
+                      style={{ cursor: "pointer" }}
                       className="custom-td"
+                      onClick={() => handleCellClick(cartId)}
                     >
-                      <Link href={`/cart/${cartId}`}>
-                        {data[cartId].map((userRequest: any) => (
-                          <div key={userRequest.userRequest._id}>
-                            {userRequest.userRequest.request_id}
-                          </div>
-                        ))}
-                      </Link>
+                      {data[cartId].map((userRequest: any) => (
+                        <div key={userRequest.userRequest._id}>
+                          {userRequest.userRequest.request_id}
+                        </div>
+                      ))}
                     </Td>
                     <Td
                       align="center"
-                      sx={{ fontWeight: 400, cursor: "pointer" }}
+                      sx={{ fontWeight: 400 }}
+                      style={{ cursor: "pointer" }}
                       className="custom-td"
+                      onClick={() => handleCellClick(cartId)}
                     >
-                      <Link href={`/cart/${cartId}`}>
-                        {statusNames[status]}
-                      </Link>
+                      {statusNames[status]}
                     </Td>
                     <Td
                       align="center"
