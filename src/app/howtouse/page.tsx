@@ -6,7 +6,7 @@ import HowToUse from "../components/project/HowToUse";
 const page = () => {
   return (
     <ShopLayout2>
-      <SEO title="Checkout alternative" />
+      <SEO title="Kgoods Manual Page" description="Kgoods's manual page" />
       <HowToUse />
     </ShopLayout2>
   );

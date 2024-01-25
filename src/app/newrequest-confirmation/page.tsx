@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { NextPage } from "next";
 import { Button, Container, styled } from "@mui/material";
-import SEO from "../components/SEO";
 import BazaarCard from "../components/BazaarCard";
 import { H1, Paragraph } from "../components/Typography";
 import ShopLayout2 from "../components/layouts/ShopLayout2";
@@ -25,8 +24,6 @@ const StyledButton = styled(Button)({
 const OrderConfirmation: NextPage = () => {
   return (
     <ShopLayout2>
-      <SEO title="Order Confirmation" />
-
       <Container sx={{ mt: 20, mb: 20 }}>
         <Wrapper>
           <Image

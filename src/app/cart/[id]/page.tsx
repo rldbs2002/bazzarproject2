@@ -9,7 +9,6 @@ const CartIdPage = async ({ params }: any) => {
 
   return (
     <ShopLayout2>
-      <SEO title="Checkout alternative" />
       <CartWrapper data={data} />
     </ShopLayout2>
   );

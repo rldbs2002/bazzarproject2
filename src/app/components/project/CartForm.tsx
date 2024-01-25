@@ -1,8 +1,7 @@
 "use client";
 
-import { FC, useState, useEffect } from "react";
+import { FC, useState } from "react";
 import * as React from "react";
-import Container from "@mui/material/Container";
 import Card1 from "../Card1";
 import { Avatar, Button, Grid, TextField, Typography } from "@mui/material";
 import { FlexBox } from "../flex-box";

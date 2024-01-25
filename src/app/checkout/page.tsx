@@ -6,7 +6,6 @@ import ChecklistWrapper from "../components/project/ChecklistWrapper";
 const CheckoutPage = () => {
   return (
     <ShopLayout2>
-      <SEO title="Checkout" />
       <ChecklistWrapper />
     </ShopLayout2>
   );

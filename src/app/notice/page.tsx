@@ -6,7 +6,7 @@ import NoticeWrapper from "../components/project/NoticeWrapper";
 const NoticePage = () => {
   return (
     <ShopLayout2>
-      <SEO title="Checkout alternative" />
+      <SEO title="Kgoods Notice Page" description="Kgoods's notice page" />
       <NoticeWrapper />
     </ShopLayout2>
   );

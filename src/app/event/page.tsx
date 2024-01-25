@@ -6,7 +6,7 @@ import EventWrapper from "../components/project/EventWrapper";
 const page = () => {
   return (
     <ShopLayout2>
-      <SEO title="Checkout alternative" />
+      <SEO title="Kgoods Event Page" description="Kgoods's event page" />
       <EventWrapper />
     </ShopLayout2>
   );

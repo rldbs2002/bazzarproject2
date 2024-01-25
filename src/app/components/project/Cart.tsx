@@ -37,7 +37,6 @@ const Cart = () => {
 
   return (
     <ShopLayout2>
-      <SEO title="Cart" />
       <Container sx={{ my: "1.5rem", maxWidth: ["100%", "80%"], mx: "auto" }}>
         <Grid container spacing={3}>
           {/* CART PRODUCT LIST */}

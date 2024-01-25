@@ -7,7 +7,6 @@ import MypageWrapper from "../components/project/MypageWrapper";
 const MyPage = async () => {
   return (
     <ShopLayout2>
-      <SEO title="Checkout alternative" />
       <Container sx={{ my: "1.5rem", maxWidth: "80%", mx: "auto" }}>
         <Paragraph
           style={{
