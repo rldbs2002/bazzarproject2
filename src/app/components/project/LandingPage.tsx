@@ -5,7 +5,6 @@ import Section1 from "@/app/landing/Section1";
 import Section6 from "@/app/landing/Section6";
 import Section8 from "@/app/landing/Section8";
 import { Footer3 } from "../footer";
-import SEO from "../SEO";
 
 const LandingPage = () => {
   return (
