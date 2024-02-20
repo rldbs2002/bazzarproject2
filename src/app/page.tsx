@@ -11,7 +11,7 @@ export const metadata: Metadata = {
       "Buy products from Korean shopping sites. Use our free Korean address, consolidation, forwarding, and personal shopper!",
   },
   verification: {
-    google: "JSsCnxp1ZnAcXovPoxsp9SU7ppgBrrjulJgALYw92MM",
+    google: "p1o3jiRcmsisv5ooPtGe_KWJwD1Sp1s9zPg5S4GUQvg",
   },
 };
 
