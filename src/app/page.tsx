@@ -10,6 +10,9 @@ export const metadata: Metadata = {
     description:
       "Buy products from Korean shopping sites. Use our free Korean address, consolidation, forwarding, and personal shopper!",
   },
+  verification: {
+    google: "JSsCnxp1ZnAcXovPoxsp9SU7ppgBrrjulJgALYw92MM",
+  },
 };
 
 export default function Home() {
