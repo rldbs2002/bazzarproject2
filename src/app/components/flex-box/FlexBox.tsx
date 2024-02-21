@@ -1,9 +1,9 @@
-import { Box, BoxProps } from "@mui/material";
+import Box, { BoxProps } from "@mui/material/Box";
 
-const FlexBox: React.FC<BoxProps> = ({ children, ...props }) => (
-  <Box display="flex" {...props}>
-    {children}
-  </Box>
-);
-
-export default FlexBox;
+export default function FlexBox({ children, ...props }: BoxProps) {
+  return (
+    <Box display="flex" {...props}>
+      {children}
+    </Box>
+  );
+}

@@ -1,14 +1,14 @@
-import { Box, BoxProps } from "@mui/material";
+import Box, { BoxProps } from "@mui/material/Box";
 
-const FlexBetween: React.FC<BoxProps> = ({ children, ...props }) => (
-  <Box
-    display="flex"
-    justifyContent="space-between"
-    alignItems="center"
-    {...props}
-  >
-    {children}
-  </Box>
-);
-
-export default FlexBetween;
+export default function FlexBetween({ children, ...props }: BoxProps) {
+  return (
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="space-between"
+      {...props}
+    >
+      {children}
+    </Box>
+  );
+}

@@ -1,6 +1,5 @@
 "use client";
 
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import AuthProvider from "./contexts/AuthProvider";
 import "./globals.css";
