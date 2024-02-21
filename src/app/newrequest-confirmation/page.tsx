@@ -48,6 +48,7 @@ const OrderConfirmation: NextPage = () => {
             LinkComponent={Link}
             href="/newrequest"
             style={{ marginRight: "2.5rem" }}
+            sx={{ width: { xs: "100%" } }}
           >
             New Request
           </StyledButton>
@@ -59,7 +60,7 @@ const OrderConfirmation: NextPage = () => {
             className="button-link"
             LinkComponent={Link}
             href="/request"
-            style={{ marginLeft: "2.5rem" }}
+            sx={{ width: { xs: "100%" } }}
           >
             Request
           </StyledButton>
